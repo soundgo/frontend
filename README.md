@@ -1,2 +1,3 @@
-# frontend
-Frontend of SoundGo
+# Frontend
+
+SoundGo frontend project.
