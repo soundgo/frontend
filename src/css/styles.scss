@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+@import './reset.scss';
+@import './mixins.scss';
+@import './theme.scss';
+
+html {
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  max-height: 100vh;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

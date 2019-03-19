@@ -1,0 +1,13 @@
+@import '../css/common.scss';
+
+:host {
+  .letrero {
+    @include font(light);
+    color: $colorPrimary;
+    transition: color $animationTimeBlink $animationFuncDefault;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+}
