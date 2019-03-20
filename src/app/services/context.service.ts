@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Error} from '../shared/models/Error';
 import {Audio} from '../shared/models/Audio';
 import {Ad} from '../shared/models/Ad';
@@ -11,13 +11,17 @@ export class ContextService {
 
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
-    advertEntity = new BehaviorSubject<Audio>(new Audio());
+    adEntity = new BehaviorSubject<Ad>(new Ad());
 
     constructor() {
     }
 
-    getError() {
+    getError(): Observable<Error> {
         return this.error.asObservable();
+    }
+
+    setError(error: Error) {
+        return this.error.next(error);
     }
 
     getAudioEntity() {
@@ -29,11 +33,11 @@ export class ContextService {
     }
 
     getAdEntity() {
-        return this.audioEntity;
+        return this.adEntity;
     }
 
     setAdEntity(ad: Ad) {
-        this.audioEntity.next(ad);
+        this.adEntity.next(ad);
     }
 
 }
