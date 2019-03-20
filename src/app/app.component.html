@@ -1,6 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<app-button></app-button>
+<p class="letrero">{{ 'Recorder' | translate }}</p>
 
-<p class="letrero">{{ 'Intro' | translate }}</p>
+<p>{{duration}}</p>
+<br/>
+<p (click)="startRecording()">Start recording</p>
+<br/>
+<p (click)="stopRecording()">Stop recording</p>
+
+<br/>
+<br/>
+<app-reproduccer [audioSrc]="audioBase64"></app-reproduccer>
 
 <router-outlet></router-outlet>
