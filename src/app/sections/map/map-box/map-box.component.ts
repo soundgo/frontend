@@ -6,7 +6,7 @@ import { GeoJson, FeatureCollection } from '../../../shared/models/Map';
 @Component({
   selector: 'app-map-box',
   templateUrl: './map-box.component.html',
-  styleUrls: ['./map-box.component.sass'],
+  styleUrls: ['./map-box.component.scss'],
   providers: [MapService],
 })
 export class MapBoxComponent implements OnInit {
