@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { MapService } from '../../../services/map.service';
-import { GeoJson, FeatureCollection } from '../map';
+import { GeoJson, FeatureCollection } from '../../../shared/models/Map';
 
 @Component({
   selector: 'app-map-box',
