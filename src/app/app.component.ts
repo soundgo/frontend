@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
     selector: 'app-root',
@@ -15,5 +17,4 @@ export class AppComponent {
     switchLanguage(language: string) {
         this.translate.use(language);
     }
-
 }
