@@ -1,22 +1,24 @@
-interface IAudio {
-    id: string;
-    name: string;
+import {Record} from './Record';
+
+export enum AUDIO_CATEGORIES {
+    TOURISM = 1,
+    EXPERIENCES = 2,
+    LEISURE = 3
 }
 
-export class Audio implements IAudio {
+export class Audio extends Record {
 
-    id: string;
-    name: string;
+    category: AUDIO_CATEGORIES;
 
     constructor(data: any = {}) {
-        this.id = data.id || 0;
-        this.name = data.name || null;
+        super(data);
+        this.category = data.category || null;
     }
 
     toJSON() {
         return {
-            id: this.id,
-            name: this.name
+            ...super.toJSON(),
+            category: this.category
         };
 
     }
