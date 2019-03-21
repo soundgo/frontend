@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AudioRecordService} from './services/audio-record.service';
 import {Subscription} from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -42,7 +42,8 @@ export class AppComponent {
             reader.readAsDataURL(blob);
             reader.onloadend = () => {
                 const enc = new TextDecoder('utf-8');
-                this.audioBase64 = this.sanitizer.bypassSecurityTrustUrl('' + reader.result);
+                console.log(blob, reader.result);
+                this.audioBase64 = this.sanitizer.bypassSecurityTrustResourceUrl('' + reader.result);
                 // this.audioBase64 = enc.decode(new Uint8Array(reader.result)).split(',')[1];
             };
         });
