@@ -1,0 +1,9 @@
+<button mat-dialog-title id="boton" (click)="onNoClick()">Close</button>
+<div id="modal" mat-dialog-content>
+  <b><h1>It's an...</h1></b>
+  <div id="divMargin"><button id="buttonContent" (click)="clickAudio()">audio</button></div>
+  <div *ngIf="audio">{{this.mensaje}}</div>
+  <div id="divMargin">or</div>
+  <div id="divMargin"><button id="buttonContent" (click)="clickAdvert()">advert</button></div>
+  <div *ngIf="advert">{{this.mensaje}}</div>
+</div>
