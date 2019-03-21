@@ -1,0 +1,10 @@
+<div class="recorder-container" [class.ad]="isAd">
+  <i></i>
+  <p>{{ 'Tap to record' | translate }}</p>
+
+  <p>{{duration}}</p>
+  <br/>
+  <p (click)="startRecording()">Start recording</p>
+  <br/>
+  <p (click)="stopRecording()">Stop recording</p>
+</div>

@@ -1,13 +1,3 @@
-<p class="letrero">{{ 'Recorder' | translate }}</p>
-
-<p>{{duration}}</p>
-<br/>
-<p (click)="startRecording()">Start recording</p>
-<br/>
-<p (click)="stopRecording()">Stop recording</p>
-
-<br/>
-<br/>
-<app-reproduccer [audioSrc]="audioBase64"></app-reproduccer>
+<app-recorder></app-recorder>
 
 <router-outlet></router-outlet>
