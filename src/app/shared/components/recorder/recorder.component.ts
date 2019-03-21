@@ -14,16 +14,17 @@ export class RecorderComponent implements OnInit {
 
     duration = '0';
     subscription: Subscription;
-    adEntity: Ad;
-    audioEntity: Audio;
+    entity: Audio | Ad;
 
-    @Input() isAd = false;
+    entitySetter: any;
 
-    constructor(private audioRecord: AudioRecordService,
-                private context: ContextService) {
+    isAd: boolean;
+
+    constructor(protected audioRecord: AudioRecordService) {
         this.subscription = this.audioRecord.getRecordedTime().subscribe(value => {
             this.duration = value;
         });
+        this.isAd = false;
     }
 
     ngOnInit() {
@@ -39,15 +40,8 @@ export class RecorderComponent implements OnInit {
             const reader = new FileReader();
             reader.readAsDataURL(blob);
             reader.onloadend = () => {
-                if (this.isAd) {
-                    this.audioEntity = new Audio();
-                    this.audioEntity.base64 = '' + reader.result;
-                    this.context.setAudioEntity(this.audioEntity);
-                } else {
-                    this.adEntity = new Ad();
-                    this.adEntity.base64 = '' + reader.result;
-                    this.context.setAdEntity(this.adEntity);
-                }
+                this.entity.base64 = '' + reader.result;
+                this.entitySetter(this.entity);
             };
         });
     }

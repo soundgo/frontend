@@ -11,8 +11,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class AppComponent {
 
-    subscription: Subscription;
-
     constructor(private sanitizer: DomSanitizer,
                 private translate: TranslateService,
                 private audioRecord: AudioRecordService) {
