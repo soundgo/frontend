@@ -11,20 +11,35 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {RecordModule} from './sections/record/record.module';
 
 
+import {MapBoxComponent} from './sections/map/map-box/map-box.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MaterialModule} from './material.module';
+
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        MapBoxComponent
     ],
+    entryComponents: [], // inside we put the modalComponent
     imports: [
         BrowserModule,
-        HttpClientModule,
         AppRoutingModule,
         SharedModule,
-        RecordModule
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        RecordModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
     ],
     providers: [],
     bootstrap: [AppComponent]
