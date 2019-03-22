@@ -4,12 +4,13 @@ import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 import {
-  MapBoxComponent,
-  SitePanelSheet,
+    MapBoxComponent,
+    SitePanelSheet,
 } from './sections/map/map-box/map-box.component';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -45,7 +46,6 @@ export function HttpLoaderFactory(http: HttpClient) {
             },
         }),
     ],
-    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {
