@@ -5,6 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 
+
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -24,7 +25,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         AppComponent,
         MapBoxComponent
     ],
-    entryComponents: [], // inside we put the modalComponent
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -42,7 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

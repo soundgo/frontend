@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ChooseAudioCategoryComponent} from './sections/record/components/choose-audio-category/choose-audio-category.component';
 
 @Component({
     selector: 'app-root',
@@ -14,12 +15,13 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class AppComponent {
 
     constructor(private sanitizer: DomSanitizer,
-                private translate: TranslateService,
-                private audioRecord: AudioRecordService) {
+                private audioRecord: AudioRecordService,
+                private translate: TranslateService) {
         translate.setDefaultLang('en');
     }
 
     switchLanguage(language: string) {
         this.translate.use(language);
     }
+
 }

@@ -1,14 +1,14 @@
 import {Record} from './Record';
 
-export enum AUDIO_CATEGORIES {
-    TOURISM = 1,
-    EXPERIENCES = 2,
-    LEISURE = 3
-}
+export const AUDIO_CATEGORIES = {
+    TOURISM: 1,
+    EXPERIENCES: 2,
+    LEISURE: 3
+};
 
 export class Audio extends Record {
 
-    category: AUDIO_CATEGORIES;
+    category: number;
 
     constructor(data: any = {}) {
         super(data);
@@ -20,7 +20,6 @@ export class Audio extends Record {
             ...super.toJSON(),
             category: this.category
         };
-
     }
 
 }
