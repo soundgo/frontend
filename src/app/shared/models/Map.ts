@@ -13,6 +13,7 @@ export interface IGeometry {
 
 export interface IPropeties {
   type: string;
+  id: string;
   numerReproductions?: number;
   path?: string;
   // Audio
@@ -24,6 +25,8 @@ export interface IPropeties {
   radio?: number;
   isActive?: boolean;
   isDelete?: boolean;
+  // Site
+  name?: string;
 }
 
 // ======== Classes ========
