@@ -5,6 +5,7 @@ import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
+import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 
 @Component({
     selector: 'app-ad-record',
@@ -51,6 +52,11 @@ export class AdRecordComponent extends AudioRecordComponent implements OnInit {
         this.context.setAdEntity(this.adEntity);
 
         this.siriWave.stop();
+
+        this.dialog.open(ChooseAudioAdvertisementComponent, {
+            width: '50%',
+            height: '40%',
+        });
     }
 
 }

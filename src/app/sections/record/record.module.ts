@@ -5,16 +5,28 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {ChooseAudioCategoryComponent} from './components/choose-audio-category/choose-audio-category.component';
-import { AdRecordComponent } from './components/ad-record/ad-record.component';
+import {AdRecordComponent} from './components/ad-record/ad-record.component';
+import {ChooseAudioAdvertisementComponent} from './components/choose-audio-advertisement/choose-audio-advertisement.component';
 
-const components = [AudioRecordComponent, ChooseAudioCategoryComponent, AdRecordComponent];
+
+import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
+
+const components = [
+    AudioRecordComponent,
+    ChooseAudioCategoryComponent,
+    AdRecordComponent,
+    ChooseAudioAdvertisementComponent
+];
 
 @NgModule({
     declarations: [...components],
-    entryComponents: [ChooseAudioCategoryComponent], // inside we put the modalComponent
+    entryComponents: [ChooseAudioCategoryComponent, ChooseAudioAdvertisementComponent], // inside we put the modalComponent
     imports: [
         CommonModule,
         HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
