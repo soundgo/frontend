@@ -5,8 +5,9 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {ChooseAudioCategoryComponent} from './components/choose-audio-category/choose-audio-category.component';
+import { AdRecordComponent } from './components/ad-record/ad-record.component';
 
-const components = [AudioRecordComponent, ChooseAudioCategoryComponent];
+const components = [AudioRecordComponent, ChooseAudioCategoryComponent, AdRecordComponent];
 
 @NgModule({
     declarations: [...components],

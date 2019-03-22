@@ -13,15 +13,15 @@ import {MatDialog} from '@angular/material';
 })
 export class AudioRecordComponent extends RecorderComponent implements OnInit, AfterViewInit {
 
-    @ViewChildren('siri') private el: any;
+    @ViewChildren('siri') el: any;
 
     siriWave: any;
 
     entity: Audio;
 
     constructor(protected audioRecord: AudioRecordService,
-                private context: ContextService,
-                private dialog: MatDialog,
+                protected context: ContextService,
+                protected dialog: MatDialog
     ) {
         super(audioRecord);
     }

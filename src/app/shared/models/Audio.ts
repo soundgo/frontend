@@ -8,7 +8,7 @@ export const AUDIO_CATEGORIES = {
 
 export class Audio extends Record {
 
-    category: number;
+    category?: number;
 
     constructor(data: any = {}) {
         super(data);
