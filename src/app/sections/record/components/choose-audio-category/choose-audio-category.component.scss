@@ -1,0 +1,68 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+
+    #title{
+        text-align: center;
+        color: #8A3AB9;
+        font-size: 31px;
+    }
+    #boton{
+        float: right;
+        border: none;
+        outline-color: transparent;
+        outline-style: none;
+        font-size: 24px;
+        color: #EB4339;
+        position: absolute;
+        cursor: pointer;
+        top: 0px;
+        right: 0px;
+    }
+    .divMargin{
+        margin-top: 21px;
+        text-align: center;
+
+        button {
+            border-radius: 10px;
+            margin: 10px;
+            cursor: pointer;
+            display: inline-block;
+            width: auto;
+            font-size: 22px;
+            height: 41px;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .tourismButton{
+        background: #F24440;
+        color:#FFF;
+    }
+
+    .experienceButton{
+        background: #F57828;
+        color:#FFF;
+    }
+
+    .leisureButton{
+        background: #04B289;
+        color:#FFF;
+    }
+
+    .line{
+        border-bottom:solid 3px #8A3AB9;
+    }
+
+    .saveButton {
+        background: blue;
+        color:#FFF;
+    }
+}

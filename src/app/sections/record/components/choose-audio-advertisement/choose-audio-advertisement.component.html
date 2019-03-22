@@ -1,0 +1,9 @@
+<button mat-dialog-title id="boton" (click)="onClose()">Close</button>
+<div id="modal" mat-dialog-content>
+    <b><h1 id="title">{{ 'It\'s an...' | translate }}</h1></b>
+    <div class="divMargin">
+        <button (click)="clickAudio()">{{ 'audio' | translate }}</button>
+        <p>or</p>
+        <button (click)="clickAdvert()">{{ 'advert' | translate }}</button>
+    </div>
+</div>

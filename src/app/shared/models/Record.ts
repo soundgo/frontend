@@ -3,8 +3,8 @@ export class Record {
     base64?: string;
     path?: string;
 
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
 
     numberReproductions?: number;
 
