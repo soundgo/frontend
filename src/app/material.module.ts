@@ -1,11 +1,10 @@
-// material.module.ts
+import {NgModule} from '@angular/core';
 
-import { NgModule } from '@angular/core';
-
-import { MatDialogModule, MatFormFieldModule, MatButtonModule, MatInputModule } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import {MatDialogModule, MatFormFieldModule, MatButtonModule, MatInputModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  exports: [FormsModule, MatDialogModule, MatFormFieldModule, MatButtonModule, MatInputModule]
+    exports: [FormsModule, MatDialogModule, MatFormFieldModule, MatButtonModule, MatInputModule]
 })
-export class MaterialModule {}
+export class MaterialModule {
+}

@@ -1,0 +1,14 @@
+<button mat-dialog-title id="boton" (click)="onNoClick()">Close</button>
+<div id="modal" mat-dialog-content>
+    <div id="title"><b>Choose Category</b></div>
+    <div class="divMargin">
+        <button [class.tourismButton]="isActive('TOURISM')" (click)="selectCategory('TOURISM')">Tourism</button>
+        <button [class.experienceButton]='isActive("EXPERIENCE")' (click)="selectCategory('EXPERIENCE')">Experience</button>
+        <button [class.leisureButton]='isActive("LEISURE")' (click)="selectCategory('LEISURE')">Leisure</button>
+    </div>
+    <br>
+    <div class="line"></div>
+    <div class="divMargin">
+        <button (click)="saveCategory()" class="saveButton">Save</button>
+    </div>
+</div>

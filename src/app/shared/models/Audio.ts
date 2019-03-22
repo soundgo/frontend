@@ -1,24 +1,25 @@
-interface IAudio {
-    id: string;
-    name: string;
-}
+import {Record} from './Record';
 
-export class Audio implements IAudio {
+export const AUDIO_CATEGORIES = {
+    TOURISM: 1,
+    EXPERIENCES: 2,
+    LEISURE: 3
+};
 
-    id: string;
-    name: string;
+export class Audio extends Record {
+
+    category?: number;
 
     constructor(data: any = {}) {
-        this.id = data.id || 0;
-        this.name = data.name || null;
+        super(data);
+        this.category = data.category || null;
     }
 
     toJSON() {
         return {
-            id: this.id,
-            name: this.name
+            ...super.toJSON(),
+            category: this.category
         };
-
     }
 
 }
