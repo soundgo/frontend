@@ -26,6 +26,10 @@ export class MapBoxComponent implements OnInit {
   accessToken: 'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
   lat = 37.358;
   lng = -5.987;
+  marker = new mapboxgl.Marker({
+    draggable: true,
+  });
+  radius: number = 1;
 
   // menus & modals
   showAdvertisementMarkerMenu: boolean = false;
@@ -78,7 +82,7 @@ export class MapBoxComponent implements OnInit {
         layers: ['audios'],
       });
       // If not is a marker return
-      this.setAdvertisementMarker();
+      this.setAdvertisementMarker(this.marker);
       if (!features.length) {
         return;
       }
@@ -98,15 +102,38 @@ export class MapBoxComponent implements OnInit {
 
     // });
   }
-  setAdvertisementMarker() {
+  setAdvertisementMarker(marker) {
     //Show slider form
     this.showAdvertisementMarkerMenu = true;
     //Create marker
-    const drawableMarker = new mapboxgl.Marker({
-      draggable: true,
-    })
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map);
+    marker.setLngLat([this.lng, this.lat]).addTo(this.map);
+    this.map.addSource(
+      'radiusSite',
+      this.mapService.createGeoJSONCircle([this.lng, this.lat], 0.5)
+    );
+
+    this.map.addLayer({
+      id: 'radiusSite',
+      type: 'fill',
+      source: 'radiusSite',
+      layout: {},
+      paint: {
+        'fill-color': 'blue',
+        'fill-opacity': 0.6,
+      },
+    });
+    this.marker.on('dragend', this.onDragMarker());
+  }
+  onDragMarker() {
+    const lngLat = this.marker.getLngLat();
+    console.log(this.radius, 'HOLA MUCHACHO');
+    this.setRadiusOnChange(lngLat.lng, lngLat.lat, this.radius);
+  }
+  setRadiusOnChange(lng, lat, radius) {
+    console.log(this.mapService.createGeoJSONCircle([lng, lat], radius).data);
+    this.map
+      .getSource('radiusSite')
+      .setData(this.mapService.createGeoJSONCircle([lng, lat], radius).data);
   }
   formatLabel(value: number | null) {
     if (!value) {
