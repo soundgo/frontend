@@ -11,6 +11,8 @@ import {SharedModule} from './shared/shared.module';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {MapBoxComponent} from './sections/map/map-box/map-box.component';
+import {RecordModule} from './sections/record/record.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
