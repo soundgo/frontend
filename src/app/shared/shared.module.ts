@@ -15,6 +15,7 @@ const components = [
 
 @NgModule({
     declarations: [...components],
+    entryComponents: [RecorderComponent],
     imports: [
         CommonModule,
         HttpClientModule,

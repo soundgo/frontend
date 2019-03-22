@@ -77,11 +77,10 @@ export class AudioRecordService {
     stopRecording() {
         if (this.recorder) {
             this.recorder.onstop = data => {
-                console.log('It\'s been stoped');
                 this.stopMedia();
             };
             this.recorder.ondataavailable = (typedArray) => {
-                const blob = new Blob([typedArray], {type: 'audio/webm'});
+                const blob = new Blob([typedArray], {type: 'audio/ogg;codecs=opus'});
                 this.recorded.next({blob});
             };
             this.recorder.stop();

@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, SecurityContext} from '@angular/core';
 import {AudioRecordService} from '../../../services/audio-record.service';
 import {Subscription} from 'rxjs';
 import {Ad} from '../../models/Ad';
 import {Audio} from '../../models/Audio';
-import {ContextService} from '../../../services/context.service';
 
 @Component({
     selector: 'app-recorder',
@@ -14,11 +13,14 @@ export class RecorderComponent implements OnInit {
 
     duration = '0';
     subscription: Subscription;
-    entity: Audio | Ad;
 
-    entitySetter: any;
+    base64: string;
 
     isAd: boolean;
+
+    isRecording = false;
+
+    isRecorded = false;
 
     constructor(protected audioRecord: AudioRecordService) {
         this.subscription = this.audioRecord.getRecordedTime().subscribe(value => {
@@ -32,17 +34,21 @@ export class RecorderComponent implements OnInit {
 
     startRecording() {
         this.audioRecord.startRecording();
+        this.isRecording = true;
     }
 
-    async stopRecording() {
-        this.audioRecord.stopRecording();
-        this.audioRecord.getRecordedBlob().subscribe(({blob}) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend = () => {
-                this.entity.base64 = '' + reader.result;
-                this.entitySetter(this.entity);
-            };
+    stopRecording(): Promise<string> {
+        return new Promise(resolve => {
+            this.audioRecord.stopRecording();
+            this.audioRecord.getRecordedBlob().subscribe(({blob}) => {
+                this.isRecording = false;
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = () => {
+                    this.isRecorded = true;
+                    resolve('' + reader.result);
+                };
+            });
         });
     }
 
