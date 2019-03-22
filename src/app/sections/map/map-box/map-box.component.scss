@@ -14,13 +14,12 @@
   background: rgba(255, 255, 255, 0.4);
   font-family: Arial, sans-serif;
   overflow: auto;
-  border-radius: 3px;
+  height: 100px;
   width: 100%;
 }
-#bottom-bar {
-  top: 0;
-  height: 80px;
-  margin-top: 20px;
-  width: 100%;
-  z-index: 2;
+#basic-container {
+  padding: 30px;
+}
+mat-slider {
+  width: 60%;
 }

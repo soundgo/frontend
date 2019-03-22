@@ -27,8 +27,8 @@ export class MapBoxComponent implements OnInit {
   lat = 37.358;
   lng = -5.987;
 
-  // data
-  markers: any;
+  // menus & modals
+  showAdvertisementMarkerMenu: boolean = false;
   source: any;
 
   constructor(
@@ -78,6 +78,7 @@ export class MapBoxComponent implements OnInit {
         layers: ['audios'],
       });
       // If not is a marker return
+      this.setAdvertisementMarker();
       if (!features.length) {
         return;
       }
@@ -96,6 +97,25 @@ export class MapBoxComponent implements OnInit {
     // this.map.on('load', event => {
 
     // });
+  }
+  setAdvertisementMarker() {
+    //Show slider form
+    this.showAdvertisementMarkerMenu = true;
+    //Create marker
+    const drawableMarker = new mapboxgl.Marker({
+      draggable: true,
+    })
+      .setLngLat([this.lng, this.lat])
+      .addTo(this.map);
+  }
+  formatLabel(value: number | null) {
+    if (!value) {
+      return 0;
+    }
+    if (value >= 100) {
+      return value + 'm';
+    }
+    return value;
   }
 }
 

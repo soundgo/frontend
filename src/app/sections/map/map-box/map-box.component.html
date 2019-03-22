@@ -3,4 +3,16 @@
   <div id="bottom-bar">
     <p>Prueba de top bar</p>
   </div>
-</div> -->
+</div>  -->
+<div id="pruebaMarker"><p>javi</p></div>
+<div id="map-container" *ngIf="showAdvertisementMarkerMenu">
+  <div id="basic-container">
+    <mat-slider
+      thumbLabel
+      min="100"
+      max="5000"
+      step="50"
+      [displayWith]="formatLabel"
+    ></mat-slider>
+  </div>
+</div>

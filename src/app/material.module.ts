@@ -8,6 +8,7 @@ import {
   MatBottomSheetModule,
   MatListModule,
   MatProgressSpinnerModule,
+  MatSliderModule,
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     MatBottomSheetModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatSliderModule,
   ],
 })
 export class MaterialModule {}
