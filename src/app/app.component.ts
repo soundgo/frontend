@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import {AudioRecordService} from './services/audio-record.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -7,8 +9,9 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-    constructor(private translate: TranslateService) {
+    constructor(private sanitizer: DomSanitizer,
+                private audioRecord: AudioRecordService,
+                private translate: TranslateService) {
         translate.setDefaultLang('en');
     }
 
