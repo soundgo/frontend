@@ -22,3 +22,8 @@ body {
 .mapboxgl-canvas {
   position: unset !important;
 }
+
+.loading {
+  transition: opacity $animationTimeBlink $animationFuncDefault;
+  opacity: 0.5;
+}
