@@ -62,7 +62,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
 
         this.siriWave.stop();
 
-        const dialogRef = this.dialog.open(ChooseAudioCategoryComponent, {
+        this.dialog.open(ChooseAudioCategoryComponent, {
             width: '50%',
             height: '40%',
         });

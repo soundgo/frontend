@@ -16,9 +16,7 @@ const components = [
     AudioRecordComponent,
     ChooseAudioCategoryComponent,
     AdRecordComponent,
-    ChooseAudioAdvertisementComponent,
-    ReactiveFormsModule,
-    FormsModule
+    ChooseAudioAdvertisementComponent
 ];
 
 @NgModule({
@@ -27,6 +25,8 @@ const components = [
     imports: [
         CommonModule,
         HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
