@@ -1,6 +1,10 @@
 @import '../css/common.scss';
 
 :host {
+  p {
+    text-wrap: normal;
+    word-break: break-all;
+  }
   .letrero {
     @include font(light);
     color: $colorPrimary;

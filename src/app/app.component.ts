@@ -1,5 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import {AudioRecordService} from './services/audio-record.service';
+import {Subscription} from 'rxjs';
+import {DomSanitizer} from '@angular/platform-browser';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
@@ -10,7 +13,9 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class AppComponent {
 
-    constructor(private translate: TranslateService) {
+    constructor(private sanitizer: DomSanitizer,
+                private translate: TranslateService,
+                private audioRecord: AudioRecordService) {
         translate.setDefaultLang('en');
     }
 
