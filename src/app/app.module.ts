@@ -8,7 +8,10 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MapBoxComponent } from './sections/map/map-box/map-box.component';
+import {
+  MapBoxComponent,
+  SitePanelSheet,
+} from './sections/map/map-box/map-box.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
@@ -17,11 +20,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MapBoxComponent
-  ],
-  entryComponents: [], // inside we put the modalComponent
+  declarations: [AppComponent, MapBoxComponent, SitePanelSheet],
+  entryComponents: [SitePanelSheet], // inside we put the modalComponent
   imports: [
     BrowserModule,
     AppRoutingModule,
