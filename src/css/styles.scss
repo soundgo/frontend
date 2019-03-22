@@ -2,7 +2,8 @@
 @import './reset.scss';
 @import './mixins.scss';
 @import './theme.scss';
-
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+	
 html,
 body {
   width: 100%;
