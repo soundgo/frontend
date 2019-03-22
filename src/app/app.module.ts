@@ -16,8 +16,6 @@ import {MapBoxComponent} from './sections/map/map-box/map-box.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
 
-import {ChooseAudioCategoryComponent} from './choose-audio-category/choose-audio-category.component';
-
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
@@ -25,10 +23,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
-        MapBoxComponent,
-        ChooseAudioCategoryComponent
+        MapBoxComponent
     ],
-    entryComponents: [ChooseAudioCategoryComponent], // inside we put the modalComponent
     imports: [
         BrowserModule,
         AppRoutingModule,

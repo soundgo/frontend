@@ -3,6 +3,8 @@ import {RecorderComponent} from '../../../../shared/components/recorder/recorder
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
 import {Audio} from '../../../../shared/models/Audio';
+import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'app-audio-record',
@@ -18,7 +20,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
     entity: Audio;
 
     constructor(protected audioRecord: AudioRecordService,
-                private context: ContextService, private rd: Renderer2) {
+                private context: ContextService,
+                private dialog: MatDialog,
+    ) {
         super(audioRecord);
     }
 
@@ -54,11 +58,14 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
         this.entity.longitude = location.longitude;
         this.entity.base64 = await super.stopRecording();
 
-        debugger;
-
         this.context.setAudioEntity(this.entity);
 
         this.siriWave.stop();
+
+        const dialogRef = this.dialog.open(ChooseAudioCategoryComponent, {
+            width: '50%',
+            height: '40%',
+        });
     }
 
     ngAfterViewInit() {

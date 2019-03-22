@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AudioRecordComponent} from './components/audio-record/audio-record.component';
-import {SharedModule} from '../../shared/shared.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
+import {ChooseAudioCategoryComponent} from './components/choose-audio-category/choose-audio-category.component';
 
-const components = [AudioRecordComponent];
+const components = [AudioRecordComponent, ChooseAudioCategoryComponent];
 
 @NgModule({
     declarations: [...components],
+    entryComponents: [ChooseAudioCategoryComponent], // inside we put the modalComponent
     imports: [
         CommonModule,
         HttpClientModule,
