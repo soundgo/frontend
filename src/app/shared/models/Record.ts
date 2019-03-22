@@ -1,10 +1,10 @@
 export class Record {
 
-    base64?: string;
+    base64?: string; //no esta
     path?: string;
 
-    latitude: string;
-    longitude: string;
+    latitude: string; //Es float
+    longitude: string; //Es float
 
     numberReproductions?: number;
 

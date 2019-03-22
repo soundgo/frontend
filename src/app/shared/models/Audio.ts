@@ -1,4 +1,7 @@
 import {Record} from './Record';
+import {Tag} from './Tag';
+import {Site} from './Site';
+import { TagContentType } from '@angular/compiler';
 
 export enum AUDIO_CATEGORIES {
     TOURISM = 1,
@@ -8,7 +11,13 @@ export enum AUDIO_CATEGORIES {
 
 export class Audio extends Record {
 
-    category: AUDIO_CATEGORIES;
+    id?:number;
+    category: AUDIO_CATEGORIES; // Es de tipo Category
+    isInappropriate?: boolean;
+    timestampCreation?:Date;
+    timestampFinish?:Date;
+    site?:Site;
+    tags?:Tag;
 
     constructor(data: any = {}) {
         super(data);
