@@ -39,7 +39,7 @@ export class GeoJson implements IGeoJson {
   constructor(coordinates, dataProperties) {
     this.geometry = {
       type: 'Point',
-      coordinates: coordinates,
+      coordinates,
     };
     this.properties = dataProperties;
   }
