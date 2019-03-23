@@ -80,7 +80,7 @@ export class AudioRecordService {
                 this.stopMedia();
             };
             this.recorder.ondataavailable = (typedArray) => {
-                const blob = new Blob([typedArray], {type: 'audio/ogg;codecs=opus'});
+                const blob = new Blob([typedArray], {type: 'audio/webm'});
                 this.recorded.next({blob});
             };
             this.recorder.stop();
