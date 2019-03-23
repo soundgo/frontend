@@ -1,6 +1,7 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-choose-audio-advertisement',
@@ -9,7 +10,7 @@ import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audi
 })
 export class ChooseAudioAdvertisementComponent implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>, public dialog: MatDialog) {
+    constructor(public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>, public dialog: MatDialog, private router: Router) {
     }
 
     onClose(): void {
@@ -26,6 +27,7 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
 
     clickAdvert() {
         this.onClose();
+        this.router.navigate(['/ad/locate-ad']);
     }
 
     ngOnInit() {
