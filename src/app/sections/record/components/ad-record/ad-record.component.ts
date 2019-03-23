@@ -1,12 +1,9 @@
 import {Component, OnInit, ViewChildren} from '@angular/core';
-import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
-import {AudioRecordComponent} from '../audio-record/audio-record.component';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
-import {Audio} from '../../../../shared/models/Audio';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 
 @Component({
@@ -35,7 +32,6 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
 
     startRecord() {
         this.entity = new Ad();
-        this.context.setAdEntity(this.entity);
 
         super.startRecording();
 
@@ -52,9 +48,11 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
     async stopRecord(): Promise<void> {
         this.siriWave.setAmplitude(0);
 
-        this.context.setCurrentLocation('ad');
-
         this.entity.base64 = await super.stopRecording();
+
+        const {latitude, longitude} = this.context.getPosition().getValue();
+        this.entity.latitude = latitude;
+        this.entity.longitude = longitude;
 
         this.context.setAdEntity(this.entity);
 

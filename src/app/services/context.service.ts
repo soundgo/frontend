@@ -12,24 +12,30 @@ export class ContextService {
     audioEntity = new BehaviorSubject<Audio>(new Audio());
     adEntity = new BehaviorSubject<Ad>(new Ad());
     map = new BehaviorSubject<any>(null);
+    position = new BehaviorSubject<{latitude: number, longitude: number}>(null);
 
     constructor() {
     }
 
-    getCurrentLocation(): Promise<{ latitude: number, longitude: number }> {
-        return new Promise(resolve => {
-            navigator.geolocation.getCurrentPosition(({coords}) => {
-                const {latitude, longitude} = coords;
-                resolve({latitude, longitude});
-            });
+    getPosition() {
+        return this.position;
+    }
+
+    startWatchPosition() {
+        navigator.geolocation.watchPosition(({coords}) => {
+            this.position.next(coords);
+        }, null, {
+            enableHighAccuracy: false,
+            timeout: 10000,
+            maximumAge: 0
         });
     }
 
     setCurrentLocation(entity) {
-        this.getCurrentLocation().then(position => {
+        navigator.geolocation.getCurrentPosition(({coords}) => {
             this[entity + 'Entity'].next({
-                ...this[entity + 'Entity'],
-                ...position
+                ...this[entity + 'Entity'].getValue(),
+                ...coords
             });
         });
     }

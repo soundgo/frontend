@@ -1,17 +1,17 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit, ViewChildren} from '@angular/core';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
 import {Audio} from '../../../../shared/models/Audio';
-import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 import {MatDialog} from '@angular/material';
+import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 
 @Component({
     selector: 'app-audio-record',
     templateUrl: './audio-record.component.html',
     styleUrls: ['./audio-record.component.scss']
 })
-export class AudioRecordComponent extends RecorderComponent implements OnInit, AfterViewInit {
+export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
     @ViewChildren('siri') el: any;
 
@@ -26,9 +26,11 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
         super(audioRecord);
     }
 
+    ngOnInit() {
+    }
+
     startRecord() {
         this.entity = new Audio();
-        this.context.setAudioEntity(this.entity);
 
         super.startRecording();
 
@@ -45,24 +47,21 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
     async stopRecord(): Promise<void> {
         this.siriWave.setAmplitude(0);
 
-        this.context.setCurrentLocation('audio');
-
         this.entity.base64 = await super.stopRecording();
+
+        const {latitude, longitude} = this.context.getPosition().getValue();
+        this.entity.latitude = latitude;
+        this.entity.longitude = longitude;
 
         this.context.setAudioEntity(this.entity);
 
         this.siriWave.stop();
 
-        this.dialog.open(ChooseAudioCategoryComponent, {
+        this.dialog.open(ChooseAudioAdvertisementComponent, {
             width: '50%',
             height: '40%',
         });
-    }
 
-    ngAfterViewInit() {
-    }
-
-    ngOnInit() {
     }
 
 }
