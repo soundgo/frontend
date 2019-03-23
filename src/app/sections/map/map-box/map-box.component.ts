@@ -37,6 +37,7 @@ export class MapBoxComponent implements OnInit {
       fillColor: '#29AB87',
     }
   );
+  // _getEditHandleDefaultPaintOptions cambiar estilo
 
   // menus & modals
   showAdvertisementMarkerMenu: boolean = false;
@@ -88,8 +89,8 @@ export class MapBoxComponent implements OnInit {
       const features = this.map.queryRenderedFeatures(event.point, {
         layers: ['audios'],
       });
+      this.placeAdvertisementMarker(); //test
       // If not is a marker return
-      this.placeAdvertisementMarker();
       if (!features.length) {
         return;
       }
@@ -101,23 +102,20 @@ export class MapBoxComponent implements OnInit {
       } else {
         this.openSiteSheet(feature.properties);
       }
-
-      console.log(feature);
     });
-    // Action - Load markers
-    // this.map.on('load', event => {
-
-    // });
   }
+  //Function to create announcement and place it
   placeAdvertisementMarker() {
+    // Show menu
     this.showAdvertisementMarkerMenu = true;
-    //Create marker
-    console.log(this.editableMarkerSite);
+    // Add marker announce to the map
     this.editableMarkerSite.addTo(this.map);
+    // If radius changes, set property to template
     this.editableMarkerSite.on('radiuschanged', circleObj => {
       this.radius = circleObj.getRadius();
     });
   }
+  //Function to save data from announcement
   saveAdvertisementMarker() {
     console.log(
       this.editableMarkerSite.getCenter(),
@@ -141,9 +139,7 @@ export class SitePanelSheet implements OnInit {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
   ) {}
 
-  ngOnInit() {
-    console.log('Iproperties', this.data);
-  }
+  ngOnInit() {}
   getAudiosFromSite(id): void {}
 
   openLink(event: MouseEvent): void {
