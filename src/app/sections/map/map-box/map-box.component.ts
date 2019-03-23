@@ -5,13 +5,8 @@ import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material';
-
+import * as MapboxCircle from 'mapbox-gl-circle';
 import { MapService } from '../../../services/map.service';
-import {
-  IPropeties,
-  GeoJson,
-  FeatureCollection,
-} from '../../../shared/models/Map';
 
 @Component({
   selector: 'app-map-box',
@@ -26,10 +21,22 @@ export class MapBoxComponent implements OnInit {
   accessToken: 'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
   lat = 37.358;
   lng = -5.987;
+  radius: number = 500;
   marker = new mapboxgl.Marker({
     draggable: true,
   });
-  radius: number = 1;
+  editableMarkerSite = new MapboxCircle(
+    { lat: this.lat, lng: this.lng },
+    this.radius,
+    {
+      editable: true,
+      minRadius: 100,
+      maxRadius: 5000,
+      strokeWeight: 1,
+      strokeOpacity: 0.85,
+      fillColor: '#29AB87',
+    }
+  );
 
   // menus & modals
   showAdvertisementMarkerMenu: boolean = false;
@@ -82,7 +89,7 @@ export class MapBoxComponent implements OnInit {
         layers: ['audios'],
       });
       // If not is a marker return
-      this.setAdvertisementMarker(this.marker);
+      this.placeAdvertisementMarker();
       if (!features.length) {
         return;
       }
@@ -102,47 +109,22 @@ export class MapBoxComponent implements OnInit {
 
     // });
   }
-  setAdvertisementMarker(marker) {
-    //Show slider form
+  placeAdvertisementMarker() {
     this.showAdvertisementMarkerMenu = true;
     //Create marker
-    marker.setLngLat([this.lng, this.lat]).addTo(this.map);
-    this.map.addSource(
-      'radiusSite',
-      this.mapService.createGeoJSONCircle([this.lng, this.lat], 0.5)
-    );
-
-    this.map.addLayer({
-      id: 'radiusSite',
-      type: 'fill',
-      source: 'radiusSite',
-      layout: {},
-      paint: {
-        'fill-color': 'blue',
-        'fill-opacity': 0.6,
-      },
+    console.log(this.editableMarkerSite);
+    this.editableMarkerSite.addTo(this.map);
+    this.editableMarkerSite.on('radiuschanged', circleObj => {
+      this.radius = circleObj.getRadius();
     });
-    this.marker.on('dragend', this.onDragMarker());
   }
-  onDragMarker() {
-    const lngLat = this.marker.getLngLat();
-    console.log(this.radius, 'HOLA MUCHACHO');
-    this.setRadiusOnChange(lngLat.lng, lngLat.lat, this.radius);
-  }
-  setRadiusOnChange(lng, lat, radius) {
-    console.log(this.mapService.createGeoJSONCircle([lng, lat], radius).data);
-    this.map
-      .getSource('radiusSite')
-      .setData(this.mapService.createGeoJSONCircle([lng, lat], radius).data);
-  }
-  formatLabel(value: number | null) {
-    if (!value) {
-      return 0;
-    }
-    if (value >= 100) {
-      return value + 'm';
-    }
-    return value;
+  saveAdvertisementMarker() {
+    console.log(
+      this.editableMarkerSite.getCenter(),
+      this.editableMarkerSite.getRadius()
+    );
+    this.showAdvertisementMarkerMenu = false;
+    this.editableMarkerSite.remove();
   }
 }
 

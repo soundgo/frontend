@@ -1,3 +1,5 @@
+@import '../../../../css/theme.scss';
+
 .map {
   display: block;
   width: 100%;
@@ -8,18 +10,27 @@
 }
 #map-container {
   position: absolute;
-  bottom: 0;
+  bottom: 100px;
   right: 0;
   z-index: 2;
-  background: rgba(255, 255, 255, 0.4);
-  font-family: Arial, sans-serif;
-  overflow: auto;
-  height: 100px;
+  background: rgba(255, 255, 255, 0.3);
+  height: 150px;
   width: 100%;
+  text-align: center;
 }
-#basic-container {
-  padding: 30px;
+#map-container p {
+  margin-top: 40px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $purple;
 }
-mat-slider {
-  width: 60%;
+#map-container p em {
+  font-weight: 600;
+  color: rgb(54, 4, 38);
+}
+#basic-container button {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  background: $blue;
+  color: #fff;
 }

@@ -6,12 +6,9 @@
 </div>  -->
 <div id="map-container" *ngIf="showAdvertisementMarkerMenu">
   <div id="basic-container">
-    <mat-slider
-      thumbLabel
-      min="100"
-      max="5000"
-      step="50"
-      [displayWith]="formatLabel"
-    ></mat-slider>
+    <p>
+      Radio of the advert: <em>{{ radius }}m</em>
+    </p>
+    <button mat-raised-button (click)="saveAdvertisementMarker()">Save</button>
   </div>
 </div>
