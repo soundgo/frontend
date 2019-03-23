@@ -5,7 +5,6 @@ import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material';
-import * as MapboxCircle from 'mapbox-gl-circle';
 import { MapService } from '../../../services/map.service';
 
 @Component({
@@ -18,23 +17,19 @@ export class MapBoxComponent implements OnInit {
   map: mapboxgl.Map;
   style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
   container: 'map';
-  accessToken: 'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
   lat = 37.358;
   lng = -5.987;
-  radius: number = 500;
   marker = new mapboxgl.Marker({
     draggable: true,
   });
-  editableMarkerSite: MapboxCircle;
   // _getEditHandleDefaultPaintOptions cambiar estilo
 
   // menus & modals
-  showAdvertisementMarkerMenu: boolean = false;
   source: any;
 
   constructor(
-    private mapService: MapService,
-    private bottomSheet: MatBottomSheet
+    protected mapService: MapService,
+    protected bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
@@ -90,7 +85,6 @@ export class MapBoxComponent implements OnInit {
       const features = this.map.queryRenderedFeatures(event.point, {
         layers: ['audios'],
       });
-      this.placeAdvertisementMarker(); //test
       // If not is a marker return
       if (!features.length) {
         return;
@@ -104,38 +98,6 @@ export class MapBoxComponent implements OnInit {
         this.openSiteSheet(feature.properties);
       }
     });
-  }
-  //Function to create announcement and place it
-  placeAdvertisementMarker() {
-    // Show menu
-    this.showAdvertisementMarkerMenu = true;
-    // Add marker announce to the map
-    this.editableMarkerSite = new MapboxCircle(
-      { lat: this.lat, lng: this.lng },
-      this.radius,
-      {
-        editable: true,
-        minRadius: 100,
-        maxRadius: 5000,
-        strokeWeight: 1,
-        strokeOpacity: 0.85,
-        fillColor: '#29AB87',
-      }
-    );
-    this.editableMarkerSite.addTo(this.map);
-    // If radius changes, set property to template
-    this.editableMarkerSite.on('radiuschanged', circleObj => {
-      this.radius = circleObj.getRadius();
-    });
-  }
-  //Function to save data from announcement
-  saveAdvertisementMarker() {
-    console.log(
-      this.editableMarkerSite.getCenter(),
-      this.editableMarkerSite.getRadius()
-    );
-    this.showAdvertisementMarkerMenu = false;
-    this.editableMarkerSite.remove();
   }
 }
 
