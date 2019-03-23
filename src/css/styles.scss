@@ -26,9 +26,11 @@ html {
     position: unset !important;
   }
 
-#map .mapboxgl-control-container .mapboxgl-ctrl-top-right {
-  top: 50% !important;
-}
+  #map .mapboxgl-control-container .mapboxgl-ctrl-top-right {
+    top: 50% !important;
+    transform: translateY(-50%);
+  }
+
   .loading {
     transition: opacity $animationTimeBlink $animationFuncDefault;
     opacity: 0.5;
