@@ -17,11 +17,11 @@ export class Category {
         const res = {
             name: this.name,
             maxTimeRecord: this.maxTimeRecord,
-            minDurationMap: this.minDurationMap
+            minDurationMa: this.minDurationMap
         };
 
         if (this.id) {
-            res.id = this.id;
+            res['id'] = this.id;
         }
 
         return res;

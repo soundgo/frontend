@@ -1,208 +1,207 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Observable, ObservableInput, of} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 
-import { Audio } from '../shared/models/Audio';
-import { Ad } from '../shared/models/Ad';
-import { Category } from '../shared/models/Category';
-import { Site } from '../shared/models/Site';
-import { Error } from '../shared/models/Error';
-import { ContextService } from './context.service';
+import {Audio} from '../shared/models/Audio';
+import {Ad} from '../shared/models/Ad';
+import {Category} from '../shared/models/Category';
+import {Site} from '../shared/models/Site';
+import {Error} from '../shared/models/Error';
+import {ContextService} from './context.service';
 
 
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json',
-                              'Authorization': 'my-auth-token' })
+const httpUserOptions = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'my-auth-token'
+    })
 };
 
+const httpAdvertiserOptions = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'my-auth-token'
+    })
+};
+
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ApiService {
 
-  private apiUrl = '';  // URL to web api
+    private apiUrl = '';
 
-  constructor(private http: HttpClient, private contextService:ContextService) { }
+    constructor(private http: HttpClient, private contextService: ContextService) {
+    }
 
-  ////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////// AUDIO ///////////////////////////////
-  //////////////////////////////////////////////////////////////////////
-  
-  /** GET: Give one audio with all its properties */
-  getAudioByID(id:number):Observable<Audio>{
-    const url = `${this.apiUrl}/audio/${id}`;
+    ////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////// AUDIO ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-    return this.http.get<Audio>(url).pipe(
-      catchError(this.handleError<Audio>(`getAudioById id=${id}`))
-    );
-  }
-  
-  /** POST: Create an audio in the map */
-  createAudio(audio:Audio):Observable<Audio>{
-    const url = `${this.apiUrl}/audio`;
+    /** GET: Give one audio with all its properties */
+    getAudioById(id: number): Observable<Audio> {
+        const url = `${this.apiUrl}/audio/${id}`;
 
-    return this.http.post<Audio>(url, audio, httpOptions).pipe(
-      catchError(this.handleError<Audio>('createAudio'))
-    );
-  }
+        return this.http.get<Audio>(url).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** PUT: Update an audio */
-  updateAudio(audio:Audio):Observable<any>{
-    const url = `${this.apiUrl}/audio/${audio.id}`;
+    /** POST: Create an audio in the map */
+    createAudio(audio: Audio): Observable<Audio> {
+        const url = `${this.apiUrl}/audio`;
 
-    return this.http.put(url, audio, httpOptions).pipe(
-      catchError(this.handleError<any>('updateAudio'))
-    );
-  }
+        return this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** DELETE: Delete an audio */
-  deleteAudio(audio:Audio | number):Observable<Audio>{
-    const id = typeof audio === 'number' ? audio : audio.id;
-    const url = `${this.apiUrl}/audio/${id}`;
+    /** PUT: Update an audio */
+    updateAudio(audio: Audio): Observable<any> {
+        const url = `${this.apiUrl}/audio/${audio.id}`;
 
-    return this.http.delete<Audio>(url, httpOptions).pipe(
-      catchError(this.handleError<Audio>('deleteAudio'))
-    );
-  }
+        return this.http.put(url, audio.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** GET: Give all audios of a site with all its properties */
-  getAudiosOfSite(id:number):Observable<Audio[]>{
-    const url = `${this.apiUrl}/audios/site/${id}`;
+    /** DELETE: Delete an audio */
+    deleteAudio(audio: Audio | number): Observable<Audio> {
+        const id = typeof audio === 'number' ? audio : audio.id;
+        const url = `${this.apiUrl}/audio/${id}`;
 
-    return this.http.get<Audio[]>(url)
-      .pipe(
-        catchError(this.handleError<Audio[]>('getAudiosOfSite', []))
-      );
-  }
+        return this.http.delete<Audio>(url, httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** POST: Create an audio in a site */
-  createAudioInSite(audio:Audio, id:number):Observable<Audio>{
-    const url = `${this.apiUrl}/audio/site/${id}`;
+    /** GET: Give all audios of a site with all its properties */
+    getSiteAudios(id: number): Observable<Audio[]> {
+        const url = `${this.apiUrl}/audios/site/${id}`;
 
-    return this.http.post<Audio>(url, audio, httpOptions).pipe(
-      catchError(this.handleError<Audio>('createAudioInSite'))
-    );
-  }
+        return this.http.get<Audio[]>(url).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** GET: Give all audios deactivated */
-  getAudiosDeactivated(id:number):Observable<Audio[]>{
-    const url = `${this.apiUrl}/audios/reported`;
+    /** POST: Create an audio in a site */
+    createSiteAudio(audio: Audio, id: number): Observable<Audio> {
+        const url = `${this.apiUrl}/audio/site/${id}`;
 
-    return this.http.get<Audio[]>(url)
-      .pipe(
-        catchError(this.handleError<Audio[]>('getAudiosDeactivated', []))
-      );
-  }
+        return this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  ///////////////////////////////////////////////////////////////////////////////
-  //////////////////////////// ADVERTISEMENT (Ad) //////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
+    /** GET: Find all reported audios */
+    getReportedAudios(id: number): Observable<Audio[]> {
+        const url = `${this.apiUrl}/audios/reported`;
 
-  /** GET: Give one advertisement */
-  getAdvertisementByID(id:number):Observable<Ad>{
-    const url = `${this.apiUrl}/advertisement/${id}`;
+        return this.http.get<Audio[]>(url).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-    return this.http.get<Ad>(url).pipe(
-      catchError(this.handleError<Ad>(`getAdvertisementById id=${id}`))
-    );
-  }
+    ///////////////////////////////////////////////////////////////////////////////
+    //////////////////////////// ADVERTISEMENT (Ad) //////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-  /** POST: Create an advertisement in the map */
-  createAdvertisement(ad:Ad):Observable<Ad>{
-    const url = `${this.apiUrl}/advertisement`;
+    /** GET: Give one advertisement */
+    getAdById(id: number): Observable<Ad> {
+        const url = `${this.apiUrl}/advertisement/${id}`;
 
-    return this.http.post<Ad>(url, ad, httpOptions).pipe(
-      catchError(this.handleError<Ad>('createAdvertisement'))
-    );
-  }
+        return this.http.get<Ad>(url).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** PUT: Update an advertisement and it is “deleted” */
-  updateAdvertisement(ad:Ad):Observable<any>{
-    const url = `${this.apiUrl}/advertisment/${ad.id}`;
+    /** POST: Create an advertisement in the map */
+    createAd(ad: Ad): Observable<Ad> {
+        const url = `${this.apiUrl}/advertisement`;
 
-    return this.http.put(url, ad, httpOptions).pipe(
-      catchError(this.handleError<any>('updateAdvertisement'))
-    );
-  }
+        return this.http.post<Ad>(url, ad.toJSON(), httpAdvertiserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /////////////////////////////////////////////////////////////////////////
-  /////////////////////////// CATEGORY ///////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////
+    /** PUT: Update an advertisement and it is “deleted” */
+    updateAd(ad: Ad): Observable<any> {
+        const url = `${this.apiUrl}/advertisment/${ad.id}`;
 
-  /** PUT: Update the max time and min duration */
-  updateCategory(cat:Category):Observable<any>{
-    const url = `${this.apiUrl}/category/${cat.id}`;
+        return this.http.put(url, ad.toJSON(), httpAdvertiserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-    return this.http.put(url, cat, httpOptions).pipe(
-      catchError(this.handleError<any>('updateCategory'))
-    );
-  }
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////// CATEGORY ///////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 
-  //////////////////////////////////////////////////////////////////////
-  /////////////////////////// SITE ////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
+    /** PUT: Update the max time and min duration */
+    updateCategory(cat: Category): Observable<any> {
+        const url = `${this.apiUrl}/category/${cat.id}`;
 
-  /** GET: Get a site */
-  getSiteByID(id:number):Observable<Site>{
-    const url = `${this.apiUrl}/site/${id}`;
+        return this.http.put(url, cat.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-    return this.http.get<Site>(url).pipe(
-      catchError(this.handleError<Site>(`getSiteById id=${id}`))
-    );
-  }
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////// SITE ////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-  /** POST: Create a site */
-  createSite(site:Site):Observable<Site>{
-    const url = `${this.apiUrl}/advertisment/${site.id}`;
+    /** GET: Get a site */
+    getSiteById(id: number): Observable<Site> {
+        const url = `${this.apiUrl}/site/${id}`;
 
-    return this.http.post<Site>(url, site, httpOptions).pipe(
-      catchError(this.handleError<Site>('createSite'))
-    );
-  }
+        return this.http.get<Site>(url).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** PUT: Update a site */
-  updateSite(site:Site):Observable<any>{
-    const url = `${this.apiUrl}/site`;
+    /** POST: Create a site */
+    createSite(site: Site): Observable<Site> {
+        const url = `${this.apiUrl}/advertisment/${site.id}`;
 
-    return this.http.put(url, site, httpOptions).pipe(
-      catchError(this.handleError<any>('updateSite'))
-    );
-  }
+        return this.http.post<Site>(url, site.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
-  /** DELETE: Delete a site */
-  deleteSite(site:Site | number):Observable<Site>{
-    const id = typeof site === 'number' ? site : site.id;
-    const url = `${this.apiUrl}/site/${site}`;
+    /** PUT: Update a site */
+    updateSite(site: Site): Observable<any> {
+        const url = `${this.apiUrl}/site`;
 
-    return this.http.delete<Site>(url, httpOptions).pipe(
-      catchError(this.handleError<Site>('deleteSite'))
-    );
-  }
+        return this.http.put(url, site.toJSON(), httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
+    /** DELETE: Delete a site */
+    deleteSite(site: Site | number): Observable<Site> {
+        const id = typeof site === 'number' ? site : site.id;
+        const url = `${this.apiUrl}/site/${site}`;
+
+        return this.http.delete<Site>(url, httpUserOptions).pipe(
+            catchError(err => this.handleError<any>(err))
+        );
+    }
 
 
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // transforming error for user consumption
-      error = new Error(operation);
-        
-      this.contextService.setError(error);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
+    /**
+     * Handle Http operation that failed.
+     * Let the app continue.
+     * @param response - api response
+     * @param result - optional value to return as the observable result
+     */
+    private handleError<T>(response: Error, result?: T) {
+        console.log(response);
+        this.contextService.setError(response);
+        return of(result as T);
+    }
 
 
 }

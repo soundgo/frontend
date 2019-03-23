@@ -27,7 +27,7 @@ export class Record {
         };
 
         if (this.id) {
-            res.id = this.id;
+            res['id'] = this.id;
         }
 
         return res;
