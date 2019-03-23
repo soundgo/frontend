@@ -5,15 +5,47 @@ import {Audio} from '../shared/models/Audio';
 import {Ad} from '../shared/models/Ad';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ContextService {
-
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
     adEntity = new BehaviorSubject<Ad>(new Ad());
+    map = new BehaviorSubject<any>(null);
+    position = new BehaviorSubject<{latitude: number, longitude: number}>(null);
 
     constructor() {
+    }
+
+    getPosition() {
+        return this.position;
+    }
+
+    startWatchPosition() {
+        navigator.geolocation.watchPosition(({coords}) => {
+            this.position.next(coords);
+        }, null, {
+            enableHighAccuracy: false,
+            timeout: 10000,
+            maximumAge: 0
+        });
+    }
+
+    setCurrentLocation(entity) {
+        navigator.geolocation.getCurrentPosition(({coords}) => {
+            this[entity + 'Entity'].next({
+                ...this[entity + 'Entity'].getValue(),
+                ...coords
+            });
+        });
+    }
+
+    getMap() {
+        return this.map;
+    }
+
+    setMap(map: any) {
+        this.map.next(map);
     }
 
     getError(): Observable<Error> {
@@ -39,5 +71,4 @@ export class ContextService {
     setAdEntity(ad: Ad) {
         this.adEntity.next(ad);
     }
-
 }

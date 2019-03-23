@@ -1,33 +1,37 @@
-import {Component, OnInit} from '@angular/core';
-import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
-import {AudioRecordComponent} from '../audio-record/audio-record.component';
+import {Component, OnInit, ViewChildren} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
+import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 
 @Component({
     selector: 'app-ad-record',
     templateUrl: '../audio-record/audio-record.component.html',
     styleUrls: ['../audio-record/audio-record.component.scss']
 })
-export class AdRecordComponent extends AudioRecordComponent implements OnInit {
+export class AdRecordComponent extends RecorderComponent implements OnInit {
 
-    adEntity: Ad;
+    @ViewChildren('siri') el: any;
+
+    siriWave: any;
+
+    entity: Ad;
+    isAd = true;
 
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
-                protected dialog: MatDialog) {
-        super(audioRecord, context, dialog);
-        this.isAd = true;
+                protected dialog: MatDialog
+    ) {
+        super(audioRecord);
     }
 
     ngOnInit() {
     }
 
     startRecord() {
-        this.adEntity = new Ad();
+        this.entity = new Ad();
 
         super.startRecording();
 
@@ -43,13 +47,14 @@ export class AdRecordComponent extends AudioRecordComponent implements OnInit {
 
     async stopRecord(): Promise<void> {
         this.siriWave.setAmplitude(0);
-        const location = await this.getCurrentLocation();
 
-        this.adEntity.latitude = location.latitude;
-        this.adEntity.longitude = location.longitude;
-        this.adEntity.base64 = await super.stopRecording();
+        this.entity.base64 = await super.stopRecording();
 
-        this.context.setAdEntity(this.adEntity);
+        const {latitude, longitude} = this.context.getPosition().getValue();
+        this.entity.latitude = latitude;
+        this.entity.longitude = longitude;
+
+        this.context.setAdEntity(this.entity);
 
         this.siriWave.stop();
 

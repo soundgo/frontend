@@ -11,12 +11,16 @@ import {ChooseAudioAdvertisementComponent} from './components/choose-audio-adver
 
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import {
+    ChooseAdLocationComponent
+} from './components/choose-ad-location/choose-ad-location.component';
 
 const components = [
     AudioRecordComponent,
-    ChooseAudioCategoryComponent,
     AdRecordComponent,
-    ChooseAudioAdvertisementComponent
+    ChooseAudioCategoryComponent,
+    ChooseAudioAdvertisementComponent,
+    ChooseAdLocationComponent
 ];
 
 @NgModule({

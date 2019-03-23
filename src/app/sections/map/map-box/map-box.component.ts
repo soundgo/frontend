@@ -5,13 +5,8 @@ import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material';
-
 import { MapService } from '../../../services/map.service';
-import {
-  IPropeties,
-  GeoJson,
-  FeatureCollection,
-} from '../../../shared/models/Map';
+import { ContextService } from '../../../services/context.service';
 
 @Component({
   selector: 'app-map-box',
@@ -22,23 +17,17 @@ import {
 export class MapBoxComponent implements OnInit {
   map: mapboxgl.Map;
   style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
-  container: 'map';
-  accessToken: 'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
-  lat = 37.358;
-  lng = -5.987;
-
-  // data
-  markers: any;
-  source: any;
+  container: string = 'map';
 
   constructor(
-    private mapService: MapService,
+    private context: ContextService,
     private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
     this.initializeMap();
   }
+
   // Dialog
   openSiteSheet(properties): void {
     this.bottomSheet.open(SitePanelSheet, {
@@ -47,29 +36,43 @@ export class MapBoxComponent implements OnInit {
   }
 
   private initializeMap() {
-    // Locate the user
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     this.lat = position.coords.latitude;
-    //     this.lng = position.coords.longitude;
-
-    //   });
-    // }
     this.buildMap();
+    this.context.startWatchPosition();
   }
 
   buildMap() {
     // Create map site
     mapboxgl.accessToken =
       'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
+    const coords = this.context.getPosition().getValue();
     this.map = new mapboxgl.Map({
-      container: 'map',
+      container: this.container,
       style: this.style,
       zoom: 13,
-      center: [this.lng, this.lat],
+      center: [
+        (coords && coords.longitude) || -5.987,
+        (coords && coords.latitude) || 37.358,
+      ],
     });
+
+    this.context.setMap(this.map);
+
     // Add button to know your position
     this.map.addControl(new mapboxgl.NavigationControl());
+
+    // Track control of user
+    const geolocateUser = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    this.map.addControl(geolocateUser);
+
+    // Trigger geolocation
+    this.map.on('load', () => {
+      geolocateUser.trigger();
+    });
 
     // Action - when user press record
     this.map.on('click', event => {
@@ -84,18 +87,12 @@ export class MapBoxComponent implements OnInit {
       // Get marker and check if is an audio or site
       const feature = features[0];
 
-      if (feature.properties.type == 'Audio') {
+      if (feature.properties.type === 'Audio') {
         console.log('Es un audio, no se muestra');
       } else {
         this.openSiteSheet(feature.properties);
       }
-
-      console.log(feature);
     });
-    // Action - Load markers
-    // this.map.on('load', event => {
-
-    // });
   }
 }
 
@@ -104,7 +101,7 @@ export class MapBoxComponent implements OnInit {
   templateUrl: 'site-panel-sheet.html',
 })
 export class SitePanelSheet implements OnInit {
-  loading: boolean = false;
+  loading = false;
   audios: any;
 
   constructor(
@@ -112,9 +109,8 @@ export class SitePanelSheet implements OnInit {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
   ) {}
 
-  ngOnInit() {
-    console.log('Iproperties', this.data);
-  }
+  ngOnInit() {}
+
   getAudiosFromSite(id): void {}
 
   openLink(event: MouseEvent): void {
