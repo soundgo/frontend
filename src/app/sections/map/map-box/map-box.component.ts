@@ -60,13 +60,13 @@ export class MapBoxComponent implements OnInit {
 
   private initializeMap() {
     // Locate the user
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(position => {
-    //     this.lat = position.coords.latitude;
-    //     this.lng = position.coords.longitude;
-
-    //   });
-    // }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        console.log(position.coords.latitude, position.coords.longitude);
+      });
+    }
     this.buildMap();
   }
 
@@ -82,6 +82,18 @@ export class MapBoxComponent implements OnInit {
     });
     // Add button to know your position
     this.map.addControl(new mapboxgl.NavigationControl());
+    //Track control of user
+    const geolocateUser = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    this.map.addControl(geolocateUser);
+    //Trigger geolocation
+    this.map.on('load', () => {
+      geolocateUser.trigger();
+    });
 
     // Action - when user press record
     this.map.on('click', event => {
