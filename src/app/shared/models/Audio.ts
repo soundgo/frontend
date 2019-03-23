@@ -41,15 +41,23 @@ export class Audio extends Record {
     }
 
     toJSON() {
-        return {
+        const res = {
             ...super.toJSON(),
             category: this.category,
             isInappropriate: this.isInappropriate,
             timestampCreation: this.timestampCreation,
-            timestampFinish: this.timestampFinish,
-            site: this.site.toJSON(),
-            tags: this.tags.map(tag => tag.toJSON())
+            timestampFinish: this.timestampFinish
         };
+
+        if (this.site) {
+            res['site'] = this.site.toJSON();
+        }
+
+        if (this.tags) {
+            res['tags'] = this.tags.map(tag => tag.toJSON());
+        }
+
+        return res;
     }
 
 }

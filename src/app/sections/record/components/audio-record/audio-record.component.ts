@@ -5,6 +5,7 @@ import {ContextService} from '../../../../services/context.service';
 import {Audio} from '../../../../shared/models/Audio';
 import {MatDialog} from '@angular/material';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
+import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 
 @Component({
     selector: 'app-audio-record',
@@ -38,7 +39,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
         this.siriWave = new SiriWave({
             container: this.el.first.nativeElement,
             style: 'ios9',
-            width: document.body.offsetWidth - 100,
+            width: document.body.offsetWidth - (document.body.offsetWidth * 0.4),
             height: 150,
             autostart: true
         });
@@ -57,8 +58,8 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
         this.siriWave.stop();
 
-        this.dialog.open(ChooseAudioAdvertisementComponent, {
-            width: '50%',
+        this.dialog.open(ChooseAudioCategoryComponent, {
+            width: '90%',
             height: '40%',
         });
 

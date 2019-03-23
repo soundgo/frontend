@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {AUDIO_CATEGORIES} from '../../../../shared/models/Audio';
 import {ContextService} from '../../../../services/context.service';
+import {ApiService} from '../../../../services/api.service';
 
 @Component({
     selector: 'app-choose-audio-category',
@@ -12,10 +13,10 @@ export class ChooseAudioCategoryComponent implements OnInit {
 
     categorySelected: number;
 
-    constructor(private context: ContextService, public dialogRef: MatDialogRef<ChooseAudioCategoryComponent>) {
+    constructor(private context: ContextService, private api: ApiService, public dialogRef: MatDialogRef<ChooseAudioCategoryComponent>) {
     }
 
-    onNoClick(): void {
+    onClose(): void {
         this.dialogRef.close();
     }
 
@@ -31,6 +32,7 @@ export class ChooseAudioCategoryComponent implements OnInit {
         const entity = this.context.getAudioEntity().getValue();
         entity.category = this.categorySelected;
         this.context.setAudioEntity(entity);
+        this.api.createAudio(entity);
         this.dialogRef.close();
     }
 
