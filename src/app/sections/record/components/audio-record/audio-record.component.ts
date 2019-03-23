@@ -26,17 +26,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
         super(audioRecord);
     }
 
-    getCurrentLocation(): Promise<{ latitude: number, longitude: number }> {
-        return new Promise(resolve => {
-            navigator.geolocation.getCurrentPosition(({coords}) => {
-                const {latitude, longitude} = coords;
-                resolve({latitude, longitude});
-            });
-        });
-    }
-
     startRecord() {
         this.entity = new Audio();
+        this.context.setAudioEntity(this.entity);
 
         super.startRecording();
 
@@ -52,10 +44,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit, A
 
     async stopRecord(): Promise<void> {
         this.siriWave.setAmplitude(0);
-        const location = await this.getCurrentLocation();
 
-        this.entity.latitude = location.latitude;
-        this.entity.longitude = location.longitude;
+        this.context.setCurrentLocation('audio');
+
         this.entity.base64 = await super.stopRecording();
 
         this.context.setAudioEntity(this.entity);

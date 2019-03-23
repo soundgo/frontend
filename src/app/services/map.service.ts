@@ -44,12 +44,12 @@ export class MapService {
 
     var km = radiusInKm;
 
-    var ret = [];
-    var distanceX = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180));
-    var distanceY = km / 110.574;
+    const ret = [];
+    const distanceX = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180));
+    const distanceY = km / 110.574;
 
-    var theta, x, y;
-    for (var i = 0; i < points; i++) {
+    let theta, x, y;
+    for (let i = 0; i < points; i++) {
       theta = (i / points) * (2 * Math.PI);
       x = distanceX * Math.cos(theta);
       y = distanceY * Math.sin(theta);

@@ -18,9 +18,6 @@ export class ChooseAdLocationComponent implements OnInit {
   editableMarkerSite: MapboxCircle;
   map: mapboxgl.Map;
 
-  lat = 37.358;
-  lng = -5.987;
-
   constructor(private context: ContextService) {
     this.map = this.context.getMap().getValue();
   }
