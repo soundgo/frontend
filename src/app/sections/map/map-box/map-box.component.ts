@@ -25,18 +25,7 @@ export class MapBoxComponent implements OnInit {
   marker = new mapboxgl.Marker({
     draggable: true,
   });
-  editableMarkerSite = new MapboxCircle(
-    { lat: this.lat, lng: this.lng },
-    this.radius,
-    {
-      editable: true,
-      minRadius: 100,
-      maxRadius: 5000,
-      strokeWeight: 1,
-      strokeOpacity: 0.85,
-      fillColor: '#29AB87',
-    }
-  );
+  editableMarkerSite: MapboxCircle;
   // _getEditHandleDefaultPaintOptions cambiar estilo
 
   // menus & modals
@@ -121,6 +110,18 @@ export class MapBoxComponent implements OnInit {
     // Show menu
     this.showAdvertisementMarkerMenu = true;
     // Add marker announce to the map
+    this.editableMarkerSite = new MapboxCircle(
+      { lat: this.lat, lng: this.lng },
+      this.radius,
+      {
+        editable: true,
+        minRadius: 100,
+        maxRadius: 5000,
+        strokeWeight: 1,
+        strokeOpacity: 0.85,
+        fillColor: '#29AB87',
+      }
+    );
     this.editableMarkerSite.addTo(this.map);
     // If radius changes, set property to template
     this.editableMarkerSite.on('radiuschanged', circleObj => {
