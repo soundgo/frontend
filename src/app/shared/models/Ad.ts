@@ -2,9 +2,9 @@ import {Record} from './Record';
 
 export class Ad extends Record {
 
-    id?:number;
-    radius: number;
-    maxPriceToPay: number;
+    id?: number;
+    radius?: number;
+    maxPriceToPay?: number;
 
     isActive?: boolean;
     isDelete?: boolean;

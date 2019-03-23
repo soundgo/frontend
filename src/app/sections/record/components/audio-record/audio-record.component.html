@@ -1,0 +1,9 @@
+<div *ngIf="!isRecorded" (click)="stopRecord()" [class.siriWave]="isRecording" #siri></div>
+<ng-template [ngIf]="!isRecording && !isRecorded">
+    <div class="container" [class.ad]="isAd">
+        <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
+            <div class="icon"></div>
+            <p>{{ 'Tap to record' | translate }}</p>
+        </div>
+    </div>
+</ng-template>
