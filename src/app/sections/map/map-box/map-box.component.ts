@@ -6,6 +6,7 @@ import {
     MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material';
 import {MapService} from '../../../services/map.service';
+import {ContextService} from '../../../services/context.service';
 
 @Component({
     selector: 'app-map-box',
@@ -31,7 +32,7 @@ export class MapBoxComponent implements OnInit {
     // menus & modals
     source: any;
 
-    constructor(protected bottomSheet: MatBottomSheet) {
+    constructor(private context: ContextService, private bottomSheet: MatBottomSheet) {
     }
 
     ngOnInit() {
@@ -67,10 +68,12 @@ export class MapBoxComponent implements OnInit {
             center: [this.lng, this.lat],
         });
 
+        this.context.setMap(this.map);
+
         // Add button to know your position
         this.map.addControl(new mapboxgl.NavigationControl());
 
-        //Track control of user
+        // Track control of user
         const geolocateUser = new mapboxgl.GeolocateControl({
             positionOptions: {
                 enableHighAccuracy: true,
@@ -79,7 +82,7 @@ export class MapBoxComponent implements OnInit {
         });
         this.map.addControl(geolocateUser);
 
-        //Trigger geolocation
+        // Trigger geolocation
         this.map.on('load', () => {
             geolocateUser.trigger();
         });
@@ -111,7 +114,7 @@ export class MapBoxComponent implements OnInit {
     templateUrl: 'site-panel-sheet.html',
 })
 export class SitePanelSheet implements OnInit {
-    loading: boolean = false;
+    loading = false;
     audios: any;
 
     constructor(

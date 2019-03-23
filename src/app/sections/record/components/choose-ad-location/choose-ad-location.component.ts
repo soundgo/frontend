@@ -2,31 +2,37 @@ import {Component, OnInit} from '@angular/core';
 
 import {MapBoxComponent} from '../../../map/map-box/map-box.component';
 import {MatBottomSheet} from '@angular/material';
-
+import * as mapboxgl from 'mapbox-gl';
 
 import * as MapboxCircle from 'mapbox-gl-circle';
+import {ContextService} from '../../../../services/context.service';
 
 @Component({
     selector: 'app-choose-ad-location',
     templateUrl: './choose-ad-location.component.html',
     styleUrls: ['./choose-ad-location.component.scss'],
 })
-export class ChooseAdLocationComponent extends MapBoxComponent implements OnInit {
+export class ChooseAdLocationComponent implements OnInit {
 
     radius = 500;
     showAdvertisementMarkerMenu = false;
     editableMarkerSite: MapboxCircle;
+    map: mapboxgl.Map;
 
-    constructor(protected bottomSheet: MatBottomSheet) {
-        super(bottomSheet);
-        this.showAdLocationPicker();
+    lat = 37.358;
+    lng = -5.987;
+
+    constructor(private context: ContextService) {
+        this.map = this.context.getMap().getValue();
     }
 
     ngOnInit() {
+        this.showAdLocationPicker();
     }
 
     // Function to create announcement and place it
     showAdLocationPicker() {
+
         // Show menu
         this.showAdvertisementMarkerMenu = true;
 

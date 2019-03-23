@@ -12,8 +12,17 @@ export class ContextService {
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
     adEntity = new BehaviorSubject<Ad>(new Ad());
+    map = new BehaviorSubject<any>(null);
 
     constructor() {
+    }
+
+    getMap() {
+        return this.map;
+    }
+
+    setMap(map: any) {
+        this.map.next(map);
     }
 
     getError(): Observable<Error> {
