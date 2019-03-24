@@ -4,8 +4,9 @@ import {MapBoxComponent} from '../../../map/map-box/map-box.component';
 import {MatBottomSheet} from '@angular/material';
 import * as mapboxgl from 'mapbox-gl';
 
-import * as MapboxCircle from 'mapbox-gl-circle';
+import * as MapboxCircle from '../../../../../assets/js/mapbox-gl-circle/lib/main.js';
 import {ContextService} from '../../../../services/context.service';
+
 
 @Component({
     selector: 'app-choose-ad-location',
@@ -41,9 +42,10 @@ export class ChooseAdLocationComponent implements OnInit {
                 editable: true,
                 minRadius: 100,
                 maxRadius: 5000,
-                strokeWeight: 1,
+                strokeWeight: 2,
                 strokeOpacity: 0.85,
                 fillColor: '#29AB87',
+                refineStroke: true
             }
         );
         this.editableMarkerSite.addTo(this.map);

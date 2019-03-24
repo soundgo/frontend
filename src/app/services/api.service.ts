@@ -32,7 +32,7 @@ const httpAdvertiserOptions = {
 })
 export class ApiService {
 
-    private apiUrl = 'https://soundgo-api-v1.herokuapp.com/';
+    private apiUrl = 'https://soundgo-api-v1.herokuapp.com';
 
     constructor(private http: HttpClient, private contextService: ContextService) {
     }
@@ -51,11 +51,14 @@ export class ApiService {
     }
 
     /** POST: Create an audio in the map */
-    createAudio(audio: Audio): Observable<Audio> {
-        const url = `${this.apiUrl}/audio`;
-        return this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    createAudio(audio: Audio) {
+        const url = `${this.apiUrl}/records/audio`;
+        debugger;
+        this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).subscribe(response => {
+            console.log(response);
+        }, err => {
+            console.log(err);
+        });
     }
 
     /** PUT: Update an audio */
