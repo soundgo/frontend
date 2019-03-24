@@ -1,0 +1,15 @@
+<div class="header">
+    <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
+    <app-site-record [siteId]="data.properties.id" (click)="closeSitePanel()"></app-site-record>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-nav-list *ngIf="!loading && audios.length === 0">
+    <mat-list-item>
+        <span mat-line>{{ 'There\'s no audios to listen' | translate }}</span>
+    </mat-list-item>
+</mat-nav-list>
+<mat-nav-list *ngIf="!loading && audios.length !== 0">
+    <mat-list-item *ngFor="let audio of audios">
+        <span mat-line>Audio 1</span>
+    </mat-list-item>
+</mat-nav-list>

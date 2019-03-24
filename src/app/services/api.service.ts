@@ -52,7 +52,7 @@ export class ApiService {
     }
 
     /** POST: Create an audio in the map */
-    createAudio(audio: Audio) {
+    createAudio(audio: any) {
         const url = `${this.apiUrl}/records/audio/`;
         return new Promise(resolve => {
             this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).subscribe(response => {

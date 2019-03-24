@@ -1,8 +1,9 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
 import {MatDialog} from '@angular/material';
 import {AudioRecordComponent} from '../audio-record/audio-record.component';
+import {ApiService} from '../../../../services/api.service';
 
 @Component({
     selector: 'app-site-record',
@@ -11,6 +12,8 @@ import {AudioRecordComponent} from '../audio-record/audio-record.component';
 })
 export class SiteRecordComponent extends AudioRecordComponent implements OnInit {
 
+    @Input() siteId: number;
+
     @HostListener('click')
     click() {
         this.context.setIsRecording(true);
@@ -18,9 +21,11 @@ export class SiteRecordComponent extends AudioRecordComponent implements OnInit 
 
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
-                protected dialog: MatDialog
+                protected dialog: MatDialog,
+                protected api: ApiService,
     ) {
-        super(audioRecord, context, dialog);
+        super(audioRecord, context, dialog, api);
+        this.isSite = true;
     }
 
     ngOnInit() {
