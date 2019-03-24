@@ -37,7 +37,7 @@ export class ChooseAdLocationComponent implements OnInit {
 
         const adEntity = this.context.getAdEntity().getValue();
         const currentPosition = this.context.getPosition().getValue();
-        
+
         if (!adEntity.latitude) {
             adEntity.latitude = currentPosition.latitude;
             adEntity.longitude = currentPosition.longitude;
@@ -92,4 +92,5 @@ export class ChooseAdLocationComponent implements OnInit {
         });
 
     }
+
 }

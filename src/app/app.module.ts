@@ -8,13 +8,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { SitePanelSheetComponent } from './sections/map/site-panel-sheet/site-panel-sheet.component';
-
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MapBoxComponent } from './sections/map/map-box/map-box.component';
+import { MapModule } from './sections/map/map.module';
 import { RecordModule } from './sections/record/record.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -22,8 +20,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, MapBoxComponent, SitePanelSheetComponent],
-  entryComponents: [SitePanelSheetComponent], // inside we put the modalComponent
+  declarations: [AppComponent],
+  entryComponents: [], // inside we put the modalComponent
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,6 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     MaterialModule,
     RecordModule,
+    MapModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
