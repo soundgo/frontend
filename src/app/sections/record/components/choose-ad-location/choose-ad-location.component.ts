@@ -34,7 +34,7 @@ export class ChooseAdLocationComponent implements OnInit {
     this.showAdvertisementMarkerMenu = true;
 
     const adEntity = this.context.getAdEntity().getValue();
-
+    console.log(adEntity);
     // Add marker announce to the map
     this.editableMarkerSite = new MapboxCircle(
       { lat: adEntity.latitude, lng: adEntity.longitude },
