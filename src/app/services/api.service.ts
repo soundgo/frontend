@@ -42,12 +42,13 @@ export class ApiService {
     //////////////////////////////////////////////////////////////////////
 
     /** GET: Give one audio with all its properties */
-    getAudioById(id: number): Observable<Audio> {
-        const url = `${this.apiUrl}/audio/${id}`;
-
-        return this.http.get<Audio>(url).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    getAudioById(id: number){
+        const url = `${this.apiUrl}/records/audio/${id}/`;
+        return new Promise(resolve => {
+            this.http.get<Audio>(url).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** POST: Create an audio in the map */
@@ -61,49 +62,54 @@ export class ApiService {
     }
 
     /** PUT: Update an audio */
-    updateAudio(audio: Audio): Observable<any> {
-        const url = `${this.apiUrl}/audio/${audio.id}`;
-
-        return this.http.put(url, audio.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    updateAudio(audio: Audio){
+        const url = `${this.apiUrl}/records/audio/${audio.id}/`;
+        return new Promise(resolve => {
+            this.http.put<Audio>(url, audio.toJSON(), httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** DELETE: Delete an audio */
-    deleteAudio(audio: Audio | number): Observable<Audio> {
+    deleteAudio(audio: Audio | number) {
         const id = typeof audio === 'number' ? audio : audio.id;
-        const url = `${this.apiUrl}/audio/${id}`;
-
-        return this.http.delete<Audio>(url, httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+        const url = `${this.apiUrl}/records/audio/${id}/`;
+        return new Promise(resolve => {
+            this.http.delete<Audio>(url, httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** GET: Give all audios of a site with all its properties */
-    getSiteAudios(id: number): Observable<Audio[]> {
-        const url = `${this.apiUrl}/audios/site/${id}`;
-
-        return this.http.get<Audio[]>(url).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    getSiteAudios(id: number) {
+        const url = `${this.apiUrl}/records/audios/site/${id}/`;
+        return new Promise(resolve => {
+            this.http.get<Audio>(url).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** POST: Create an audio in a site */
-    createSiteAudio(audio: Audio, id: number): Observable<Audio> {
-        const url = `${this.apiUrl}/audio/site/${id}`;
-
-        return this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    createSiteAudio(audio: Audio, id: number) {
+        const url = `${this.apiUrl}/records/audio/site/${id}/`;
+        return new Promise(resolve => {
+            this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** GET: Find all reported audios */
-    getReportedAudios(id: number): Observable<Audio[]> {
-        const url = `${this.apiUrl}/audios/reported`;
-
-        return this.http.get<Audio[]>(url).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    getReportedAudios(id: number) {
+        const url = `${this.apiUrl}/records/audios/reported/`;
+        return new Promise(resolve => {
+            this.http.get<Audio>(url).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -111,30 +117,33 @@ export class ApiService {
     /////////////////////////////////////////////////////////////////////////////
 
     /** GET: Give one advertisement */
-    getAdById(id: number): Observable<Ad> {
-        const url = `${this.apiUrl}/advertisement/${id}`;
-
-        return this.http.get<Ad>(url).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    getAdById(id: number) {
+        const url = `${this.apiUrl}/records/advertisement/${id}/`;
+        return new Promise(resolve => {
+            this.http.get<Ad>(url).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** POST: Create an advertisement in the map */
-    createAd(ad: Ad): Observable<Ad> {
-        const url = `${this.apiUrl}/advertisement`;
-
-        return this.http.post<Ad>(url, ad.toJSON(), httpAdvertiserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    createAd(ad: Ad) {
+        const url = `${this.apiUrl}/records/advertisement/`;
+        return new Promise(resolve => {
+            this.http.post<Ad>(url, ad.toJSON(), httpAdvertiserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** PUT: Update an advertisement and it is “deleted” */
-    updateAd(ad: Ad): Observable<any> {
-        const url = `${this.apiUrl}/advertisment/${ad.id}`;
-
-        return this.http.put(url, ad.toJSON(), httpAdvertiserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    updateAd(ad: Ad) {
+        const url = `${this.apiUrl}/records/advertisment/${ad.id}/`;
+        return new Promise(resolve => {
+            this.http.put<Ad>(url, ad.toJSON(), httpAdvertiserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -142,12 +151,13 @@ export class ApiService {
     ///////////////////////////////////////////////////////////////////////
 
     /** PUT: Update the max time and min duration */
-    updateCategory(cat: Category): Observable<any> {
-        const url = `${this.apiUrl}/category/${cat.id}`;
-
-        return this.http.put(url, cat.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    updateCategory(cat: Category) {
+        const url = `${this.apiUrl}/category/${cat.id}/`;
+        return new Promise(resolve => {
+            this.http.put<Category>(url, cat.toJSON(), httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -155,40 +165,44 @@ export class ApiService {
     ////////////////////////////////////////////////////////////////////
 
     /** GET: Get a site */
-    getSiteById(id: number): Observable<Site> {
-        const url = `${this.apiUrl}/site/${id}`;
-
-        return this.http.get<Site>(url).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    getSiteById(id: number){
+        const url = `${this.apiUrl}/sites/site/${id}/`;
+        return new Promise(resolve => {
+            this.http.get<Site>(url).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** POST: Create a site */
-    createSite(site: Site): Observable<Site> {
-        const url = `${this.apiUrl}/advertisment/${site.id}`;
-
-        return this.http.post<Site>(url, site.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    createSite(site: Site) {
+        const url = `${this.apiUrl}/sites/site/`;
+        return new Promise(resolve => {
+            this.http.post<Site>(url, site.toJSON(), httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** PUT: Update a site */
-    updateSite(site: Site): Observable<any> {
-        const url = `${this.apiUrl}/site`;
-
-        return this.http.put(url, site.toJSON(), httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+    updateSite(site: Site) {
+        const url = `${this.apiUrl}/sites/site/${site.id}/`;
+        return new Promise(resolve => {
+            this.http.put<Site>(url, site.toJSON(), httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
     /** DELETE: Delete a site */
-    deleteSite(site: Site | number): Observable<Site> {
+    deleteSite(site: Site | number) {
         const id = typeof site === 'number' ? site : site.id;
-        const url = `${this.apiUrl}/site/${site}`;
-
-        return this.http.delete<Site>(url, httpUserOptions).pipe(
-            catchError(err => this.handleError<any>(err))
-        );
+        const url = `${this.apiUrl}/sites/site/${site}/`;
+        return new Promise(resolve => {
+            this.http.delete<Site>(url, httpUserOptions).subscribe(response => {
+                resolve(response);
+            }, err => this.handleError(err));
+        });
     }
 
 
