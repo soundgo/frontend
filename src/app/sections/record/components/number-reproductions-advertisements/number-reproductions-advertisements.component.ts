@@ -8,7 +8,7 @@ import {MatDialogRef} from '@angular/material';
 @Component({
     selector: 'app-number-reproductions-advertisements',
     templateUrl: './number-reproductions-advertisements.component.html',
-    styleUrls: ['./number-reproductions-advertisements.component.sass']
+    styleUrls: ['./number-reproductions-advertisements.component.scss']
 })
 export class NumberReproductionsAdvertisementsComponent implements OnInit {
     duration: number;
