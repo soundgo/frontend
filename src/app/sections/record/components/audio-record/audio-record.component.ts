@@ -4,8 +4,8 @@ import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
 import {Audio} from '../../../../shared/models/Audio';
 import {MatDialog} from '@angular/material';
-import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-audio-record',
@@ -20,11 +20,18 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
     entity: Audio;
 
+    subscription: Subscription = new Subscription();
+
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
                 protected dialog: MatDialog
     ) {
         super(audioRecord);
+        this.subscription = this.context.getIsRecording().subscribe(isRecording => {
+            if (isRecording) {
+                this.startRecord();
+            }
+        });
     }
 
     ngOnInit() {
@@ -61,6 +68,8 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
         this.dialog.open(ChooseAudioCategoryComponent, {
             width: '90%',
             height: '40%',
+        }).afterClosed().subscribe((result?: boolean) => {
+            this.isRecorded = false;
         });
 
     }

@@ -14,13 +14,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {
     ChooseAdLocationComponent
 } from './components/choose-ad-location/choose-ad-location.component';
+import { SiteRecordComponent } from './components/site-record/site-record.component';
 
 const components = [
     AudioRecordComponent,
     AdRecordComponent,
     ChooseAudioCategoryComponent,
     ChooseAudioAdvertisementComponent,
-    ChooseAdLocationComponent
+    ChooseAdLocationComponent,
+    SiteRecordComponent
 ];
 
 @NgModule({

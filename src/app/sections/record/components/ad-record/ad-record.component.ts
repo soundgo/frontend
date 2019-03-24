@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-ad-record',
@@ -20,11 +21,18 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
     entity: Ad;
     isAd = true;
 
+    subscription: Subscription = new Subscription();
+
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
                 protected dialog: MatDialog
     ) {
         super(audioRecord);
+        this.subscription = this.context.getIsRecording().subscribe(isRecording => {
+            if (isRecording) {
+                this.startRecord();
+            }
+        });
     }
 
     ngOnInit() {
@@ -39,7 +47,7 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
         this.siriWave = new SiriWave({
             container: this.el.first.nativeElement,
             style: 'ios9',
-            width: document.body.offsetWidth - 100,
+            width: document.body.offsetWidth - (document.body.offsetWidth * 0.4),
             height: 150,
             autostart: true
         });
@@ -57,6 +65,8 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
         this.context.setAdEntity(this.entity);
 
         this.siriWave.stop();
+
+        this.context.setIsRecording(false);
 
         this.dialog.open(ChooseAudioAdvertisementComponent, {
             width: '50%',

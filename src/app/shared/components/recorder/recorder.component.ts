@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SecurityContext} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, SecurityContext} from '@angular/core';
 import {AudioRecordService} from '../../../services/audio-record.service';
 import {Subscription} from 'rxjs';
 import {Ad} from '../../models/Ad';

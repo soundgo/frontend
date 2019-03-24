@@ -79,7 +79,7 @@ export class MapBoxComponent implements OnInit {
         this.map.on('click', event => {
             // Get point click and check if is a marker
             const features = this.map.queryRenderedFeatures(event.point, {
-                layers: ['audios'],
+                layers: ['Sites'],
             });
             // If not is a marker return
             if (!features.length) {
@@ -115,6 +115,10 @@ export class SitePanelSheet implements OnInit {
     }
 
     getAudiosFromSite(id): void {
+    }
+
+    closeSitePanel() {
+        this.bottomSheetRef.dismiss();
     }
 
     openLink(event: MouseEvent): void {
