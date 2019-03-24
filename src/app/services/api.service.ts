@@ -129,6 +129,7 @@ export class ApiService {
     /** POST: Create an advertisement in the map */
     createAd(ad: Ad) {
         const url = `${this.apiUrl}/records/advertisement/`;
+        debugger;
         return new Promise(resolve => {
             this.http.post<Ad>(url, ad.toJSON(), httpAdvertiserOptions).subscribe(response => {
                 resolve(response);
