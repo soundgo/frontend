@@ -7,6 +7,7 @@ import {
 } from '@angular/material';
 import {MapService} from '../../../services/map.service';
 import {ContextService} from '../../../services/context.service';
+import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
 
 @Component({
     selector: 'app-map-box',
@@ -18,7 +19,7 @@ export class MapBoxComponent implements OnInit {
 
     map: mapboxgl.Map;
     style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
-    container: string = 'map';
+    container = 'map';
 
     constructor(
         private context: ContextService,
@@ -32,7 +33,7 @@ export class MapBoxComponent implements OnInit {
 
     // Dialog
     openSiteSheet(properties): void {
-        this.bottomSheet.open(SitePanelSheet, {
+        this.bottomSheet.open(SitePanelSheetComponent, {
             data: {properties},
         });
     }
@@ -48,7 +49,7 @@ export class MapBoxComponent implements OnInit {
             'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
         const coords = this.context.getPosition().getValue();
         this.map = new mapboxgl.Map({
-            container: this.container,
+            container: this.container as string,
             style: this.style,
             zoom: 13,
             center: [
@@ -95,35 +96,5 @@ export class MapBoxComponent implements OnInit {
                 this.openSiteSheet(feature.properties);
             }
         });
-    }
-}
-
-@Component({
-    selector: 'site-panel-sheet',
-    templateUrl: 'site-panel-sheet.html',
-})
-export class SitePanelSheet implements OnInit {
-    loading = false;
-    audios: any;
-
-    constructor(
-        private bottomSheetRef: MatBottomSheetRef<SitePanelSheet>,
-        @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
-    ) {
-    }
-
-    ngOnInit() {
-    }
-
-    getAudiosFromSite(id): void {
-    }
-
-    closeSitePanel() {
-        this.bottomSheetRef.dismiss();
-    }
-
-    openLink(event: MouseEvent): void {
-        this.bottomSheetRef.dismiss();
-        event.preventDefault();
     }
 }

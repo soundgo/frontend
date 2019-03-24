@@ -6,6 +6,10 @@ import {Ad} from '../../../../shared/models/Ad';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {Subscription} from 'rxjs';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
+import {Audio} from '../../../../shared/models/Audio';
+import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {ApiService} from '../../../../services/api.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-ad-record',
@@ -24,7 +28,9 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
 
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
-                protected dialog: MatDialog
+                protected dialog: MatDialog,
+                private api: ApiService,
+                private router: Router
     ) {
         super(audioRecord);
         this.subscription = this.context.getIsRecording().subscribe(isRecording => {
@@ -57,15 +63,30 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
 
         this.entity.base64 = await super.stopRecording();
 
-        this.context.setAdEntity(this.entity);
-
         this.siriWave.stop();
 
         this.context.setIsRecording(false);
 
         this.dialog.open(ChooseAudioAdvertisementComponent, {
             width: '350px',
-        });
+        }).afterClosed().subscribe((result?: boolean) => {
 
+            const recordType = this.context.getRecordType().getValue();
+            if (recordType === 'ad') {
+                this.context.setAdEntity(this.entity);
+                this.router.navigate(['/ad/locate-ad']);
+            } else {
+
+                this.dialog.open(ChooseAudioCategoryComponent, {
+                    width: '350px',
+                }).afterClosed().subscribe(_ => {
+                    this.api.createAudio(this.context.getAudioEntity().getValue()).then(response => {
+                        console.log('createAudio:', response);
+                    });
+                    this.isRecorded = false;
+                });
+
+            }
+        });
     }
 }

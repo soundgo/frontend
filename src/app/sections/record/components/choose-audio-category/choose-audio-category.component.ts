@@ -32,9 +32,6 @@ export class ChooseAudioCategoryComponent implements OnInit {
         const entity = this.context.getAudioEntity().getValue();
         entity.category = this.categorySelected;
         this.context.setAudioEntity(entity);
-        this.api.createAudio(entity).then(response => {
-            console.log('createAudio:', response);
-        });
         this.dialogRef.close();
     }
 

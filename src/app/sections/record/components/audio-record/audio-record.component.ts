@@ -6,6 +6,7 @@ import {Audio} from '../../../../shared/models/Audio';
 import {MatDialog} from '@angular/material';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 import {Subscription} from 'rxjs';
+import {ApiService} from '../../../../services/api.service';
 
 @Component({
     selector: 'app-audio-record',
@@ -21,9 +22,12 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
     subscription: Subscription = new Subscription();
 
+    isSite = false;
+
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService,
-                protected dialog: MatDialog
+                protected dialog: MatDialog,
+                protected api: ApiService
     ) {
         super(audioRecord);
         this.subscription = this.context.getIsRecording().subscribe(isRecording => {
@@ -62,13 +66,14 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
         this.context.setAudioEntity(this.entity);
 
-        this.context.setAudioEntity(this.entity);
-
         this.siriWave.stop();
 
         this.dialog.open(ChooseAudioCategoryComponent, {
             width: '350px',
         }).afterClosed().subscribe((result?: boolean) => {
+            this.api.createAudio(this.context.getAudioEntity().getValue()).then(response => {
+                console.log('createAudio:', response);
+            });
             this.isRecorded = false;
         });
 

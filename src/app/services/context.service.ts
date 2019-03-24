@@ -14,8 +14,17 @@ export class ContextService {
     map = new BehaviorSubject<any>(null);
     position = new BehaviorSubject<{ latitude: number, longitude: number }>(null);
     isRecording = new BehaviorSubject<boolean>(false);
+    recordType = new BehaviorSubject<string>(null);
 
     constructor() {
+    }
+
+    getRecordType() {
+        return this.recordType;
+    }
+
+    setRecordType(recordType: string) {
+        this.recordType.next(recordType);
     }
 
     getIsRecording(): Observable<boolean> {
@@ -69,7 +78,7 @@ export class ContextService {
         return this.audioEntity;
     }
 
-    setAudioEntity(audio: Audio) {
+    setAudioEntity(audio: any) {
         this.audioEntity.next(audio);
     }
 

@@ -7,6 +7,18 @@ import {MaterialModule} from './material.module';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+import {
+    MapBoxComponent
+} from './sections/map/map-box/map-box.component';
+
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {SharedModule} from './shared/shared.module';
+
+import {RecordModule} from './sections/record/record.module';
+import {SitePanelSheetComponent} from './sections/map/site-panel-sheet/site-panel-sheet.component';
+
 import {NumberReproductionsAdvertisementsComponent} from './shared/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 
 import {FormsModule} from '@angular/forms';
@@ -21,8 +33,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-    declarations: [AppComponent, MapBoxComponent, SitePanelSheet, NumberReproductionsAdvertisementsComponent],
-    entryComponents: [SitePanelSheet], // inside we put the modalComponent
+    declarations: [AppComponent, MapBoxComponent, SitePanelSheetComponent, NumberReproductionsAdvertisementsComponent],
+    entryComponents: [SitePanelSheetComponent], // inside we put the modalComponent
     imports: [
         BrowserModule,
         AppRoutingModule,
