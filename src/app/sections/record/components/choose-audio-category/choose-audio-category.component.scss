@@ -1,0 +1,36 @@
+@import '../../../../../css/theme.scss';
+
+.tourismButton {
+  background: #f24440;
+  color: #fff;
+}
+
+.experienceButton {
+  background: #f57828;
+  color: #fff;
+}
+
+.leisureButton {
+  background: #04b289;
+  color: #fff;
+}
+.advertButton {
+  background: $yellow;
+  color: #fff;
+}
+.audioButton {
+  background: $purple;
+  color: #fff;
+}
+.saveButton {
+  color: $purple;
+}
+.mat-dialog-content {
+  margin: 10px -5px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.mat-dialog-actions {
+  justify-content: center;
+}

@@ -1,0 +1,28 @@
+@import '../../../../../css/theme.scss';
+
+#map-container {
+  position: absolute;
+  bottom: 100px;
+  right: 0;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.3);
+  height: 150px;
+  width: 100%;
+  text-align: center;
+}
+#map-container p {
+  margin-top: 40px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $purple;
+}
+#map-container p em {
+  font-weight: 600;
+  color: rgb(54, 4, 38);
+}
+#basic-container button {
+  margin-top: 30px;
+  font-size: 1.2rem;
+  background: $blue;
+  color: #fff;
+}

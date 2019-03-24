@@ -1,24 +1,64 @@
-interface IAudio {
-    id: string;
-    name: string;
-}
+import {Record} from './Record';
+import {Tag} from './Tag';
+import {Site} from './Site';
+import {TagContentType} from '@angular/compiler';
 
-export class Audio implements IAudio {
+export const AUDIO_CATEGORIES = {
+    TOURISM: 'Tourism',
+    EXPERIENCES: 'Experiences',
+    LEISURE: 'Leisure'
+};
 
-    id: string;
-    name: string;
+export class Audio extends Record {
+
+    category?: string;
+    isInappropriate?: boolean;
+    timestampCreation?: Date;
+    timestampFinish?: Date;
+    site?: Site;
+    tags?: Tag[];
 
     constructor(data: any = {}) {
-        this.id = data.id || 0;
-        this.name = data.name || null;
+        super(data);
+        this.category = data.category || null;
+        this.isInappropriate = data.isInappropriate || null;
+        this.timestampCreation = data.timestampCreation || null;
+        this.timestampFinish = data.timestampFinish || null;
+        if (data.site) {
+            this.site = new Site(data.site);
+        } else {
+            this.site = null;
+        }
+        if (data.tags) {
+            this.tags = [];
+            data.tags.forEach(tag => {
+                this.tags.push(new Tag(tag));
+            });
+        } else {
+            this.tags = null;
+        }
     }
 
     toJSON() {
-        return {
-            id: this.id,
-            name: this.name
+        const res = {
+            ...super.toJSON(),
+            category: this.category,
+            isInappropriate: this.isInappropriate,
+            timestampCreation: this.timestampCreation,
+            timestampFinish: this.timestampFinish
         };
 
+        if (this.site) {
+            res['site'] = this.site.toJSON();
+        }
+
+        if (this.tags) {
+            res['tags'] = this.tags.map(tag => tag.toJSON());
+        }
+
+        Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);
+
+        return res;
     }
 
 }

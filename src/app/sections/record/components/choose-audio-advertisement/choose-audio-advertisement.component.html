@@ -1,0 +1,16 @@
+<div class="modal-choose-advertisement">
+  <h1 mat-dialog-title>It's an...</h1>
+  <div mat-dialog-content>
+    <button mat-raised-button class="audioButton" (click)="clickAudio()">
+      {{ 'audio' | translate }}
+    </button>
+    <button mat-raised-button class="advertButton" (click)="clickAdvert()">
+      {{ 'advert' | translate }}
+    </button>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button color="warn" (click)="onClose()">
+      Close
+    </button>
+  </mat-dialog-actions>
+</div>
