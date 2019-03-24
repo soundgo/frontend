@@ -11,7 +11,7 @@ import {ApiService} from '../../../../services/api.service';
 })
 export class ChooseAudioCategoryComponent implements OnInit {
 
-    categorySelected: number;
+    categorySelected: string;
 
     constructor(private context: ContextService, private api: ApiService, public dialogRef: MatDialogRef<ChooseAudioCategoryComponent>) {
     }
