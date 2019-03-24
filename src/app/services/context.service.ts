@@ -12,9 +12,18 @@ export class ContextService {
     audioEntity = new BehaviorSubject<Audio>(new Audio());
     adEntity = new BehaviorSubject<Ad>(new Ad());
     map = new BehaviorSubject<any>(null);
-    position = new BehaviorSubject<{latitude: number, longitude: number}>(null);
+    position = new BehaviorSubject<{ latitude: number, longitude: number }>(null);
+    isRecording = new BehaviorSubject<boolean>(false);
 
     constructor() {
+    }
+
+    getIsRecording(): Observable<boolean> {
+        return this.isRecording.asObservable();
+    }
+
+    setIsRecording(value: boolean) {
+        this.isRecording.next(value);
     }
 
     getPosition() {

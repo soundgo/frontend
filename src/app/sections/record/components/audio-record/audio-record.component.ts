@@ -1,64 +1,76 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
-import { RecorderComponent } from '../../../../shared/components/recorder/recorder.component';
-import { AudioRecordService } from '../../../../services/audio-record.service';
-import { ContextService } from '../../../../services/context.service';
-import { Audio } from '../../../../shared/models/Audio';
-import { MatDialog } from '@angular/material';
-import { ChooseAudioAdvertisementComponent } from '../choose-audio-advertisement/choose-audio-advertisement.component';
-import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-audio-category.component';
+import {Component, OnInit, ViewChildren} from '@angular/core';
+import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
+import {AudioRecordService} from '../../../../services/audio-record.service';
+import {ContextService} from '../../../../services/context.service';
+import {Audio} from '../../../../shared/models/Audio';
+import {MatDialog} from '@angular/material';
+import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-audio-record',
-  templateUrl: './audio-record.component.html',
-  styleUrls: ['./audio-record.component.scss'],
+    selector: 'app-audio-record',
+    templateUrl: './audio-record.component.html',
+    styleUrls: ['./audio-record.component.scss']
 })
 export class AudioRecordComponent extends RecorderComponent implements OnInit {
-  @ViewChildren('siri') el: any;
+    @ViewChildren('siri') el: any;
 
-  siriWave: any;
+    siriWave: any;
 
-  entity: Audio;
+    entity: Audio;
 
-  constructor(
-    protected audioRecord: AudioRecordService,
-    protected context: ContextService,
-    protected dialog: MatDialog
-  ) {
-    super(audioRecord);
-  }
+    subscription: Subscription = new Subscription();
 
-  ngOnInit() {}
+    constructor(protected audioRecord: AudioRecordService,
+                protected context: ContextService,
+                protected dialog: MatDialog
+    ) {
+        super(audioRecord);
+        this.subscription = this.context.getIsRecording().subscribe(isRecording => {
+            if (isRecording) {
+                this.startRecord();
+            }
+        });
+    }
 
-  startRecord() {
-    this.entity = new Audio();
+    ngOnInit() {
+    }
 
-    super.startRecording();
+    startRecord() {
+        this.entity = new Audio();
 
-    // @ts-ignore
-    this.siriWave = new SiriWave({
-      container: this.el.first.nativeElement,
-      style: 'ios9',
-      width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
-      height: 150,
-      autostart: true,
-    });
-  }
+        super.startRecording();
 
-  async stopRecord(): Promise<void> {
-    this.siriWave.setAmplitude(0);
+        // @ts-ignore
+        this.siriWave = new SiriWave({
+            container: this.el.first.nativeElement,
+            style: 'ios9',
+            width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
+            height: 150,
+            autostart: true,
+        });
+    }
 
-    this.entity.base64 = await super.stopRecording();
+    async stopRecord(): Promise<void> {
+        this.siriWave.setAmplitude(0);
 
-    const { latitude, longitude } = this.context.getPosition().getValue();
-    this.entity.latitude = latitude;
-    this.entity.longitude = longitude;
+        this.entity.base64 = await super.stopRecording();
 
-    this.context.setAudioEntity(this.entity);
+        const {latitude, longitude} = this.context.getPosition().getValue();
+        this.entity.latitude = latitude;
+        this.entity.longitude = longitude;
 
-    this.siriWave.stop();
+        this.context.setAudioEntity(this.entity);
 
-    this.dialog.open(ChooseAudioCategoryComponent, {
-      width: '350px',
-    });
-  }
+        this.context.setAudioEntity(this.entity);
+
+        this.siriWave.stop();
+
+        this.dialog.open(ChooseAudioCategoryComponent, {
+            width: '350px',
+        }).afterClosed().subscribe((result?: boolean) => {
+            this.isRecorded = false;
+        });
+
+    }
 }
