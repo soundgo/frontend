@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {Component, OnInit, ViewChildren} from '@angular/core';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {AudioRecordService} from '../../../../services/audio-record.service';
