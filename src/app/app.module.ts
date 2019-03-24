@@ -11,15 +11,13 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {
     MapBoxComponent
 } from './sections/map/map-box/map-box.component';
-
+NumberReproductionsAdvertisementsComponent
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 
 import {RecordModule} from './sections/record/record.module';
 import {SitePanelSheetComponent} from './sections/map/site-panel-sheet/site-panel-sheet.component';
-
-import {NumberReproductionsAdvertisementsComponent} from './shared/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 
 import {FormsModule} from '@angular/forms';
 import {SharedModule} from './shared/shared.module';
@@ -33,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-    declarations: [AppComponent, MapBoxComponent, SitePanelSheetComponent, NumberReproductionsAdvertisementsComponent],
+    declarations: [AppComponent, MapBoxComponent, SitePanelSheetComponent],
     entryComponents: [SitePanelSheetComponent], // inside we put the modalComponent
     imports: [
         BrowserModule,

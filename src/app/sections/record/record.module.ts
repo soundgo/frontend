@@ -14,6 +14,7 @@ import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ChooseAdLocationComponent} from './components/choose-ad-location/choose-ad-location.component';
 import {SiteRecordComponent} from './components/site-record/site-record.component';
+import {NumberReproductionsAdvertisementsComponent} from './components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 
 const components = [
     AudioRecordComponent,
@@ -21,7 +22,8 @@ const components = [
     ChooseAudioCategoryComponent,
     ChooseAudioAdvertisementComponent,
     ChooseAdLocationComponent,
-    SiteRecordComponent
+    SiteRecordComponent,
+    NumberReproductionsAdvertisementsComponent
 ];
 
 @NgModule({
