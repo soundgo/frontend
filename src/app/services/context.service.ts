@@ -1,92 +1,104 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Error} from '../shared/models/Error';
-import {Audio} from '../shared/models/Audio';
-import {Ad} from '../shared/models/Ad';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Error } from '../shared/models/Error';
+import { Audio } from '../shared/models/Audio';
+import { Ad } from '../shared/models/Ad';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class ContextService {
-    error = new BehaviorSubject<Error>(new Error());
-    audioEntity = new BehaviorSubject<Audio>(new Audio());
-    adEntity = new BehaviorSubject<Ad>(new Ad());
-    map = new BehaviorSubject<any>(null);
-    position = new BehaviorSubject<{ latitude: number, longitude: number }>(null);
-    isRecording = new BehaviorSubject<boolean>(false);
-    recordType = new BehaviorSubject<string>(null);
+  error = new BehaviorSubject<Error>(new Error());
+  audioEntity = new BehaviorSubject<Audio>(new Audio());
+  adEntity = new BehaviorSubject<Ad>(new Ad());
+  map = new BehaviorSubject<any>(null);
+  position = new BehaviorSubject<{ latitude: number; longitude: number }>(null);
+  isRecording = new BehaviorSubject<boolean>(false);
+  isAudioRecorded = new BehaviorSubject<boolean>(false);
+  recordType = new BehaviorSubject<string>(null);
 
-    constructor() {
-    }
+  constructor() {}
 
-    getRecordType() {
-        return this.recordType;
-    }
+  getRecordType() {
+    return this.recordType;
+  }
 
-    setRecordType(recordType: string) {
-        this.recordType.next(recordType);
-    }
+  setRecordType(recordType: string) {
+    this.recordType.next(recordType);
+  }
 
-    getIsRecording(): Observable<boolean> {
-        return this.isRecording.asObservable();
-    }
+  getIsAudioRecorded(): Observable<boolean> {
+    return this.isAudioRecorded.asObservable();
+  }
 
-    setIsRecording(value: boolean) {
-        this.isRecording.next(value);
-    }
+  setIsAudioRecorded(value: boolean) {
+    this.isAudioRecorded.next(value);
+  }
 
-    getPosition() {
-        return this.position;
-    }
+  getIsRecording(): Observable<boolean> {
+    return this.isRecording.asObservable();
+  }
 
-    startWatchPosition() {
-        navigator.geolocation.watchPosition(({coords}) => {
-            this.position.next(coords);
-        }, null, {
-            enableHighAccuracy: false,
-            timeout: 10000,
-            maximumAge: 0
-        });
-    }
+  setIsRecording(value: boolean) {
+    this.isRecording.next(value);
+  }
 
-    setCurrentLocation(entity) {
-        navigator.geolocation.getCurrentPosition(({coords}) => {
-            this[entity + 'Entity'].next({
-                ...this[entity + 'Entity'].getValue(),
-                ...coords
-            });
-        });
-    }
+  getPosition() {
+    return this.position;
+  }
 
-    getMap() {
-        return this.map;
-    }
+  startWatchPosition() {
+    navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        this.position.next(coords);
+      },
+      null,
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  }
 
-    setMap(map: any) {
-        this.map.next(map);
-    }
+  setCurrentLocation(entity) {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      this[entity + 'Entity'].next({
+        ...this[entity + 'Entity'].getValue(),
+        ...coords,
+      });
+    });
+  }
 
-    getError(): Observable<Error> {
-        return this.error.asObservable();
-    }
+  getMap() {
+    return this.map;
+  }
 
-    setError(error: Error) {
-        return this.error.next(error);
-    }
+  setMap(map: any) {
+    this.map.next(map);
+  }
 
-    getAudioEntity() {
-        return this.audioEntity;
-    }
+  getError(): Observable<Error> {
+    return this.error.asObservable();
+  }
 
-    setAudioEntity(audio: any) {
-        this.audioEntity.next(audio);
-    }
+  setError(error: Error) {
+    return this.error.next(error);
+  }
 
-    getAdEntity() {
-        return this.adEntity;
-    }
+  getAudioEntity() {
+    return this.audioEntity;
+  }
 
-    setAdEntity(ad: Ad) {
-        this.adEntity.next(ad);
-    }
+  setAudioEntity(audio: any) {
+    this.audioEntity.next(audio);
+  }
+
+  getAdEntity() {
+    return this.adEntity;
+  }
+
+  setAdEntity(ad: Ad) {
+    this.adEntity.next(ad);
+  }
 }
