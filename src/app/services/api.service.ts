@@ -53,7 +53,6 @@ export class ApiService {
     /** POST: Create an audio in the map */
     createAudio(audio: Audio): Observable<Audio> {
         const url = `${this.apiUrl}/audio`;
-        debugger;
         return this.http.post<Audio>(url, audio.toJSON(), httpUserOptions).pipe(
             catchError(err => this.handleError<any>(err))
         );

@@ -4,15 +4,15 @@ import {Site} from './Site';
 import {TagContentType} from '@angular/compiler';
 
 export const AUDIO_CATEGORIES = {
-    TOURISM: 1,
-    EXPERIENCES: 2,
-    LEISURE: 3
+    TOURISM: 'Tourism',
+    EXPERIENCES: 'Experiences',
+    LEISURE: 'Leisure'
 };
 
 export class Audio extends Record {
 
     id?: number;
-    category?: number;
+    category?: string;
     isInappropriate?: boolean;
     timestampCreation?: Date;
     timestampFinish?: Date;
