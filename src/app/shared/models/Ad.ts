@@ -18,11 +18,15 @@ export class Ad extends Record {
     }
 
     toJSON() {
-        return {
+        const res = {
             ...super.toJSON(),
             radius: this.radius,
             maxPriceToPay: this.maxPriceToPay
         };
+
+        Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);
+
+        return res;
     }
 
 }

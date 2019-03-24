@@ -1,7 +1,6 @@
 export class Tag {
 
     name: string;
-    
 
     constructor(data: any = {}) {
         this.name = data.name || null;
@@ -11,7 +10,5 @@ export class Tag {
         return {
             name: this.name
         };
-
     }
-
 }

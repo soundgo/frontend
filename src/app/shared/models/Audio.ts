@@ -11,7 +11,6 @@ export const AUDIO_CATEGORIES = {
 
 export class Audio extends Record {
 
-    id?: number;
     category?: string;
     isInappropriate?: boolean;
     timestampCreation?: Date;
@@ -22,7 +21,7 @@ export class Audio extends Record {
     constructor(data: any = {}) {
         super(data);
         this.category = data.category || null;
-        this.isInappropriate = data.isInappropriate || false;
+        this.isInappropriate = data.isInappropriate || null;
         this.timestampCreation = data.timestampCreation || null;
         this.timestampFinish = data.timestampFinish || null;
         if (data.site) {
@@ -56,6 +55,8 @@ export class Audio extends Record {
         if (this.tags) {
             res['tags'] = this.tags.map(tag => tag.toJSON());
         }
+
+        Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);
 
         return res;
     }

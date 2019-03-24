@@ -24,6 +24,8 @@ export class Category {
             res['id'] = this.id;
         }
 
+        Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);
+
         return res;
     }
 

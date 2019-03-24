@@ -1,5 +1,5 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 import {Router} from '@angular/router';
 
