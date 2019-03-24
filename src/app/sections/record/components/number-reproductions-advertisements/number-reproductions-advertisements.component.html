@@ -1,11 +1,13 @@
-<div>
-  <label>Max to Pay:
-    <input [(ngModel)]="maxToPay" placeholder="max to pay" />
-  </label>
+<div class="number-reproductions-advertisements">
+    <div mat-dialog-content>
+      <label>Max to Pay:
+        <input [(ngModel)]="maxToPay" placeholder="max to pay" />
+      </label>
+    </div>
+    <mat-dialog-actions> 
+      <button mat-raised-button class="calculatePrice" (click)="calculatePrice()"> Calculate </button>
+    </mat-dialog-actions>
+    <div *ngIf="maxToPay > 0">
+      <h1>{{maxNumberOfReproductions}} </h1>
+    <div>
 </div>
-
-<button (click)="calculatePrice()"> Calculate </button>
-
-<div *ngIf="maxToPay > 0">
-  <h1>{{maxNumberOfReproductions}} </h1>
-<div>
