@@ -1,0 +1,11 @@
+<div>
+  <label>Max to Pay:
+    <input [(ngModel)]="maxToPay" placeholder="max to pay" />
+  </label>
+</div>
+
+<button (click)="calculatePrice()"> Calculate </button>
+
+<div *ngIf="maxToPay > 0">
+  <h1>{{maxNumberOfReproductions}} </h1>
+<div>
