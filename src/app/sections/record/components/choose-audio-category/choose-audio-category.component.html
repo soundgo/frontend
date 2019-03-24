@@ -1,23 +1,32 @@
-<a color="warn" mat-button class="mat-button mat-warn" (click)="onClose()">
-    <span class="mat-button-wrapper">{{ 'Close' | translate }}</span>
-    <div class="mat-button-ripple mat-ripple" matripple=""></div>
-    <div class="mat-button-focus-overlay"></div>
-</a>
-<div id="title" mat-dialog-title><b>Choose Category</b></div>
-
-<main mat-dialog-content>
-    <div class="categories">
-        <button mat-flat-button class="mat-flat-button" [class.tourismButton]="isActive('TOURISM')"
-                (click)="selectCategory('TOURISM')">Tourism
-        </button>
-        <button mat-flat-button class="mat-flat-button" [class.experienceButton]="isActive('EXPERIENCE')"
-                (click)="selectCategory('EXPERIENCE')">
-            Experience
-        </button>
-        <button mat-flat-button class="mat-flat-button" [class.leisureButton]='isActive("LEISURE")'
-                (click)="selectCategory('LEISURE')">Leisure
-        </button>
-    </div>
-    <div class="line"></div>
-    <button mat-flat-button class="mat-flat-button purple" (click)="saveCategory()">Save</button>
-</main>
+<div class="modal-choose-category">
+  <h1 mat-dialog-title>Choose Category</h1>
+  <div mat-dialog-content>
+    <button
+      mat-flat-button
+      [class.tourismButton]="isActive('TOURISM')"
+      (click)="selectCategory('TOURISM')"
+    >
+      Tourism
+    </button>
+    <button
+      mat-flat-button
+      [class.experienceButton]="isActive('EXPERIENCE')"
+      (click)="selectCategory('EXPERIENCE')"
+    >
+      Experience
+    </button>
+    <button
+      mat-flat-button
+      [class.leisureButton]="isActive('LEISURE')"
+      (click)="selectCategory('LEISURE')"
+    >
+      Leisure
+    </button>
+  </div>
+  <mat-dialog-actions>
+    <button mat-button color="warn" (click)="onClose()">
+      Close
+    </button>
+    <button mat-button class="saveButton" (click)="saveCategory()">Save</button>
+  </mat-dialog-actions>
+</div>
