@@ -3,9 +3,9 @@ import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
-import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {Subscription} from 'rxjs';
+import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 
 @Component({
     selector: 'app-ad-record',
@@ -13,7 +13,6 @@ import {Subscription} from 'rxjs';
     styleUrls: ['../audio-record/audio-record.component.scss']
 })
 export class AdRecordComponent extends RecorderComponent implements OnInit {
-
     @ViewChildren('siri') el: any;
 
     siriWave: any;
@@ -58,10 +57,6 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
 
         this.entity.base64 = await super.stopRecording();
 
-        const {latitude, longitude} = this.context.getPosition().getValue();
-        this.entity.latitude = latitude;
-        this.entity.longitude = longitude;
-
         this.context.setAdEntity(this.entity);
 
         this.siriWave.stop();
@@ -69,9 +64,8 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
         this.context.setIsRecording(false);
 
         this.dialog.open(ChooseAudioAdvertisementComponent, {
-            width: '50%',
-            height: '40%',
+            width: '350px',
         });
-    }
 
+    }
 }

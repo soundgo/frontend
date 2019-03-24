@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Component, OnInit, ViewChildren} from '@angular/core';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {AudioRecordService} from '../../../../services/audio-record.service';
@@ -13,7 +14,6 @@ import {Subscription} from 'rxjs';
     styleUrls: ['./audio-record.component.scss']
 })
 export class AudioRecordComponent extends RecorderComponent implements OnInit {
-
     @ViewChildren('siri') el: any;
 
     siriWave: any;
@@ -46,9 +46,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
         this.siriWave = new SiriWave({
             container: this.el.first.nativeElement,
             style: 'ios9',
-            width: document.body.offsetWidth - (document.body.offsetWidth * 0.4),
+            width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
             height: 150,
-            autostart: true
+            autostart: true,
         });
     }
 
@@ -63,15 +63,15 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
 
         this.context.setAudioEntity(this.entity);
 
+        this.context.setAudioEntity(this.entity);
+
         this.siriWave.stop();
 
         this.dialog.open(ChooseAudioCategoryComponent, {
-            width: '90%',
-            height: '40%',
+            width: '350px',
         }).afterClosed().subscribe((result?: boolean) => {
             this.isRecorded = false;
         });
 
     }
-
 }

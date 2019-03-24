@@ -15,6 +15,7 @@ import {ContextService} from '../../../services/context.service';
     providers: [MapService],
 })
 export class MapBoxComponent implements OnInit {
+
     map: mapboxgl.Map;
     style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
     container: string = 'map';
