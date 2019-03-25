@@ -50,7 +50,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -63,7 +63,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -76,7 +76,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -90,7 +90,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -103,7 +103,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -116,7 +116,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -129,7 +129,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -146,7 +146,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -159,7 +159,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -172,7 +172,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -189,7 +189,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -206,7 +206,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -219,7 +219,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -232,7 +232,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 
@@ -246,7 +246,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been a unusual error', details: ''}));
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 

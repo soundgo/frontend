@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChooseAdLocationComponent } from './components/choose-ad-location/choose-ad-location.component';
 import { SiteRecordComponent } from './components/site-record/site-record.component';
 import { NumberReproductionsAdvertisementsComponent } from './components/number-reproductions-advertisements/number-reproductions-advertisements.component';
+import {MatInputModule} from '@angular/material';
 
 const components = [
   AudioRecordComponent,
@@ -36,6 +37,7 @@ const components = [
   imports: [
     CommonModule,
     HttpClientModule,
+    MatInputModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,

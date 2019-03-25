@@ -23,8 +23,8 @@ export class SitePanelSheetComponent implements OnInit {
     loadAudios() {
         this.loading = true;
         this.api.getSiteAudios(this.data.properties.id).then(audios => {
-            this.audios = audios;
             this.loading = false;
+            this.audios = audios;
         });
     }
 
