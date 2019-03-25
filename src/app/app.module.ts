@@ -14,13 +14,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapModule } from './sections/map/map.module';
 import { RecordModule } from './sections/record/record.module';
+import {HeaderComponent} from './components/header/header.component';
+import {TimeLeftComponent} from './components/header/components/time-left/time-left.component';
+import {CategoryPickerComponent} from './components/header/components/category-picker/category-picker.component';
+import {MenuComponent} from './components/header/components/menu/menu.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, TimeLeftComponent, MenuComponent, CategoryPickerComponent],
   entryComponents: [], // inside we put the modalComponent
   imports: [
     BrowserModule,
