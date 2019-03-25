@@ -11,7 +11,6 @@ import {Audio} from '../../models/Audio';
 })
 export class RecorderComponent implements OnInit {
 
-    duration = '0';
     subscription: Subscription;
 
     base64: string;
@@ -23,9 +22,6 @@ export class RecorderComponent implements OnInit {
     isRecorded = false;
 
     constructor(protected audioRecord: AudioRecordService) {
-        this.subscription = this.audioRecord.getRecordedTime().subscribe(value => {
-            this.duration = value;
-        });
         this.isAd = false;
     }
 

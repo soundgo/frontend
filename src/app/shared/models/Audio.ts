@@ -5,7 +5,7 @@ import {TagContentType} from '@angular/compiler';
 
 export const AUDIO_CATEGORIES = {
     TOURISM: 'Tourism',
-    EXPERIENCES: 'Experiences',
+    EXPERIENCE: 'Experience',
     LEISURE: 'Leisure'
 };
 

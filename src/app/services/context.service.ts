@@ -1,104 +1,123 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Error } from '../shared/models/Error';
-import { Audio } from '../shared/models/Audio';
-import { Ad } from '../shared/models/Ad';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Error} from '../shared/models/Error';
+import {Audio} from '../shared/models/Audio';
+import {Ad} from '../shared/models/Ad';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ContextService {
-  error = new BehaviorSubject<Error>(new Error());
-  audioEntity = new BehaviorSubject<Audio>(new Audio());
-  adEntity = new BehaviorSubject<Ad>(new Ad());
-  map = new BehaviorSubject<any>(null);
-  position = new BehaviorSubject<{ latitude: number; longitude: number }>(null);
-  isRecording = new BehaviorSubject<boolean>(false);
-  isAudioRecorded = new BehaviorSubject<boolean>(false);
-  recordType = new BehaviorSubject<string>(null);
+    error = new BehaviorSubject<Error>(new Error());
+    audioEntity = new BehaviorSubject<Audio>(new Audio());
+    adEntity = new BehaviorSubject<Ad>(new Ad());
+    map = new BehaviorSubject<any>(null);
+    position = new BehaviorSubject<{ latitude: number; longitude: number }>(null);
+    isRecording = new BehaviorSubject<boolean>(false);
+    isAudioRecorded = new BehaviorSubject<boolean>(false);
+    recordType = new BehaviorSubject<string>(null);
+    categoriesSelected = new BehaviorSubject<string>('Tourism,Experience,Leisure');
+    siteId = new BehaviorSubject<number>(null);
 
-  constructor() {}
+    constructor() {
+    }
 
-  getRecordType() {
-    return this.recordType;
-  }
+    getSiteId() {
+        return this.siteId;
+    }
 
-  setRecordType(recordType: string) {
-    this.recordType.next(recordType);
-  }
+    setSiteId(siteId: number) {
+        this.siteId.next(siteId);
+    }
 
-  getIsAudioRecorded(): Observable<boolean> {
-    return this.isAudioRecorded.asObservable();
-  }
+    getCategoriesSelected() {
+        return this.categoriesSelected;
+    }
 
-  setIsAudioRecorded(value: boolean) {
-    this.isAudioRecorded.next(value);
-  }
+    setCategoriesSelected(categoriesSelected: string) {
+        this.categoriesSelected.next(categoriesSelected);
+    }
 
-  getIsRecording(): Observable<boolean> {
-    return this.isRecording.asObservable();
-  }
+    getRecordType() {
+        return this.recordType;
+    }
 
-  setIsRecording(value: boolean) {
-    this.isRecording.next(value);
-  }
+    setRecordType(recordType: string) {
+        this.recordType.next(recordType);
+    }
 
-  getPosition() {
-    return this.position;
-  }
+    getIsAudioRecorded(): Observable<boolean> {
+        return this.isAudioRecorded.asObservable();
+    }
 
-  startWatchPosition() {
-    navigator.geolocation.watchPosition(
-      ({ coords }) => {
-        this.position.next(coords);
-      },
-      null,
-      {
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 0,
-      }
-    );
-  }
+    setIsAudioRecorded(value: boolean) {
+        this.isAudioRecorded.next(value);
+    }
 
-  setCurrentLocation(entity) {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      this[entity + 'Entity'].next({
-        ...this[entity + 'Entity'].getValue(),
-        ...coords,
-      });
-    });
-  }
+    getIsRecording(): Observable<boolean> {
+        return this.isRecording.asObservable();
+    }
 
-  getMap() {
-    return this.map;
-  }
+    setIsRecording(value: boolean) {
+        this.isRecording.next(value);
+    }
 
-  setMap(map: any) {
-    this.map.next(map);
-  }
+    getPosition() {
+        return this.position;
+    }
 
-  getError(): Observable<Error> {
-    return this.error.asObservable();
-  }
+    startWatchPosition() {
+        navigator.geolocation.watchPosition(
+            ({coords}) => {
+                this.position.next(coords);
+            },
+            null,
+            {
+                enableHighAccuracy: false,
+                timeout: 10000,
+                maximumAge: 0,
+            }
+        );
+    }
 
-  setError(error: Error) {
-    return this.error.next(error);
-  }
+    setCurrentLocation(entity) {
+        navigator.geolocation.getCurrentPosition(({coords}) => {
+            this[entity + 'Entity'].next({
+                ...this[entity + 'Entity'].getValue(),
+                ...coords,
+            });
+        });
+    }
 
-  getAudioEntity() {
-    return this.audioEntity;
-  }
+    getMap() {
+        return this.map;
+    }
 
-  setAudioEntity(audio: any) {
-    this.audioEntity.next(audio);
-  }
+    setMap(map: any) {
+        this.map.next(map);
+    }
 
-  getAdEntity() {
-    return this.adEntity;
-  }
+    getError(): Observable<Error> {
+        return this.error.asObservable();
+    }
 
-  setAdEntity(ad: Ad) {
-    this.adEntity.next(ad);
-  }
+    setError(error: Error) {
+        return this.error.next(error);
+    }
+
+    getAudioEntity() {
+        return this.audioEntity;
+    }
+
+    setAudioEntity(audio: any) {
+        this.audioEntity.next(audio);
+    }
+
+    getAdEntity() {
+        return this.adEntity;
+    }
+
+    setAdEntity(ad: Ad) {
+        this.adEntity.next(ad);
+    }
 }

@@ -1,6 +1,6 @@
 <div mat-dialog-content>
     <label>Max to Pay:
-        <input [(ngModel)]="maxToPay" (change)="calculatePrice()" placeholder="max to pay"/>
+        <input [(ngModel)]="maxToPay" (input)="calculatePrice()" placeholder="max to pay"/>
     </label>
 </div>
 <div *ngIf="maxToPay > 0">
