@@ -1,9 +1,10 @@
 <div mat-dialog-content>
-    <label>Max to Pay:
-        <input [(ngModel)]="maxToPay" (change)="calculatePrice()" placeholder="max to pay"/>
-    </label>
+    <mat-form-field>
+        <mat-label>Maximum price to pay</mat-label>
+        <input matInput type="number" [(ngModel)]="maxToPay" (input)="calculatePrice()" />
+    </mat-form-field>
 </div>
-<div *ngIf="maxToPay > 0">
+<div class="numReproductions" *ngIf="maxToPay > 0">
     <h1>{{maxNumberOfReproductions}} </h1>
 </div>
 <mat-dialog-actions>

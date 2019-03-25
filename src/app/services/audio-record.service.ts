@@ -13,7 +13,7 @@ export class AudioRecordService {
     private interval;
     private startTime;
     private recorded = new Subject<any>();
-    private recordingTime = new Subject<string>();
+    private recordingTime = new BehaviorSubject<number>(0);
     private recordingFailedVal = new Subject<string>();
 
     constructor() {
@@ -23,8 +23,8 @@ export class AudioRecordService {
         return this.recorded.asObservable();
     }
 
-    getRecordedTime(): Observable<string> {
-        return this.recordingTime.asObservable();
+    getRecordedTime() {
+        return this.recordingTime;
     }
 
     recordingFailed(): Observable<string> {
@@ -38,7 +38,7 @@ export class AudioRecordService {
             return;
         }
 
-        this.recordingTime.next('00:00');
+        this.recordingTime.next(0);
         navigator.mediaDevices.getUserMedia({audio: true}).then(s => {
             this.stream = s;
             this.record();
@@ -56,8 +56,7 @@ export class AudioRecordService {
             () => {
                 const currentTime = moment();
                 const diffTime = moment.duration(currentTime.diff(this.startTime));
-                const time = this.toString(diffTime.minutes()) + ':' + this.toString(diffTime.seconds());
-                this.recordingTime.next(time);
+                this.recordingTime.next(diffTime.seconds());
             },
             1000
         );

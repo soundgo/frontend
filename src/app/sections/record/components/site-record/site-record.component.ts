@@ -10,22 +10,18 @@ import {ApiService} from '../../../../services/api.service';
     templateUrl: './site-record.component.html',
     styleUrls: ['./site-record.component.scss']
 })
-export class SiteRecordComponent extends AudioRecordComponent implements OnInit {
+export class SiteRecordComponent implements OnInit {
 
     @Input() siteId: number;
 
     @HostListener('click')
     click() {
         this.context.setIsRecording(true);
+        this.context.setRecordType('site');
+        this.context.setSiteId(this.siteId);
     }
 
-    constructor(protected audioRecord: AudioRecordService,
-                protected context: ContextService,
-                protected dialog: MatDialog,
-                protected api: ApiService,
-    ) {
-        super(audioRecord, context, dialog, api);
-        this.isSite = true;
+    constructor(protected context: ContextService) {
     }
 
     ngOnInit() {
