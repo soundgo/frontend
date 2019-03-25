@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from '@angular/material';
 import {ApiService} from '../../../services/api.service';
+import {Site} from '../../../shared/models/Site';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
     selector: 'app-site-panel-sheet',
@@ -8,24 +10,33 @@ import {ApiService} from '../../../services/api.service';
     styleUrls: ['./site-panel-sheet.component.scss']
 })
 export class SitePanelSheetComponent implements OnInit {
-    loading = false;
+
+    loading = new BehaviorSubject<boolean>(false);
     audios: any;
+    site: Site;
 
     constructor(private api: ApiService,
                 private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
-        this.loadAudios();
     }
 
     ngOnInit() {
+        this.loading.next(true);
+        this.loadAudios().then(audios => {
+            this.audios = audios;
+        });
+        this.api.getSiteById(this.data.properties.id).then(site => {
+            this.site = new Site(site);
+            this.loading.next(false);
+        });
+    }
+
+    isLoading() {
+        return this.loading.getValue();
     }
 
     loadAudios() {
-        this.loading = true;
-        this.api.getSiteAudios(this.data.properties.id).then(audios => {
-            this.loading = false;
-            this.audios = audios;
-        });
+        return this.api.getSiteAudios(this.data.properties.id);
     }
 
     closeSitePanel() {

@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MapBoxComponent } from './map-box/map-box.component';
 import { SitePanelSheetComponent } from './site-panel-sheet/site-panel-sheet.component';
 import { RecordModule } from '../record/record.module';
+import { PlyrModule } from 'ngx-plyr';
 
 const components = [MapBoxComponent, SitePanelSheetComponent];
 
@@ -23,6 +24,7 @@ const components = [MapBoxComponent, SitePanelSheetComponent];
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
+    PlyrModule,
     RecordModule,
     TranslateModule.forRoot({
       loader: {
