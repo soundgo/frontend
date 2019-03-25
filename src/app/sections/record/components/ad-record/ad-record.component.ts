@@ -65,6 +65,11 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
 
     this.siriWave.stop();
 
+    const recordType = this.context.getRecordType().getValue();
+    if (!recordType) {
+      this.context.setRecordType('audio');
+    }
+
     this.context.setIsRecording(false);
 
     this.dialog
@@ -92,6 +97,8 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
                 .createAudio(this.context.getAudioEntity().getValue())
                 .then(response => {
                   console.log('createAudio:', response);
+                  this.context.setRecordType(null);
+                  this.context.setIsRecorded(true);
                 });
               this.isRecorded = false;
             });

@@ -31,10 +31,6 @@ export class ChooseAudioCategoryComponent implements OnInit {
   }
 
   saveCategory() {
-    const recordType = this.context.getRecordType().getValue();
-    if (!recordType) {
-      this.context.setRecordType('audio');
-    }
     const entity = this.context.getAudioEntity().getValue();
     entity.category = this.categorySelected;
     this.context.setAudioEntity(entity);

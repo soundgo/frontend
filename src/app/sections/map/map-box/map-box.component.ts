@@ -28,36 +28,43 @@ export class MapBoxComponent implements OnInit {
     private context: ContextService,
     private bottomSheet: MatBottomSheet
   ) {
-    this.subscription = this.context
-      .getIsAudioRecorded()
-      .subscribe(isAudioRecorded => {
-        if (isAudioRecorded) {
-          this.source = this.map.getSource('audiosRecorded');
+    this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+      if (isRecorded) {
+        this.source = this.map.getSource('audiosRecorded');
 
-          const audioEntity = this.context.getAudioEntity().getValue();
-          const features = this.source._data.features;
-          features.push({
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              coordinates: [audioEntity.longitude, audioEntity.latitude],
-              type: 'Point',
-            },
-            id: audioEntity.id,
-          });
-          const data = new FeatureCollection(features);
-          this.source.setData(data);
-          this.map.addLayer({
-            id: 'audiosRecorded',
-            source: 'audiosRecorded',
-            type: 'symbol',
-            layout: {
-              'text-size': 24,
-              'icon-image': 'Marker',
-            },
-          });
-        }
-      });
+        const recordType = this.context.getRecordType().getValue();
+        const entity =
+          recordType == 'ad'
+            ? this.context.getAdEntity().getValue()
+            : this.context.getAudioEntity().getValue();
+
+        const features = this.source._data.features;
+        features.push({
+          type: 'Feature',
+          properties: {
+            id: entity.id,
+          },
+          geometry: {
+            coordinates: [entity.longitude, entity.latitude],
+            type: 'Point',
+          },
+          id: entity.id,
+        });
+        const data = new FeatureCollection(features);
+        this.source.setData(data);
+
+        const icon = recordType == 'ad' ? 'MarkerAd' : 'Marker';
+        this.map.addLayer({
+          id: 'audiosRecorded',
+          source: 'audiosRecorded',
+          type: 'symbol',
+          layout: {
+            'text-size': 24,
+            'icon-image': icon,
+          },
+        });
+      }
+    });
   }
 
   ngOnInit() {
