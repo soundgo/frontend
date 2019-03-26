@@ -76,19 +76,6 @@
           drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
     }
 
-    .settings {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/settings.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
-
     .login {
         margin-top: 10px;
         width: 50px;
