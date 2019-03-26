@@ -22,7 +22,7 @@ const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
 
 @NgModule({
   declarations: [...components],
-  entryComponents: [SitePanelSheetComponent], // inside we put the modalComponent
+  entryComponents: [SitePanelSheetComponent, CreateSiteComponent], // inside we put the modalComponent
   imports: [
     CommonModule,
     HttpClientModule,

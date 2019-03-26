@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { MatBottomSheet } from '@angular/material';
+import { MatBottomSheet, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { MapService } from 'src/app/services/map.service';
@@ -8,7 +8,9 @@ import { FeatureCollection, GeoJson } from 'src/app/shared/models/Map';
 import { Map } from 'mapbox-gl';
 import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.component';
 import { ContextService } from 'src/app/services/context.service';
-
+import { CreateSiteComponent } from '../create-site/create-site.component'
+import { Site } from 'src/app/shared/models/Site';
+import { ApiService } from '../../../services/api.service'
 
 @Component({
   selector: 'app-map-box',
@@ -19,6 +21,7 @@ import { ContextService } from 'src/app/services/context.service';
 export class MapComponent implements OnInit {
 
   @ViewChildren('geolocation') geolocation: any;
+  @ViewChildren('siteMarker') siteMarker: any;
   mapbox: Map;
   audios: Observable<any[]>;
   ads: Observable<any[]>;
@@ -28,8 +31,12 @@ export class MapComponent implements OnInit {
   adSource: any;
   siteSource: any;
   isDataLoaded: boolean = false;
+  userPosition: any;
+  showPlaceMarkerForm: boolean = false;
+  siteEntity: Site;
 
-  constructor(private mapService: MapService, private context: ContextService, private db: AngularFirestore, private bottomSheet: MatBottomSheet) {
+  constructor(private mapService: MapService, private context: ContextService,
+    private db: AngularFirestore, private bottomSheet: MatBottomSheet, private matDialog: MatDialog, private api: ApiService) {
     // Observable in database
     this.audios = db.collection('audios').valueChanges();
     this.ads = db.collection('ads').valueChanges();
@@ -37,6 +44,15 @@ export class MapComponent implements OnInit {
     // Filter audio category
     this.context.getCategoriesSelected().subscribe(categorySelected => {
       this.categorySelected = categorySelected;
+    });
+    // Show site marker in map
+    this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
+      if (isMarkerSiteVisible) {
+        this.userPosition = this.context.getPosition().getValue();
+        this.showPlaceMarkerForm = isMarkerSiteVisible;
+      } else {
+        this.showPlaceMarkerForm = false;
+      }
     });
   }
 
@@ -57,11 +73,6 @@ export class MapComponent implements OnInit {
     this.context.startWatchPosition();
 
     this.mapbox.on('click', (event) => {
-      // const coordinates = [event.lngLat.lng, event.lngLat.lat]
-      // // const newMarkerAudio = new GeoJson(coordinates, { type: 'Experience' })
-      // const newMarkerSite = new GeoJson(coordinates, { name: 'Casa Paco', id: '1' })
-      // this.mapService.createSiteMarker(newMarkerSite)
-
       // Get point click and check if is a marker
       const features = this.mapbox.queryRenderedFeatures(event.point, {
         layers: ['sites'],
@@ -74,12 +85,34 @@ export class MapComponent implements OnInit {
       this.openSiteSheet(feature.properties);
     })
 
+    this.matDialog.open(CreateSiteComponent, {
+      width: '350px',
+    })
+
   }
 
   openSiteSheet(properties): void {
     this.bottomSheet.open(SitePanelSheetComponent, {
       data: { properties },
     });
+  }
+
+  saveSiteForm() {
+    this.context.setIsMarkerSiteVisible(false);
+    this.siteEntity = this.context.getSiteEntity().getValue();
+
+    this.siteEntity.longitude = this.siteMarker.first.lngLat[0];
+    this.siteEntity.latitude = this.siteMarker.first.lngLat[1];
+
+    this.context.setSiteEntity(this.siteEntity)
+    this.api.createSite(this.siteEntity).then(response => {
+      console.log('Site created response', response)
+    });
+    this.context.setIsMarkerSiteVisible(false);
+  }
+
+  closeSiteForm() {
+    this.context.setIsMarkerSiteVisible(false);
   }
 
   initDataListeners() {

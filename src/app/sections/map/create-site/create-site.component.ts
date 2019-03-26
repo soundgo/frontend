@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { ContextService } from '../../../services/context.service';
-
-
+import { Site } from 'src/app/shared/models/Site';
 
 @Component({
   selector: 'app-create-site',
@@ -11,15 +10,33 @@ import { ContextService } from '../../../services/context.service';
 })
 export class CreateSiteComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CreateSiteComponent>) { }
+  dialog: MatDialog;
+  siteEntity: Site;
+  name: string;
+  description: string;
+
+  constructor(public dialogRef: MatDialogRef<CreateSiteComponent>, private context: ContextService) { }
 
   ngOnInit() {
   }
-  showMarkerSite() {
-
+  public showCreateSiteModal() {
+    this.dialog.open(CreateSiteComponent, {
+      width: '350px',
+    })
   }
-  saveSite() {
+  onClose() {
     this.dialogRef.close();
+  }
+
+  saveModal() {
+    this.siteEntity = new Site();
+    this.siteEntity.name = this.name;
+    this.siteEntity.description = this.description;
+
+    this.context.setSiteEntity(this.siteEntity);
+
+    this.dialogRef.close();
+    this.context.setIsMarkerSiteVisible(true);
   }
 
 }
