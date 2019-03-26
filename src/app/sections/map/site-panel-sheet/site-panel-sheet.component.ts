@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class SitePanelSheetComponent implements OnInit {
 
-    loading = new BehaviorSubject<boolean>(false);
+    loading = false;
     audios: any;
     site: Site;
 
@@ -21,18 +21,18 @@ export class SitePanelSheetComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loading.next(true);
+        this.loading = true;
         this.loadAudios().then(audios => {
             this.audios = audios;
         });
         this.api.getSiteById(this.data.properties.id).then(site => {
             this.site = new Site(site);
-            this.loading.next(false);
+            this.loading = false;
         });
     }
 
     isLoading() {
-        return this.loading.getValue();
+        return this.loading;
     }
 
     loadAudios() {

@@ -2,8 +2,8 @@
     <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
     <app-site-record [siteId]="data.properties.id" (click)="closeSitePanel()"></app-site-record>
 </div>
-<mat-spinner [diameter]="40" *ngIf="isLoading()"></mat-spinner>
-<ng-template [ngIf]="!isLoading()">
+<mat-spinner [diameter]="40" *ngIf="isLoading(); else content"></mat-spinner>
+<ng-template #content>
     <p *ngIf="site">{{ site.description }}</p>
     <mat-nav-list *ngIf="audios.length === 0">
         <mat-list-item>
