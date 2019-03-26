@@ -10,6 +10,7 @@ import {Config} from '../shared/models/Config';
 @Injectable({
     providedIn: 'root',
 })
+
 export class ContextService {
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
@@ -25,6 +26,8 @@ export class ContextService {
     siteId = new BehaviorSubject<number>(null);
     user = new BehaviorSubject<Actor>(null);
     config = new BehaviorSubject<Config>(new Config());
+    
+    auth ='null';
 
     constructor() {
     }
@@ -142,5 +145,13 @@ export class ContextService {
 
     setAdEntity(ad: Ad) {
         this.adEntity.next(ad);
+    }
+
+    getAuth() {
+        return this.auth;
+    }
+
+    setAuth(auth: string) {
+        this.auth=auth;
     }
 }

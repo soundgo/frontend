@@ -1,1 +1,56 @@
-<p>Menu works!</p>
+<!--<div *ngIf="auth == 'null'" class="avatar" (click)="onSelect()"></div> -->
+
+<div *ngIf="actor == null">
+    <div class="avatar" (click)="onSelect()"></div>
+</div>
+
+<div *ngIf="actor !== null">
+    <img class="photo_perfil" src="{{actor.photo}}" (click)="onSelect()"/>
+</div>
+
+<div *ngIf="isSelected">
+
+    <div *ngIf="auth == 'null'">
+        
+        <div class="login"></div>
+        <div class="sign_up"></div>
+        <div class="change_user" (click)="changeToUser()"></div>
+        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
+        <div class="change_administrator" (click)="changeToAdministrator()"></div>
+
+                
+    </div>
+
+    <div *ngIf="auth == 'user'">
+    
+        <div class="perfil"></div>
+        <div class="search"></div>
+        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
+        <div class="change_administrator" (click)="changeToAdministrator()"></div>
+        <div class="log_out"></div>
+        
+    </div>
+    
+    <div *ngIf="auth == 'advertiser'">
+        
+        <div class="perfil"></div>
+        <div class="search"></div>
+        <div class="change_user" (click)="changeToUser()"></div>
+        <div class="change_administrator" (click)="changeToAdministrator()"></div>
+        <div class="log_out"></div>
+
+    </div>
+
+    <div *ngIf="auth == 'administrator' ">
+        
+        <div class="perfil"></div>
+        <div class="search"></div>
+        <a routerLink="/admin/create-site"><div class="site"></div></a>
+        <div class="settings"></div>
+        <div class="change_user" (click)="changeToUser()"></div>
+        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
+        <div class="log_out"></div>
+
+    </div>
+
+</div>
