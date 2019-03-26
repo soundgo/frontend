@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { ContextService } from '../../../services/context.service';
+
+
 
 @Component({
   selector: 'app-create-site',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateSiteComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<CreateSiteComponent>) { }
 
   ngOnInit() {
+  }
+  showMarkerSite() {
+
+  }
+  saveSite() {
+    this.dialogRef.close();
   }
 
 }

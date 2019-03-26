@@ -1,3 +1,14 @@
-<p>
-  create-site works!
-</p>
+<h1 mat-dialog-title>Create site</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label></mat-label>
+    <input placeholder="Name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label></mat-label>
+    <input placeholder="Description">
+  </mat-form-field>
+</div>
+<mat-dialog-actions>
+  <button mat-button class="saveButton" (click)="saveSite()">Save</button>
+</mat-dialog-actions>
