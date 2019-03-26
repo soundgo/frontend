@@ -9,6 +9,14 @@ export const environment = {
     accessToken:
       'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q',
   },
+  firebase: {
+    apiKey: 'AIzaSyDudfB7sZxukeUchgumVwyJMH22NCU52IY',
+    authDomain: 'soundgo-ba26c.firebaseapp.com',
+    databaseURL: 'https://soundgo-ba26c.firebaseio.com',
+    projectId: 'soundgo-ba26c',
+    storageBucket: 'soundgo-ba26c.appspot.com',
+    messagingSenderId: '142660268569'
+  }
 };
 
 /*
