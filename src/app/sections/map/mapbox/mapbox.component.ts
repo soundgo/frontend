@@ -85,9 +85,9 @@ export class MapComponent implements OnInit {
       this.openSiteSheet(feature.properties);
     })
 
-    this.matDialog.open(CreateSiteComponent, {
-      width: '350px',
-    })
+    // this.matDialog.open(CreateSiteComponent, {
+    //   width: '350px',
+    // });
 
   }
 
