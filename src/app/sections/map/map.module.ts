@@ -18,6 +18,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../../../environments/environment';
 import { CreateSiteComponent } from './create-site/create-site.component';
 import {PlyrModule} from 'ngx-plyr';
+import {MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatBottomSheetModule} from '@angular/material';
+import {SharedModule} from '../../shared/shared.module';
 
 const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
 
@@ -26,10 +28,10 @@ const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
     entryComponents: [SitePanelSheetComponent, CreateSiteComponent], // inside we put the modalComponent
     imports: [
         CommonModule,
+        SharedModule,
         HttpClientModule,
         ReactiveFormsModule,
         FormsModule,
-        MaterialModule,
         RecordModule,
         PlyrModule,
         TranslateModule.forRoot({

@@ -21,11 +21,12 @@ export class SitePanelSheetComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
-        this.loadAudios().then(audios => {
-            this.audios = audios;
-        });
-        this.api.getSiteById(this.data.properties.id).then(site => {
-            this.site = new Site(site);
+        Promise.all([
+            this.loadAudios(),
+            this.api.getSiteById(this.data.properties.id)
+        ]).then(values => {
+            this.audios = values[0];
+            this.site = new Site(values[1]);
             this.loading = false;
         });
     }
