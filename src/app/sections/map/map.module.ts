@@ -19,12 +19,11 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../../../environments/environment';
 import {CreateSiteComponent} from './create-site/create-site.component';
 
-
 const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
 
 @NgModule({
     declarations: [...components],
-    entryComponents: [SitePanelSheetComponent], // inside we put the modalComponent
+    entryComponents: [SitePanelSheetComponent, CreateSiteComponent], // inside we put the modalComponent
     imports: [
         CommonModule,
         HttpClientModule,
@@ -46,7 +45,7 @@ const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule
     ],
-    exports: [...components],
+    exports: [...components]
 })
 export class MapModule {
 }
