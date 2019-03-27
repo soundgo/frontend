@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from '@angular/material';
 import {ApiService} from '../../../services/api.service';
 import {Site} from '../../../shared/models/Site';
-import {BehaviorSubject} from 'rxjs';
 
 @Component({
     selector: 'app-site-panel-sheet',
