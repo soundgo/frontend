@@ -88,8 +88,17 @@ export class MapComponent implements OnInit {
     }
 
     openSiteSheet(properties): void {
-        this.bottomSheet.open(SitePanelSheetComponent, {
-            data: {properties}
+        Promise.all([
+            this.api.getSiteAudios(properties.id),
+            this.api.getSiteById(properties.id)
+        ]).then(values => {
+            this.bottomSheet.open(SitePanelSheetComponent, {
+                data: {
+                    properties,
+                    site: new Site(values[1]),
+                    audios: values[0]
+                }
+            });
         });
     }
 

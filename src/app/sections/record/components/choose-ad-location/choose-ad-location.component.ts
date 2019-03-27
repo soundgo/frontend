@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MapBoxComponent } from '../../../map/map-box/map-box.component';
 import { MatBottomSheet, MatDialog } from '@angular/material';
 import * as mapboxgl from 'mapbox-gl';
 
