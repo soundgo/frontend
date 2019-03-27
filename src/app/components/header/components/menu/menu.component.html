@@ -1,9 +1,9 @@
-<div *ngIf="actor == null">
+<div *ngIf="user == null">
     <a><div class="avatar" (click)="onSelect()"></div></a>
 </div>
 
-<div *ngIf="actor !== null">
-    <a><img class="photo_perfil" src="{{actor.photo}}" (click)="onSelect()" /></a>
+<div *ngIf="user !== null">
+    <a><img class="photo_perfil" src="{{user.photo}}" (click)="onSelect()" /></a>
 </div>
 
 <div class="loginPanel" *ngIf="isSelected">

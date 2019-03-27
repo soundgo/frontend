@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ContextService } from 'src/app/services/context.service';
-import { Actor } from 'src/app/shared/models/Actor';
-import { BehaviorSubject, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { CreateSiteComponent } from 'src/app/sections/map/create-site/create-site.component';
+import { User } from 'src/app/shared/models/User';
 
 @Component({
     selector: 'app-menu',
@@ -14,11 +13,11 @@ export class MenuComponent implements OnInit {
     
     isSelected: boolean;
     auth: string;
-    actor: Actor;
+    user: User;
 
     constructor(private context: ContextService, private matDialog: MatDialog) {
         this.auth = context.getAuth();
-        this.actor = context.getUser().value;
+        this.user = context.getUser().getValue();
     }
 
     ngOnInit() {

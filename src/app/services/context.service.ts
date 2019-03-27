@@ -27,7 +27,7 @@ export class ContextService {
         'Tourism,Experience,Leisure'
     );
     siteId = new BehaviorSubject<number>(null);
-    user = new BehaviorSubject<Actor>(null);
+    user = new BehaviorSubject<User>(null);
     config = new BehaviorSubject<Config>(new Config());
 
     auth = 'null';
@@ -47,7 +47,7 @@ export class ContextService {
         return this.user;
     }
 
-    setUser(user: Actor) {
+    setUser(user: User) {
         this.user.next(user);
     }
 
