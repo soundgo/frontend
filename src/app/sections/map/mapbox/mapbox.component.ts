@@ -8,7 +8,6 @@ import { FeatureCollection } from 'src/app/shared/models/Map';
 import { Map } from 'mapbox-gl';
 import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.component';
 import { ContextService } from 'src/app/services/context.service';
-import { CreateSiteComponent } from '../create-site/create-site.component'
 import { Site } from 'src/app/shared/models/Site';
 import { ApiService } from '../../../services/api.service'
 
@@ -36,7 +35,7 @@ export class MapComponent implements OnInit {
   siteEntity: Site;
 
   constructor(private mapService: MapService, private context: ContextService,
-    private db: AngularFirestore, private bottomSheet: MatBottomSheet, private matDialog: MatDialog, private api: ApiService) {
+    private db: AngularFirestore, private bottomSheet: MatBottomSheet, private api: ApiService) {
     // Observable in database
     this.audios = db.collection('audios').valueChanges();
     this.ads = db.collection('ads').valueChanges();
@@ -84,11 +83,6 @@ export class MapComponent implements OnInit {
       const feature = features[0];
       this.openSiteSheet(feature.properties);
     })
-
-    // this.matDialog.open(CreateSiteComponent, {
-    //   width: '350px',
-    // });
-
   }
 
   openSiteSheet(properties): void {
