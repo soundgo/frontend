@@ -1,1 +1,14 @@
-<p>Category picker works!</p>
+<div class="category-picker">
+    <button mat-flat-button [class.tourismButtonDisabled]="!isActive('TOURISM')"
+        [class.tourismButton]="isActive('TOURISM')" (click)="selectCategory('TOURISM')">
+        Tourism
+    </button>
+    <button mat-flat-button [class.experienceButtonDisabled]="!isActive('EXPERIENCE')"
+        [class.experienceButton]="isActive('EXPERIENCE')" (click)="selectCategory('EXPERIENCE')">
+        Experience
+    </button>
+    <button mat-flat-button [class.leisureButtonDisabled]="!isActive('LEISURE')"
+        [class.leisureButton]="isActive('LEISURE')" (click)="selectCategory('LEISURE')">
+        Leisure
+    </button>
+</div>

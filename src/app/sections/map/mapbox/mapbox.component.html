@@ -1,0 +1,21 @@
+<mgl-map [style]="'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9'" [zoom]="[13]" [center]="[-5.987, 37.358]"
+  (load)="initMap($event)">
+  <mgl-control #geolocation mglGeolocate [positionOptions]="{
+        enableHighAccuracy: true
+      }" [trackUserLocation]="true" (load)="initUserGeolocation($event)"></mgl-control>
+  <mgl-layer *ngIf="isDataLoaded" id="audios" type="symbol" source="audios" [layout]="{
+    'icon-image': 'Marker',
+    'text-size': 24
+  }" [filter]="['==', 'type', categorySelected]">
+  </mgl-layer>
+  <mgl-layer *ngIf="isDataLoaded" id="ads" type="symbol" source="ads" [layout]="{
+    'icon-image': 'MarkerAd',
+    'text-size': 24
+  }">
+  </mgl-layer>
+  <mgl-layer *ngIf="isDataLoaded" id="sites" type="symbol" source="sites" [layout]="{
+    'icon-image': 'MarkerSite',
+    'text-size': 24
+  }">
+  </mgl-layer>
+</mgl-map>

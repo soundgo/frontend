@@ -1,0 +1,50 @@
+:host {
+    .category-picker {
+        text-align: center;
+    }
+    button {
+        padding: 0px 30px;
+        margin: 5px 5px;
+    }
+    .tourismButtonDisabled {
+        background: #d18987;
+        color: #dbdbdb;
+      }
+    
+      .experienceButtonDisabled {
+        background: #c2957a;
+        color: #dbdbdb;
+      }
+    
+      .leisureButtonDisabled {
+        background: #b1bfbb;
+        color: #dbdbdb;
+      }
+
+    .tourismButton {
+        background: #f24440;
+        color: #fff;
+      }
+    
+      .experienceButton {
+        background: #f57828;
+        color: #fff;
+      }
+    
+      .leisureButton {
+        background: #04b289;
+        color: #fff;
+      }
+      @media (max-width: 768px) {
+        button {
+            padding: 0px 18px;
+            margin: 5px 1px;
+        }
+      }
+      @media (max-width: 340px) {
+        button {
+            padding: 0px 8px;
+        }
+      }
+      
+}

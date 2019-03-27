@@ -14,10 +14,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapModule } from './sections/map/map.module';
 import { RecordModule } from './sections/record/record.module';
-import {HeaderComponent} from './components/header/header.component';
-import {TimeLeftComponent} from './components/header/components/time-left/time-left.component';
-import {CategoryPickerComponent} from './components/header/components/category-picker/category-picker.component';
-import {MenuComponent} from './components/header/components/menu/menu.component';
+import { HeaderComponent } from './components/header/header.component';
+import { TimeLeftComponent } from './components/header/components/time-left/time-left.component';
+import { CategoryPickerComponent } from './components/header/components/category-picker/category-picker.component';
+import { MenuComponent } from './components/header/components/menu/menu.component';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -43,7 +46,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    NgxMapboxGLModule.withConfig({
+      accessToken: `${environment.mapbox.accessToken}`
+    }),
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,9 +1,18 @@
-.mat-form-field {
-  width: 100%;
-}
+@import '../../../../../css/theme.scss';
 
-.numReproductions {
-  text-align: center;
-  padding: 15px 0;
-  font-size: 20px;
+:host {
+  .saveButton {
+    color: $purple;
+  }
+  .mat-dialog-actions {
+    justify-content: center;
+  }
+  .mat-form-field {
+    width: 90%;
+  }
+  .numReproductions {
+    text-align: center;
+    padding: 15px 0;
+    font-size: 20px;
+  }
 }

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Map } from 'mapbox-gl';
+
 import { GeoJson } from '../shared/models/Map';
-import * as mapboxgl from 'mapbox-gl';
 
 @Injectable()
 export class MapService {
@@ -20,62 +22,51 @@ export class MapService {
     {},
   ];
 
-  constructor() {
-    mapboxgl.accessToken = environment.mapbox.accessToken;
+  constructor(private db: AngularFirestore) {
   }
   array: any;
 
   getMarkers() {
-    return this.data;
+    return this.db.collection('audios')
   }
 
-  createMarker(data: GeoJson) {
-    console.log(data);
-    return this.array.push(data);
-  }
-
-  createGeoJSONCircle(center, radiusInKm, points?) {
-    if (!points) points = 64;
-
-    var coords = {
-      latitude: center[1],
-      longitude: center[0],
-    };
-
-    var km = radiusInKm;
-
-    const ret = [];
-    const distanceX = km / (111.32 * Math.cos((coords.latitude * Math.PI) / 180));
-    const distanceY = km / 110.574;
-
-    let theta, x, y;
-    for (let i = 0; i < points; i++) {
-      theta = (i / points) * (2 * Math.PI);
-      x = distanceX * Math.cos(theta);
-      y = distanceY * Math.sin(theta);
-
-      ret.push([coords.longitude + x, coords.latitude + y]);
-    }
-    ret.push(ret[0]);
-
-    return {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [ret],
-            },
+  createAudioMarker(data: GeoJson) {
+    return new Promise<any>((resolve, reject) => {
+      this.db.collection('audios').add(
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [data.geometry.coordinates[0], data.geometry.coordinates[1]],
           },
-        ],
-      },
-    };
+          properties: {
+            type: data.properties.type,
+          },
+        })
+        .then(res => { }, err => reject(err))
+    })
   }
 
-  // removeMarker($key: string) {
-  //   return this.db.object('/markers/' + $key).remove()
-  // }
+  createSiteMarker(data: GeoJson) {
+    return new Promise<any>((resolve, reject) => {
+      this.db.collection('sites').add(
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [data.geometry.coordinates[0], data.geometry.coordinates[1]],
+          },
+          properties: {
+            id: data.properties.id,
+            name: data.properties.name,
+          },
+        })
+        .then(res => { }, err => reject(err))
+    })
+  }
+
+  removeMarker(id: string) {
+    return this.db.collection('audios').doc(id).delete();
+  }
+
 }

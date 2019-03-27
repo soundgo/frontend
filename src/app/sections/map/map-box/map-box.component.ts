@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { FeatureCollection } from '../../../shared/models/Map';
 
 @Component({
-  selector: 'app-map-box',
+  selector: 'app-map-box1',
   templateUrl: './map-box.component.html',
   styleUrls: ['./map-box.component.scss'],
   providers: [MapService],
@@ -85,8 +85,8 @@ export class MapBoxComponent implements OnInit {
 
   buildMap() {
     // Create map site
-    mapboxgl.accessToken =
-      'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
+    // mapboxgl.accessToken =
+    //   'pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q';
     const coords = this.context.getPosition().getValue();
     this.map = new mapboxgl.Map({
       container: this.container as string,
@@ -110,6 +110,7 @@ export class MapBoxComponent implements OnInit {
       },
       trackUserLocation: true,
     });
+    console.log(geolocateUser, 'GEOLOCALIZACION')
     this.map.addControl(geolocateUser);
 
     // Trigger geolocation
