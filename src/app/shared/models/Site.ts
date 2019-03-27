@@ -18,7 +18,7 @@ export class Site {
     toJSON() {
         const res = {
             latitude: this.latitude,
-            longitude: this.latitude,
+            longitude: this.longitude,
             name: this.name,
             description: this.description
         };

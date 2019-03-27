@@ -4,7 +4,7 @@ import { MatBottomSheet, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { MapService } from 'src/app/services/map.service';
-import { FeatureCollection, GeoJson } from 'src/app/shared/models/Map';
+import { FeatureCollection } from 'src/app/shared/models/Map';
 import { Map } from 'mapbox-gl';
 import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.component';
 import { ContextService } from 'src/app/services/context.service';
@@ -49,7 +49,7 @@ export class MapComponent implements OnInit {
     this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
       if (isMarkerSiteVisible) {
         this.userPosition = this.context.getPosition().getValue();
-        this.showPlaceMarkerForm = isMarkerSiteVisible;
+        this.showPlaceMarkerForm = true;
       } else {
         this.showPlaceMarkerForm = false;
       }
@@ -98,9 +98,9 @@ export class MapComponent implements OnInit {
   }
 
   saveSiteForm() {
-    this.context.setIsMarkerSiteVisible(false);
     this.siteEntity = this.context.getSiteEntity().getValue();
 
+    console.log(this.siteMarker, 'site marker')
     this.siteEntity.longitude = this.siteMarker.first.lngLat[0];
     this.siteEntity.latitude = this.siteMarker.first.lngLat[1];
 
