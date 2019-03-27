@@ -22,7 +22,7 @@ export class SitePanelSheetComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         Promise.all([
-            this.loadAudios(),
+            this.api.getSiteAudios(this.data.properties.id),
             this.api.getSiteById(this.data.properties.id)
         ]).then(values => {
             this.audios = values[0];
@@ -33,10 +33,6 @@ export class SitePanelSheetComponent implements OnInit {
 
     isLoading() {
         return this.loading;
-    }
-
-    loadAudios() {
-        return this.api.getSiteAudios(this.data.properties.id);
     }
 
     closeSitePanel() {

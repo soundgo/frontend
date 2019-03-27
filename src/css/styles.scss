@@ -39,7 +39,7 @@ html {
     color: white;
   }
 
-  /*.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  .cdk-global-overlay-wrapper, .cdk-overlay-container {
     pointer-events: none;
     top: 0;
     bottom: 0;
@@ -69,5 +69,5 @@ html {
     overflow: auto;
     z-index: 99;
     height: 100%;
-  }*/
+  }
 }

@@ -29,6 +29,7 @@ const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent];
     imports: [
         CommonModule,
         SharedModule,
+        MaterialModule,
         HttpClientModule,
         ReactiveFormsModule,
         FormsModule,

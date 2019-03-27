@@ -89,8 +89,6 @@ export class MapComponent implements OnInit {
 
     openSiteSheet(properties): void {
         this.bottomSheet.open(SitePanelSheetComponent, {
-            disableClose: true,
-            hasBackdrop: false,
             data: {properties}
         });
     }
