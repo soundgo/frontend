@@ -1,3 +1,15 @@
-<p>
-  create-site works!
-</p>
+<h1 mat-dialog-title>Create site</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="description"></textarea>
+  </mat-form-field>
+</div>
+<mat-dialog-actions>
+  <button mat-button color="warn" (click)="onClose()">Close</button>
+  <button mat-button class="saveButton" (click)="saveModal()">Save</button>
+</mat-dialog-actions>

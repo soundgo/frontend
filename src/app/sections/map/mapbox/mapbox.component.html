@@ -18,4 +18,15 @@
     'text-size': 24
   }">
   </mgl-layer>
+  <mgl-marker #siteMarker *ngIf="showPlaceMarkerForm" [lngLat]="[userPosition.longitude, userPosition.latitude]"
+    [draggable]="true">
+  </mgl-marker>
 </mgl-map>
+
+<div id="map-container" *ngIf="showPlaceMarkerForm">
+  <div id="basic-container">
+    <p>Move the site marker</p>
+    <button mat-raised-button color="warn" (click)="closeSiteForm()">Close</button>
+    <button mat-raised-button class="saveButton" (click)="saveSiteForm()">Place site</button>
+  </div>
+</div>

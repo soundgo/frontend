@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Error} from '../shared/models/Error';
-import {Audio} from '../shared/models/Audio';
-import {Ad} from '../shared/models/Ad';
-import {User} from '../shared/models/User';
-import {Actor} from '../shared/models/Actor';
-import {Config} from '../shared/models/Config';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Error } from '../shared/models/Error';
+import { Audio } from '../shared/models/Audio';
+import { Ad } from '../shared/models/Ad';
+import { User } from '../shared/models/User';
+import { Actor } from '../shared/models/Actor';
+import { Config } from '../shared/models/Config';
+import { Site } from '../shared/models/Site';
 
 @Injectable({
     providedIn: 'root',
@@ -15,10 +16,12 @@ export class ContextService {
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
     adEntity = new BehaviorSubject<Ad>(new Ad());
+    siteEntity = new BehaviorSubject<Site>(new Site());
     map = new BehaviorSubject<any>(null);
     position = new BehaviorSubject<{ latitude: number; longitude: number }>(null);
     isRecording = new BehaviorSubject<boolean>(false);
     isRecorded = new BehaviorSubject<boolean>(false);
+    isMarkerSiteVisible = new BehaviorSubject<boolean>(false);
     recordType = new BehaviorSubject<string>(null);
     categoriesSelected = new BehaviorSubject<string>(
         'Tourism,Experience,Leisure'
@@ -26,8 +29,8 @@ export class ContextService {
     siteId = new BehaviorSubject<number>(null);
     user = new BehaviorSubject<Actor>(null);
     config = new BehaviorSubject<Config>(new Config());
-    
-    auth ='null';
+
+    auth = 'null';
 
     constructor() {
     }
@@ -88,13 +91,21 @@ export class ContextService {
         this.isRecording.next(value);
     }
 
+    getIsMarkerSiteVisible(): Observable<boolean> {
+        return this.isMarkerSiteVisible.asObservable();
+    }
+
+    setIsMarkerSiteVisible(value: boolean) {
+        this.isMarkerSiteVisible.next(value);
+    }
+
     getPosition() {
         return this.position;
     }
 
     startWatchPosition() {
         navigator.geolocation.watchPosition(
-            ({coords}) => {
+            ({ coords }) => {
                 this.position.next(coords);
             },
             null,
@@ -107,7 +118,7 @@ export class ContextService {
     }
 
     setCurrentLocation(entity) {
-        navigator.geolocation.getCurrentPosition(({coords}) => {
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
             this[entity + 'Entity'].next({
                 ...this[entity + 'Entity'].getValue(),
                 ...coords,
@@ -152,6 +163,14 @@ export class ContextService {
     }
 
     setAuth(auth: string) {
-        this.auth=auth;
+        this.auth = auth;
+    }
+
+    getSiteEntity() {
+        return this.siteEntity;
+    }
+
+    setSiteEntity(site: Site) {
+        this.siteEntity.next(site);
     }
 }
