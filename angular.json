@@ -28,7 +28,7 @@
             ],
             "styles": [
               "src/css/styles.scss",
-              "node_modules/plyr/dist/plyr.css"
+              "node_modules/plyr/dist/plyr.css",
               "./node_modules/mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": [
