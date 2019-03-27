@@ -24,7 +24,7 @@ html {
     position: unset !important;
   }
   
-  #map .mapboxgl-control-container .mapboxgl-ctrl-top-right {
+  .mapboxgl-control-container .mapboxgl-ctrl-top-right {
     top: 50% !important;
     transform: translateY(-50%);
   }

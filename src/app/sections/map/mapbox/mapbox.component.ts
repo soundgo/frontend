@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { MapService } from 'src/app/services/map.service';
 import { FeatureCollection } from 'src/app/shared/models/Map';
-import { Map } from 'mapbox-gl';
+import { Map, NavigationControl } from 'mapbox-gl';
 import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.component';
 import { ContextService } from 'src/app/services/context.service';
 import { Site } from 'src/app/shared/models/Site';
@@ -63,6 +63,7 @@ export class MapComponent implements OnInit {
 
     // Trigger geolocation
     this.geolocation.first.control.trigger();
+    this.mapbox.addControl(new NavigationControl());
 
     this.initSourceLayers();
     this.initDataListeners();
