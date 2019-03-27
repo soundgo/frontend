@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContextService } from 'src/app/services/context.service';
 import { Actor } from 'src/app/shared/models/Actor';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { CreateSiteComponent } from 'src/app/sections/map/create-site/create-site.component';
 
 @Component({
     selector: 'app-menu',
@@ -9,11 +11,12 @@ import { BehaviorSubject, Subscription } from 'rxjs';
     styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-    isSelected:boolean;
-    auth:string;
+    
+    isSelected: boolean;
+    auth: string;
     actor: Actor;
 
-    constructor(private context:ContextService) {
+    constructor(private context: ContextService, private matDialog: MatDialog) {
         this.auth = context.getAuth();
         this.actor = context.getUser().value;
     }
@@ -22,12 +25,14 @@ export class MenuComponent implements OnInit {
     }
 
     onSelect(): void {
-        if (this.isSelected === true){
-            this.isSelected = false;
-        }else{
-            this.isSelected = true;
-        }
-      }
+       this.isSelected = !this.isSelected;
+    }
+
+    createSite() {
+        this.matDialog.open(CreateSiteComponent, {
+            width: '350px',
+        });
+    }
 
     changeToUser(): void {
         this.auth = 'user';
@@ -39,9 +44,9 @@ export class MenuComponent implements OnInit {
         this.context.setAuth('advertiser');
     }
 
-    changeToAdministrator(): void {
-        this.auth = 'administrator';
-        this.context.setAuth('administrator');
+    logout(): void {
+        this.auth = 'null';
+        this.context.setAuth(null);
     }
 
 }

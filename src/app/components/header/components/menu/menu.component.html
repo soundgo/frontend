@@ -1,55 +1,33 @@
-<!--<div *ngIf="auth == 'null'" class="avatar" (click)="onSelect()"></div> -->
-
 <div *ngIf="actor == null">
-    <div class="avatar" (click)="onSelect()"></div>
+    <a><div class="avatar" (click)="onSelect()"></div></a>
 </div>
 
 <div *ngIf="actor !== null">
-    <img class="photo_perfil" src="{{actor.photo}}" (click)="onSelect()"/>
+    <a><img class="photo_perfil" src="{{actor.photo}}" (click)="onSelect()" /></a>
 </div>
 
-<div *ngIf="isSelected">
+<div class="loginPanel" *ngIf="isSelected">
 
     <div *ngIf="auth == 'null'">
-        
-        <div class="login"></div>
-        <div class="sign_up"></div>
-        <div class="change_user" (click)="changeToUser()"></div>
-        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
-        <div class="change_administrator" (click)="changeToAdministrator()"></div>
-
-                
+        <!-- <a><div class="login"></div></a> -->
+        <!-- <a><div class="sign_up"></div></a> -->
+        <a><div class="change_user" (click)="changeToUser()"></div></a>
+        <a><div class="change_advertiser" (click)="changeToAdvertiser()"></div></a>
     </div>
 
     <div *ngIf="auth == 'user'">
-    
-        <div class="perfil"></div>
-        <div class="search"></div>
-        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
-        <div class="change_administrator" (click)="changeToAdministrator()"></div>
-        <div class="log_out"></div>
-        
+        <!-- <div class="perfil"></div> -->
+        <!-- <a><div class="search"></div></a> -->
+        <a><div class="change_advertiser" (click)="changeToAdvertiser()"></div></a>
+        <a><div class="log_out" (click)="logout()"></div></a>
     </div>
-    
+
     <div *ngIf="auth == 'advertiser'">
-        
-        <div class="perfil"></div>
-        <div class="search"></div>
-        <div class="change_user" (click)="changeToUser()"></div>
-        <div class="change_administrator" (click)="changeToAdministrator()"></div>
-        <div class="log_out"></div>
-
-    </div>
-
-    <div *ngIf="auth == 'administrator' ">
-        
-        <div class="perfil"></div>
-        <div class="search"></div>
-        <a routerLink="/admin/create-site"><div class="site"></div></a>
-        <div class="change_user" (click)="changeToUser()"></div>
-        <div class="change_advertiser" (click)="changeToAdvertiser()"></div>
-        <div class="log_out"></div>
-
+        <!-- <div class="perfil"></div> -->
+        <!-- <a><div class="search"></div></a> -->
+        <a><div class="site" (click)="createSite()"></div></a>
+        <a><div class="change_user" (click)="changeToUser()"></div></a>
+        <a><div class="log_out" (click)="logout()"></div></a>
     </div>
 
 </div>

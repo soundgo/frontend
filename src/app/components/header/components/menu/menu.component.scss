@@ -1,132 +1,62 @@
 :host {
-    .avatar {
-        width: 70px;
-        height: 70px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/anonymous.png');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-      }
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  
+  .loginPanel div a div, .avatar {
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
+      drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
+      drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
+  }
+  .avatar {
+    width: 70px;
+    height: 70px;
+    background-image: url('/assets/images/anonymous.png');
+  }
 
-    .change_user {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/change_user.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .change_user {
+    background-image: url('/assets/images/change_user.PNG');
+  }
 
-    .change_advertiser {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/change_advertiser.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .change_advertiser {
+    background-image: url('/assets/images/change_advertiser.PNG');
+  }
 
-    .change_administrator {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/change_admin.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .change_administrator {
+    background-image: url('/assets/images/change_admin.PNG');
+  }
 
-    .search {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/search.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .search {
+    background-image: url('/assets/images/search.PNG');
+  }
 
-    .sign_up {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/sign_up.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .sign_up {
+    background-image: url('/assets/images/sign_up.PNG');
+  }
 
-    .login {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/login.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .login {
+    background-image: url('/assets/images/login.PNG');
+  }
 
-    .log_out {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/exit.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .log_out {
+    background-image: url('/assets/images/exit.PNG');
+  }
 
-    .site {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/marker.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
+  .site {
+    background-image: url('/assets/images/marker.PNG');
+  }
 
-    .perfil {
-        margin-top: 10px;
-        width: 50px;
-        height: 50px;
-        background-size: cover;
-        background-position: center;
-        background-image: url('/assets/images/perfil.PNG');
-        -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20))
-          drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    }
-
+  .perfil {
+    background-image: url('/assets/images/perfil.PNG');
+  }
+  a {
+    cursor: pointer;
+  }
 
 }
