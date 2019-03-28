@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Error } from '../shared/models/Error';
-import { Audio } from '../shared/models/Audio';
-import { Ad } from '../shared/models/Ad';
-import { User } from '../shared/models/User';
-import { Actor } from '../shared/models/Actor';
-import { Config } from '../shared/models/Config';
-import { Site } from '../shared/models/Site';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Error} from '../shared/models/Error';
+import {Audio} from '../shared/models/Audio';
+import {Ad} from '../shared/models/Ad';
+import {User} from '../shared/models/User';
+import {Actor} from '../shared/models/Actor';
+import {Config} from '../shared/models/Config';
+import {Site} from '../shared/models/Site';
 
 @Injectable({
     providedIn: 'root',
 })
-
 export class ContextService {
     error = new BehaviorSubject<Error>(new Error());
     audioEntity = new BehaviorSubject<Audio>(new Audio());
@@ -30,7 +29,7 @@ export class ContextService {
     user = new BehaviorSubject<User>(null);
     config = new BehaviorSubject<Config>(new Config());
 
-    auth = 'null';
+    auth = new BehaviorSubject<string>(null);
 
     constructor() {
     }
@@ -105,7 +104,7 @@ export class ContextService {
 
     startWatchPosition() {
         navigator.geolocation.watchPosition(
-            ({ coords }) => {
+            ({coords}) => {
                 this.position.next(coords);
             },
             null,
@@ -118,7 +117,7 @@ export class ContextService {
     }
 
     setCurrentLocation(entity) {
-        navigator.geolocation.getCurrentPosition(({ coords }) => {
+        navigator.geolocation.getCurrentPosition(({coords}) => {
             this[entity + 'Entity'].next({
                 ...this[entity + 'Entity'].getValue(),
                 ...coords,
@@ -163,7 +162,7 @@ export class ContextService {
     }
 
     setAuth(auth: string) {
-        this.auth = auth;
+        this.auth.next(auth);
     }
 
     getSiteEntity() {

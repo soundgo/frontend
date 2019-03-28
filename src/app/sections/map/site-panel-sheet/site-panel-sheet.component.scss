@@ -8,4 +8,19 @@
       display: inline;
     }
   }
+
+  mat-spinner {
+    display: block;
+    text-align: center;
+    margin: 50px auto;
+  }
+
+  mat-list-item /deep/ .mat-list-item-content {
+    padding: 0;
+  }
+
+  div.reproducer {
+    width: 100%;
+  }
+
 }

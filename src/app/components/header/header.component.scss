@@ -1,13 +1,26 @@
 :host {
-    position: absolute;
-    top: 10px;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  z-index: 1;
+
+  main {
+    width: 90%;
     display: flex;
     justify-content: center;
-    width: 100%;
     z-index: 9;
-  
+    margin: auto;
+
     div.left {
       flex: 1 0 70%;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-flow: column;
+
+      app-category-picker {
+        margin-top: 10px;
+      }
     }
-  
   }
+}
