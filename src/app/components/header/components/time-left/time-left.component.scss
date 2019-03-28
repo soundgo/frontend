@@ -1,0 +1,13 @@
+:host{
+    display: flex;
+    position: absolute;
+    width: 70%;
+    left: 20px;
+
+    .mat-progress-bar {
+        height: 10px;
+        top: 7px;
+        left: 10px;
+        border-radius: 5px;
+    }
+}
