@@ -23,7 +23,7 @@ html {
   .mapboxgl-canvas {
     position: unset !important;
   }
-  
+
   .mapboxgl-control-container .mapboxgl-ctrl-top-right {
     top: 50% !important;
     transform: translateY(-50%);
@@ -37,5 +37,38 @@ html {
   .purple {
     background: $colorPrimary;
     color: white;
+  }
+
+  .cdk-global-overlay-wrapper, .cdk-overlay-container {
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cdk-overlay-pane {
+    position: absolute;
+    pointer-events: auto;
+    box-sizing: border-box;
+    z-index: 1000;
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+  }
+
+  mat-bottom-sheet-container {
+    padding: 8px 16px;
+    min-width: 100vw;
+    box-sizing: border-box;
+    display: block;
+    outline: 0;
+    max-height: 80vh;
+    overflow: auto;
+    z-index: 99;
+    height: 100%;
   }
 }

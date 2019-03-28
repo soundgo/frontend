@@ -12,7 +12,7 @@ export class Site {
         this.latitude = data.latitude || null;
         this.longitude = data.longitude || null;
         this.name = data.name || null;
-        this.description = data.desription || null;
+        this.description = data.description || null;
     }
 
     toJSON() {

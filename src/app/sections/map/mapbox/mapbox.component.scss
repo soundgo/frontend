@@ -1,38 +1,41 @@
 @import '../../../../css/theme.scss';
 
 :host {
-    mgl-map {
-        display: block;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      #map-container {
-        position: absolute;
-        top: 100px;
-        right: 0;
-        z-index: 2;
-        background: rgba(255, 255, 255, 0.3);
-        height: 140px;
-        width: 100%;
-        text-align: center;
-      }
-      #map-container p {
-        margin-top: 20px;
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: $purple;
-      }
-      #basic-container button {
-        margin-top: 30px;
-        font-size: 1.2rem;
-        margin: 25px 10px;
-      }
-      .saveButton {
-        background: $blue;
-        color: #fff;
-      }
+  mgl-map {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-  
+
+  #map-container {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.3);
+    height: 140px;
+    width: 100%;
+    text-align: center;
+  }
+
+  #map-container p {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $purple;
+  }
+
+  #basic-container button {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    margin: 25px 10px;
+  }
+
+  .saveButton {
+    background: $blue;
+    color: #fff;
+  }
+}
