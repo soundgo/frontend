@@ -15,6 +15,10 @@ import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-rep
 import {Audio} from '../../../shared/models/Audio';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ApiService} from '../../../services/api.service';
+import {AdReproducerPanelComponent} from '../ad-reproducer-panel/ad-reproducer-panel.component';
+import {Ad} from '../../../shared/models/Ad';
+
+import * as turf from '@turf/turf';
 
 @Component({
     selector: 'app-map-box1',
@@ -77,9 +81,19 @@ export class MapBoxComponent implements OnInit {
         this.siteSource = this.map.getSource('sites');
 
         this.audios.subscribe(data => {
+            data = data.filter(marker => marker.isActive);
+
             this.audioSource.setData(new FeatureCollection(data));
         });
         this.ads.subscribe(data => {
+            const {latitude, longitude} = this.context.getPosition().getValue();
+            const userPosition = turf.point([longitude, latitude]);
+            data = data.filter(ad => {
+                const center = [ad.longitude, ad.latitude];
+                const radius = ad.radius;
+                const adCircle = turf.circle(center, radius);
+                turf.booleanPointInPolygon(userPosition, adCircle);
+            });
             this.adSource.setData(new FeatureCollection(data));
         });
         this.sites.subscribe(data => {
@@ -147,13 +161,12 @@ export class MapBoxComponent implements OnInit {
             this.initSourceLayers();
             this.initDataListeners();
 
-            const geolocateUser = new mapboxgl.GeolocateControl({
+            this.map.addControl(new mapboxgl.GeolocateControl({
                 positionOptions: {
-                    enableHighAccuracy: true,
+                    enableHighAccuracy: true
                 },
-                trackUserLocation: true,
-            });
-            this.map.addControl(geolocateUser);
+                trackUserLocation: true
+            }));
 
             // Add button to know your position
             this.map.addControl(new mapboxgl.NavigationControl());
@@ -175,6 +188,11 @@ export class MapBoxComponent implements OnInit {
                 this.openAudioReproducer(audio.properties);
             }
 
+            const ad = this.isMarkerType(point, 'ads');
+            if (ad) {
+                this.openAdReproducer(ad.properties);
+            }
+
         });
     }
 
@@ -191,6 +209,17 @@ export class MapBoxComponent implements OnInit {
                 data: {
                     properties,
                     audio: new Audio(audio)
+                }
+            });
+        });
+    }
+
+    openAdReproducer(properties) {
+        this.api.getAdById(properties.id).then(ad => {
+            this.bottomSheet.open(AdReproducerPanelComponent, {
+                data: {
+                    properties,
+                    ad: new Ad(ad)
                 }
             });
         });

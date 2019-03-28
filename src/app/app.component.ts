@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
                         id: 1,
                         photo: 'https://pbs.twimg.com/profile_images/1081695212857118720/hvcEAK8s_bigger.jpg',
                         email: 'sergioclebal@gmail.com',
+                        name: 'manuel',
                         minutes: 10
                     });
                     this.context.setUser(user);
@@ -38,7 +39,8 @@ export class AppComponent implements OnInit {
                     const user = new User({
                         id: 2,
                         photo: 'https://goo.gl/RhBCq6',
-                        email: 'pedrobertor@gmail.com',
+                        email: 'carlos@gmail.com',
+                        name: 'carlos',
                         minutes: 7.5
                     });
                     this.context.setUser(user);

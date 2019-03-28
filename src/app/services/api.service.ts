@@ -40,12 +40,10 @@ export class ApiService {
     adReproduced(id: number) {
         const url = `${this.apiUrl}/records/advertisement/listen/${id}/`;
         return new Promise(resolve => {
-            this.http.put<any>(url, {}).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.put<any>(url, {}).subscribe(response => resolve(response), err => this.handleError({
+                error: 'There\'s been an unusual error',
+                details: ''
+            }));
         });
     }
 

@@ -19,13 +19,26 @@ import {CreateSiteComponent} from './create-site/create-site.component';
 import {PlyrModule} from 'ngx-plyr';
 import {SharedModule} from '../../shared/shared.module';
 import {AudioReproducerPanelComponent} from './audio-reproducer-panel/audio-reproducer-panel.component';
-import { MapBoxComponent } from './map-box/map-box.component';
+import {MapBoxComponent} from './map-box/map-box.component';
+import {AdReproducerPanelComponent} from './ad-reproducer-panel/ad-reproducer-panel.component';
 
-const components = [MapComponent, MapBoxComponent, SitePanelSheetComponent, CreateSiteComponent, AudioReproducerPanelComponent];
+const components = [
+    MapComponent,
+    MapBoxComponent,
+    SitePanelSheetComponent,
+    CreateSiteComponent,
+    AudioReproducerPanelComponent,
+    AdReproducerPanelComponent
+];
 
 @NgModule({
     declarations: [...components],
-    entryComponents: [SitePanelSheetComponent, AudioReproducerPanelComponent, CreateSiteComponent], // inside we put the modalComponent
+    entryComponents: [
+        SitePanelSheetComponent,
+        AudioReproducerPanelComponent,
+        AdReproducerPanelComponent,
+        CreateSiteComponent
+    ], // inside we put the modalComponent
     imports: [
         CommonModule,
         SharedModule,

@@ -22,7 +22,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
         private audioRecord: AudioRecordService,
         public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>) {
         this.adEntity = this.context.getAdEntity().getValue();
-        console.log(this.audioRecord.getRecordedTime().getValue());
     }
 
     ngOnInit() {
@@ -33,7 +32,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
          * The formula to calculate the price is:
          *  C x r x s x (d/10000)
          */
-        this.duration = 30;
         this.maxNumberOfReproductions = Math.round(this.maxToPay / (this.duration * (this.adEntity.radius / 10000)));
     }
 

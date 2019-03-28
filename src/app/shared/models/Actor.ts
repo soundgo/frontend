@@ -2,11 +2,13 @@ export class Actor {
 
     id?: number;
     photo?: string;
+    name?: string;
     email: string;
 
     constructor(data: any = {}) {
         this.id = data.id || null;
         this.photo = data.photo || null;
+        this.name = data.name || null;
         this.email = data.email || null;
     }
 
