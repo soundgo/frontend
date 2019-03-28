@@ -12,13 +12,15 @@ import {MatSnackBar, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@an
 import {ClickOutsideModule} from 'ng-click-outside';
 import {PlyrModule} from 'ngx-plyr';
 import {MaterialModule} from '../material.module';
+import { ShowcaseComponent } from './components/showcase/showcase.component';
 
 const components = [
     ButtonComponent,
     ReproducerComponent,
     RecorderComponent,
     ErrorsManagementComponent,
-    ReproducerComponent
+    ReproducerComponent,
+    ShowcaseComponent
 ];
 
 @NgModule({
