@@ -1,20 +1,37 @@
 :host {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  border-radius: 6px;
+  height: 30px;
+  margin-bottom: 10px;
+  box-shadow: 1px 0 2.5px #00000045;
+  border: 2px solid dodgerblue;
+  position: relative;
+  margin-left: 15px;
 
   div.icon {
-    flex: 1 0 30%;
+    height: 100%;
+    padding: 0 2.5px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px 0 0 4px;
 
     img {
-      vertical-align: middle;
+      width: 20px;
     }
   }
 
   div.label {
-    background: white;
+    width: 100%;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
 
     span {
-
+      font-weight: bold;
+      font-size: 20px;
     }
   }
 }

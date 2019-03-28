@@ -14,4 +14,16 @@
       color: $orange;
     }
   }
+
+  app-map-box {
+    /deep/ {
+      mgl-map {
+        /deep/ {
+          .mapboxgl-user-location-dot {
+            opacity: 0.6;
+          }
+        }
+      }
+    }
+  }
 }
