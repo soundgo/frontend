@@ -10,6 +10,8 @@ import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.comp
 import {ContextService} from 'src/app/services/context.service';
 import {Site} from 'src/app/shared/models/Site';
 import {ApiService} from '../../../services/api.service';
+import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
+import {Audio} from '../../../shared/models/Audio';
 
 @Component({
     selector: 'app-map-box',
@@ -73,17 +75,36 @@ export class MapComponent implements OnInit {
         this.context.setMap(this.mapbox);
         this.context.startWatchPosition();
 
-        this.mapbox.on('click', (event) => {
-            // Get point click and check if is a marker
-            const features = this.mapbox.queryRenderedFeatures(event.point, {
-                layers: ['sites'],
-            });
-            // If not is a marker return
-            if (!features.length) {
-                return;
+        this.mapbox.on('click', ({point}) => {
+
+            const site = this.isMarkerType(point, 'sites');
+            if (site) {
+                this.openSiteSheet(site.properties);
             }
-            const feature = features[0];
-            this.openSiteSheet(feature.properties);
+
+            const audio = this.isMarkerType(point, 'audios');
+            if (audio) {
+                this.openAudioReproducer(audio.properties);
+            }
+
+        });
+    }
+
+    isMarkerType(point, type) {
+        const features = this.mapbox.queryRenderedFeatures(point, {
+            layers: [type],
+        });
+        return features[0];
+    }
+
+    openAudioReproducer(properties) {
+        this.api.getAudioById(properties.id).then(audio => {
+            this.bottomSheet.open(AudioReproducerPanelComponent, {
+                data: {
+                    properties,
+                    audio: new Audio(audio)
+                }
+            });
         });
     }
 
