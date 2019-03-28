@@ -1,18 +1,16 @@
-<div (clickOutside)="closeSitePanel()">
-    <div class="header">
-        <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
-        <app-site-record [siteId]="data.properties.id" (click)="closeSitePanel()"></app-site-record>
-    </div>
-    <p>{{ data.site.description }}</p>
-    <mat-nav-list *ngIf="data.audios.length === 0">
-        <mat-list-item>
-            <span mat-line>{{ 'There\'s no audios to listen' | translate }}</span>
-        </mat-list-item>
-    </mat-nav-list>
-    <mat-nav-list *ngIf="data.audios.length !== 0">
-        <mat-list-item *ngFor="let audio of data.audios">
-            <div class="reproducer" plyr plyrType="audio" [plyrSources]="[{ src: audio.path, type: 'audio/ogg' }]"
-                 [plyrOptions]="{ controls: ['play', 'progress', 'current-time'] }"></div>
-        </mat-list-item>
-    </mat-nav-list>
+<div class="header">
+    <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
+    <app-site-record [siteId]="data.properties.id" (click)="closeSitePanel()"></app-site-record>
 </div>
+<p>{{ data.site.description }}</p>
+<mat-nav-list *ngIf="data.audios.length === 0">
+    <mat-list-item>
+        <span mat-line>{{ 'There\'s no audios to listen' | translate }}</span>
+    </mat-list-item>
+</mat-nav-list>
+<mat-nav-list *ngIf="data.audios.length !== 0">
+    <mat-list-item *ngFor="let audio of data.audios">
+        <div class="reproducer" plyr plyrType="audio" [plyrSources]="[{ src: audio.path, type: 'audio/ogg' }]"
+             [plyrOptions]="{ controls: ['play', 'progress', 'current-time'] }"></div>
+    </mat-list-item>
+</mat-nav-list>

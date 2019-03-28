@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Audio} from '../../models/Audio';
 
 @Component({
     selector: 'app-reproducer',
@@ -7,7 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class ReproducerComponent implements OnInit {
 
-    @Input() audio: string;
+    @Input() audio: Audio;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 
@@ -24,6 +25,7 @@ export class ReproducerComponent implements OnInit {
     }
 
     onFinish() {
+        this.audio.numberReproductions = this.audio.numberReproductions + 1;
         if (this.finishAction) {
             this.finishAction.emit({});
         }

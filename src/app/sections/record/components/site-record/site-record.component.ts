@@ -1,9 +1,10 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
-import {MatDialog} from '@angular/material';
+import {MatBottomSheetRef, MatDialog} from '@angular/material';
 import {AudioRecordComponent} from '../audio-record/audio-record.component';
 import {ApiService} from '../../../../services/api.service';
+import {SitePanelSheetComponent} from '../../../map/site-panel-sheet/site-panel-sheet.component';
 
 @Component({
     selector: 'app-site-record',

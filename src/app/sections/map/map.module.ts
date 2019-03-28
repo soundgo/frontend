@@ -18,10 +18,10 @@ import {environment} from '../../../environments/environment';
 import {CreateSiteComponent} from './create-site/create-site.component';
 import {PlyrModule} from 'ngx-plyr';
 import {SharedModule} from '../../shared/shared.module';
-import {ClickOutsideModule} from 'ng-click-outside';
 import {AudioReproducerPanelComponent} from './audio-reproducer-panel/audio-reproducer-panel.component';
+import { MapBoxComponent } from './map-box/map-box.component';
 
-const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent, AudioReproducerPanelComponent];
+const components = [MapComponent, MapBoxComponent, SitePanelSheetComponent, CreateSiteComponent, AudioReproducerPanelComponent];
 
 @NgModule({
     declarations: [...components],
@@ -31,7 +31,6 @@ const components = [MapComponent, SitePanelSheetComponent, CreateSiteComponent, 
         SharedModule,
         MaterialModule,
         HttpClientModule,
-        ClickOutsideModule,
         ReactiveFormsModule,
         FormsModule,
         RecordModule,
