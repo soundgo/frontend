@@ -9,7 +9,7 @@ export class ShowcaseComponent implements OnInit {
 
   @Input() bg: string;
   @Input() icon: string;
-  @Input() label: string;
+  @Input() label: any;
 
   constructor() { }
 

@@ -6,4 +6,33 @@
   .reproducer {
     margin: 15px 0;
   }
+
+  .author {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 35px;
+      border-radius: 100%;
+      box-shadow: 1px 0px 2.5px #00000087;
+    }
+
+    p {
+      display: inline;
+      font-size: 20px;
+      font-weight: 500;
+      margin-left: 15px;
+
+      &.advertiser {
+        margin-left: 5px;
+        padding: 5px;
+        background: #383D4C;
+        color: white;
+        border-radius: 5px;
+        opacity: 0.75;
+        font-size: 15px;
+      }
+    }
+  }
 }

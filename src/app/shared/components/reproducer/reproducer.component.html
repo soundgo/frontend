@@ -1,27 +1,12 @@
 <div>
-    <!--<div class="header">
-        <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
-    </div>-->
     <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
-                  [label]="audio.numberReproductions"></app-showcase>
-    <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish()"
-         [plyrSources]="[{ src: audio.path, type: 'audio/ogg' }]"
+                  [label]="record.numberReproductions"></app-showcase>
+    <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
+         [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
          [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }"></div>
-    <div style="
-    margin-left: 30px;
-    display: flex;
-    align-items: center;
-">
-        <img [src]="audio.photo ? audio.photo : '../../../../assets/images/anonymous.png'"
-             style="
-    width: 35px;
-    border-radius: 100%;
-    box-shadow: 1px 0px 2.5px #00000087;
-    ">
-        <p style="
-    display: inline;
-    font-size: 20px;
-    font-weight: 500;
-    margin-left: 15px;
-">{{audio.name}}</p></div>
+    <div class="author">
+        <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
+        <p>{{record.name}}</p>
+        <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
+    </div>
 </div>

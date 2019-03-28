@@ -9,6 +9,10 @@ export class Record {
     longitude: number;
 
     numberReproductions?: number;
+    duration?: number;
+
+    name: string;
+    photo: string;
 
     constructor(data: any = {}) {
         this.id = data.id || null;
@@ -16,7 +20,10 @@ export class Record {
         this.path = data.path || null;
         this.latitude = data.latitude || null;
         this.longitude = data.longitude || null;
-        this.numberReproductions = data.numberReproductions || null;
+        this.numberReproductions = data.numberReproductions || 0;
+
+        this.name = data.name || null;
+        this.photo = data.photo || null;
     }
 
     toJSON() {

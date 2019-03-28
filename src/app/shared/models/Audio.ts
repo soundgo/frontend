@@ -18,10 +18,6 @@ export class Audio extends Record {
     tags?: Tag[];
     actor?: number | {};
     language?: number | string[];
-    numberReproductions?: number;
-
-    name: string;
-    photo: string;
 
     constructor(data: any = {}) {
         super(data);
@@ -43,10 +39,7 @@ export class Audio extends Record {
             this.tags = null;
         }
         this.actor = data.actor || null;
-        this.name = data.name || null;
-        this.photo = data.photo || null;
         this.language = data.language || null;
-        this.numberReproductions = data.numberReproductions || 0;
     }
 
     toJSON() {
