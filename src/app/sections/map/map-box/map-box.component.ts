@@ -84,6 +84,9 @@ export class MapBoxComponent implements OnInit {
             this.audioSource.setData(new FeatureCollection(data));
         });
         this.ads.subscribe(data => {
+            data = data.filter(ad => {
+                return this.isUserInsideAdvertArea(ad);
+            });
             this.adSource.setData(new FeatureCollection(data));
         });
         this.sites.subscribe(data => {
@@ -128,8 +131,6 @@ export class MapBoxComponent implements OnInit {
             source: 'ads',
             type: 'circle'
         });
-
-        // this.map.setFilter('ads', ['all', filterHour, filterDay]);
     }
 
     isUserInsideAdvertArea(ad) {
@@ -161,6 +162,10 @@ export class MapBoxComponent implements OnInit {
         this.map.on('load', () => {
             this.initSourceLayers();
             this.initDataListeners();
+
+            this.context.getPosition().asObservable().subscribe(position => {
+               this.initDataListeners();
+            });
 
             this.map.addControl(new mapboxgl.GeolocateControl({
                 positionOptions: {
