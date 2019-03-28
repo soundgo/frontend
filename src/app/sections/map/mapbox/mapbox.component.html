@@ -5,17 +5,17 @@
       }" [trackUserLocation]="true" (load)="initUserGeolocation($event)"></mgl-control>
   <mgl-layer *ngIf="isDataLoaded" id="audios" type="symbol" source="audios" [layout]="{
     'icon-image': 'Marker',
-    'text-size': 24
+    'icon-allow-overlap': true
   }" [filter]="['==', 'type', categorySelected]">
   </mgl-layer>
   <mgl-layer *ngIf="isDataLoaded" id="ads" type="symbol" source="ads" [layout]="{
     'icon-image': 'MarkerAd',
-    'text-size': 24
+    'icon-allow-overlap': true
   }">
   </mgl-layer>
   <mgl-layer *ngIf="isDataLoaded" id="sites" type="symbol" source="sites" [layout]="{
     'icon-image': 'MarkerSite',
-    'text-size': 24
+    'icon-allow-overlap': true
   }">
   </mgl-layer>
   <mgl-marker #siteMarker *ngIf="showPlaceMarkerForm" [lngLat]="[userPosition.longitude, userPosition.latitude]"
