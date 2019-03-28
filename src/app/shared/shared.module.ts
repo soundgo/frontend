@@ -9,7 +9,6 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {HttpLoaderFactory} from '../app.module';
 
 import {MatSnackBar, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material';
-import {ClickOutsideModule} from 'ng-click-outside';
 import {PlyrModule} from 'ngx-plyr';
 import {MaterialModule} from '../material.module';
 import { ShowcaseComponent } from './components/showcase/showcase.component';
@@ -32,7 +31,6 @@ const components = [
         MaterialModule,
         HttpClientModule,
         PlyrModule,
-        ClickOutsideModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

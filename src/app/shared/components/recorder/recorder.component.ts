@@ -29,8 +29,8 @@ export class RecorderComponent implements OnInit {
     }
 
     startRecording() {
-        this.audioRecord.startRecording();
         this.isRecording = true;
+        this.audioRecord.startRecording();
     }
 
     stopRecording(): Promise<string> {
@@ -38,10 +38,10 @@ export class RecorderComponent implements OnInit {
             this.audioRecord.stopRecording();
             this.audioRecord.getRecordedBlob().subscribe(({blob}) => {
                 this.isRecording = false;
+                this.isRecorded = true;
                 const reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend = () => {
-                    this.isRecorded = true;
                     resolve('' + reader.result);
                 };
             });
