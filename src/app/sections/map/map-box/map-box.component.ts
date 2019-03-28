@@ -36,7 +36,6 @@ export class MapBoxComponent implements OnInit {
     audios: Observable<any[]>;
     ads: Observable<any[]>;
     sites: Observable<any[]>;
-    categorySelected: string;
     audioSource: any;
     adSource: any;
     siteSource: any;
@@ -57,7 +56,9 @@ export class MapBoxComponent implements OnInit {
         this.sites = db.collection('sites').valueChanges();
         // Filter audio category
         this.context.getCategoriesSelected().subscribe(categorySelected => {
-            this.categorySelected = categorySelected;
+            if (this.map) {
+                this.map.setFilter('audios', ['==', 'type', categorySelected]);
+            }
         });
         // Show site marker in map
         this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
@@ -84,9 +85,9 @@ export class MapBoxComponent implements OnInit {
             this.audioSource.setData(new FeatureCollection(data));
         });
         this.ads.subscribe(data => {
-            data = data.filter(ad => {
+            /*data = data.filter(ad => {
                 return this.isUserInsideAdvertArea(ad);
-            });
+            });*/
             this.adSource.setData(new FeatureCollection(data));
         });
         this.sites.subscribe(data => {
@@ -105,7 +106,10 @@ export class MapBoxComponent implements OnInit {
         this.map.addLayer({
             id: 'audios',
             source: 'audios',
-            type: 'circle'
+            type: 'symbol',
+            layout: {
+                'icon-image': 'Marker'
+            }
         });
         this.map.addSource('sites', {
             type: 'geojson',
@@ -117,7 +121,10 @@ export class MapBoxComponent implements OnInit {
         this.map.addLayer({
             id: 'sites',
             source: 'sites',
-            type: 'circle'
+            type: 'symbol',
+            layout: {
+                'icon-image': 'MarkerSite'
+            }
         });
         this.map.addSource('ads', {
             type: 'geojson',
@@ -129,15 +136,18 @@ export class MapBoxComponent implements OnInit {
         this.map.addLayer({
             id: 'ads',
             source: 'ads',
-            type: 'circle'
+            type: 'symbol',
+            layout: {
+                'icon-image': 'MarkerAd'
+            }
         });
     }
 
-    isUserInsideAdvertArea(ad) {
-        const {latitude, longitude} = this.context.getPosition().getValue();
+    isUserInsideAdvertArea(ad, position = this.context.getPosition().getValue()) {
+        const {latitude, longitude} = position;
         const userPosition = turf.point([longitude, latitude]);
-        const center = [ad.longitude, ad.latitude];
-        const radius = ad.radius;
+        const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
+        const radius = 5;
         const adCircle = turf.circle(center, radius);
         return turf.booleanPointInPolygon(userPosition, adCircle);
     }
@@ -158,24 +168,31 @@ export class MapBoxComponent implements OnInit {
             ],
         });
 
+        const geolocation = new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        });
+        this.map.addControl(geolocation);
+
+        // Add button to know your position
+        this.map.addControl(new mapboxgl.NavigationControl());
+
 
         this.map.on('load', () => {
             this.initSourceLayers();
             this.initDataListeners();
 
-            this.context.getPosition().asObservable().subscribe(position => {
-               this.initDataListeners();
-            });
-
-            this.map.addControl(new mapboxgl.GeolocateControl({
-                positionOptions: {
-                    enableHighAccuracy: true
-                },
-                trackUserLocation: true
-            }));
-
-            // Add button to know your position
-            this.map.addControl(new mapboxgl.NavigationControl());
+            geolocation.trigger();
+            /*this.context.getPosition().asObservable().subscribe(position => {
+                this.ads.subscribe(data => {
+                    data = data.filter(ad => {
+                        return this.isUserInsideAdvertArea(position, ad);
+                    });
+                    this.adSource.setData(new FeatureCollection(data));
+                });
+            });*/
 
             this.isDataLoaded = true;
             this.context.setMap(this.map);
