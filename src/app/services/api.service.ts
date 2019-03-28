@@ -37,9 +37,34 @@ export class ApiService {
     constructor(private http: HttpClient, private context: ContextService) {
     }
 
+    adReproduced(id: number) {
+        const url = `${this.apiUrl}/records/advertisement/listen/${id}/`;
+        return new Promise(resolve => {
+            this.http.put<any>(url, {}).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({ error: 'There\'s been an unusual error', details: '' }));
+        });
+    }
+
     ////////////////////////////////////////////////////////////////////////
     ///////////////////////////////// AUDIO ///////////////////////////////
     //////////////////////////////////////////////////////////////////////
+
+    audioReproduced(id: number) {
+        const url = `${this.apiUrl}/records/audio/listen/${id}/`;
+        return new Promise(resolve => {
+            this.http.put<any>(url, {}).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({ error: 'There\'s been an unusual error', details: '' }));
+        });
+    }
+
 
     /** GET: Give one audio with all its properties */
     getAudioById(id: number) {

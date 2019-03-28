@@ -1,0 +1,10 @@
+<div>
+    <!--<div class="header">
+        <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
+    </div>-->
+
+            <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish()"
+                 [plyrSources]="[{ src: audio.path, type: 'audio/ogg' }]"
+                 [plyrOptions]="{ autoplay: true, resetOnEnd: true, controls: ['play', 'progress', 'current-time'] }"></div>
+
+</div>

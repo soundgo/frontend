@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { reproduccerComponent } from './reproduccer.component';
+import { reproduccerComponent } from './reproducer.component';
 
 describe('reproduccerComponent', () => {
   let component: reproduccerComponent;
