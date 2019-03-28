@@ -71,7 +71,6 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
             this.context.setRecordType('audio');
         }
 
-        this.entity = this.context.getAdEntity().getValue();
         this.entity.duration = this.audioRecord.getRecordedTime().getValue();
         this.context.setAdEntity(this.entity);
 
