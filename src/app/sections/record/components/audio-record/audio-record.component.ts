@@ -42,9 +42,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
   ngOnInit() {}
 
   startRecord() {
-    this.entity = new Audio();
-
     super.startRecording();
+
+    this.entity = new Audio();
 
     // @ts-ignore
     this.siriWave = new SiriWave({

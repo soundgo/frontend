@@ -5,6 +5,6 @@
     <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'" [label]="audio.numberReproductions"></app-showcase>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish()"
          [plyrSources]="[{ src: audio.path, type: 'audio/ogg' }]"
-         [plyrOptions]="{ autoplay: true, resetOnEnd: true, controls: ['play', 'progress', 'current-time'] }"></div>
+         [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }"></div>
 
 </div>

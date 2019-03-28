@@ -36,8 +36,11 @@ export class MapComponent implements OnInit {
     showPlaceMarkerForm: boolean = false;
     siteEntity: Site;
 
-    constructor(private mapService: MapService, private context: ContextService,
-                private db: AngularFirestore, private bottomSheet: MatBottomSheet, private api: ApiService) {
+    constructor(private bottomSheet: MatBottomSheet,
+                private mapService: MapService,
+                private context: ContextService,
+                private db: AngularFirestore,
+                private api: ApiService) {
         // Observable in database
         this.audios = db.collection('audios').valueChanges();
         this.ads = db.collection('ads').valueChanges();

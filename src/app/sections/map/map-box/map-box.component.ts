@@ -1,0 +1,213 @@
+import {Component, OnInit, Inject} from '@angular/core';
+import * as mapboxgl from 'mapbox-gl';
+import {
+    MatBottomSheet,
+    MatBottomSheetRef,
+    MAT_BOTTOM_SHEET_DATA,
+} from '@angular/material';
+import {MapService} from '../../../services/map.service';
+import {ContextService} from '../../../services/context.service';
+import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
+import {Observable, Subscription} from 'rxjs';
+import {FeatureCollection} from '../../../shared/models/Map';
+import {Site} from '../../../shared/models/Site';
+import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
+import {Audio} from '../../../shared/models/Audio';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {ApiService} from '../../../services/api.service';
+
+@Component({
+    selector: 'app-map-box1',
+    templateUrl: './map-box.component.html',
+    styleUrls: ['./map-box.component.scss'],
+    providers: [MapService],
+})
+export class MapBoxComponent implements OnInit {
+    map: mapboxgl.Map;
+    style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
+    container = 'map';
+    subscription: Subscription;
+    source: any;
+
+    audios: Observable<any[]>;
+    ads: Observable<any[]>;
+    sites: Observable<any[]>;
+    categorySelected: string;
+    audioSource: any;
+    adSource: any;
+    siteSource: any;
+    isDataLoaded = false;
+    userPosition: any;
+    showPlaceMarkerForm = false;
+    siteEntity: Site;
+
+    constructor(private bottomSheet: MatBottomSheet,
+                private mapService: MapService,
+                private context: ContextService,
+                private db: AngularFirestore,
+                private api: ApiService) {
+
+        // Observable in database
+        this.audios = db.collection('audios').valueChanges();
+        this.ads = db.collection('ads').valueChanges();
+        this.sites = db.collection('sites').valueChanges();
+        // Filter audio category
+        this.context.getCategoriesSelected().subscribe(categorySelected => {
+            this.categorySelected = categorySelected;
+        });
+        // Show site marker in map
+        this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
+            if (isMarkerSiteVisible) {
+                this.userPosition = this.context.getPosition().getValue();
+                this.showPlaceMarkerForm = true;
+            } else {
+                this.showPlaceMarkerForm = false;
+            }
+        });
+
+    }
+
+    ngOnInit() {
+        this.buildMap();
+    }
+
+    initDataListeners() {
+        this.audioSource = this.map.getSource('audios');
+        this.adSource = this.map.getSource('ads');
+        this.siteSource = this.map.getSource('sites');
+
+        this.audios.subscribe(data => {
+            this.audioSource.setData(new FeatureCollection(data));
+        });
+        this.ads.subscribe(data => {
+            this.adSource.setData(new FeatureCollection(data));
+        });
+        this.sites.subscribe(data => {
+            this.siteSource.setData(new FeatureCollection(data));
+        });
+    }
+
+    initSourceLayers() {
+        this.map.addSource('audios', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: []
+            }
+        });
+        this.map.addLayer({
+            id: 'audios',
+            source: 'audios',
+            type: 'circle'
+        });
+        this.map.addSource('sites', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: []
+            }
+        });
+        this.map.addLayer({
+            id: 'sites',
+            source: 'sites',
+            type: 'circle'
+        });
+        this.map.addSource('ads', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: []
+            }
+        });
+        this.map.addLayer({
+            id: 'ads',
+            source: 'ads',
+            type: 'circle'
+        });
+    }
+
+    buildMap() {
+        // Create map site
+        Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken')
+            .set('pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q');
+
+        const coords = this.context.getPosition().getValue();
+        this.map = new mapboxgl.Map({
+            container: this.container as string,
+            style: this.style,
+            zoom: 13,
+            center: [
+                (coords && coords.longitude) || -5.987,
+                (coords && coords.latitude) || 37.358,
+            ],
+        });
+
+
+        this.map.on('load', () => {
+            this.initSourceLayers();
+            this.initDataListeners();
+
+            const geolocateUser = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true,
+                },
+                trackUserLocation: true,
+            });
+            this.map.addControl(geolocateUser);
+
+            // Add button to know your position
+            this.map.addControl(new mapboxgl.NavigationControl());
+
+            this.isDataLoaded = true;
+            this.context.setMap(this.map);
+            this.context.startWatchPosition();
+        });
+
+        this.map.on('click', ({point}) => {
+
+            const site = this.isMarkerType(point, 'sites');
+            if (site) {
+                this.openSiteSheet(site.properties);
+            }
+
+            const audio = this.isMarkerType(point, 'audios');
+            if (audio) {
+                this.openAudioReproducer(audio.properties);
+            }
+
+        });
+    }
+
+    isMarkerType(point, type) {
+        const features = this.map.queryRenderedFeatures(point, {
+            layers: [type],
+        });
+        return features[0];
+    }
+
+    openAudioReproducer(properties) {
+        this.api.getAudioById(properties.id).then(audio => {
+            this.bottomSheet.open(AudioReproducerPanelComponent, {
+                data: {
+                    properties,
+                    audio: new Audio(audio)
+                }
+            });
+        });
+    }
+
+    openSiteSheet(properties): void {
+        Promise.all([
+            this.api.getSiteAudios(properties.id),
+            this.api.getSiteById(properties.id)
+        ]).then(values => {
+            this.bottomSheet.open(SitePanelSheetComponent, {
+                data: {
+                    properties,
+                    site: new Site(values[1]),
+                    audios: values[0]
+                }
+            });
+        });
+    }
+}
