@@ -81,19 +81,9 @@ export class MapBoxComponent implements OnInit {
         this.siteSource = this.map.getSource('sites');
 
         this.audios.subscribe(data => {
-            data = data.filter(marker => marker.isActive);
-
             this.audioSource.setData(new FeatureCollection(data));
         });
         this.ads.subscribe(data => {
-            const {latitude, longitude} = this.context.getPosition().getValue();
-            const userPosition = turf.point([longitude, latitude]);
-            data = data.filter(ad => {
-                const center = [ad.longitude, ad.latitude];
-                const radius = ad.radius;
-                const adCircle = turf.circle(center, radius);
-                turf.booleanPointInPolygon(userPosition, adCircle);
-            });
             this.adSource.setData(new FeatureCollection(data));
         });
         this.sites.subscribe(data => {
@@ -138,6 +128,17 @@ export class MapBoxComponent implements OnInit {
             source: 'ads',
             type: 'circle'
         });
+
+        // this.map.setFilter('ads', ['all', filterHour, filterDay]);
+    }
+
+    isUserInsideAdvertArea(ad) {
+        const {latitude, longitude} = this.context.getPosition().getValue();
+        const userPosition = turf.point([longitude, latitude]);
+        const center = [ad.longitude, ad.latitude];
+        const radius = ad.radius;
+        const adCircle = turf.circle(center, radius);
+        return turf.booleanPointInPolygon(userPosition, adCircle);
     }
 
     buildMap() {
