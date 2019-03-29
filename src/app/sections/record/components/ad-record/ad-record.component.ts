@@ -26,6 +26,7 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
   isAd = true;
   isAdBlockActivated: boolean;
   pressToStop: boolean = false;
+  showUserCantRecord: boolean = false;
 
   subscription: Subscription = new Subscription();
 
@@ -49,6 +50,9 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
       if (duration > 56)
           this.stopRecord();
     });
+    this.context.getUser().subscribe(user => {
+        this.showUserCantRecord = user && user.minutes <= 0 ? true : false;    
+    });
   }
 
   ngAfterViewInit() {
@@ -62,21 +66,23 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
 }
 
   startRecord() {
-    const recordType = this.context.getRecordType().getValue();
-    
-    this.adEntity = new Ad();
-    
-    super.startRecording();
+    const minutes = this.context.getUser().getValue().minutes;
 
-    // @ts-ignore
-    this.siriWave = new SiriWave({
-      container: this.el.first.nativeElement,
-      style: 'ios9',
-      width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
-      height: 150,
-      autostart: true,
-    });
-    this.pressToStop = true;
+    if (minutes) {
+      this.adEntity = new Ad();
+      
+      super.startRecording();
+
+      // @ts-ignore
+      this.siriWave = new SiriWave({
+        container: this.el.first.nativeElement,
+        style: 'ios9',
+        width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
+        height: 150,
+        autostart: true,
+      });
+      this.pressToStop = true;
+    }
   }
 
   async stopRecord(): Promise<void> {

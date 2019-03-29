@@ -28,6 +28,7 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
     subscription: Subscription = new Subscription();
     isAdBlockActivated: boolean = false;
     pressToStop: boolean = false;
+    showUserCantRecord: boolean = false;
 
     constructor(
         protected audioRecord: AudioRecordService,
@@ -49,6 +50,9 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
             if (duration > 56)
                 this.stopRecord();
         });
+        this.context.getUser().subscribe(user => {
+            this.showUserCantRecord = user && user.minutes <= 0 ? true : false;    
+        });
     }
 
     ngAfterViewInit() {
@@ -60,19 +64,23 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
     }
 
     startRecord() {
-        this.audioEntity = new Audio();
+        const minutes = this.context.getUser().getValue().minutes;
 
-        super.startRecording();
+        if (minutes) {
+            this.audioEntity = new Audio();
 
-        // @ts-ignore
-        this.siriWave = new SiriWave({
-            container: this.el.first.nativeElement,
-            style: 'ios9',
-            width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
-            height: 150,
-            autostart: true,
-        });
-        this.pressToStop = true;
+            super.startRecording();
+
+            // @ts-ignore
+            this.siriWave = new SiriWave({
+                container: this.el.first.nativeElement,
+                style: 'ios9',
+                width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
+                height: 150,
+                autostart: true,
+            });
+            this.pressToStop = true;
+        }
     }
 
     async stopRecord(): Promise<void> {

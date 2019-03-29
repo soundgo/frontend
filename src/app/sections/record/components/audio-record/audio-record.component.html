@@ -8,7 +8,7 @@
             [class.siriWave]="isRecording"
             #siri
     ></div>
-    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop">
+    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && !showUserCantRecord">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
                 <div class="icon"></div>
@@ -17,13 +17,21 @@
         </div>
     </ng-template>
     <ng-template [ngIf]="pressToStop">
-            <div class="container" [class.ad]="isAd">
-                <div class="recorder-container" [class.ad]="isAd" (click)="stopRecord()">
-                    <div class="icon"></div>
-                    <p>{{ 'Tap to stop' | translate }}</p>
-                </div>
+        <div class="container" [class.ad]="isAd">
+            <div class="recorder-container" [class.ad]="isAd" (click)="stopRecord()">
+                <div class="icon"></div>
+                <p>{{ 'Tap to stop' | translate }}</p>
             </div>
-        </ng-template>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && showUserCantRecord">
+        <div class="container" [class.ad]="isAd">
+            <div class="recorder-container" [class.ad]="isAd">
+                <div class="icon"></div>
+                <p>{{ 'No time to record' | translate }}</p>
+            </div>
+        </div>
+    </ng-template>
 </ng-template>
 
 <div class="noLocalized" *ngIf="!isUserLocalized">
