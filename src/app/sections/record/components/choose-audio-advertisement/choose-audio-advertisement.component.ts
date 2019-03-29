@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-audio-category.component';
-import { Router } from '@angular/router';
-import {ContextService} from '../../../../services/context.service';
-import {ApiService} from '../../../../services/api.service';
+import { ChooseAdLocationComponent } from '../choose-ad-location/choose-ad-location.component';
 
 @Component({
   selector: 'app-choose-audio-advertisement',
@@ -13,7 +11,7 @@ import {ApiService} from '../../../../services/api.service';
 export class ChooseAudioAdvertisementComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>,
-    private context: ContextService,
+    protected dialog: MatDialog,
   ) {}
 
   onClose(): void {
@@ -21,13 +19,18 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
   }
 
   clickAudio() {
-    this.context.setRecordType('audio');
     this.onClose();
+    this.dialog.open(ChooseAudioCategoryComponent, {
+      width: '350px',
+  })
   }
 
   clickAdvert() {
-    this.context.setRecordType('ad');
     this.onClose();
+    this.dialog.open(ChooseAdLocationComponent, {
+        width: '350px',
+    })
+    
   }
 
   ngOnInit() {}
