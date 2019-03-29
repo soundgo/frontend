@@ -1,23 +1,38 @@
 :host {
+  position: relative;
+
   .loginPanel {
     position: absolute;
     margin-top: 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.125s ease-in-out;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+
+    &.opened {
+      max-height: 500px;
+    }
   }
 
-  .photo_perfil {
+  .photo_profile {
     border-radius: 100%;
     box-shadow: 0 1px 3px #0000009e;
     width: 70px;
     height: 70px;
   }
 
-  .loginPanel div a div, .avatar {
-    width: 55px;
-    height: 55px;
+  .loginPanel div, .avatar {
+    width: 60px;
+    height: 60px;
     background-size: cover;
     background-position: center;
-    -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px #8d7f8c);
-    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px #8d7f8c);
+    -webkit-filter: drop-shadow(1px 0px 2.5px #00000055) drop-shadow(0px 0px 1px #8d7f8c);
+    filter: drop-shadow(1px 0px 2.5px #00000055) drop-shadow(0px 0px 1px #8d7f8c);
+    cursor: pointer;
   }
 
   .avatar {
@@ -58,12 +73,8 @@
     background-image: url('/assets/images/marker.PNG');
   }
 
-  .perfil {
+  .profile {
     background-image: url('/assets/images/perfil.PNG');
-  }
-
-  a {
-    cursor: pointer;
   }
 
 }
