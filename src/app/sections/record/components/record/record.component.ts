@@ -17,7 +17,6 @@ export class RecordComponent implements OnInit {
     private router: Router,
     ) { 
       this.context.getSendRecord().subscribe(value => {
-        console.log('entra en record.component', value)
         if (value) {
           this.sendRecord(value);
         }

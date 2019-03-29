@@ -36,7 +36,6 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
     ) {
         super(audioRecord, context);
         this.subscription = this.context.getIsRecordingAudio().subscribe(isRecordingAudio => {
-            console.log('hola');
             if (isRecordingAudio) {
                 this.startRecord();
             }
@@ -45,6 +44,10 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
             if (isRecorded) {
                 this.isRecorded = false;
             }
+        });
+        this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+            if (duration >= 60)
+                this.stopRecord();
         });
     }
 

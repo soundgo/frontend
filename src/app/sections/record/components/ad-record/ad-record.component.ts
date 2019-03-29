@@ -44,7 +44,11 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
       if (isRecorded) {
           this.isRecorded = false;
       }
-  });
+    });
+    this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+      if (duration >= 60)
+          this.stopRecord();
+    });
   }
 
   ngAfterViewInit() {
