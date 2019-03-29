@@ -49,7 +49,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxMapboxGLModule.withConfig({
       accessToken: `${environment.mapbox.accessToken}`
     }),
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyDudfB7sZxukeUchgumVwyJMH22NCU52IY',
+      authDomain: 'soundgo-ba26c.firebaseapp.com',
+      databaseURL: 'https://soundgo-ba26c.firebaseio.com',
+      projectId: 'soundgo-ba26c',
+      storageBucket: 'soundgo-ba26c.appspot.com',
+      messagingSenderId: '142660268569'
+    })
   ],
   bootstrap: [AppComponent],
 })
