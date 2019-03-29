@@ -9,7 +9,7 @@ import {MapService} from '../../../services/map.service';
 import {ContextService} from '../../../services/context.service';
 import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
 import {Observable, Subscription} from 'rxjs';
-import {FeatureCollection} from '../../../shared/models/Map';
+import {FeatureCollection, GeoJson} from '../../../shared/models/Map';
 import {Site} from '../../../shared/models/Site';
 import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
 import {Audio} from '../../../shared/models/Audio';
@@ -85,9 +85,6 @@ export class MapBoxComponent implements OnInit {
             this.audioSource.setData(new FeatureCollection(data));
         });
         this.ads.subscribe(data => {
-            /*data = data.filter(ad => {
-                return this.isUserInsideAdvertArea(ad);
-            });*/
             this.adSource.setData(new FeatureCollection(data));
         });
         this.sites.subscribe(data => {
@@ -144,12 +141,14 @@ export class MapBoxComponent implements OnInit {
     }
 
     isUserInsideAdvertArea(ad, position = this.context.getPosition().getValue()) {
-        const {latitude, longitude} = position;
-        const userPosition = turf.point([longitude, latitude]);
-        const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
-        const radius = 5;
-        const adCircle = turf.circle(center, radius);
-        return turf.booleanPointInPolygon(userPosition, adCircle);
+        if (position) {
+            const {latitude, longitude} = position;
+            const userPosition = turf.point([longitude, latitude]);
+            const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
+            const radius = ad.properties.radius / 1000;
+            const adCircle = turf.circle(center, radius);
+            return turf.booleanPointInPolygon(userPosition, adCircle);
+        }
     }
 
     buildMap() {
@@ -179,24 +178,31 @@ export class MapBoxComponent implements OnInit {
         // Add button to know your position
         this.map.addControl(new mapboxgl.NavigationControl());
 
-
         this.map.on('load', () => {
             this.initSourceLayers();
             this.initDataListeners();
 
             geolocation.trigger();
-            /*this.context.getPosition().asObservable().subscribe(position => {
-                this.ads.subscribe(data => {
+            geolocation.on('geolocate', () => {
+
+                const userlocation = (geolocation as any)._lastKnownPosition;
+
+                const latitude = userlocation.coords.latitude;
+                const longitude = userlocation.coords.longitude;
+
+                this.context.setPosition({latitude, longitude});
+
+                this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
                     data = data.filter(ad => {
-                        return this.isUserInsideAdvertArea(position, ad);
+                        return this.isUserInsideAdvertArea(ad, {latitude, longitude});
                     });
                     this.adSource.setData(new FeatureCollection(data));
                 });
-            });*/
+
+            });
 
             this.isDataLoaded = true;
             this.context.setMap(this.map);
-            this.context.startWatchPosition();
         });
 
         this.map.on('click', ({point}) => {

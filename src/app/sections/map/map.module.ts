@@ -10,8 +10,6 @@ import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SitePanelSheetComponent} from './site-panel-sheet/site-panel-sheet.component';
 import {RecordModule} from '../record/record.module';
-import {MapComponent} from './mapbox/mapbox.component';
-import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../../../environments/environment';
@@ -23,7 +21,6 @@ import {MapBoxComponent} from './map-box/map-box.component';
 import {AdReproducerPanelComponent} from './ad-reproducer-panel/ad-reproducer-panel.component';
 
 const components = [
-    MapComponent,
     MapBoxComponent,
     SitePanelSheetComponent,
     CreateSiteComponent,
@@ -54,9 +51,6 @@ const components = [
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient],
             },
-        }),
-        NgxMapboxGLModule.withConfig({
-            accessToken: `${environment.mapbox.accessToken}`
         }),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule

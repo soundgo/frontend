@@ -33,7 +33,7 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
         private api: ApiService,
         private router: Router
     ) {
-        super(audioRecord);
+        super(audioRecord, context);
         this.subscription = this.context.getIsRecording().subscribe(isRecording => {
             if (isRecording) {
                 this.startRecord();
