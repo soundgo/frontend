@@ -1,15 +1,18 @@
 <h1 mat-dialog-title>Maximum price to pay (€)</h1>
+<form [formGroup]="adPriceForm" (ngSubmit)="submit(adPriceForm.value)">
 <div mat-dialog-content>
     <p>
         We will show how many reproductions can have your ad.
     </p>
     <mat-form-field>
-        <input matInput type="number" [(ngModel)]="maxToPay" (input)="calculatePrice()" />
+        <input matInput type="number" formControlName="price" (input)="calculatePrice(adPriceForm.value.price)" />
+        <mat-error *ngIf="hasError('price', 'required')">Price is required</mat-error>
     </mat-form-field>
 </div>
-<div class="numReproductions" *ngIf="maxToPay > 0">
+<div class="numReproductions" *ngIf="maxNumberOfReproductions">
     <h1>{{maxNumberOfReproductions}} reproductions</h1>
 </div>
 <mat-dialog-actions>
-    <button mat-button class="saveButton" (click)="submit()">Save</button>
+    <button mat-button class="saveButton" [disabled]="!adPriceForm.valid">Save</button>
 </mat-dialog-actions>
+</form>

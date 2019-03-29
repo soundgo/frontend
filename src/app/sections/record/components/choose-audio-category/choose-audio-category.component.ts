@@ -36,30 +36,32 @@ export class ChooseAudioCategoryComponent implements OnInit {
   }
 
   saveCategory() {
-    const recordType = this.context.getRecordType().getValue();
+    if (this.categorySelected) {
+      const recordType = this.context.getRecordType().getValue();
 
-    if (recordType == 'ad') {
-      this.audioEntity = new Audio();
-      const adEntity = this.context.getAdEntity().getValue();
-      this.audioEntity.base64 = adEntity.base64;
-      this.audioEntity.latitude = adEntity.latitude;
-      this.audioEntity.longitude = adEntity.longitude;
-    } else {
-      this.audioEntity = this.context.getAudioEntity().getValue();
+      if (recordType == 'ad') {
+        this.audioEntity = new Audio();
+        const adEntity = this.context.getAdEntity().getValue();
+        this.audioEntity.base64 = adEntity.base64;
+        this.audioEntity.latitude = adEntity.latitude;
+        this.audioEntity.longitude = adEntity.longitude;
+      } else {
+        this.audioEntity = this.context.getAudioEntity().getValue();
+      }
+      
+      this.audioEntity.category = this.categorySelected;
+      this.context.setAudioEntity(this.audioEntity);
+
+      const isRecordedInSite = this.context.getSiteId().getValue();
+      
+      if (isRecordedInSite) {
+        this.context.setSendRecord('site');
+      } else {
+        this.context.setSendRecord('audio');
+      } 
+
+      this.dialogRef.close();
     }
-    
-    this.audioEntity.category = this.categorySelected;
-    this.context.setAudioEntity(this.audioEntity);
-
-    const isRecordedInSite = this.context.getSiteId().getValue();
-    
-    if (isRecordedInSite) {
-      this.context.setSendRecord('site');
-    } else {
-      this.context.setSendRecord('audio');
-    } 
-
-    this.dialogRef.close();
   }
 
   ngOnInit() {}
