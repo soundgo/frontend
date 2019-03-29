@@ -44,6 +44,7 @@ export class MapBoxComponent implements OnInit {
     showPlaceMarkerForm = false;
     siteEntity: Site;
     siteMarker: any;
+    categoriesSelected: any = 'Tourism,Experience,Leisure';
 
     constructor(private bottomSheet: MatBottomSheet,
                 private mapService: MapService,
@@ -58,7 +59,7 @@ export class MapBoxComponent implements OnInit {
         // Filter audio category
         this.context.getCategoriesSelected().subscribe(categoriesSelected => {
             if (this.map) {
-                console.log(categoriesSelected)
+                this.categoriesSelected = categoriesSelected;
                 this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
         });
@@ -301,17 +302,31 @@ export class MapBoxComponent implements OnInit {
     }
 
     openSiteSheet(properties): void {
-        Promise.all([
-            this.api.getSiteAudios(properties.id),
-            this.api.getSiteById(properties.id)
-        ]).then(values => {
-            this.bottomSheet.open(SitePanelSheetComponent, {
-                data: {
-                    properties,
-                    site: new Site(values[1]),
-                    audios: values[0]
-                }
+        console.log('Categorias q entran', this.categoriesSelected)
+        if (this.categoriesSelected.length == 0) {
+            this.api.getSiteById(properties.id).then(values => {
+                this.bottomSheet.open(SitePanelSheetComponent, {
+                    data: {
+                        properties,
+                        site: new Site(values[1]),
+                        audios: []
+                    }
+                });
+            })
+        } else {
+            Promise.all([
+                this.api.getSiteAudios(properties.id),
+                this.api.getSiteById(properties.id)
+            ]).then(values => {
+                this.bottomSheet.open(SitePanelSheetComponent, {
+                    data: {
+                        properties,
+                        site: new Site(values[1]),
+                        audios: values[0]
+                    }
+                });
             });
-        });
+        }
+        
     }
 }
