@@ -3,6 +3,7 @@ import {AudioRecordService} from '../../../services/audio-record.service';
 import {Subscription} from 'rxjs';
 import {Ad} from '../../models/Ad';
 import {Audio} from '../../models/Audio';
+import {ContextService} from '../../../services/context.service';
 
 @Component({
     selector: 'app-recorder',
@@ -10,8 +11,6 @@ import {Audio} from '../../models/Audio';
     styleUrls: ['./recorder.component.scss']
 })
 export class RecorderComponent implements OnInit {
-
-    subscription: Subscription;
 
     base64: string;
 
@@ -21,8 +20,17 @@ export class RecorderComponent implements OnInit {
 
     isRecorded = false;
 
-    constructor(protected audioRecord: AudioRecordService) {
+    isUserLocalized = true;
+
+    subscriptionLocalization: Subscription = new Subscription();
+
+    constructor(protected audioRecord: AudioRecordService,
+                protected context: ContextService) {
         this.isAd = false;
+
+        this.subscriptionLocalization = this.context.getPosition().asObservable().subscribe(position => {
+            this.isUserLocalized = position !== null;
+        });
     }
 
     ngOnInit() {

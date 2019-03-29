@@ -120,18 +120,8 @@ export class ContextService {
         return this.position;
     }
 
-    startWatchPosition() {
-        navigator.geolocation.watchPosition(
-            ({coords}) => {
-                this.position.next(coords);
-            },
-            null,
-            {
-                enableHighAccuracy: false,
-                timeout: 10000,
-                maximumAge: 0,
-            }
-        );
+    setPosition(coords) {
+        this.position.next(coords);
     }
 
     setCurrentLocation(entity) {
