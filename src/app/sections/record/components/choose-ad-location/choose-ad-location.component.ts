@@ -23,18 +23,20 @@ export class ChooseAdLocationComponent implements OnInit {
     private context: ContextService,
     protected dialog: MatDialog,
   ) {
-    this.map = this.context.getMap().getValue();
+    this.context.getIsMarkerAdVisible().subscribe(bool => {
+      if (bool)
+        this.showAdLocationPicker();
+    })
   }
 
-  ngOnInit() {
-    this.showAdLocationPicker();
-  }
+  ngOnInit() {}
 
   // Function to create announcement and place it
   showAdLocationPicker() {
     // Show menu
     this.showAdvertisementMarkerMenu = true;
 
+    this.map = this.context.getMap().getValue();
     const center = this.map.getCenter();
     const config = this.context.getConfig().getValue();
     // Add marker announce to the map
@@ -62,10 +64,11 @@ export class ChooseAdLocationComponent implements OnInit {
   saveAdvertisementMarker() {
     //Disable menu and editable circle
     this.showAdvertisementMarkerMenu = false;
+    this.context.setIsMarkerAdVisible(false);
 
     this.ad = this.context.getAdEntity().getValue();
 
-    const { lat, lng } = this.editableMarkerSite.center();
+    const { lat, lng } = this.editableMarkerSite.getCenter();
     console.log('centro del marker', lat, lng)
     this.ad.latitude = lat;
     this.ad.longitude = lng;
@@ -84,5 +87,6 @@ export class ChooseAdLocationComponent implements OnInit {
     this.showAdvertisementMarkerMenu = false;
     this.editableMarkerSite.remove();
     this.context.setIsRecorded(true);
+    this.context.setIsMarkerAdVisible(false);
   }
 }

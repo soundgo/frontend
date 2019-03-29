@@ -22,6 +22,7 @@ export class ContextService {
     isRecordingAd = new BehaviorSubject<boolean>(false);
     isRecorded = new BehaviorSubject<boolean>(false);
     isMarkerSiteVisible = new BehaviorSubject<boolean>(false);
+    isMarkerAdVisible = new BehaviorSubject<boolean>(false);
     sendRecord = new BehaviorSubject<string>(null);
     recordType = new BehaviorSubject<string>(null);
     categoriesSelected = new BehaviorSubject<string>(
@@ -114,6 +115,14 @@ export class ContextService {
 
     setIsMarkerSiteVisible(value: boolean) {
         this.isMarkerSiteVisible.next(value);
+    }
+
+    getIsMarkerAdVisible(): Observable<boolean> {
+        return this.isMarkerAdVisible.asObservable();
+    }
+
+    setIsMarkerAdVisible(value: boolean) {
+        this.isMarkerAdVisible.next(value);
     }
 
     getPosition() {

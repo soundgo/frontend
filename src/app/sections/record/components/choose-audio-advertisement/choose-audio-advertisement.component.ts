@@ -10,6 +10,9 @@ import { ContextService } from 'src/app/services/context.service';
   styleUrls: ['../choose-audio-category/choose-audio-category.component.scss'],
 })
 export class ChooseAudioAdvertisementComponent implements OnInit {
+
+  initChooseAdLocation: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>,
     protected dialog: MatDialog,
@@ -34,10 +37,7 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
 
   clickAdvert() {
     this.dialogRef.close();
-    this.dialog.open(ChooseAdLocationComponent, {
-        width: '350px',
-    })
-    
+    this.context.setIsMarkerAdVisible(true);
   }
 
   ngOnInit() {}
