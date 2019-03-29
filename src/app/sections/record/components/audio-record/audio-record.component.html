@@ -1,22 +1,25 @@
 <ng-template [ngIf]="isUserLocalized">
-  <div
-          *ngIf="!isRecorded"
-          (click)="stopRecord()"
-          [class.siriWave]="isRecording"
-          #siri
-  ></div>
-  <ng-template [ngIf]="!isRecording && !isRecorded">
-    <div class="container" [class.ad]="isAd">
-      <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
-        <div class="icon"></div>
-        <p>{{ 'Tap to record' | translate }}</p>
-      </div>
+    <div class="time-duration" *ngIf="!isRecorded">
+        <p>{{duration || 0}}s</p>
     </div>
-  </ng-template>
+    <div
+            *ngIf="!isRecorded"
+            (click)="stopRecord()"
+            [class.siriWave]="isRecording"
+            #siri
+    ></div>
+    <ng-template [ngIf]="!isRecording && !isRecorded">
+        <div class="container" [class.ad]="isAd">
+            <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
+                <div class="icon"></div>
+                <p>{{ 'Tap to record' | translate }}</p>
+            </div>
+        </div>
+    </ng-template>
 </ng-template>
 
 <div class="noLocalized" *ngIf="!isUserLocalized">
-  <h2>You must be localized to record audios</h2>
+    <h2>You must be localized to record audios</h2>
 </div>
 <!-- 
 <div class="noLocalized" *ngIf="!isUserLocalized && isAd">

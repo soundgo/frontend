@@ -24,13 +24,20 @@ export class RecorderComponent implements OnInit {
 
     subscriptionLocalization: Subscription = new Subscription();
 
+    duration: number;
+
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService) {
         this.isAd = false;
 
-        this.subscriptionLocalization = this.context.getPosition().asObservable().subscribe(position => {
+        this.subscriptionLocalization.add(this.context.getPosition().asObservable().subscribe(position => {
             this.isUserLocalized = position !== null;
-        });
+        }));
+
+        this.subscriptionLocalization.add(this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+            this.duration = duration;
+        }));
+
     }
 
     ngOnInit() {

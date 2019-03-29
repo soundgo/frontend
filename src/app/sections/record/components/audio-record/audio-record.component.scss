@@ -10,6 +10,31 @@
   align-items: center;
   z-index: 1;
 
+  &.isRecordingCSS{
+    height: 100%;
+
+    .time-duration {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      padding: 10px 40px;
+      width: 55px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 1px 2px 4.5px #00000042;
+    }
+
+    .siriWave {
+      bottom: 0;
+      position: absolute;
+    }
+  }
+
   .noLocalized {
     font-size: 30px;
     background: white;
