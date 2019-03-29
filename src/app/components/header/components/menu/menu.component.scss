@@ -12,12 +12,12 @@
   }
 
   .loginPanel div a div, .avatar {
-    width: 70px;
-    height: 70px;
+    width: 55px;
+    height: 55px;
     background-size: cover;
     background-position: center;
-    -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
-    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px rgba(0, 0, 0, 20));
+    -webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px #8d7f8c);
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 20)) drop-shadow(0px 0px 1px #8d7f8c);
   }
 
   .avatar {
