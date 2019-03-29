@@ -45,6 +45,7 @@ export class ChooseAudioCategoryComponent implements OnInit {
         this.audioEntity.base64 = adEntity.base64;
         this.audioEntity.latitude = adEntity.latitude;
         this.audioEntity.longitude = adEntity.longitude;
+        this.audioEntity.duration = adEntity.duration;
       } else {
         this.audioEntity = this.context.getAudioEntity().getValue();
       }

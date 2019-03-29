@@ -24,7 +24,7 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
   siriWave: any;
   adEntity: Ad;
   isAd = true;
-  isAdBlockActivated: boolean;
+  isAdBlockActivated: boolean = false;
   pressToStop: boolean = false;
   showUserCantRecord: boolean = false;
 
@@ -51,7 +51,8 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
           this.stopRecord();
     });
     this.context.getUser().subscribe(user => {
-        this.showUserCantRecord = user && user.minutes <= 0 ? true : false;    
+      if (user)
+        this.showUserCantRecord = user.minutes <= 0 ? true : false;    
     });
   }
 
@@ -60,15 +61,12 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
     if (heightAdblock <= 0) {
         this.isAdBlockActivated = true;
         this.isRecorded = true;
-    } else {
-      this.isAdBlockActivated = false;
     }
 }
 
   startRecord() {
     const minutes = this.context.getUser().getValue().minutes;
-
-    if (minutes) {
+    if (minutes && minutes > 0) {
       this.adEntity = new Ad();
       
       super.startRecording();

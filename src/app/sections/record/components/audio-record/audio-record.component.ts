@@ -51,7 +51,8 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
                 this.stopRecord();
         });
         this.context.getUser().subscribe(user => {
-            this.showUserCantRecord = user && user.minutes <= 0 ? true : false;    
+            if (user)
+                this.showUserCantRecord = user.minutes <= 0 ? true : false;    
         });
     }
 
@@ -65,8 +66,7 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
 
     startRecord() {
         const minutes = this.context.getUser().getValue().minutes;
-
-        if (minutes) {
+        if (minutes && minutes > 0) {
             this.audioEntity = new Audio();
 
             super.startRecording();
