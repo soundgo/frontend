@@ -1,1 +1,9 @@
 <div class="map" id="map"></div>
+
+<div id="map-container" *ngIf="showPlaceMarkerForm">
+    <div id="basic-container">
+      <p>Move the site marker</p>
+      <button mat-raised-button color="warn" (click)="closeSiteForm()">Close</button>
+      <button mat-raised-button class="saveButton" (click)="saveSiteForm()">Place site</button>
+    </div>
+  </div>

@@ -38,4 +38,9 @@ html {
     background: $colorPrimary;
     color: white;
   }
+
+  .mapboxgl-user-location-dot {
+    opacity: 0.7;
+}
+  
 }

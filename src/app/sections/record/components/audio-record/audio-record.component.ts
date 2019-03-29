@@ -1,114 +1,77 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
-import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
-import {AudioRecordService} from '../../../../services/audio-record.service';
-import {ContextService} from '../../../../services/context.service';
-import {Audio} from '../../../../shared/models/Audio';
-import {MatDialog} from '@angular/material';
-import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
-import {Subscription} from 'rxjs';
-import {ApiService} from '../../../../services/api.service';
+import { Component, OnInit, ViewChildren } from '@angular/core';
+import { RecorderComponent } from '../../../../shared/components/recorder/recorder.component';
+import { AudioRecordService } from '../../../../services/audio-record.service';
+import { ContextService } from '../../../../services/context.service';
+import { Audio } from '../../../../shared/models/Audio';
+import { MatDialog } from '@angular/material';
+import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-audio-category.component';
+import { Subscription } from 'rxjs';
+
 
 @Component({
-    selector: 'app-audio-record',
-    templateUrl: './audio-record.component.html',
-    styleUrls: ['./audio-record.component.scss'],
+  selector: 'app-audio-record',
+  templateUrl: './audio-record.component.html',
+  styleUrls: ['./audio-record.component.scss'],
 })
 export class AudioRecordComponent extends RecorderComponent implements OnInit {
-    @ViewChildren('siri') el: any;
+  @ViewChildren('siri') el: any;
 
-    siriWave: any;
+  siriWave: any;
+  audioEntity: Audio;
+  subscription: Subscription = new Subscription();
 
-    entity: Audio;
+  constructor(
+    protected audioRecord: AudioRecordService,
+    protected context: ContextService,
+    protected dialog: MatDialog,
+  ) {
+    super(audioRecord);
+    this.subscription = this.context.getIsRecordingAudio().subscribe(isRecordingAudio => {
+        console.log('hola');
+        if (isRecordingAudio) {
+        this.startRecord();
+      }
+    });
+  }
 
-    subscription: Subscription = new Subscription();
+  ngOnInit() {}
 
-    isSite = false;
-    siteId: number;
+  startRecord() {
+    this.audioEntity = new Audio();
 
-    constructor(
-        protected audioRecord: AudioRecordService,
-        protected context: ContextService,
-        protected dialog: MatDialog,
-        protected api: ApiService
-    ) {
-        super(audioRecord);
-        this.subscription = this.context.getIsRecording().subscribe(isRecording => {
-            if (isRecording) {
-                this.startRecord();
-            }
-        });
-    }
+    super.startRecording();
 
-    ngOnInit() {
-    }
+    // @ts-ignore
+    this.siriWave = new SiriWave({
+      container: this.el.first.nativeElement,
+      style: 'ios9',
+      width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
+      height: 150,
+      autostart: true,
+    });
+  }
 
-    startRecord() {
-        super.startRecording();
+  async stopRecord(): Promise<void> {
+    this.siriWave.setAmplitude(0);
+    this.audioEntity.base64 = await super.stopRecording();
 
-        this.entity = new Audio();
+    const { latitude, longitude } = this.context.getPosition().getValue();
+    this.audioEntity.latitude = latitude;
+    this.audioEntity.longitude = longitude;
+    this.audioEntity.duration = this.audioRecord.getRecordedTime().getValue();
 
-        if (this.el.first) {
-            // @ts-ignore
-            this.siriWave = new SiriWave({
-                container: this.el.first.nativeElement,
-                style: 'ios9',
-                width: document.body.offsetWidth - document.body.offsetWidth * 0.4,
-                height: 150,
-                autostart: true,
-            });
-        }
-    }
+    this.context.setAudioEntity(this.audioEntity);
+    this.context.setRecordType('audio');
+    this.context.setIsRecordingAudio(false);
 
-    async stopRecord(): Promise<void> {
-        this.siriWave.setAmplitude(0);
+    this.siriWave.stop();
 
-        this.entity.base64 = await super.stopRecording();
+    this.dialog.open(ChooseAudioCategoryComponent, {
+        width: '350px',
+    })
 
-        const {latitude, longitude} = this.context.getPosition().getValue();
-        this.entity.latitude = latitude;
-        this.entity.longitude = longitude;
+    this.isRecorded = false;
+    this.isRecording = false;
+  }
 
-        this.entity.duration = this.audioRecord.getRecordedTime().getValue();
-
-        this.context.setAudioEntity(this.entity);
-
-        this.siriWave.stop();
-
-        const recordType = this.context.getRecordType().getValue();
-        if (!recordType) {
-            this.context.setRecordType('audio');
-        }
-
-        this.dialog
-            .open(ChooseAudioCategoryComponent, {
-                width: '350px',
-            })
-            .afterClosed()
-            .subscribe((result?: boolean) => {
-                const audioEntity = this.context.getAudioEntity().getValue();
-                const recordType = this.context.getRecordType().getValue();
-                if (recordType === 'site') {
-                    this.api
-                        .createSiteAudio(audioEntity, this.context.getSiteId().getValue())
-                        .then(response => {
-                            console.log('createAudio:', response);
-                            this.context.setRecordType(null);
-                            this.context.setIsRecorded(true);
-                            const user = this.context.getUser().getValue();
-                            user.minutes -= audioEntity.duration / 60;
-                            this.context.setUser(user);
-                        });
-                } else {
-                    this.api.createAudio(audioEntity).then(response => {
-                        console.log('createAudio:', response);
-                        this.context.setRecordType(null);
-                        this.context.setIsRecorded(true);
-                        const user = this.context.getUser().getValue();
-                        user.minutes -= audioEntity.duration / 60;
-                        this.context.setUser(user);
-                    });
-                    this.isRecorded = false;
-                }
-            });
-    }
 }

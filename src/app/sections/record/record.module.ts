@@ -18,8 +18,10 @@ import {
     NumberReproductionsAdvertisementsComponent
 } from './components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {MatInputModule} from '@angular/material';
+import { RecordComponent } from './components/record/record.component';
 
 const components = [
+    RecordComponent,
     AudioRecordComponent,
     AdRecordComponent,
     ChooseAudioCategoryComponent,
