@@ -1,1 +1,4 @@
-<mat-icon color="primary" aria-hidden="false" aria-label="time">watch_later</mat-icon><mat-progress-bar mode="determinate" value={{this.valueBar}}></mat-progress-bar>
+<ng-template [ngIf]="maxTimeUserProgressBar">
+    <mat-icon color="primary" aria-hidden="false" aria-label="time">watch_later</mat-icon>
+    <mat-progress-bar mode="determinate" value={{this.valueBar}}></mat-progress-bar>
+</ng-template>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ContextService } from 'src/app/services/context.service';
+import {ContextService} from 'src/app/services/context.service';
 
 @Component({
     selector: 'app-time-left',
@@ -8,22 +8,25 @@ import { ContextService } from 'src/app/services/context.service';
 })
 export class TimeLeftComponent implements OnInit {
 
-    valueBar:number = 0;
-    
+    valueBar = 0;
+    maxTimeUserProgressBar: number;
+
     constructor(private context: ContextService) {
 
+        this.maxTimeUserProgressBar = this.context.getConfig().getValue().maxTimeUserProgressBar;
+
         this.context.getUser().subscribe(user => {
-            if (user && this.valueBar != Math.round(user.minutes/60)) {
+            if (user && this.valueBar !== Math.round(user.minutes / 60)) {
                 this.calculatePercentBar(user.minutes);
             }
-        })
+        });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
     calculatePercentBar(userMinutes) {
-        const maxTimeUserProgressBar = this.context.getConfig().getValue().maxTimeUserProgressBar;
-        this.valueBar = Math.round(((userMinutes/60)/maxTimeUserProgressBar)*100)
+        this.valueBar = Math.round(((userMinutes / 60) / this.maxTimeUserProgressBar) * 100);
     }
 
 }

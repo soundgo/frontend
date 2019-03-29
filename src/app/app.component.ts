@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         translate.setDefaultLang('en');
 
         this.api.getConfiguration().then((config: Config) => {
-            this.context.setConfig(config);
+            this.context.setConfig(new Config(config));
         });
 
         this.router.events.subscribe(async (event: Event) => {
