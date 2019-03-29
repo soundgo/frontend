@@ -46,7 +46,7 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
       }
     });
     this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
-      if (duration >= 60)
+      if (duration > 56)
           this.stopRecord();
     });
   }
