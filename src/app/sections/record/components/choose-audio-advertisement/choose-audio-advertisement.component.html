@@ -1,6 +1,6 @@
 <div class="modal-choose-advertisement">
   <h1 mat-dialog-title>It's an...</h1>
-  <div mat-dialog-content>
+  <div mat-dialog-content [ngStyle]="{'padding': '20px 0'}">
     <button mat-raised-button class="audioButton" (click)="clickAudio()">
       {{ 'audio' | translate }}
     </button>
