@@ -118,7 +118,8 @@ export class MapBoxComponent implements OnInit {
             source: 'audios',
             type: 'symbol',
             layout: {
-                'icon-image': 'Marker'
+                'icon-image': 'Marker',
+                'icon-allow-overlap': true
             }
         });
         this.map.addSource('sites', {
@@ -133,7 +134,8 @@ export class MapBoxComponent implements OnInit {
             source: 'sites',
             type: 'symbol',
             layout: {
-                'icon-image': 'MarkerSite'
+                'icon-image': 'MarkerSite',
+                'icon-allow-overlap': true
             }
         });
         this.map.addSource('ads', {
@@ -148,7 +150,8 @@ export class MapBoxComponent implements OnInit {
             source: 'ads',
             type: 'symbol',
             layout: {
-                'icon-image': 'MarkerAd'
+                'icon-image': 'MarkerAd',
+                'icon-allow-overlap': true
             }
         });
     }
@@ -186,11 +189,12 @@ export class MapBoxComponent implements OnInit {
             console.log('Site created response', response);
         });
         this.context.setIsMarkerSiteVisible(false);
-        this.siteMarker.remove()
+        this.siteMarker.remove();
     }
 
     closeSiteForm() {
         this.context.setIsMarkerSiteVisible(false);
+        this.siteMarker.remove();
     }
 
     buildMap() {

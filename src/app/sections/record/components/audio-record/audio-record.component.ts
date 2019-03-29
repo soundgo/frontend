@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit, ViewChildren} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewChildren, AfterViewInit} from '@angular/core';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs';
     templateUrl: './audio-record.component.html',
     styleUrls: ['./audio-record.component.scss'],
 })
-export class AudioRecordComponent extends RecorderComponent implements OnInit {
+export class AudioRecordComponent extends RecorderComponent implements AfterViewInit {
 
     @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
@@ -21,10 +21,13 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
     }
 
     @ViewChildren('siri') el: any;
+    @ViewChildren('adblock') adblock: any;
 
     siriWave: any;
     audioEntity: Audio;
     subscription: Subscription = new Subscription();
+    isAdBlockActivated: boolean = false;
+    pressToStop: boolean = false;
 
     constructor(
         protected audioRecord: AudioRecordService,
@@ -38,9 +41,19 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
                 this.startRecord();
             }
         });
+        this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+            if (isRecorded) {
+                this.isRecorded = false;
+            }
+        });
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
+        if (heightAdblock <= 0) {
+            this.isAdBlockActivated = true;
+            this.isRecorded = true;
+        }
     }
 
     startRecord() {
@@ -56,6 +69,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
             height: 150,
             autostart: true,
         });
+        this.pressToStop = true;
     }
 
     async stopRecord(): Promise<void> {
@@ -77,8 +91,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnInit {
             width: '350px',
         });
 
-        this.isRecorded = false;
+        this.isRecorded = true;
         this.isRecording = false;
+        this.pressToStop = false;
     }
 
 }

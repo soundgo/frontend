@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChildren, HostBinding, AfterViewInit } from '@angular/core';
 import { ContextService } from '../../../../services/context.service';
 import { AudioRecordService } from '../../../../services/audio-record.service';
 import { MatDialog } from '@angular/material';
@@ -13,12 +13,19 @@ import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-au
   templateUrl: '../audio-record/audio-record.component.html',
   styleUrls: ['../audio-record/audio-record.component.scss'],
 })
-export class AdRecordComponent extends RecorderComponent implements OnInit {
+export class AdRecordComponent extends RecorderComponent implements AfterViewInit {
+  @HostBinding('class.isRecordingCSS')
+    get isRecordingCSS() {
+        return !this.isRecorded && this.isRecording;
+  }
   @ViewChildren('siri') el: any;
+  @ViewChildren('adblock') adblock: any;
 
   siriWave: any;
   adEntity: Ad;
   isAd = true;
+  isAdBlockActivated: boolean;
+  pressToStop: boolean = false;
 
   subscription: Subscription = new Subscription();
 
@@ -33,9 +40,22 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
         this.startRecord();
       }
     });
+    this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+      if (isRecorded) {
+          this.isRecorded = false;
+      }
+  });
   }
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
+    if (heightAdblock <= 0) {
+        this.isAdBlockActivated = true;
+        this.isRecorded = true;
+    } else {
+      this.isAdBlockActivated = false;
+    }
+}
 
   startRecord() {
     const recordType = this.context.getRecordType().getValue();
@@ -52,6 +72,7 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
       height: 150,
       autostart: true,
     });
+    this.pressToStop = true;
   }
 
   async stopRecord(): Promise<void> {
@@ -82,6 +103,8 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
       });
     }
 
-    this.isRecorded = false;
+    this.isRecorded = true;
+    this.isRecording = false;
+    this.pressToStop = false;
   }
 }

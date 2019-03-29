@@ -1,5 +1,5 @@
 <ng-template [ngIf]="isUserLocalized">
-    <div class="time-duration" *ngIf="!isRecorded">
+    <div class="time-duration" *ngIf="!isRecorded && (isRecordingAudio || isRecordingAd)">
         <p>{{duration || 0}}s</p>
     </div>
     <div
@@ -8,7 +8,7 @@
             [class.siriWave]="isRecording"
             #siri
     ></div>
-    <ng-template [ngIf]="!isRecording && !isRecorded">
+    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
                 <div class="icon"></div>
@@ -16,13 +16,22 @@
             </div>
         </div>
     </ng-template>
+    <ng-template [ngIf]="pressToStop">
+            <div class="container" [class.ad]="isAd">
+                <div class="recorder-container" [class.ad]="isAd" (click)="stopRecord()">
+                    <div class="icon"></div>
+                    <p>{{ 'Tap to stop' | translate }}</p>
+                </div>
+            </div>
+        </ng-template>
 </ng-template>
 
 <div class="noLocalized" *ngIf="!isUserLocalized">
     <h2>You must be localized to record audios</h2>
 </div>
-<!-- 
-<div class="noLocalized" *ngIf="!isUserLocalized && isAd">
+<div class="noLocalized" *ngIf="isAdBlockActivated">
   <h2>You must disable AdBlock to record ads</h2>
-</div> -->
-
+</div>
+<div #adblock>
+    <div class="adBanner"></div>
+</div>

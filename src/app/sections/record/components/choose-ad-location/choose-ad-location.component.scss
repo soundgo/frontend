@@ -21,8 +21,11 @@
   color: rgb(54, 4, 38);
 }
 #basic-container button {
+  margin: 5px;
   margin-top: 30px;
   font-size: 1.2rem;
+}
+#basic-container .save {
   background: $blue;
   color: #fff;
 }

@@ -16,9 +16,14 @@ export class ChooseAudioCategoryComponent implements OnInit {
   constructor(
     private context: ContextService,
     public dialogRef: MatDialogRef<ChooseAudioCategoryComponent>
-  ) {}
+  ) {
+    dialogRef.backdropClick().subscribe(bool => {
+      this.context.setIsRecorded(true);
+    })
+  }
 
   onClose(): void {
+    this.context.setIsRecorded(true);
     this.dialogRef.close();
   }
 

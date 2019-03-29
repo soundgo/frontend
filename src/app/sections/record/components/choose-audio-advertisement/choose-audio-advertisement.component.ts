@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-audio-category.component';
 import { ChooseAdLocationComponent } from '../choose-ad-location/choose-ad-location.component';
+import { ContextService } from 'src/app/services/context.service';
 
 @Component({
   selector: 'app-choose-audio-advertisement',
@@ -12,21 +13,27 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>,
     protected dialog: MatDialog,
-  ) {}
+    protected context: ContextService
+  ) {
+    dialogRef.backdropClick().subscribe(bool => {
+      this.context.setIsRecorded(true);
+    })
+  }
 
-  onClose(): void {
+  onClosed(): void {
+    this.context.setIsRecorded(true);
     this.dialogRef.close();
   }
 
   clickAudio() {
-    this.onClose();
+    this.dialogRef.close();
     this.dialog.open(ChooseAudioCategoryComponent, {
       width: '350px',
   })
   }
 
   clickAdvert() {
-    this.onClose();
+    this.dialogRef.close();
     this.dialog.open(ChooseAdLocationComponent, {
         width: '350px',
     })

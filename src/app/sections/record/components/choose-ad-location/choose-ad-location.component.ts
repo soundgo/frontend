@@ -80,4 +80,9 @@ export class ChooseAdLocationComponent implements OnInit {
         width: '350px',
     })
   }
+  close() {
+    this.showAdvertisementMarkerMenu = false;
+    this.editableMarkerSite.remove();
+    this.context.setIsRecorded(true);
+  }
 }
