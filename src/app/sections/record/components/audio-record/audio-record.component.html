@@ -8,19 +8,16 @@
             [class.siriWave]="isRecording"
             #siri
     ></div>
+    <div class="time-stop" *ngIf="pressToStop"
+         [class.ad]="isAd">
+        <div class="icon"></div>
+        <p>{{ 'Tap to stop' | translate }}</p>
+    </div>
     <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && !showUserCantRecord">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
                 <div class="icon"></div>
                 <p>{{ 'Tap to record' | translate }}</p>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template [ngIf]="pressToStop">
-        <div class="container" [class.ad]="isAd">
-            <div class="recorder-container" [class.ad]="isAd" (click)="stopRecord()">
-                <div class="icon"></div>
-                <p>{{ 'Tap to stop' | translate }}</p>
             </div>
         </div>
     </ng-template>
@@ -38,7 +35,7 @@
     <h2>You must be localized to record audios</h2>
 </div>
 <div class="noLocalized" *ngIf="isAdBlockActivated">
-  <h2>You must disable AdBlock to record ads</h2>
+    <h2>You must disable AdBlock to record ads</h2>
 </div>
 <div #adblock>
     <div class="adBanner"></div>

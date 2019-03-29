@@ -11,12 +11,12 @@
   z-index: 1;
 
   .adBanner {
-      background-color: transparent;
-      height: 1px;
-      width: 1px;
+    background-color: transparent;
+    height: 1px;
+    width: 1px;
   }
 
-  &.isRecordingCSS{
+  &.isRecordingCSS {
     height: 100%;
 
     .time-duration {
@@ -38,6 +38,28 @@
     .siriWave {
       bottom: 0;
       position: absolute;
+    }
+
+    .time-stop {
+      background: dodgerblue;
+      padding: 10px 25px;
+      font-size: 22.5px;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 275px;
+      right: 55%;
+
+      &:before {
+        content: '';
+        background-image: url('../../../../../assets/images/arrow.png');
+        width: 128px;
+        height: 128px;
+        position: absolute;
+        right: -135px;
+        margin-top: 5px;
+      }
     }
   }
 
