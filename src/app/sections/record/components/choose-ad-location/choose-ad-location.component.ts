@@ -36,14 +36,15 @@ export class ChooseAdLocationComponent implements OnInit {
     this.showAdvertisementMarkerMenu = true;
 
     const center = this.map.getCenter();
+    const config = this.context.getConfig().getValue();
     // Add marker announce to the map
     this.editableMarkerSite = new MapboxCircle(
       { lat: center.lat, lng: center.lng },
       this.radius,
       {
         editable: true,
-        minRadius: 100,
-        maxRadius: 5000,
+        minRadius: config.minimumRadio,
+        maxRadius: config.maximumRadio,
         strokeWeight: 2,
         strokeOpacity: 0.85,
         fillColor: '#29AB87',

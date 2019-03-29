@@ -56,9 +56,10 @@ export class MapBoxComponent implements OnInit {
         this.ads = db.collection('ads').valueChanges();
         this.sites = db.collection('sites').valueChanges();
         // Filter audio category
-        this.context.getCategoriesSelected().subscribe(categorySelected => {
+        this.context.getCategoriesSelected().subscribe(categoriesSelected => {
             if (this.map) {
-                this.map.setFilter('audios', ['==', 'type', categorySelected]);
+                console.log(categoriesSelected)
+                this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
         });
         // Show site marker in map
@@ -76,6 +77,16 @@ export class MapBoxComponent implements OnInit {
 
     ngOnInit() {
         this.buildMap();
+    }
+    filterCategories(categoriesSelected) {
+        const res:any[] = ['any']
+        
+        const arrayCategoriesSelected = categoriesSelected.split(',');
+        for (let cat of arrayCategoriesSelected) 
+            res.push(['==', 'type', cat]);
+
+        console.log(res)
+        return res;
     }
 
     initDataListeners() {

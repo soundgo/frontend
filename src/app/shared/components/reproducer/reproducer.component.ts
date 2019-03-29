@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
+import { ContextService } from 'src/app/services/context.service';
 
 @Component({
     selector: 'app-reproducer',
@@ -14,7 +15,7 @@ export class ReproducerComponent implements OnInit {
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 
-    constructor() {
+    constructor(protected context: ContextService) {
     }
 
     ngOnInit() {
@@ -27,8 +28,9 @@ export class ReproducerComponent implements OnInit {
     }
 
     onFinish(params) {
+        const { timeToListenAnAdvertisement } = this.context.getConfig().getValue();
         this.record.numberReproductions = this.record.numberReproductions + 1;
-        const duration = (params.currentTarget.children[1].duration * 3) / 60;
+        const duration = (params.currentTarget.children[1].duration * timeToListenAnAdvertisement);
         if (this.finishAction) {
             this.finishAction.emit({duration});
         }

@@ -8,24 +8,50 @@ import { AUDIO_CATEGORIES } from 'src/app/shared/models/Audio';
     styleUrls: ['./category-picker.component.scss']
 })
 export class CategoryPickerComponent implements OnInit {
-    categorySelected: string = 'Experience';
+    categoriesSelected: string = 'Experience,Tourism,Leisure';
 
     constructor(
         private context: ContextService,
     ) {
-        this.context.setCategoriesSelected(this.categorySelected);
+        this.context.setCategoriesSelected(this.categoriesSelected);
     }
 
     isActive(category) {
-        return this.categorySelected === AUDIO_CATEGORIES[category];
+        const categorySelected = AUDIO_CATEGORIES[category];
+        const categories = this.categoriesSelected.trim().split(',');
+
+        for (let cat of categories) {
+            if (cat == categorySelected)
+                return true;
+        }
+        return false;
     }
 
     selectCategory(category) {
-        this.categorySelected = AUDIO_CATEGORIES[category];
-        this.context.setCategoriesSelected(this.categorySelected);
+        const categorySelected = AUDIO_CATEGORIES[category];
+        let categories = []
+        if (this.categoriesSelected.trim().length != 0)
+            categories = this.categoriesSelected.split(',');
+
+        if (this.isActive(category))
+            categories = this.remove(categories, categorySelected);
+        else
+            categories.push(categorySelected);
+        
+        this.categoriesSelected = categories.toString();
+        console.log(categories, categories.length)
+        this.context.setCategoriesSelected(this.categoriesSelected);
     }
 
-    ngOnInit() {
+    remove(array, value) {
+        const idx = array.indexOf(value);
+        if (idx > -1) {
+            array.splice(idx, 1);
+        }
+
+        return array;
     }
+
+    ngOnInit() {}
 
 }

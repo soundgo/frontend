@@ -27,7 +27,7 @@ export class AdRecordComponent extends RecorderComponent implements OnInit {
     protected context: ContextService,
     protected dialog: MatDialog,
   ) {
-    super(audioRecord);
+    super(audioRecord, context);
     this.subscription = this.context.getIsRecordingAd().subscribe(isRecording => {
       if (isRecording) {
         this.startRecord();

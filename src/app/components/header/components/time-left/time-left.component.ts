@@ -13,7 +13,7 @@ export class TimeLeftComponent implements OnInit {
     constructor(private context: ContextService) {
 
         this.context.getUser().subscribe(user => {
-            if (user && this.valueBar != user.minutes) {
+            if (user && this.valueBar != Math.round(user.minutes/60)) {
                 this.calculatePercentBar(user.minutes);
             }
         })
@@ -23,7 +23,7 @@ export class TimeLeftComponent implements OnInit {
 
     calculatePercentBar(userMinutes) {
         const maxTimeUserProgressBar = this.context.getConfig().getValue().maxTimeUserProgressBar;
-        this.valueBar = Math.round((userMinutes/maxTimeUserProgressBar)*100)
+        this.valueBar = Math.round(((userMinutes/60)/maxTimeUserProgressBar)*100)
     }
 
 }

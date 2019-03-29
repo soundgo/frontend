@@ -49,7 +49,7 @@ export class RecordComponent implements OnInit {
         console.log('createAd:', response);
         // Reduce minutes of user
         const user = this.context.getUser().getValue();
-        user.minutes -= adEntity.duration / 60;
+        user.minutes -= adEntity.duration;
         this.context.setUser(user);
         this.router.navigate(['/ad']);
         
@@ -64,7 +64,7 @@ export class RecordComponent implements OnInit {
         this.context.setSiteId(null);
         // Reduce minutes of user
         const user = this.context.getUser().getValue();
-        user.minutes -= audioEntity.duration / 60;
+        user.minutes -= audioEntity.duration;
         this.context.setUser(user);
       });
   }
@@ -74,7 +74,7 @@ export class RecordComponent implements OnInit {
       console.log('createAudio:', response);
       // Reduce minutes of user
       const user = this.context.getUser().getValue();
-      user.minutes -= audioEntity.duration / 60;
+      user.minutes -= audioEntity.duration;
       this.context.setUser(user);
     });
   }
