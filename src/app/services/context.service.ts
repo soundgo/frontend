@@ -18,9 +18,11 @@ export class ContextService {
     siteEntity = new BehaviorSubject<Site>(new Site());
     map = new BehaviorSubject<any>(null);
     position = new BehaviorSubject<{ latitude: number; longitude: number }>(null);
-    isRecording = new BehaviorSubject<boolean>(false);
+    isRecordingAudio = new BehaviorSubject<boolean>(false);
+    isRecordingAd = new BehaviorSubject<boolean>(false);
     isRecorded = new BehaviorSubject<boolean>(false);
     isMarkerSiteVisible = new BehaviorSubject<boolean>(false);
+    sendRecord = new BehaviorSubject<string>(null);
     recordType = new BehaviorSubject<string>(null);
     categoriesSelected = new BehaviorSubject<string>(
         'Tourism,Experience,Leisure'
@@ -66,6 +68,14 @@ export class ContextService {
         this.categoriesSelected.next(categoriesSelected);
     }
 
+    getSendRecord() {
+        return this.sendRecord;
+    }
+
+    setSendRecord(value: string) {
+        this.sendRecord.next(value);
+    }
+
     getRecordType() {
         return this.recordType;
     }
@@ -82,12 +92,20 @@ export class ContextService {
         this.isRecorded.next(value);
     }
 
-    getIsRecording(): Observable<boolean> {
-        return this.isRecording.asObservable();
+    getIsRecordingAudio(): Observable<boolean> {
+        return this.isRecordingAudio.asObservable();
     }
 
-    setIsRecording(value: boolean) {
-        this.isRecording.next(value);
+    setIsRecordingAudio(value: boolean) {
+        this.isRecordingAudio.next(value);
+    }
+
+    getIsRecordingAd(): Observable<boolean> {
+        return this.isRecordingAd.asObservable();
+    }
+
+    setIsRecordingAd(value: boolean) {
+        this.isRecordingAd.next(value);
     }
 
     getIsMarkerSiteVisible(): Observable<boolean> {

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { AUDIO_CATEGORIES } from '../../../../shared/models/Audio';
+import { AUDIO_CATEGORIES, Audio } from '../../../../shared/models/Audio';
 import { ContextService } from '../../../../services/context.service';
-import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-choose-audio-category',
@@ -10,11 +9,12 @@ import { ApiService } from '../../../../services/api.service';
   styleUrls: ['./choose-audio-category.component.scss'],
 })
 export class ChooseAudioCategoryComponent implements OnInit {
+  
   categorySelected: string;
+  audioEntity: Audio;
 
   constructor(
     private context: ContextService,
-    private api: ApiService,
     public dialogRef: MatDialogRef<ChooseAudioCategoryComponent>
   ) {}
 
@@ -31,9 +31,29 @@ export class ChooseAudioCategoryComponent implements OnInit {
   }
 
   saveCategory() {
-    const entity = this.context.getAudioEntity().getValue();
-    entity.category = this.categorySelected;
-    this.context.setAudioEntity(entity);
+    const recordType = this.context.getRecordType().getValue();
+
+    if (recordType == 'ad') {
+      this.audioEntity = new Audio();
+      const adEntity = this.context.getAdEntity().getValue();
+      this.audioEntity.base64 = adEntity.base64;
+      this.audioEntity.latitude = adEntity.latitude;
+      this.audioEntity.longitude = adEntity.longitude;
+    } else {
+      this.audioEntity = this.context.getAudioEntity().getValue();
+    }
+    
+    this.audioEntity.category = this.categorySelected;
+    this.context.setAudioEntity(this.audioEntity);
+
+    const isRecordedInSite = this.context.getSiteId().getValue();
+    
+    if (isRecordedInSite) {
+      this.context.setSendRecord('site');
+    } else {
+      this.context.setSendRecord('audio');
+    } 
+
     this.dialogRef.close();
   }
 

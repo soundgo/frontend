@@ -43,6 +43,7 @@ export class MapBoxComponent implements OnInit {
     userPosition: any;
     showPlaceMarkerForm = false;
     siteEntity: Site;
+    siteMarker: any;
 
     constructor(private bottomSheet: MatBottomSheet,
                 private mapService: MapService,
@@ -65,6 +66,7 @@ export class MapBoxComponent implements OnInit {
             if (isMarkerSiteVisible) {
                 this.userPosition = this.context.getPosition().getValue();
                 this.showPlaceMarkerForm = true;
+                this.showMarkerPlaceSite()
             } else {
                 this.showPlaceMarkerForm = false;
             }
@@ -149,6 +151,35 @@ export class MapBoxComponent implements OnInit {
             const adCircle = turf.circle(center, radius);
             return turf.booleanPointInPolygon(userPosition, adCircle);
         }
+    }
+
+    showMarkerPlaceSite() {
+        
+        const center = this.map.getCenter();
+        this.siteMarker = new mapboxgl.Marker({
+            draggable: true
+            })
+            .setLngLat([center.lng, center.lat])
+            .addTo(this.map);
+    }
+
+    saveSiteForm() {
+        this.siteEntity = this.context.getSiteEntity().getValue();
+
+        const { lng, lat } = this.siteMarker.getLngLat();
+        this.siteEntity.longitude = lng;
+        this.siteEntity.latitude = lat;
+
+        this.context.setSiteEntity(this.siteEntity);
+        this.api.createSite(this.siteEntity).then(response => {
+            console.log('Site created response', response);
+        });
+        this.context.setIsMarkerSiteVisible(false);
+        this.siteMarker.remove()
+    }
+
+    closeSiteForm() {
+        this.context.setIsMarkerSiteVisible(false);
     }
 
     buildMap() {
