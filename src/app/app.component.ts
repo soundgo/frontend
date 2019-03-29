@@ -6,6 +6,8 @@ import {ContextService} from './services/context.service';
 import {User} from './shared/models/User';
 import {Subscription} from 'rxjs';
 import {Router, Event, NavigationStart} from '@angular/router';
+import {ApiService} from './services/api.service';
+import {Config} from './shared/models/Config';
 
 @Component({
     selector: 'app-root',
@@ -19,35 +21,29 @@ export class AppComponent implements OnInit {
     constructor(private sanitizer: DomSanitizer,
                 private audioRecord: AudioRecordService,
                 private translate: TranslateService,
+                private api: ApiService,
                 private context: ContextService,
                 private router: Router) {
+
         translate.setDefaultLang('en');
-        this.router.events.subscribe((event: Event) => {
+
+        this.api.getConfiguration().then((config: Config) => {
+            this.context.setConfig(config);
+        });
+
+        this.router.events.subscribe(async (event: Event) => {
             if (event instanceof NavigationStart) {
                 const {url} = event;
                 if (url === '/' || url === '/user') {
-                    const user = new User({
-                        id: 1,
-                        photo: 'https://pbs.twimg.com/profile_images/1081695212857118720/hvcEAK8s_bigger.jpg',
-                        email: 'sergioclebal@gmail.com',
-                        name: 'manuel',
-                        minutes: 10
-                    });
-                    this.context.setUser(user);
+                    const user = await this.api.getActorByName('manuel');
+                    this.context.setUser(new User(user));
                     this.context.setAuth('user');
                 } else {
-                    const user = new User({
-                        id: 2,
-                        photo: 'https://goo.gl/RhBCq6',
-                        email: 'carlos@gmail.com',
-                        name: 'carlos',
-                        minutes: 7.5
-                    });
-                    this.context.setUser(user);
+                    const user = await this.api.getActorByName('carlos');
+                    this.context.setUser(new User(user));
                     this.context.setAuth('advertiser');
                 }
             }
-
         });
     }
 

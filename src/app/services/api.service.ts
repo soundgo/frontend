@@ -272,6 +272,29 @@ export class ApiService {
         });
     }
 
+    getActorByName(name: string) {
+        const url = `${this.apiUrl}/accounts/actor/${name}/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url, httpUserOptions).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+    getConfiguration() {
+        const url = `${this.apiUrl}/configuration/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url, httpUserOptions).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
 
     /**
      * Handle Http operation that failed.
