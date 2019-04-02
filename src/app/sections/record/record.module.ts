@@ -19,6 +19,7 @@ import {
 } from './components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {MatInputModule} from '@angular/material';
 import { RecordComponent } from './components/record/record.component';
+import {SharedModule} from '../../shared/shared.module';
 
 const components = [
     RecordComponent,
@@ -52,6 +53,7 @@ const components = [
                 deps: [HttpClient],
             },
         }),
+        SharedModule,
     ],
     exports: [...components],
 })

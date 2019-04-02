@@ -1,5 +1,6 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-site-record',
@@ -9,20 +10,27 @@ import {ContextService} from '../../../../services/context.service';
 export class SiteRecordComponent implements OnInit {
 
     @Input() siteId: number;
+    isRecording = false;
 
-    @HostListener('click')
-    click() {
+    subscription: Subscription;
+
+    constructor(protected context: ContextService) {
+        this.subscription = this.context.getIsRecordingAudio().subscribe(isRecording => {
+            this.isRecording = isRecording;
+        });
+    }
+
+    ngOnInit() {
+    }
+
+    startReproduction() {
         this.context.setSiteId(this.siteId);
 
-        if (this.context.getAuth().getValue() == 'user') {
+        if (this.context.getAuth().getValue() === 'user') {
             this.context.setIsRecordingAudio(true);
         } else {
             this.context.setIsRecordingAd(true);
         }
     }
-
-    constructor(protected context: ContextService) {}
-
-    ngOnInit() {}
 
 }

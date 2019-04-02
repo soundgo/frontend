@@ -8,7 +8,9 @@
             [class.siriWave]="isRecording"
             #siri
     ></div>
-    <div class="time-stop" *ngIf="pressToStop"
+    <div class="time-stop"
+         *ngIf="pressToStop"
+         (click)="stopRecord()"
          [class.ad]="isAd">
         <div class="icon"></div>
         <p>{{ 'Tap to stop' | translate }}</p>
