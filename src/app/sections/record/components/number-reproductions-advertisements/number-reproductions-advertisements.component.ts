@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ContextService } from '../../../../services/context.service';
-import { Ad } from '../../../../shared/models/Ad';
-import { MatDialogRef } from '@angular/material';
-import { AudioRecordService } from '../../../../services/audio-record.service';
-import { Validators, FormControl, FormGroup } from '@angular/forms';
+import {Component, OnInit, Input} from '@angular/core';
+import {ContextService} from '../../../../services/context.service';
+import {Ad} from '../../../../shared/models/Ad';
+import {MatDialogRef} from '@angular/material';
+import {AudioRecordService} from '../../../../services/audio-record.service';
+import {Validators, FormControl, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -19,18 +19,18 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     maxNumberOfReproductions: number;
 
     constructor(private context: ContextService,
-        private audioRecord: AudioRecordService,
-        public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>) {
+                private audioRecord: AudioRecordService,
+                public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>) {
         this.adEntity = this.context.getAdEntity().getValue();
         dialogRef.backdropClick().subscribe(bool => {
             this.context.setIsRecorded(true);
-          })
+        });
     }
 
     ngOnInit() {
         this.adPriceForm = new FormGroup({
             price: new FormControl('', [Validators.required]),
-          });
+        });
     }
 
     hasError(controlName: string, errorName: string) {
@@ -52,7 +52,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
             this.context.setAdEntity(this.adEntity);
             // Send ad
             this.context.setSendRecord('ad');
-            
+
             this.dialogRef.close();
         }
     }

@@ -21,7 +21,7 @@ import {Ad} from '../../../shared/models/Ad';
 import * as turf from '@turf/turf';
 
 @Component({
-    selector: 'app-map-box1',
+    selector: 'app-map-box',
     templateUrl: './map-box.component.html',
     styleUrls: ['./map-box.component.scss'],
     providers: [MapService],

@@ -5,6 +5,8 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 import {MatDialog} from '@angular/material';
 import {CreateSiteComponent} from 'src/app/sections/map/create-site/create-site.component';
 import {User} from '../../../../shared/models/User';
+import {LoginComponent} from '../../../../sections/account/components/login/login.component';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-menu',
@@ -18,7 +20,9 @@ export class MenuComponent implements OnInit {
     user: User;
     subscription: Subscription = new Subscription();
 
-    constructor(private context: ContextService, private matDialog: MatDialog) {
+    constructor(private context: ContextService,
+                private matDialog: MatDialog,
+                private cookieService: CookieService) {
         this.subscription.add(this.context.getAuth().asObservable().subscribe(auth => {
             this.auth = auth;
         }));
@@ -31,13 +35,26 @@ export class MenuComponent implements OnInit {
     }
 
     onSelect(): void {
-        this.isSelected = !this.isSelected;
+        if (this.auth) {
+            this.isSelected = !this.isSelected;
+        } else {
+            this.matDialog.open(LoginComponent, {
+                width: '350px'
+            });
+        }
     }
 
     createSite() {
         this.matDialog.open(CreateSiteComponent, {
             width: '350px',
         });
+    }
+
+    logout() {
+        this.isSelected = false;
+        this.cookieService.delete('user');
+        this.context.setUser(null);
+        this.context.setAuth(null);
     }
 
 }

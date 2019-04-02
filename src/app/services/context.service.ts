@@ -34,7 +34,17 @@ export class ContextService {
 
     auth = new BehaviorSubject<string>(null);
 
+    isLocationEnabled = new BehaviorSubject<boolean>(false);
+
     constructor() {
+    }
+
+    getIsLocationEnabled() {
+        return this.isLocationEnabled;
+    }
+
+    setIsLocationEnabled(value: boolean) {
+        this.isLocationEnabled.next(value);
     }
 
     getConfig() {
