@@ -16,7 +16,7 @@ import {ContextService} from './context.service';
 })
 export class ApiService {
 
-    private apiUrl = 'https://soundgo-api-v1.herokuapp.com';
+    private apiUrl = 'https://soundgo-api-v2.herokuapp.com';
 
     constructor(private http: HttpClient, private context: ContextService) {
     }
