@@ -10,25 +10,53 @@ import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.co
   styleUrls: ['./tag-panel-sheet.component.scss'],
 })
 export class TagPanelSheetComponent implements OnInit {
-
-  tags: any;
+  
+  tags: Array<string> = ['1', '2', '3'];
+  tagsSelected: Array<any> = ['1', '2', '3'];
   isLoading: boolean = true;
 
   constructor(
     private api: ApiService,
     private context: ContextService,
-    private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>,
+    private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>
   ) {
-    this.api.getConfiguration().then(data => {
-      this.tags = data;
+    // this.api.getConfiguration().then(data => {
+      // this.tags = data;
       this.isLoading = false;
-    })
+    // });
   }
 
-  closeSitePanel() {
+  isActive(tag) {
+    for (let t of this.tagsSelected) {
+      if (t === tag) return true;
+    }
+    return false;
+  }
+
+  selectTag(tag) {
+    let tags = this.tagsSelected;
+
+    if (this.isActive(tag))
+      tags = this.remove(tags, tag);
+    else 
+      tags.push(tag);
+
+    this.tagsSelected = tags;
+    console.log(tags, tags.length);
+    // this.context.setTagsSelected(tags.toString());
+  }
+
+  remove(array, value) {
+    const idx = array.indexOf(value);
+    if (idx > -1) {
+      array.splice(idx, 1);
+    }
+    return array;
+  }
+
+  closeTagPanel() {
     this.bottomSheetRef.dismiss();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }
