@@ -47,6 +47,11 @@ export class MenuComponent implements OnInit {
     createSite() {
         this.matDialog.open(CreateSiteComponent, {
             width: '350px',
+            data: {
+                id: null,
+                name: '',
+                description: ''
+            }
         });
     }
 

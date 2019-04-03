@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ContextService } from '../../../services/context.service';
 import { Site } from 'src/app/shared/models/Site';
 
-import { ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-create-site',
@@ -16,12 +17,16 @@ export class CreateSiteComponent implements OnInit {
   siteEntity: Site;
   siteForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<CreateSiteComponent>, private context: ContextService) { }
+  constructor(
+    private api: ApiService,
+    public dialogRef: MatDialogRef<CreateSiteComponent>, 
+    private context: ContextService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
     this.siteForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
+      name: new FormControl(this.data.name, [Validators.required]),
+      description: new FormControl(this.data.description, [Validators.required]),
     });
   }
   hasError(controlName: string, errorName: string) {
@@ -33,7 +38,7 @@ export class CreateSiteComponent implements OnInit {
   }
 
   saveSite(siteForm) {
-    if (this.siteForm.valid) {
+    if (this.siteForm.valid && !this.data.id) {
       this.siteEntity = new Site();
 
       this.siteEntity.name = siteForm.name;
@@ -43,6 +48,11 @@ export class CreateSiteComponent implements OnInit {
 
       this.dialogRef.close();
       this.context.setIsMarkerSiteVisible(true);
+      
+    } else if (this.siteForm.valid && this.data.id) {
+      const site = new Site(this.data);
+      this.api.updateSite(site);
+      this.onClose();
     }
   }
 
