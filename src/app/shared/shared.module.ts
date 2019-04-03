@@ -13,6 +13,7 @@ import {PlyrModule} from 'ngx-plyr';
 import {MaterialModule} from '../material.module';
 import { ShowcaseComponent } from './components/showcase/showcase.component';
 import {CreateSiteComponent} from '../sections/map/create-site/create-site.component';
+import { ReproducerButtonComponent } from './components/reproducer-button/reproducer-button.component';
 
 const components = [
     ButtonComponent,
@@ -24,7 +25,7 @@ const components = [
 ];
 
 @NgModule({
-    declarations: [...components],
+    declarations: [...components, ReproducerButtonComponent],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
     entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent],
     imports: [
@@ -41,7 +42,8 @@ const components = [
         })
     ],
     exports: [
-        ...components
+        ...components,
+        ReproducerButtonComponent
     ]
 })
 export class SharedModule {
