@@ -44,7 +44,8 @@ export class MapBoxComponent implements OnInit {
     showPlaceMarkerForm = false;
     siteEntity: Site;
     siteMarker: any;
-    categoriesSelected: any = 'Tourism,Experience,Leisure';
+    categoriesSelected: string = 'Tourism,Experience,Leisure';
+    tagsSelected: string;
 
     constructor(private bottomSheet: MatBottomSheet,
                 private mapService: MapService,
@@ -63,6 +64,13 @@ export class MapBoxComponent implements OnInit {
                 this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
         });
+        // Filter by tags
+        this.context.getTagsSelected().subscribe(tagsSelected => {
+            if (this.map && tagsSelected) {
+                this.categoriesSelected = tagsSelected;
+                this.map.setFilter('audios', this.filterTags(tagsSelected));
+            }
+        });
         // Show site marker in map
         this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
             if (isMarkerSiteVisible) {
@@ -79,6 +87,7 @@ export class MapBoxComponent implements OnInit {
     ngOnInit() {
         this.buildMap();
     }
+
     filterCategories(categoriesSelected) {
         const res:any[] = ['any']
         
@@ -86,7 +95,17 @@ export class MapBoxComponent implements OnInit {
         for (let cat of arrayCategoriesSelected) 
             res.push(['==', 'type', cat]);
 
-        console.log(res)
+        return res;
+    }
+
+    filterTags(tagsSelected) {
+        const res:any[] = ['any']
+        
+        const arrayTagsSelected = tagsSelected.split(',');
+        for (let tag of arrayTagsSelected) 
+            res.push(['==', 'tags', tag]);
+
+        console.log('TAG', res)
         return res;
     }
 

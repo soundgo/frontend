@@ -28,6 +28,7 @@ export class ContextService {
     categoriesSelected = new BehaviorSubject<string>(
         'Tourism,Experience,Leisure'
     );
+    tagsSelected = new BehaviorSubject<string>(null);
     siteId = new BehaviorSubject<number>(null);
     user = new BehaviorSubject<User>(null);
     config = new BehaviorSubject<Config>(new Config());
@@ -77,6 +78,14 @@ export class ContextService {
 
     setCategoriesSelected(categoriesSelected: string) {
         this.categoriesSelected.next(categoriesSelected);
+    }
+
+    getTagsSelected() {
+        return this.tagsSelected;
+    }
+
+    setTagsSelected(tagsSelected: string) {
+        this.tagsSelected.next(tagsSelected);
     }
 
     getSendRecord() {
