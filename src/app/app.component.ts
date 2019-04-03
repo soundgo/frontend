@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs';
 import {Router, Event, NavigationStart} from '@angular/router';
 import {ApiService} from './services/api.service';
 import {Config} from './shared/models/Config';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-root',
@@ -17,13 +18,17 @@ import {Config} from './shared/models/Config';
 export class AppComponent implements OnInit {
 
     subscription: Subscription;
+    auth: string;
+    isLocationEnabled = false;
+
+    isMicrophoneEnabled = false;
 
     constructor(private sanitizer: DomSanitizer,
                 private audioRecord: AudioRecordService,
                 private translate: TranslateService,
                 private api: ApiService,
                 private context: ContextService,
-                private router: Router) {
+                private cookieService: CookieService) {
 
         translate.setDefaultLang('en');
 
@@ -31,19 +36,30 @@ export class AppComponent implements OnInit {
             this.context.setConfig(new Config(config));
         });
 
-        this.router.events.subscribe(async (event: Event) => {
-            if (event instanceof NavigationStart) {
-                const {url} = event;
-                if (url === '/' || url === '/user') {
-                    const user = await this.api.getActorByName('manuel');
-                    this.context.setUser(new User(user));
-                    this.context.setAuth('user');
-                } else {
-                    const user = await this.api.getActorByName('carlos');
-                    this.context.setUser(new User(user));
-                    this.context.setAuth('advertiser');
-                }
-            }
+        let loggedUser: any = this.cookieService.get('user');
+        if (loggedUser) {
+            loggedUser = JSON.parse(loggedUser);
+            this.context.setAuth(loggedUser.auth);
+            this.auth = loggedUser.auth;
+            this.context.setUser(new User(loggedUser.user));
+        }
+
+        this.subscription = this.context.getAuth().subscribe(auth => {
+            this.auth = auth;
+        });
+
+        (navigator as any).permissions.query({name: 'microphone'}).then(permission => {
+            this.isMicrophoneEnabled = permission.state !== 'denied';
+            permission.addEventListener('change', (e) => {
+                this.isMicrophoneEnabled = permission.state !== 'denied';
+            });
+        });
+
+        (navigator as any).permissions.query({name: 'geolocation'}).then(permission => {
+            this.isLocationEnabled = permission.state !== 'denied';
+            permission.addEventListener('change', (e) => {
+                this.isLocationEnabled = permission.state !== 'denied';
+            });
         });
     }
 

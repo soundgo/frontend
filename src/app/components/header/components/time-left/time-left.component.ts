@@ -18,6 +18,8 @@ export class TimeLeftComponent implements OnInit {
         this.context.getUser().subscribe(user => {
             if (user && this.valueBar !== Math.round(user.minutes / 60)) {
                 this.calculatePercentBar(user.minutes);
+            } else {
+                this.valueBar = 0;
             }
         });
     }

@@ -5,14 +5,14 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 html {
-  html,
+  width: 100%;
+  height: 100%;
+
   body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-  }
 
-  body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
 

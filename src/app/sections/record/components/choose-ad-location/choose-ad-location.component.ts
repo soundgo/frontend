@@ -24,9 +24,10 @@ export class ChooseAdLocationComponent implements OnInit {
     protected dialog: MatDialog,
   ) {
     this.context.getIsMarkerAdVisible().subscribe(bool => {
-      if (bool)
+      if (bool) {
         this.showAdLocationPicker();
-    })
+      }
+    });
   }
 
   ngOnInit() {}
@@ -62,7 +63,7 @@ export class ChooseAdLocationComponent implements OnInit {
   }
   // Function to save data from announcement
   saveAdvertisementMarker() {
-    //Disable menu and editable circle
+    // Disable menu and editable circle
     this.showAdvertisementMarkerMenu = false;
     this.context.setIsMarkerAdVisible(false);
 
@@ -81,7 +82,7 @@ export class ChooseAdLocationComponent implements OnInit {
     this.dialog
       .open(NumberReproductionsAdvertisementsComponent, {
         width: '350px',
-    })
+      });
   }
   close() {
     this.showAdvertisementMarkerMenu = false;

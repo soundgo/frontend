@@ -6,14 +6,18 @@ export class User extends Actor {
 
     constructor(data: any = {}) {
         super(data);
-        this.minutes = data.minutes;
+        this.minutes = data.minutes || 0;
     }
 
     toJSON() {
-        return {
+        const res = {
             ...super.toJSON(),
             minutes: this.minutes
         };
+
+        Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);
+
+        return res;
     }
 
 }

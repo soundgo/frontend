@@ -12,6 +12,7 @@ import {MatSnackBar, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@an
 import {PlyrModule} from 'ngx-plyr';
 import {MaterialModule} from '../material.module';
 import { ShowcaseComponent } from './components/showcase/showcase.component';
+import {CreateSiteComponent} from '../sections/map/create-site/create-site.component';
 
 const components = [
     ButtonComponent,
@@ -25,7 +26,7 @@ const components = [
 @NgModule({
     declarations: [...components],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
-    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent],
+    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent],
     imports: [
         CommonModule,
         MaterialModule,

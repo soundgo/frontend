@@ -1,6 +1,30 @@
 @import '../css/common.scss';
 
+
 :host {
+
+  .noLocalized {
+    font-size: 30px;
+    background: white;
+    width: 75%;
+    height: 100%;
+    margin: auto;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    animation: appear;
+    animation-duration: 1s;
+  }
+
+  @keyframes appear {
+    0% {opacity: 0;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
   p {
     text-wrap: normal;
     word-break: break-all;

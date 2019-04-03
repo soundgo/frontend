@@ -1,6 +1,18 @@
-<app-errors-management></app-errors-management>
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-map-box1></app-map-box1>
-<app-record></app-record>
-<app-choose-ad-location></app-choose-ad-location>
+<div class="noLocalized" *ngIf="!isLocationEnabled && isMicrophoneEnabled">
+    <h2>Please, enable the geolocation to use this app</h2>
+</div>
+<div class="noLocalized" *ngIf="isLocationEnabled && !isMicrophoneEnabled">
+    <h2>Please, enable the microphone to use this app</h2>
+</div>
+<div class="noLocalized" *ngIf="!isLocationEnabled && !isMicrophoneEnabled">
+    <h2>Please, enable the geolocation and microphone to use this app</h2>
+</div>
+<ng-template [ngIf]="isLocationEnabled && isMicrophoneEnabled">
+    <app-errors-management></app-errors-management>
+    <app-header></app-header>
+    <app-audio-record *ngIf="auth === 'user'"></app-audio-record>
+    <app-ad-record *ngIf="auth === 'advertiser'"></app-ad-record>
+    <app-map-box></app-map-box>
+    <app-record></app-record>
+    <app-choose-ad-location></app-choose-ad-location>
+</ng-template>

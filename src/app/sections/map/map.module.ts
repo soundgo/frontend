@@ -19,6 +19,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {AudioReproducerPanelComponent} from './audio-reproducer-panel/audio-reproducer-panel.component';
 import {MapBoxComponent} from './map-box/map-box.component';
 import {AdReproducerPanelComponent} from './ad-reproducer-panel/ad-reproducer-panel.component';
+import {AccountModule} from '../account/account.module';
 
 const components = [
     MapBoxComponent,
