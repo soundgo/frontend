@@ -24,6 +24,7 @@ export class ReproducerComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.actorId)
     }
 
     onStart() {
@@ -46,9 +47,9 @@ export class ReproducerComponent implements OnInit {
         console.log(audioParam);
         console.log(this.actorId)
         // Si eres usuario y ademas es creado por ti
-        if(this.context.getAuth().getValue() == 'user' && audioParam.actor.id == this.context.getUser().getValue().id){
+        if(this.context.getAuth().getValue() == 'user' && this.actorId == this.context.getUser().getValue().id){
             this.api.deleteAudio(audioParam);
-        }else if(this.context.getAuth().getValue() == 'advertiser' && audioParam.actor.id == this.context.getUser().getValue().id){
+        }else if(this.context.getAuth().getValue() == 'advertiser' && this.actorId == this.context.getUser().getValue().id){
             // Si eres anunciante y ademas es tu anuncio
             this.api.updateAd(audioParam);
         }

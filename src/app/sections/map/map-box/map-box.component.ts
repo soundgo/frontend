@@ -19,6 +19,7 @@ import {AdReproducerPanelComponent} from '../ad-reproducer-panel/ad-reproducer-p
 import {Ad} from '../../../shared/models/Ad';
 
 import * as turf from '@turf/turf';
+import { database } from 'firebase';
 
 @Component({
     selector: 'app-map-box',
