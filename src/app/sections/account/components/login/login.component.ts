@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
                         const userToSave = new User(user);
                         userToSave.token = response.token;
                         this.context.setUser(new User(userToSave));
-                        this.context.setAuth('user');
+                        this.context.setAuth(response.role);
                         this.cookieService.set('user', JSON.stringify({
                             user,
                             auth: 'user'
