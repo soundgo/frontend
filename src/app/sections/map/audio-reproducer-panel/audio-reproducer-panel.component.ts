@@ -10,10 +10,13 @@ import {Audio} from '../../../shared/models/Audio';
 export class AudioReproducerPanelComponent implements OnInit {
 
     audio: Audio;
+    actorId: any;
 
     constructor(private api: ApiService,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.audio = data.audio;
+        this.actorId = data.actorId;
+        console.log(this.actorId);
     }
 
     ngOnInit() {
