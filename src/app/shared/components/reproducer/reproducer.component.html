@@ -2,8 +2,9 @@
     <div>
         <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
                     [label]="record.numberReproductions"></app-showcase>
-        <app-reproducer-button *ngIf="(this.context.getAuth().getValue() == 'user' && this.actorId == this.context.getUser().getValue().id) ) || (this.context.getAuth().getValue() == 'advertiser' && this.actorId == this.context.getUser().getValue().id))" class="deleteButton" [icon]="'../../../../assets/images/delete.png'" [color]="'orange'" [isActive]="activeButton" (click)="deleteAudio(record)"></app-reproducer-button>
-
+        <span class="deleteButton" *ngIf="context.getUser().getValue() != null && (context.getUser().getValue().nickname === record.name)">
+            <app-reproducer-button [icon]="'../../../../assets/images/delete-active.png'" [activeIcon] = "'../../../../assets/images/delete.png'" [color]="'orange'" [isActive]="activeButton" (click)="deleteAudio(record)"></app-reproducer-button>
+        </span>
     </div>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"

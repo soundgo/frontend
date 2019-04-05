@@ -13,7 +13,6 @@ import { User } from '../../models/User';
 })
 export class ReproducerComponent implements OnInit {
 
-    @Input() actorId: any;
     @Input() record: Audio | Ad;
     @Input() isAdvertiser = false;
     @Output() finishAction = new EventEmitter<any>();
@@ -24,7 +23,6 @@ export class ReproducerComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.actorId)
     }
 
     onStart() {
@@ -45,12 +43,14 @@ export class ReproducerComponent implements OnInit {
     deleteAudio(audioParam){
         this.activeButton = false;
         console.log(audioParam);
-        console.log(this.actorId)
+        console.log(this.context.getUser().getValue())
         // Si eres usuario y ademas es creado por ti
-        if(this.context.getAuth().getValue() == 'user' && this.actorId == this.context.getUser().getValue().id){
+        if((this.context.getAuth().getValue() == 'user' || this.context.getAuth().getValue() == 'advertiser') && this.context.getUser().getValue().nickname == this.record.name){
+            console.log('Entra')
             this.api.deleteAudio(audioParam);
-        }else if(this.context.getAuth().getValue() == 'advertiser' && this.actorId == this.context.getUser().getValue().id){
-            // Si eres anunciante y ademas es tu anuncio
+            // Quito modal activo y podria mostrar otro modal diciendo que se ha eliminado correctamente.
+        }else if(this.context.getAuth().getValue() == 'advertiser' && this.context.getUser().getValue().name == this.record.name){
+        //     // Si eres anunciante y ademas es tu anuncio
             this.api.updateAd(audioParam);
         }
     }
