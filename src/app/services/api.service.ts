@@ -200,6 +200,26 @@ export class ApiService {
         });
     }
 
+    /** POST: like an audio  */
+    likeAudio(audio: Audio) {
+        const url = `${this.apiUrl}/records/audio/like/${audio.id}/`;
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: this.context.getUser().getValue().token
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
     ///////////////////////////////////////////////////////////////////////////////
     //////////////////////////// ADVERTISEMENT (Ad) //////////////////////////////
     /////////////////////////////////////////////////////////////////////////////

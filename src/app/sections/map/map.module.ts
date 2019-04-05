@@ -32,7 +32,7 @@ const components = [
 ];
 
 @NgModule({
-  declarations: [...components],
+  declarations: [...components, ],
   entryComponents: [
     SitePanelSheetComponent,
     TagPanelSheetComponent,
