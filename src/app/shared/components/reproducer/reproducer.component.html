@@ -1,6 +1,20 @@
 <div>
     <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
                   [label]="record.numberReproductions"></app-showcase>
+    
+    <ng-template [ngIf]="user !== null && isAudio">
+        <div class="button-report">
+            <app-reproducer-button
+                [icon]="'/assets/images/report.PNG'"
+                [activeIcon]="'/assets/images/report-active.PNG'"
+                [color]="'#ffffff'"
+                [size]="'50'"
+                [isActive]="isReported"
+                (click)="report()">
+            </app-reproducer-button>
+        </div>
+    </ng-template> 
+
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
          [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }"></div>

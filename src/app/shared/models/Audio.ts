@@ -18,6 +18,8 @@ export class Audio extends Record {
     tags?: Tag[];
     actor?: number | {};
     language?: number | string[];
+    reported?:boolean;
+    numberReports?:number;
 
     constructor(data: any = {}) {
         super(data);
@@ -40,6 +42,8 @@ export class Audio extends Record {
         }
         this.actor = data.actor || null;
         this.language = data.language || null;
+        this.reported = data.reported||null;
+        this.numberReports = data.numberReports || null;
     }
 
     toJSON() {
@@ -49,6 +53,7 @@ export class Audio extends Record {
             isInappropriate: this.isInappropriate,
             timestampCreation: this.timestampCreation,
             timestampFinish: this.timestampFinish,
+            numberReports: this.numberReports,
         };
 
         if (this.site) {
