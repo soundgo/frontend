@@ -25,13 +25,14 @@ export class Audio extends Record {
         this.isInappropriate = data.isInappropriate || null;
         this.timestampCreation = data.timestampCreation || null;
         this.timestampFinish = data.timestampFinish || null;
+        this.tags = [];
+
         if (data.site) {
             this.site = new Site(data.site);
         } else {
             this.site = null;
         }
         if (data.tags) {
-            this.tags = [];
             data.tags.forEach(tag => {
                 this.tags.push(new Tag(tag));
             });
@@ -57,6 +58,8 @@ export class Audio extends Record {
 
         if (this.tags) {
             res['tags'] = this.tags.map(tag => tag.toJSON());
+        } else {
+            res['tags'] = this.tags;
         }
 
         Object.keys(res).forEach(key => res[key] == null && delete res[key]);
