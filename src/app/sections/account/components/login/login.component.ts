@@ -48,17 +48,17 @@ export class LoginComponent implements OnInit {
             this.userEntity.password = userForm.password;
 
             this.api.login(this.userEntity).then((response: any) => {
-                if (response.non_field_errors) {
-                    this.showBadCredentials = false;
+                if (response.non_field_errors || response.role === 'admin') {
+                    this.showBadCredentials = true;
                 } else {
                     this.api.getActorByName(this.userEntity.nickname, response.token).then(user => {
                         const userToSave = new User(user);
                         userToSave.token = response.token;
-                        this.context.setUser(new User(userToSave));
-                        this.context.setAuth('user');
+                        this.context.setUser(userToSave);
+                        this.context.setAuth(response.role);
                         this.cookieService.set('user', JSON.stringify({
-                            user,
-                            auth: 'user'
+                            user: userToSave,
+                            auth: response.role
                         }));
                         this.dialogRef.close();
                     });

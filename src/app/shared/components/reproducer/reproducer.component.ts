@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
 import { ContextService } from 'src/app/services/context.service';
+import { MatDialog } from '@angular/material';
+import { NumberReproductionsAdvertisementsComponent } from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 
 @Component({
     selector: 'app-reproducer',
@@ -11,11 +13,14 @@ import { ContextService } from 'src/app/services/context.service';
 export class ReproducerComponent implements OnInit {
 
     @Input() record: Audio | Ad;
+    @Input() properties: any;
     @Input() isAdvertiser = false;
+    @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 
-    constructor(protected context: ContextService) {
+    constructor(protected context: ContextService,
+                protected dialog: MatDialog) {
     }
 
     ngOnInit() {
@@ -33,6 +38,21 @@ export class ReproducerComponent implements OnInit {
         const duration = (params.currentTarget.children[1].duration * timeToListenAnAdvertisement);
         if (this.finishAction) {
             this.finishAction.emit({duration});
+        }
+    }
+
+    editRecord() {
+        if (this.record instanceof Ad) {
+            this.dialog
+                .open(NumberReproductionsAdvertisementsComponent, {
+                    width: '350px',
+                    data: {
+                        ad: this.record,
+                        properties: this.properties
+                    }
+                });
+        } else {
+
         }
     }
 

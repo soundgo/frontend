@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import * as mapboxgl from 'mapbox-gl';
-import * as MapboxCircle from '../../../../../assets/js/mapbox-gl-circle/lib/main.js';
+import * as MapboxCircle from 'mapbox-gl-circle/lib/main.js';
 import { ContextService } from '../../../../services/context.service';
 import { Ad } from 'src/app/shared/models/Ad';
 import { NumberReproductionsAdvertisementsComponent } from '../number-reproductions-advertisements/number-reproductions-advertisements.component';
