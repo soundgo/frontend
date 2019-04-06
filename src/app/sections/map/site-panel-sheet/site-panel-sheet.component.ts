@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatDialog} from '@angular/material';
 import {ContextService} from '../../../services/context.service';
+import { CreateSiteComponent } from '../create-site/create-site.component';
 
 @Component({
     selector: 'app-site-panel-sheet',
@@ -20,6 +21,19 @@ export class SitePanelSheetComponent {
 
     closeSitePanel() {
         this.bottomSheetRef.dismiss();
+    }
+
+    isEditable() {
+        const user = this.context.getUser().getValue();
+        return user && user.id === this.data.properties.actorId;
+    }
+
+    editSite() {
+        this.dialog
+                .open(CreateSiteComponent, {
+                    width: '350px',
+                    data: this.data 
+                });
     }
 
 }
