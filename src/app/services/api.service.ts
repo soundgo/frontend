@@ -240,7 +240,7 @@ export class ApiService {
 
     /** PUT: Update an advertisement and it is “deleted” */
     updateAd(ad: Ad) {
-        const url = `${this.apiUrl}/records/advertisment/${ad.id}/`;
+        const url = `${this.apiUrl}/records/advertisement/${ad.id}/`;
 
         const header = {
             headers: new HttpHeaders({

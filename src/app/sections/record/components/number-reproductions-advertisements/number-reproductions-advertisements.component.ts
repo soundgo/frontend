@@ -1,10 +1,9 @@
 import {Component, OnInit, Input, Inject} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {Ad} from '../../../../shared/models/Ad';
-import {MatDialogRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {Validators, FormControl, FormGroup} from '@angular/forms';
-import { Site } from 'src/app/shared/models/Site';
 import { ApiService } from 'src/app/services/api.service';
 
 
@@ -24,8 +23,9 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
                 private context: ContextService,
                 private audioRecord: AudioRecordService,
                 public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>,
-                @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
-        this.adEntity = this.context.getAdEntity().getValue();
+                @Inject(MAT_DIALOG_DATA) public data: any) {
+
+        this.adEntity = this.data ? this.data.ad : this.context.getAdEntity().getValue();
         dialogRef.backdropClick().subscribe(bool => {
             this.context.setIsRecorded(true);
         });
@@ -33,7 +33,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     ngOnInit() {
         this.adPriceForm = new FormGroup({
-            price: new FormControl('', [Validators.required]),
+            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required]),
         });
     }
 
@@ -46,12 +46,13 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
          * The formula to calculate the price is:
          *  C x r x s x (d/10000)
          */
+        
         this.duration = 30;
         this.maxNumberOfReproductions = Math.round(number / (this.duration * (this.adEntity.radius / 10000)));
     }
 
     submit(adPriceForm) {
-        if (this.adPriceForm.valid) {
+        if (this.adPriceForm.valid && !this.data) {
             this.adEntity.maxPriceToPay = adPriceForm.price;
             this.context.setAdEntity(this.adEntity);
             // Send ad
@@ -59,8 +60,10 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
             this.dialogRef.close();
         }
-        else if (this.adPriceForm.valid && this.data.id) {
-            const ad = new Ad(this.data);
+        else if (this.adPriceForm.valid && this.data) {
+            const ad = new Ad(this.data.ad);
+            ad.maxPriceToPay = adPriceForm.price;
+            ad.isDelete = false;
             this.api.updateAd(ad);
             this.dialogRef.close();
           }

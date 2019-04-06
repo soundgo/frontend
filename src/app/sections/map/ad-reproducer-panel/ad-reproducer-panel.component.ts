@@ -11,11 +11,13 @@ import {ContextService} from '../../../services/context.service';
 export class AdReproducerPanelComponent implements OnInit {
 
     ad: Ad;
+    properties: any;
 
     constructor(private api: ApiService,
                 private context: ContextService,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.ad = data.ad;
+        this.properties = data.properties;
     }
 
     ngOnInit() {
@@ -32,7 +34,7 @@ export class AdReproducerPanelComponent implements OnInit {
 
     isEditable() {
         const user = this.context.getUser().getValue();
-        console.log('DATA AD REPRODUCER COMPONENT', this.data);
+        return user.id === this.data.properties.actorId;
     }
 
 }

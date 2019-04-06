@@ -1,9 +1,11 @@
 <div>
     <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
                   [label]="record.numberReproductions"></app-showcase>
+    <app-reproducer-button *ngIf="isEditable" [icon]="'../../../../assets/images/edit.png'" [color]="'dodgerblue'" (click)="editRecord()"></app-reproducer-button>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
-         [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }"></div>
+         [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
+    </div>
     <div class="author">
         <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
         <p>{{record.name}}</p>
