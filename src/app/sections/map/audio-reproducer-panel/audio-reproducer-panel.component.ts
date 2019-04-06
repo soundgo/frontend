@@ -11,11 +11,13 @@ import { ContextService } from 'src/app/services/context.service';
 export class AudioReproducerPanelComponent implements OnInit {
 
     audio: Audio;
+    actorId: any;
 
     constructor(private api: ApiService,
                 private context: ContextService,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.audio = data.audio;
+        this.actorId = data.actorId;
     }
 
     ngOnInit() {
@@ -27,7 +29,7 @@ export class AudioReproducerPanelComponent implements OnInit {
 
     isEditable() {
         const user = this.context.getUser().getValue();
-        return user.id === this.data.properties.actorId;
+        return user && user.id === this.data.properties.actorId;
     }
 
 }

@@ -13,13 +13,13 @@
          (click)="stopRecord()"
          [class.ad]="isAd">
         <div class="icon"></div>
-        <p>{{ 'Tap to stop' | translate }}</p>
+        <p>{{ 'Tap to stop' }}</p>
     </div>
     <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && !showUserCantRecord">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
                 <div class="icon"></div>
-                <p>{{ 'Tap to record' | translate }}</p>
+                <p>{{ 'Tap to record' }}</p>
             </div>
         </div>
     </ng-template>
@@ -27,7 +27,7 @@
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd">
                 <div class="icon"></div>
-                <p>{{ 'No time to record' | translate }}</p>
+                <p>{{ 'No time to record' }}</p>
             </div>
         </div>
     </ng-template>

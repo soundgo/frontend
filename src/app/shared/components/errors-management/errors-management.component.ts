@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {Subscription} from 'rxjs';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material/';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

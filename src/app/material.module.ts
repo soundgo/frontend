@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 import {
-  MatDialogModule,
   MatFormFieldModule,
   MatButtonModule,
   MatInputModule,
