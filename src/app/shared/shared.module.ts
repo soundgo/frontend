@@ -15,6 +15,7 @@ import { ShowcaseComponent } from './components/showcase/showcase.component';
 import {CreateSiteComponent} from '../sections/map/create-site/create-site.component';
 import { ReproducerButtonComponent } from './components/reproducer-button/reproducer-button.component';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 const components = [
     ButtonComponent,
@@ -22,13 +23,14 @@ const components = [
     RecorderComponent,
     ErrorsManagementComponent,
     ReproducerComponent,
-    ShowcaseComponent
+    ShowcaseComponent,
+    DeleteModalComponent
 ];
 
 @NgModule({
     declarations: [...components, ReproducerButtonComponent],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
-    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent],
+    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent, DeleteModalComponent],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
         NO_ERRORS_SCHEMA

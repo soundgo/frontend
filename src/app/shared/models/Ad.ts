@@ -21,7 +21,8 @@ export class Ad extends Record {
         const res = {
             ...super.toJSON(),
             radius: this.radius,
-            maxPriceToPay: this.maxPriceToPay
+            maxPriceToPay: this.maxPriceToPay,
+            isDelete: this.isDelete
         };
 
         Object.keys(res).forEach((key) => (res[key] == null) && delete res[key]);

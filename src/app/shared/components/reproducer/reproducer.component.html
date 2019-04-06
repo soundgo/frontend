@@ -1,14 +1,12 @@
 <div>
-    <div>
-        <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
-                    [label]="record.numberReproductions"></app-showcase>
-        <span class="deleteButton" *ngIf="context.getUser().getValue() != null && (context.getUser().getValue().nickname === record.name)">
-            <app-reproducer-button [icon]="'../../../../assets/images/delete-active.png'" [activeIcon] = "'../../../../assets/images/delete.png'" [color]="'black'" [isActive]="activeButton" (click)="deleteAudio(record)"></app-reproducer-button>
-        </span>
-    </div>
+    <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
+                  [label]="record.numberReproductions"></app-showcase>
+    <app-reproducer-button *ngIf="isEditable" [icon]="'../../../../assets/images/edit.png'" [color]="'dodgerblue'" (click)="editRecord()"></app-reproducer-button>
+    <app-reproducer-button *ngIf="isEditable" [icon]="'../../../../assets/images/delete-active.png'" [color]="'dodgerblue'" (click)="deleteRecord(record)"></app-reproducer-button>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
-         [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }"></div>
+         [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
+    </div>
     <div class="author">
         <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
         <p>{{record.name}}</p>
