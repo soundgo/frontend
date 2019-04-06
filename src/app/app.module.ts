@@ -22,6 +22,8 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AccountModule } from './sections/account/account.module';
 import { CookieService } from 'ngx-cookie-service';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -37,6 +39,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   entryComponents: [],
   providers: [CookieService],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ],
   imports: [
     BrowserModule,
     SharedModule,
