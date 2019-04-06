@@ -4,15 +4,15 @@
     <p>
         We will show how many reproductions can have your ad.
     </p>
-    <mat-form-field>
+    <div mat-form-field>
         <input matInput type="number" formControlName="price" (input)="calculatePrice(adPriceForm.value.price)" />
-        <mat-error *ngIf="hasError('price', 'required')">Price is required</mat-error>
-    </mat-form-field>
+        <div mat-error *ngIf="hasError('price', 'required')">Price is required</div>
+        </div>
 </div>
 <div class="numReproductions" *ngIf="maxNumberOfReproductions">
     <h1>{{maxNumberOfReproductions}} reproductions</h1>
 </div>
-<mat-dialog-actions>
+<div mat-dialog-actions>
     <button mat-button class="saveButton" [disabled]="!adPriceForm.valid">Save</button>
-</mat-dialog-actions>
+</div>
 </form>

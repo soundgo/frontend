@@ -3,7 +3,7 @@ import {RecorderComponent} from '../../../../shared/components/recorder/recorder
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
 import {Audio} from '../../../../shared/models/Audio';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 import {Subscription} from 'rxjs';
 

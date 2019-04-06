@@ -14,6 +14,7 @@ import {MaterialModule} from '../material.module';
 import { ShowcaseComponent } from './components/showcase/showcase.component';
 import {CreateSiteComponent} from '../sections/map/create-site/create-site.component';
 import { ReproducerButtonComponent } from './components/reproducer-button/reproducer-button.component';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const components = [
     ButtonComponent,
@@ -28,11 +29,16 @@ const components = [
     declarations: [...components, ReproducerButtonComponent],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
     entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA
+      ],
     imports: [
         CommonModule,
         MaterialModule,
         HttpClientModule,
         PlyrModule,
+        MatSnackBarModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
