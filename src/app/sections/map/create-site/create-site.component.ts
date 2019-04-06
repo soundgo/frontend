@@ -25,8 +25,8 @@ export class CreateSiteComponent implements OnInit {
 
   ngOnInit() {
     this.siteForm = new FormGroup({
-      name: new FormControl(this.data.name, [Validators.required]),
-      description: new FormControl(this.data.description, [Validators.required]),
+      name: new FormControl(this.data.site.name || '', [Validators.required]),
+      description: new FormControl(this.data.site.description || '', [Validators.required]),
     });
   }
   hasError(controlName: string, errorName: string) {
@@ -38,7 +38,7 @@ export class CreateSiteComponent implements OnInit {
   }
 
   saveSite(siteForm) {
-    if (this.siteForm.valid && !this.data.id) {
+    if (this.siteForm.valid && !this.data.site.name) {
       this.siteEntity = new Site();
 
       this.siteEntity.name = siteForm.name;
@@ -49,10 +49,12 @@ export class CreateSiteComponent implements OnInit {
       this.dialogRef.close();
       this.context.setIsMarkerSiteVisible(true);
       
-    } else if (this.siteForm.valid && this.data.id) {
-      const site = new Site(this.data);
+    } else if (this.siteForm.valid && this.data.site.name) {
+      const site = new Site(this.data.site);
+      site.name = siteForm.name;
+      site.description = siteForm.description;
       this.api.updateSite(site);
-      this.onClose();
+      this.dialogRef.close();
     }
   }
 

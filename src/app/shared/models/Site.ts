@@ -8,7 +8,7 @@ export class Site {
 
 
     constructor(data: any = {}) {
-        this.id = data || null;
+        this.id = data.id || null;
         this.latitude = data.latitude || null;
         this.longitude = data.longitude || null;
         this.name = data.name || null;
