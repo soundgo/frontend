@@ -34,10 +34,6 @@ export class AppComponent implements OnInit {
                 private cookieService: CookieService,
                 protected dialog: MatDialog) {
 
-        this.dialog.open(EditAudioComponent, {
-            width: '350px',
-        });
-
         translate.setDefaultLang('en');
 
         this.api.getConfiguration().then((config: Config) => {

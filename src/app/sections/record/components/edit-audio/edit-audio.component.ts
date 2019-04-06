@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Audio} from '../../../../shared/models/Audio';
 import {ApiService} from '../../../../services/api.service';
 import {Tag} from '../../../../shared/models/Tag';
@@ -11,29 +11,14 @@ import {Tag} from '../../../../shared/models/Tag';
 })
 export class EditAudioComponent implements OnInit {
 
-    @Input() audio = new Audio({
-        category: 'Experience',
-        id: 53,
-        isInappropriate: false,
-        latitude: 37.4081397,
-        liked: false,
-        longitude: -5.9657532,
-        name: 'carlos',
-        numberLikes: 0,
-        numberReproductions: 1,
-        path: 'https://res.cloudinary.com/soundgo2/video/upload/v1554574854/records/gc5emavvatdmttufr8yi.ogg',
-        photo: '',
-        reported: false,
-        site: null,
-        tags: [],
-        timestampCreation: '2019-04-06T18:20:55.638823Z',
-        timestampFinish: '2019-04-09T18:20:55.386290Z'
-    });
+    @Input() audio;
     tags: any;
     options: any;
 
     constructor(private api: ApiService,
-                private dialogRef: MatDialogRef<EditAudioComponent>) {
+                private dialogRef: MatDialogRef<EditAudioComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
+        this.audio = data.audio;
     }
 
     ngOnInit() {
@@ -74,7 +59,7 @@ export class EditAudioComponent implements OnInit {
 
     editAudio() {
         this.api.updateAudio(this.audio).then(_ => {
-            this.dialogRef.close();
+            this.dialogRef.close(this.audio);
         });
     }
 
