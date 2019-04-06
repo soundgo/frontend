@@ -1,0 +1,38 @@
+<div>
+    <h1 mat-dialog-title>Tags</h1>
+    <div mat-dialog-content>
+        <div class="tag" *ngFor="let tag of audio.tags">
+            <p>{{tag}}</p>
+            <div class="close" (click)="removeTag(tag)">X</div>
+        </div>
+    </div>
+    <mat-form-field>
+        <input type="text" matInput (keyup)="search($event)" (keyup.enter)="addTag($event)"
+               [matAutocomplete]="auto" placeholder="Choose your tags!">
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+    </mat-autocomplete>
+</div>
+<br/>
+<div>
+    <h1 mat-dialog-title>Categories</h1>
+    <div class="category-wrapper" mat-dialog-content>
+        <button mat-flat-button [class.tourismButtonDisabled]="!isSelected('Tourism')"
+                [class.tourismButton]="isSelected('Tourism')" (click)="selectCategory('Tourism')">
+            Tourism
+        </button>
+        <button mat-flat-button [class.experienceButtonDisabled]="!isSelected('Experience')"
+                [class.experienceButton]="isSelected('Experience')" (click)="selectCategory('Experience')">
+            Experience
+        </button>
+        <button mat-flat-button [class.leisureButtonDisabled]="!isSelected('Leisure')"
+                [class.leisureButton]="isSelected('Leisure')" (click)="selectCategory('Leisure')">
+            Leisure
+        </button>
+    </div>
+</div>
+<mat-dialog-actions>
+    <button mat-button class="" (click)="editAudio()">Save</button>
+</mat-dialog-actions>

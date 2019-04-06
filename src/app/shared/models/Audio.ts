@@ -15,7 +15,7 @@ export class Audio extends Record {
     timestampCreation?: Date;
     timestampFinish?: Date;
     site?: Site;
-    tags?: Tag[];
+    tags?: string[];
     actor?: number | {};
     language?: number | string[];
 
@@ -33,9 +33,7 @@ export class Audio extends Record {
             this.site = null;
         }
         if (data.tags) {
-            data.tags.forEach(tag => {
-                this.tags.push(new Tag(tag));
-            });
+            this.tags = data.tags;
         } else {
             this.tags = null;
         }
@@ -57,8 +55,6 @@ export class Audio extends Record {
         }
 
         if (this.tags) {
-            res['tags'] = this.tags.map(tag => tag.toJSON());
-        } else {
             res['tags'] = this.tags;
         }
 

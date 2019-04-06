@@ -103,7 +103,7 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
     
     if (isRecordedInSite) {
       this.dialog.open(ChooseAudioCategoryComponent, {
-          width: '350px',
+        width: '350px',
       });
     } else {
       this.dialog.open(ChooseAudioAdvertisementComponent, {

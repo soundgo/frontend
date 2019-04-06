@@ -15,7 +15,7 @@ export class ErrorsManagementComponent implements OnInit {
     constructor(private context: ContextService, private snackBar: MatSnackBar, private translateService: TranslateService) {
 
         this.subscription = this.context.getError().subscribe((response) => {
-            if (response.error) {
+            if (response && response.error) {
                 this.createSnackBar(response.error);
             }
         });
