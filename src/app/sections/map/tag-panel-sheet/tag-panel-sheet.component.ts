@@ -11,7 +11,7 @@ import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.co
 })
 export class TagPanelSheetComponent implements OnInit {
   
-  tags: Array<string> = ['1', '2', '3'];
+  tags: Array<string>;
   tagsSelected: Array<any> = ['1', '2', '3'];
   isLoading: boolean = true;
 
@@ -20,10 +20,10 @@ export class TagPanelSheetComponent implements OnInit {
     private context: ContextService,
     private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>
   ) {
-    // this.api.getConfiguration().then(data => {
-      // this.tags = data;
+    this.api.getTags().then(data => {
+      console.log('Tags', data)
       this.isLoading = false;
-    // });
+    });
   }
 
   isActive(tag) {
