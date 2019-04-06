@@ -34,7 +34,7 @@ export class AdReproducerPanelComponent implements OnInit {
 
     isEditable() {
         const user = this.context.getUser().getValue();
-        return user.id === this.data.properties.actorId;
+        return user && user.id === this.data.properties.actorId;
     }
 
 }
