@@ -40,7 +40,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue() ? this.context.getUser().getValue().token : ''
+                Authorization: this.context.getUser().getValue() ? `Bearer ${this.context.getUser().getValue().token}` : ''
             })
         };
 
@@ -62,7 +62,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue() ? this.context.getUser().getValue().token : ''
+                Authorization: this.context.getUser().getValue() ? `Bearer ${this.context.getUser().getValue().token}` : ''
             })
         };
 
@@ -89,13 +89,13 @@ export class ApiService {
     }
 
     /** POST: Create an audio in the map */
-    createAudio(audio: any) {
+    createAudio(audio: Audio) {
         const url = `${this.apiUrl}/records/audio/`;
 
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -116,7 +116,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -138,7 +138,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -173,7 +173,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -224,7 +224,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -245,7 +245,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
         const body = {
@@ -303,7 +303,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -324,7 +324,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -346,7 +346,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: this.context.getUser().getValue().token
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
 
@@ -366,7 +366,7 @@ export class ApiService {
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                Authorization: token
+                Authorization: `Bearer ${token}`
             })
         };
 
