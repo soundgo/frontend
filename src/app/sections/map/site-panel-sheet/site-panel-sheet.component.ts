@@ -1,6 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from '@angular/material';
-import {ApiService} from '../../../services/api.service';
+import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatDialog} from '@angular/material';
 import {ContextService} from '../../../services/context.service';
 
 @Component({
@@ -12,8 +11,8 @@ export class SitePanelSheetComponent {
 
     canRecord = false;
 
-    constructor(private api: ApiService,
-                private context: ContextService,
+    constructor(private context: ContextService,
+                protected dialog: MatDialog,
                 private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.canRecord = this.context.getAuth().getValue() !== null;

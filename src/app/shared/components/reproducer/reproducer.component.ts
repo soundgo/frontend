@@ -12,6 +12,7 @@ export class ReproducerComponent implements OnInit {
 
     @Input() record: Audio | Ad;
     @Input() isAdvertiser = false;
+    @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 

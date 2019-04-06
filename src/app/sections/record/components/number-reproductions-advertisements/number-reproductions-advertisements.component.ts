@@ -1,9 +1,11 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Inject} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {Ad} from '../../../../shared/models/Ad';
-import {MatDialogRef} from '@angular/material';
+import {MatDialogRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {Validators, FormControl, FormGroup} from '@angular/forms';
+import { Site } from 'src/app/shared/models/Site';
+import { ApiService } from 'src/app/services/api.service';
 
 
 @Component({
@@ -18,9 +20,11 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     maxNumberOfReproductions: number;
 
-    constructor(private context: ContextService,
+    constructor(private api: ApiService,
+                private context: ContextService,
                 private audioRecord: AudioRecordService,
-                public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>) {
+                public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>,
+                @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.adEntity = this.context.getAdEntity().getValue();
         dialogRef.backdropClick().subscribe(bool => {
             this.context.setIsRecorded(true);
@@ -55,6 +59,11 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
             this.dialogRef.close();
         }
+        else if (this.adPriceForm.valid && this.data.id) {
+            const ad = new Ad(this.data);
+            this.api.updateAd(ad);
+            this.dialogRef.close();
+          }
     }
 
 }
