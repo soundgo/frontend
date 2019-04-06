@@ -240,7 +240,7 @@ export class ApiService {
 
     /** PUT: Update an advertisement and it is “deleted” */
     updateAd(ad: Ad) {
-        const url = `${this.apiUrl}/records/advertisment/${ad.id}/`;
+        const url = `${this.apiUrl}/records/advertisement/${ad.id}/`;
 
         const header = {
             headers: new HttpHeaders({
@@ -248,8 +248,12 @@ export class ApiService {
                 Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
+        const body = {
+            'maxPriceToPay': ad.maxPriceToPay,
+            'isDelete': true
+        }
         return new Promise(resolve => {
-            this.http.put<any>(url, ad, header).subscribe(response => {
+            this.http.put<any>(url, body, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
