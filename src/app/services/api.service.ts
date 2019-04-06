@@ -248,12 +248,8 @@ export class ApiService {
                 Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
-        const body = {
-            'maxPriceToPay': ad.maxPriceToPay,
-            'isDelete': true
-        }
         return new Promise(resolve => {
-            this.http.put<any>(url, body, header).subscribe(response => {
+            this.http.put<any>(url, ad, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
