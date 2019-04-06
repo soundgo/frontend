@@ -5,6 +5,7 @@ import { ContextService } from 'src/app/services/context.service';
 import {ApiService} from '../../../services/api.service';
 import {CookieService} from 'ngx-cookie-service';
 import { User } from '../../models/User';
+import { typeofExpr } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'app-reproducer',
@@ -40,18 +41,12 @@ export class ReproducerComponent implements OnInit {
         }
     }
 
-    deleteAudio(audioParam){
+    deleteAudio(record){
         this.activeButton = false;
-        console.log(audioParam);
-        console.log(this.context.getUser().getValue())
-        // Si eres usuario y ademas es creado por ti
-        if((this.context.getAuth().getValue() == 'user' || this.context.getAuth().getValue() == 'advertiser') && this.context.getUser().getValue().nickname == this.record.name){
-            console.log('Entra')
-            this.api.deleteAudio(audioParam);
-            // Quito modal activo y podria mostrar otro modal diciendo que se ha eliminado correctamente.
-        }else if(this.context.getAuth().getValue() == 'advertiser' && this.context.getUser().getValue().name == this.record.name){
-        //     // Si eres anunciante y ademas es tu anuncio
-            this.api.updateAd(audioParam);
+        if(record instanceof Audio && (this.context.getAuth().getValue() == 'user' || this.context.getAuth().getValue() == 'advertiser') && this.context.getUser().getValue().nickname == record.name){
+            this.api.deleteAudio(record);
+        }else if(record instanceof Ad && this.context.getAuth().getValue() == 'advertiser' && this.context.getUser().getValue().nickname == record.name){
+            this.api.updateAd(record);
         }
     }
 
