@@ -29,7 +29,7 @@ export class AudioReproducerPanelComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isLoading = true;
         this.api.getAudioById(this.data.properties.id).then((audio: Audio) => {
-            this.audio = audio;
+            this.audio = new Audio(audio);
             this.isLoading = false;
             if (!this.cdr['destroyed']) {
                 this.cdr.detectChanges();
