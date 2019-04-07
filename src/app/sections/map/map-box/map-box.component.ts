@@ -67,10 +67,9 @@ export class MapBoxComponent implements OnInit {
         });
         // Filter by tags
         this.context.getTagsSelected().subscribe(tagsSelected => {
-            if (this.map && tagsSelected) {
-                this.tagsSelected = tagsSelected;
-                this.map.setFilter('audios', this.filterTags(tagsSelected));
-            }
+            // Hacer aqui el filtro
+            
+            // this.audioSource.setData(new FeatureCollection(data));
         });
         // Show site marker in map
         this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
@@ -96,17 +95,6 @@ export class MapBoxComponent implements OnInit {
         for (let cat of arrayCategoriesSelected) 
             res.push(['==', 'type', cat]);
 
-        return res;
-    }
-
-    filterTags(tagsSelected) {
-        const res:any[] = ['any']
-        
-        const arrayTagsSelected = tagsSelected.split(',');
-        for (let tag of arrayTagsSelected) 
-            res.push(['in', 'tags', tag]);
-
-        console.log('TAG - filterTags', res)
         return res;
     }
 
@@ -188,6 +176,20 @@ export class MapBoxComponent implements OnInit {
         }
     }
 
+    filterAudioByTags(audio) {
+        if (audio.tags) {
+            const tagsSelected = this.context.getTagsSelected().getValue();
+            for (let t1 of audio.tags) {
+                for (let t2 of tagsSelected) {
+                    if (t1===t2) return true;
+                }     
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     showMarkerPlaceSite() {
         
         const center = this.map.getCenter();
@@ -265,7 +267,6 @@ export class MapBoxComponent implements OnInit {
                     });
                     this.adSource.setData(new FeatureCollection(data));
                 });
-
             });
 
             this.isDataLoaded = true;
