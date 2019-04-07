@@ -10,7 +10,7 @@ export class ReproducerButtonComponent implements OnInit {
   @Input() icon;
   @Input() activeIcon;
   @Input() color = '#0000000';
-  @Input() size = '50';
+  @Input() size = '40';
   @Input() isActive = false;
 
   constructor() { }

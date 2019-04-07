@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Inject, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApiService } from 'src/app/services/api.service';
 import { CreateSiteComponent } from 'src/app/sections/map/create-site/create-site.component';
