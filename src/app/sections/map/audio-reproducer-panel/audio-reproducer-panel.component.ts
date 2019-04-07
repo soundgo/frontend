@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ApiService} from '../../../services/api.service';
-import {MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatDialogRef} from '@angular/material';
 import {Audio} from '../../../shared/models/Audio';
-import { ContextService } from 'src/app/services/context.service';
+import {ContextService} from 'src/app/services/context.service';
 
 @Component({
     selector: 'app-audio-reproducer-panel',

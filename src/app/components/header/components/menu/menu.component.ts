@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {Actor} from 'src/app/shared/models/Actor';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatBottomSheet} from '@angular/material';
 import {CreateSiteComponent} from 'src/app/sections/map/create-site/create-site.component';
 import {User} from '../../../../shared/models/User';
 import {LoginComponent} from '../../../../sections/account/components/login/login.component';
 import {CookieService} from 'ngx-cookie-service';
+import { TagPanelSheetComponent } from 'src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component';
 
 @Component({
     selector: 'app-menu',
@@ -22,7 +23,8 @@ export class MenuComponent implements OnInit {
 
     constructor(private context: ContextService,
                 private matDialog: MatDialog,
-                private cookieService: CookieService) {
+                private cookieService: CookieService,
+                private bottomSheet: MatBottomSheet) {
         this.subscription.add(this.context.getAuth().asObservable().subscribe(auth => {
             this.auth = auth;
         }));
@@ -51,8 +53,15 @@ export class MenuComponent implements OnInit {
                 site: {
                     name: '',
                     description: ''
-                }
+                },
+                editable: false,
             }
+        });
+    }
+
+    searchByTags() {
+        this.bottomSheet.open(TagPanelSheetComponent, {
+            // nodata
         });
     }
 

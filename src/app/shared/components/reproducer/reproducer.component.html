@@ -1,12 +1,27 @@
 <div>
-    <app-showcase [bg]="'dodgerblue'" [icon]="'../../../../assets/images/ear.png'"
-                  [label]="record.numberReproductions"></app-showcase>
-    <div class="contentButtons"> 
-        <app-reproducer-button *ngIf="isEditable" [isActive]="editActive" [activeIcon]="'../../../../assets/images/edit.png'" [icon]="'../../../../assets/images/edit-active.png'" [color]="'#FF9300'" (click)="editRecord()"></app-reproducer-button>
-        &nbsp;
-        <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive" [activeIcon]="'../../../../assets/images/delete.png'" [icon]="'../../../../assets/images/delete-active.png'" [color]="'#AF2237'" (click)="deleteRecord(record)"></app-reproducer-button>
-        <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/like.PNG'" [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'" [isActive]="isLiked" (click)="like()"></app-reproducer-button>
-        <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/report.PNG'" [activeIcon]="'/assets/images/report-active.PNG'" [color]="'#ffffff'" [isActive]="isReported" (click)="report()"></app-reproducer-button>
+    <div class="header">
+        <div class="showcases-wrapper">
+            <app-showcase [bg]="'dodgerblue'" [icon]="'/assets/images/ear.png'"
+                          [label]="record.numberReproductions"></app-showcase>
+            <app-showcase [bg]="'purple'" [icon]="'/assets/images/like.PNG'"
+                          [label]="record.numberLikes || 0"></app-showcase>
+        </div>
+        <div class="buttons-wrapper">
+            <app-reproducer-button *ngIf="isEditable" [isActive]="isEditActive()"
+                                   [activeIcon]="'/assets/images/edit.png'"
+                                   [icon]="'/assets/images/edit-active.png'" [color]="'#FF9300'"
+                                   (click)="editRecord()"></app-reproducer-button>
+            <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive"
+                                   [activeIcon]="'/assets/images/delete.png'"
+                                   [icon]="'/assets/images/delete-active.png'" [color]="'#AF2237'"
+                                   (click)="deleteRecord(record)"></app-reproducer-button>
+            <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable" [icon]="'/assets/images/like.PNG'"
+                                   [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
+                                   [isActive]="isLiked" (click)="like()"></app-reproducer-button>
+            <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable" [icon]="'/assets/images/report.png'"
+                                   [activeIcon]="'/assets/images/report-active.png'" [color]="'red'"
+                                   [isActive]="isReported" (click)="report()"></app-reproducer-button>
+        </div>
     </div>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"

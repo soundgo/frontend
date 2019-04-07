@@ -21,16 +21,12 @@ export class ApiService {
     constructor(private http: HttpClient, private context: ContextService) {
     }
 
-    getTags() {
-        const url = `${this.apiUrl}/tags/`;
-        return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
-        });
+    catchError(response) {
+        if (response.error) {
+            this.handleError(response.error);
+        } else {
+            this.handleError({error: 'There\'s been an unusual error', details: ''});
+        }
     }
 
     login(user: any) {
@@ -91,7 +87,18 @@ export class ApiService {
     getAudioById(id: number) {
         const url = `${this.apiUrl}/records/audio/${id}/`;
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
+
+            let header;
+            if (this.context.getUser().getValue()) {
+                header = {
+                    headers: new HttpHeaders({
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${this.context.getUser().getValue().token}`
+                    })
+                };
+            }
+
+            this.http.get<any>(url, header).subscribe((response: any) => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -138,13 +145,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, response => {
-                if (response.error) {
-                    this.handleError(response.error);
-                } else {
-                    this.handleError({error: 'There\'s been an unusual error', details: ''});
-                }
-            });
+            }, catchError);
         });
     }
 
@@ -162,11 +163,8 @@ export class ApiService {
 
         return new Promise(resolve => {
             this.http.delete<any>(url, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            }, catchError);
         });
     }
 
@@ -221,6 +219,7 @@ export class ApiService {
     /** POST: like an audio  */
     likeAudio(audio: Audio) {
         const url = `${this.apiUrl}/records/audio/like/${audio.id}/`;
+
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -229,7 +228,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, header).subscribe(response => {
+            this.http.post<any>(url, null, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -237,6 +236,7 @@ export class ApiService {
             }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
+
     /** POST: report an audio */
     reportAudio(audio: Audio) {
         const url = `${this.apiUrl}/records/audio/report/${audio.id}/`;
@@ -249,7 +249,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, header).subscribe(response => {
+            this.http.post<any>(url, null, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -330,6 +330,23 @@ export class ApiService {
                 }
                 resolve(response);
             }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    ////////////////////////////// TAG /////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+    /** GET: Get all tags */
+    getTags() {
+        const url = `${this.apiUrl}/tags/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, catchError);
         });
     }
 
