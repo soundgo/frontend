@@ -35,14 +35,22 @@
       }
     }
   }
-  .contentButtons{
-    float:right; 
-    margin-top: -8px;
-  }
-  
-  .deleteButton{
-    cursor:pointer;
-    float: right;
-    margin-top: -9px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    margin: 0 15px;
+
+    app-showcase {
+      flex: 0 1 auto;
+    }
+
+    .buttons-wrapper {
+      app-reproducer-button {
+        margin: 0 10px;
+      }
+    }
+
   }
 }

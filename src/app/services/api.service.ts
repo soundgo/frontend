@@ -221,6 +221,7 @@ export class ApiService {
     /** POST: like an audio  */
     likeAudio(audio: Audio) {
         const url = `${this.apiUrl}/records/audio/like/${audio.id}/`;
+
         const header = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
@@ -229,7 +230,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, header).subscribe(response => {
+            this.http.post<any>(url, null, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }

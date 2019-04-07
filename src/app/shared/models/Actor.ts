@@ -7,7 +7,6 @@ export class Actor implements IAuth {
 
     id?: number;
     photo?: string;
-    name?: string;
 
     email: string;
 
@@ -18,7 +17,6 @@ export class Actor implements IAuth {
     constructor(data: any = {}) {
         this.id = data.id || null;
         this.photo = data.photo || null;
-        this.name = data.name || null;
         this.email = data.email || null;
         this.nickname = data.nickname || null;
         this.password = data.password || null;
@@ -34,8 +32,8 @@ export class Actor implements IAuth {
             res['photo'] = this.photo;
         }
 
-        if (this.name) {
-            res['name'] = this.name;
+        if (this.nickname) {
+            res['nickname'] = this.nickname;
         }
 
         if (this.nickname) {

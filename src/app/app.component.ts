@@ -45,7 +45,8 @@ export class AppComponent implements OnInit {
             loggedUser = JSON.parse(loggedUser);
             this.context.setAuth(loggedUser.auth);
             this.auth = loggedUser.auth;
-            this.context.setUser(new User(loggedUser.user));
+            const user = new User(loggedUser.user);
+            this.context.setUser(user);
         }
 
         this.subscription = this.context.getAuth().subscribe(auth => {
