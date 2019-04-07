@@ -11,8 +11,8 @@ import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.co
 })
 export class TagPanelSheetComponent implements OnInit {
   
-  tags: Array<string>;
-  tagsSelected: Array<any> = ['1', '2', '3'];
+  tags: string[] = [];
+  tagsSelected: string[] = [];
   isLoading: boolean = true;
 
   constructor(
@@ -20,8 +20,15 @@ export class TagPanelSheetComponent implements OnInit {
     private context: ContextService,
     private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>
   ) {
+    const tags = this.context.getTagsSelected().getValue();
     this.api.getTags().then(data => {
-      console.log('Tags', data)
+      Object.keys(data).forEach(key => {
+        this.tags.push(data[key].name);
+        this.tagsSelected.push(data[key].name);})
+    }).then(() => {
+      if (tags) {
+        this.tagsSelected = tags.trim().split(',');
+      }
       this.isLoading = false;
     });
   }
@@ -42,8 +49,8 @@ export class TagPanelSheetComponent implements OnInit {
       tags.push(tag);
 
     this.tagsSelected = tags;
-    console.log(tags, tags.length);
-    // this.context.setTagsSelected(tags.toString());
+    console.log(tags.toString(), tags.length);
+    this.context.setTagsSelected(tags.toString());
   }
 
   remove(array, value) {

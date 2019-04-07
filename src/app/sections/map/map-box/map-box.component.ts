@@ -68,7 +68,7 @@ export class MapBoxComponent implements OnInit {
         // Filter by tags
         this.context.getTagsSelected().subscribe(tagsSelected => {
             if (this.map && tagsSelected) {
-                this.categoriesSelected = tagsSelected;
+                this.tagsSelected = tagsSelected;
                 this.map.setFilter('audios', this.filterTags(tagsSelected));
             }
         });
@@ -104,9 +104,9 @@ export class MapBoxComponent implements OnInit {
         
         const arrayTagsSelected = tagsSelected.split(',');
         for (let tag of arrayTagsSelected) 
-            res.push(['==', 'tags', tag]);
+            res.push(['in', 'tags', tag]);
 
-        console.log('TAG', res)
+        console.log('TAG - filterTags', res)
         return res;
     }
 

@@ -1,5 +1,5 @@
 <div *ngIf="isLoading">
-  <p>Cargando tags...</p>
+  <p>Loading tags...</p>
 </div>
 <div *ngIf="!isLoading">
   <button *ngFor="let tag of tags" mat-flat-button [class.buttonDisabled]="!isActive(tag)"
