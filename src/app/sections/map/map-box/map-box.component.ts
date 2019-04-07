@@ -45,7 +45,7 @@ export class MapBoxComponent implements OnInit {
     showPlaceMarkerForm = false;
     siteEntity: Site;
     siteMarker: any;
-    categoriesSelected: string = 'Tourism,Experience,Leisure';
+    categoriesSelected = 'Tourism,Experience,Leisure';
     tagsSelected: string;
 
     constructor(private bottomSheet: MatBottomSheet,
@@ -319,53 +319,26 @@ export class MapBoxComponent implements OnInit {
     }
 
     openAudioReproducer(properties) {
-        this.api.getAudioById(properties.id).then(audio => {
-            this.bottomSheet.open(AudioReproducerPanelComponent, {
-                data: {
-                    properties,
-                    audio: new Audio(audio)
-                }
-            });
+        this.bottomSheet.open(AudioReproducerPanelComponent, {
+            data: {
+                properties,
+            }
         });
     }
 
     openAdReproducer(properties) {
-        this.api.getAdById(properties.id).then(ad => {
-            this.bottomSheet.open(AdReproducerPanelComponent, {
-                data: {
-                    properties,
-                    ad: new Ad(ad)
-                }
-            });
+        this.bottomSheet.open(AdReproducerPanelComponent, {
+            data: {
+                properties,
+            }
         });
     }
 
     openSiteSheet(properties): void {
-        console.log('Categorias q entran', this.categoriesSelected);
-        if (this.categoriesSelected.length == 0) {
-            this.api.getSiteById(properties.id).then(values => {
-                this.bottomSheet.open(SitePanelSheetComponent, {
-                    data: {
-                        properties,
-                        site: new Site(values[1]),
-                        audios: []
-                    }
-                });
-            });
-        } else {
-            Promise.all([
-                this.api.getSiteAudios(properties.id),
-                this.api.getSiteById(properties.id)
-            ]).then(values => {
-                this.bottomSheet.open(SitePanelSheetComponent, {
-                    data: {
-                        properties,
-                        site: new Site(values[1]),
-                        audios: values[0]
-                    }
-                });
-            });
-        }
-
+        this.bottomSheet.open(SitePanelSheetComponent, {
+            data: {
+                properties,
+            }
+        });
     }
 }

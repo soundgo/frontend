@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatDialog} from '@angular/material';
 import {ContextService} from '../../../services/context.service';
 import {CreateSiteComponent} from '../create-site/create-site.component';
@@ -10,11 +10,17 @@ import {ApiService} from '../../../services/api.service';
     templateUrl: './site-panel-sheet.component.html',
     styleUrls: ['./site-panel-sheet.component.scss']
 })
-export class SitePanelSheetComponent {
+export class SitePanelSheetComponent implements OnInit, OnDestroy {
 
     canRecord = false;
     isEditing = false;
     isRemoving = false;
+
+    site: any;
+    audios: any;
+
+    isLoading = true;
+
 
     constructor(private context: ContextService,
                 protected dialog: MatDialog,
@@ -23,6 +29,33 @@ export class SitePanelSheetComponent {
                 private cdr: ChangeDetectorRef,
                 private api: ApiService) {
         this.canRecord = this.context.getAuth().getValue() !== null;
+    }
+
+    ngOnDestroy() {
+        this.cdr.detach();
+    }
+
+    ngOnInit() {
+        this.isLoading = true;
+        const categorySelected = this.context.getCategoriesSelected().getValue();
+        if (categorySelected) {
+            Promise.all([
+                this.api.getSiteAudios(this.data.properties.id),
+                this.api.getSiteById(this.data.properties.id)
+            ]).then(values => {
+                this.audios = values[0];
+                this.site = values[1];
+                this.isLoading = false;
+                this.cdr.detectChanges();
+            });
+        } else {
+            this.api.getSiteById(this.data.properties.id).then(site => {
+                this.audios = [];
+                this.site = site;
+                this.isLoading = false;
+                this.cdr.detectChanges();
+            });
+        }
     }
 
     closeSitePanel() {
@@ -65,7 +98,7 @@ export class SitePanelSheetComponent {
     isCreatedByLoggedUser(audio) {
         const user = this.context.getUser().getValue();
         if (user) {
-            return audio.actor === this.context.getUser().getValue().id
+            return audio.actor === this.context.getUser().getValue().id;
         } else {
             return false;
         }

@@ -3,6 +3,12 @@
 :host {
   padding: 50px;
 
+  mat-spinner {
+    display: block;
+    text-align: center;
+    margin: 50px auto;
+  }
+
   .reproducer {
     margin: 15px 0;
   }

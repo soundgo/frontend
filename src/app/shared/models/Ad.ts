@@ -10,6 +10,8 @@ export class Ad extends Record {
     isDelete?: boolean;
 
     numberLikes?: number;
+    liked?: boolean;
+    reported?: boolean;
 
     constructor(data: any = {}) {
         super(data);
