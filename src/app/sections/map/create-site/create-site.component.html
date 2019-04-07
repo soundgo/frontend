@@ -1,4 +1,7 @@
-<h1 mat-dialog-title>Create site</h1>
+<h1 mat-dialog-title *ngIf="data.editable == undefined;else createSite">Edit site</h1>
+<ng-template #createSite>
+  <h1 mat-dialog-title> Create site </h1>
+</ng-template>
 <form [formGroup]="siteForm" (ngSubmit)="saveSite(siteForm.value)">
 <mat-dialog-content>
   <mat-form-field>
