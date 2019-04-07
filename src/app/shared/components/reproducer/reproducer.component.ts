@@ -6,6 +6,10 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
+import { Subscription } from 'rxjs';
+import {User} from '../../../shared/models/User';
+import {ApiService} from 'src/app/services/api.service';
+
 
 @Component({
     selector: 'app-reproducer',
@@ -18,13 +22,25 @@ export class ReproducerComponent implements OnInit {
     @Input() properties: any;
     @Input() isAdvertiser = false;
     @Input() isEditable = false;
+    @Input() isAudio = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
     editActive: boolean = false;
     deleteActive: boolean = false;
 
+    isReported:boolean;
+    user: User;
+    subscription: Subscription = new Subscription();
+
     constructor(protected context: ContextService,
-                protected dialog: MatDialog) {
+                protected dialog: MatDialog, protected api: ApiService) {
+                    this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
+                        this.user = user;
+                    }));
+        if(this.isAudio===true){
+            const audio = this.record as Audio;
+            this.isReported = audio.reported;
+        }
     }
 
     ngOnInit() {
@@ -84,6 +100,15 @@ export class ReproducerComponent implements OnInit {
                 this.editActive = false;
             });
         }
+    }
+
+    report() {
+        this.isReported=true;
+        const audio = this.record as Audio;
+        audio.reported = true;
+        audio.numberReports = audio.numberReports+1;
+        this.record = audio;
+        this.api.reportAudio(audio);
     }
 
 
