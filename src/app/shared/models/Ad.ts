@@ -9,6 +9,8 @@ export class Ad extends Record {
     isActive?: boolean;
     isDelete?: boolean;
 
+    numberLikes?: number;
+
     constructor(data: any = {}) {
         super(data);
         this.radius = data.radius || null;
