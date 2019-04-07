@@ -4,7 +4,7 @@ import {
     EventEmitter,
     Input,
     NgZone,
-    OnChanges,
+    OnChanges, OnDestroy,
     OnInit,
     Output,
     SimpleChanges
@@ -25,13 +25,14 @@ import {ApiService} from 'src/app/services/api.service';
     templateUrl: './reproducer.component.html',
     styleUrls: ['./reproducer.component.scss']
 })
-export class ReproducerComponent implements OnInit {
+export class ReproducerComponent implements OnInit, OnDestroy {
 
     @Input() record: Audio | Ad;
     @Input() properties: any;
     @Input() isAdvertiser = false;
     @Input() isEditable = false;
     @Input() isAudio = false;
+    @Input() isLoading = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 
@@ -56,11 +57,10 @@ export class ReproducerComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.isAudio === true) {
-            const audio = this.record as Audio;
-            this.isLiked = audio.liked;
-            this.isReported = audio.reported;
-        }
+    }
+
+    ngOnDestroy() {
+        this.cdr.detach();
     }
 
     onStart() {
@@ -89,7 +89,9 @@ export class ReproducerComponent implements OnInit {
             }
         }).afterClosed().subscribe(isDeleted => {
             this.deleteActive = false;
-            this.cdr.detectChanges();
+            if (!this.cdr['destroyed']) {
+                this.cdr.detectChanges();
+            }
             if (isDeleted) {
                 this.dialogRef.dismiss();
             }
@@ -107,7 +109,9 @@ export class ReproducerComponent implements OnInit {
                 }
             }).afterClosed().subscribe(() => {
                 this.editActive = false;
-                this.cdr.detectChanges();
+                if (!this.cdr['destroyed']) {
+                    this.cdr.detectChanges();
+                }
             });
         } else {
             this.dialog.open(EditAudioComponent, {
@@ -117,7 +121,9 @@ export class ReproducerComponent implements OnInit {
                 }
             }).afterClosed().subscribe(() => {
                 this.editActive = false;
-                this.cdr.detectChanges();
+                if (!this.cdr['destroyed']) {
+                    this.cdr.detectChanges();
+                }
             });
         }
     }
@@ -128,7 +134,6 @@ export class ReproducerComponent implements OnInit {
 
     like() {
         if (!(this.record as Audio).liked || !this.isLiked) {
-            this.isLiked = true;
             const audio = this.record as Audio;
             audio.liked = true;
             audio.numberLikes += 1;
@@ -139,7 +144,6 @@ export class ReproducerComponent implements OnInit {
 
     report() {
         if (!(this.record as Audio).reported || !this.isReported) {
-            this.isReported = true;
             const audio = this.record as Audio;
             audio.reported = true;
             audio.numberReports = audio.numberReports + 1;

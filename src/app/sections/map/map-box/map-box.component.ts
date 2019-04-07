@@ -45,7 +45,7 @@ export class MapBoxComponent implements OnInit {
     showPlaceMarkerForm = false;
     siteEntity: Site;
     siteMarker: any;
-    categoriesSelected: string = 'Tourism,Experience,Leisure';
+    categoriesSelected = 'Tourism,Experience,Leisure';
     tagsSelected: string;
 
     constructor(private bottomSheet: MatBottomSheet,
@@ -58,6 +58,7 @@ export class MapBoxComponent implements OnInit {
         this.audios = db.collection('audios').valueChanges();
         this.ads = db.collection('ads').valueChanges();
         this.sites = db.collection('sites').valueChanges();
+
         // Filter audio category
         this.context.getCategoriesSelected().subscribe(categoriesSelected => {
             if (this.map) {
@@ -65,6 +66,7 @@ export class MapBoxComponent implements OnInit {
                 this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
         });
+
         // Filter by tags
         this.context.getTagsSelected().subscribe(tagsSelected => {
             if (tagsSelected !== null) {
@@ -77,9 +79,9 @@ export class MapBoxComponent implements OnInit {
                     });
                     this.audioSource.setData(new FeatureCollection(data));
                 });
-
             }
         });
+
         // Show site marker in map
         this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
             if (isMarkerSiteVisible) {
@@ -246,6 +248,23 @@ export class MapBoxComponent implements OnInit {
             this.initSourceLayers();
             this.initDataListeners();
 
+            this.context.getAuth().subscribe(_ => {
+                const position = this.context.getPosition().getValue();
+                if (position) {
+                    const {latitude, longitude} = position;
+                    this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
+                        const user = this.context.getUser().getValue();
+                        if (!data.some(ads => JSON.stringify(ads) === JSON.stringify({}))) {
+                            data = data.filter(ad => {
+                                return (user && user.id === (ad as any).properties.actorId) ||
+                                    this.isUserInsideAdvertArea(ad, {latitude, longitude});
+                            });
+                            this.adSource.setData(new FeatureCollection(data));
+                        }
+                    });
+                }
+            });
+
             geolocation.trigger();
             geolocation.on('geolocate', () => {
 
@@ -257,9 +276,10 @@ export class MapBoxComponent implements OnInit {
                 this.context.setPosition({latitude, longitude});
 
                 this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
+                    const user = this.context.getUser().getValue();
                     if (!data.some(ads => JSON.stringify(ads) === JSON.stringify({}))) {
                         data = data.filter(ad => {
-                            return this.context.getUser().getValue().id === (ad as any).properties.actorId ||
+                            return (user && user.id === (ad as any).properties.actorId) ||
                                 this.isUserInsideAdvertArea(ad, {latitude, longitude});
                         });
                         this.adSource.setData(new FeatureCollection(data));
@@ -299,53 +319,26 @@ export class MapBoxComponent implements OnInit {
     }
 
     openAudioReproducer(properties) {
-        this.api.getAudioById(properties.id).then(audio => {
-            this.bottomSheet.open(AudioReproducerPanelComponent, {
-                data: {
-                    properties,
-                    audio: new Audio(audio)
-                }
-            });
+        this.bottomSheet.open(AudioReproducerPanelComponent, {
+            data: {
+                properties,
+            }
         });
     }
 
     openAdReproducer(properties) {
-        this.api.getAdById(properties.id).then(ad => {
-            this.bottomSheet.open(AdReproducerPanelComponent, {
-                data: {
-                    properties,
-                    ad: new Ad(ad)
-                }
-            });
+        this.bottomSheet.open(AdReproducerPanelComponent, {
+            data: {
+                properties,
+            }
         });
     }
 
     openSiteSheet(properties): void {
-        console.log('Categorias q entran', this.categoriesSelected);
-        if (this.categoriesSelected.length == 0) {
-            this.api.getSiteById(properties.id).then(values => {
-                this.bottomSheet.open(SitePanelSheetComponent, {
-                    data: {
-                        properties,
-                        site: new Site(values[1]),
-                        audios: []
-                    }
-                });
-            });
-        } else {
-            Promise.all([
-                this.api.getSiteAudios(properties.id),
-                this.api.getSiteById(properties.id)
-            ]).then(values => {
-                this.bottomSheet.open(SitePanelSheetComponent, {
-                    data: {
-                        properties,
-                        site: new Site(values[1]),
-                        audios: values[0]
-                    }
-                });
-            });
-        }
-
+        this.bottomSheet.open(SitePanelSheetComponent, {
+            data: {
+                properties,
+            }
+        });
     }
 }

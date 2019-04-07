@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Inject, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {ApiService} from 'src/app/services/api.service';
 import {ContextService} from 'src/app/services/context.service';
 import {MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material';
@@ -9,7 +9,7 @@ import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.comp
     templateUrl: './tag-panel-sheet.component.html',
     styleUrls: ['./tag-panel-sheet.component.scss'],
 })
-export class TagPanelSheetComponent implements OnInit {
+export class TagPanelSheetComponent implements OnInit, OnDestroy {
 
     tags: string[] = [];
     tagsSelected: string[] = [];
@@ -21,7 +21,10 @@ export class TagPanelSheetComponent implements OnInit {
         private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>,
         private cdr: ChangeDetectorRef
     ) {
+    }
 
+    ngOnDestroy() {
+        this.cdr.detach();
     }
 
     ngOnInit() {
@@ -34,7 +37,9 @@ export class TagPanelSheetComponent implements OnInit {
                 this.tagsSelected = data.map(tag => tag.name);
             }
             this.isLoading = false;
-            this.cdr.detectChanges();
+            if (!this.cdr['destroyed']) {
+                this.cdr.detectChanges();
+            }
         });
     }
 
