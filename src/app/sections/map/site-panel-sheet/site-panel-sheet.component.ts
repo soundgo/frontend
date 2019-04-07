@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatDialog} from '@angular/material';
 import {ContextService} from '../../../services/context.service';
 import { CreateSiteComponent } from '../create-site/create-site.component';
+import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
 
 @Component({
     selector: 'app-site-panel-sheet',
@@ -31,6 +32,14 @@ export class SitePanelSheetComponent {
     editSite() {
         this.dialog
                 .open(CreateSiteComponent, {
+                    width: '350px',
+                    data: this.data 
+                });
+    }
+
+    deleteSite() {
+        this.dialog
+                .open(DeleteModalComponent, {
                     width: '350px',
                     data: this.data 
                 });

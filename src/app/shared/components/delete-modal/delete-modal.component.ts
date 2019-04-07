@@ -5,6 +5,7 @@ import { CreateSiteComponent } from 'src/app/sections/map/create-site/create-sit
 import { ContextService } from 'src/app/services/context.service';
 import { Ad } from '../../models/Ad';
 import { AudioReproducerPanelComponent } from 'src/app/sections/map/audio-reproducer-panel/audio-reproducer-panel.component';
+import { Site } from '../../models/Site';
 
 @Component({
   selector: 'app-delete-modal',
@@ -37,6 +38,10 @@ export class DeleteModalComponent implements OnInit {
       const ad = new Ad(this.data.entity);
       ad.isDelete = true;
       this.api.updateAd(ad);
+      this.onClose();
+    } else if (this.data && this.data.site instanceof Site){
+      console.log(this.data.site);
+      this.api.deleteSite(this.data.site);
       this.onClose();
     }
   }
