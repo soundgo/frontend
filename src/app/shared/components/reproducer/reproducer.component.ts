@@ -20,7 +20,6 @@ export class ReproducerComponent implements OnInit {
     @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
-    activeButton = true;
 
     constructor(protected context: ContextService,
                 protected dialog: MatDialog) {
