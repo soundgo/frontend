@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Inject} from '@angular/core';
+import {Component, OnInit, Input, Inject, HostListener} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {Ad} from '../../../../shared/models/Ad';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -13,6 +13,12 @@ import { ApiService } from 'src/app/services/api.service';
     styleUrls: ['./number-reproductions-advertisements.component.scss']
 })
 export class NumberReproductionsAdvertisementsComponent implements OnInit {
+    @HostListener('keydown', ['$event'])
+    onKeyDown(e: KeyboardEvent) {
+    if (e.key === '-') {
+        e.preventDefault();
+    }
+    }
     duration: number;
     adEntity: Ad;
     adPriceForm: FormGroup;
@@ -67,6 +73,9 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
             this.api.updateAd(ad);
             this.dialogRef.close();
           }
+    }
+    absolute(value) {
+        return Math.abs(value);
     }
 
 }

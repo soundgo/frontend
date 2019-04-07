@@ -13,7 +13,7 @@ import { ChooseAudioCategoryComponent } from '../choose-audio-category/choose-au
   templateUrl: '../audio-record/audio-record.component.html',
   styleUrls: ['../audio-record/audio-record.component.scss'],
 })
-export class AdRecordComponent extends RecorderComponent implements AfterViewInit {
+export class AdRecordComponent extends RecorderComponent  {
   @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
         return !this.isRecorded && this.isRecording;
@@ -55,14 +55,6 @@ export class AdRecordComponent extends RecorderComponent implements AfterViewIni
         this.showUserCantRecord = user.minutes <= 0 ? true : false;    
     });
   }
-
-  ngAfterViewInit() {
-    const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
-    if (heightAdblock <= 0) {
-        this.isAdBlockActivated = true;
-        this.isRecorded = true;
-    }
-}
 
   startRecord() {
     const minutes = this.context.getUser().getValue().minutes;

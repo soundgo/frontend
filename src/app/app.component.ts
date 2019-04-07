@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChildren, AfterViewInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AudioRecordService} from './services/audio-record.service';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -18,11 +18,14 @@ import {EditAudioComponent} from './sections/record/components/edit-audio/edit-a
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
 
+    @ViewChildren('adblock') adblock: any;
     subscription: Subscription;
     auth: string;
     isLocationEnabled = false;
+    isAdBlockEnabled: boolean;
+
 
     isMicrophoneEnabled = false;
 
@@ -68,8 +71,10 @@ export class AppComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-
+    ngAfterViewInit() {
+        const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
+        console.log(heightAdblock, 'hola')
+        this.isAdBlockEnabled = heightAdblock <= 0 ?  true : false;
     }
 
     switchLanguage(language: string) {

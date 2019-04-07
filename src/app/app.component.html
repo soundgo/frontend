@@ -7,7 +7,13 @@
 <div class="noLocalized" *ngIf="!isLocationEnabled && !isMicrophoneEnabled">
     <h2>Please, enable the geolocation and microphone to use this app</h2>
 </div>
-<ng-template [ngIf]="isLocationEnabled && isMicrophoneEnabled">
+<div class="noLocalized" *ngIf="isAdblockEnabled && isLocationEnabled && isMicrophoneEnabled">
+    <h2>Please, disable AdBlock to use this app</h2>
+</div>
+<div #adblock>
+    <div class="adBanner"></div>
+</div>
+<ng-template [ngIf]="isLocationEnabled && isMicrophoneEnabled && !isAdblockEnabled">
     <app-errors-management></app-errors-management>
     <app-header></app-header>
     <app-audio-record *ngIf="auth === 'user'"></app-audio-record>
