@@ -9,6 +9,9 @@ import {Router, Event, NavigationStart} from '@angular/router';
 import {ApiService} from './services/api.service';
 import {Config} from './shared/models/Config';
 import {CookieService} from 'ngx-cookie-service';
+import {MatDialog} from '@angular/material';
+import {ChooseAudioCategoryComponent} from './sections/record/components/choose-audio-category/choose-audio-category.component';
+import {EditAudioComponent} from './sections/record/components/edit-audio/edit-audio.component';
 
 @Component({
     selector: 'app-root',
@@ -28,7 +31,8 @@ export class AppComponent implements OnInit {
                 private translate: TranslateService,
                 private api: ApiService,
                 private context: ContextService,
-                private cookieService: CookieService) {
+                private cookieService: CookieService,
+                protected dialog: MatDialog) {
 
         translate.setDefaultLang('en');
 

@@ -20,6 +20,7 @@ import {
 import {MatInputModule} from '@angular/material';
 import { RecordComponent } from './components/record/record.component';
 import {SharedModule} from '../../shared/shared.module';
+import { EditAudioComponent } from './components/edit-audio/edit-audio.component';
 
 const components = [
     RecordComponent,
@@ -30,6 +31,7 @@ const components = [
     ChooseAdLocationComponent,
     SiteRecordComponent,
     NumberReproductionsAdvertisementsComponent,
+    EditAudioComponent
 ];
 
 @NgModule({
@@ -38,6 +40,7 @@ const components = [
         ChooseAudioCategoryComponent,
         ChooseAudioAdvertisementComponent,
         NumberReproductionsAdvertisementsComponent,
+        EditAudioComponent
     ], // inside we put the modalComponent
     imports: [
         CommonModule,

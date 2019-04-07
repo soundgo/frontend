@@ -1,0 +1,87 @@
+.mat-dialog-content {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-top: 15px;
+
+  input {
+    font-size: 20px;
+    width: 100%;
+  }
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  background: #80808026;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin: 4px 5px;
+  flex: 1 0 auto;
+
+  p {
+    flex: 1 0 auto;
+  }
+
+  .close {
+    background: #80808038;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: -5px;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    float: right;
+  }
+}
+
+.category-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  flex: 1 0 auto;
+  margin: 0 5px
+}
+
+.tourismButtonDisabled {
+  background: #d18987;
+  color: #dbdbdb;
+}
+
+.experienceButtonDisabled {
+  background: #c2957a;
+  color: #dbdbdb;
+}
+
+.leisureButtonDisabled {
+  background: #b1bfbb;
+  color: #dbdbdb;
+}
+
+.tourismButton {
+  background: #f24440;
+  color: #fff;
+}
+
+.experienceButton {
+  background: #f57828;
+  color: #fff;
+}
+
+.leisureButton {
+  background: #04b289;
+  color: #fff;
+}
+

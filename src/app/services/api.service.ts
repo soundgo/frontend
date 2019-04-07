@@ -21,6 +21,18 @@ export class ApiService {
     constructor(private http: HttpClient, private context: ContextService) {
     }
 
+    getTags() {
+        const url = `${this.apiUrl}/tags/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
     login(user: any) {
         const url = `${this.apiUrl}/api-token-auth/`;
 
@@ -126,7 +138,13 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            }, response => {
+                if (response.error) {
+                    this.handleError(response.error);
+                } else {
+                    this.handleError({error: 'There\'s been an unusual error', details: ''});
+                }
+            });
         });
     }
 
@@ -248,9 +266,8 @@ export class ApiService {
                 Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
-
         return new Promise(resolve => {
-            this.http.put<any>(url, ad.toJSON(), header).subscribe(response => {
+            this.http.put<any>(url, ad, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -355,7 +372,7 @@ export class ApiService {
     /** DELETE: Delete a site */
     deleteSite(site: Site | number) {
         const id = typeof site === 'number' ? site : site.id;
-        const url = `${this.apiUrl}/sites/site/${site}/`;
+        const url = `${this.apiUrl}/sites/site/${id}/`;
 
         const header = {
             headers: new HttpHeaders({

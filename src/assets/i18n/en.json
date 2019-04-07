@@ -1,3 +1,5 @@
 {
-	"Intro": "asdf"
+	"ACTOR_NOT_ALLOW": "This user cannot make this action",
+	"UPDATE_AUDIO": "There's been an error in the update."
 }
+

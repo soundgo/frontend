@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {Subscription} from 'rxjs';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material/';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -15,7 +15,7 @@ export class ErrorsManagementComponent implements OnInit {
     constructor(private context: ContextService, private snackBar: MatSnackBar, private translateService: TranslateService) {
 
         this.subscription = this.context.getError().subscribe((response) => {
-            if (response.error) {
+            if (response && response.error) {
                 this.createSnackBar(response.error);
             }
         });
