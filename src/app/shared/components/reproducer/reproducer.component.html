@@ -4,7 +4,7 @@
     <div class="contentButtons"> 
         <app-reproducer-button *ngIf="isEditable" [isActive]="editActive" [activeIcon]="'../../../../assets/images/edit.png'" [icon]="'../../../../assets/images/edit-active.png'" [color]="'#FF9300'" (click)="editRecord()"></app-reproducer-button>
         &nbsp;
-        <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive" [activeIcon]="'../../../../assets/images/delete.png'" [icon]="'../../../../assets/images/delete-active.png'" [color]="'#AF2237'" (click)="deleteRecord(record)" [deleteActive]="deleteActive"></app-reproducer-button>
+        <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive" [activeIcon]="'../../../../assets/images/delete.png'" [icon]="'../../../../assets/images/delete-active.png'" [color]="'#AF2237'" (click)="deleteRecord(record)"></app-reproducer-button>
     </div>
     <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
          [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"

@@ -355,7 +355,7 @@ export class ApiService {
     /** DELETE: Delete a site */
     deleteSite(site: Site | number) {
         const id = typeof site === 'number' ? site : site.id;
-        const url = `${this.apiUrl}/sites/site/${site}/`;
+        const url = `${this.apiUrl}/sites/site/${id}/`;
 
         const header = {
             headers: new HttpHeaders({

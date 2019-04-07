@@ -20,8 +20,8 @@ export class ReproducerComponent implements OnInit {
     @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
-    @Input() editActive = false;
-    @Input() deleteActive = false;
+    editActive: boolean = false;
+    deleteActive: boolean = false;
 
     constructor(protected context: ContextService,
                 protected dialog: MatDialog) {
@@ -53,12 +53,12 @@ export class ReproducerComponent implements OnInit {
             .open(DeleteModalComponent, {
                 width: '350px',
                 data: {
-                    entity: this.record,
+                    entity: record,
                     entityType: record instanceof Audio ? 'audio' : 'ad'
                 }
-            }).afterClosed().subscribe(result => {
-            this.deleteActive = false;
-        });
+            }).afterClosed().subscribe(() => {
+                this.deleteActive = false;
+            });
     }
 
     editRecord() {
@@ -71,15 +71,17 @@ export class ReproducerComponent implements OnInit {
                         ad: this.record,
                         properties: this.properties
                     }
-                });
+                }).afterClosed().subscribe(() => {
+                    this.editActive = false;
+                });;
         } else {
             this.dialog.open(EditAudioComponent, {
                 width: '350px',
                 data: {
                     audio: this.record
                 }
-            }).afterClosed().subscribe(res => {
-                this.record = res;
+            }).afterClosed().subscribe(() => {
+                this.editActive = false;
             });
         }
     }

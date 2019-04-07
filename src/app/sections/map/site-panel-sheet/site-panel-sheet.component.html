@@ -1,6 +1,7 @@
 <div class="header">
     <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
     <app-reproducer-button *ngIf="isEditable()" [icon]="'../../../../assets/images/edit.png'" [color]="'dodgerblue'" (click)="editSite()"></app-reproducer-button>
+    <app-reproducer-button *ngIf="isEditable()" [icon]="'../../../../assets/images/delete-active.png'" [color]="'dodgerblue'" (click)="deleteSite()"></app-reproducer-button>
     <app-site-record *ngIf="canRecord" [siteId]="data.properties.id" (click)="closeSitePanel()"></app-site-record>
 </div>
 <p>{{ data.site.description }}</p>
