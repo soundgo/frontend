@@ -6,6 +6,9 @@ import {MatDialog} from '@angular/material';
 import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
+import { User } from '../../models/User';
+import { Subscription } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-reproducer',
@@ -20,9 +23,23 @@ export class ReproducerComponent implements OnInit {
     @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
+    @Input() isAudio = false;
+
+    isLiked:boolean;
+    user: User;
+    subscription: Subscription = new Subscription();
 
     constructor(protected context: ContextService,
-                protected dialog: MatDialog) {
+                protected dialog: MatDialog, protected api: ApiService) {
+
+                    this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
+                        this.user = user;
+                    }));
+                
+                    if(this.isAudio===true){
+                        const audio = this.record as Audio;
+                        this.isLiked = audio.liked;
+                    }
     }
 
     ngOnInit() {
@@ -74,6 +91,16 @@ export class ReproducerComponent implements OnInit {
                 this.record = res;
             });
         }
+    }
+
+    
+    like():void {
+        this.isLiked=true;
+        const audio = this.record as Audio;
+        audio.liked = true;
+        audio.numberLikes = audio.numberLikes+1;
+        this.record = audio;
+        this.api.likeAudio(audio);
     }
 
 
