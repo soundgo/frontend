@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-record',
-    templateUrl: '../site-record/site-record.component.html',
+    template: '../site-record/site-record.component.html',
 })
 export class RecordComponent implements OnInit {
 
