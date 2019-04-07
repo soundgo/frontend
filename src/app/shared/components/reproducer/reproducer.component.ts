@@ -6,10 +6,9 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
+import { User } from '../../models/User';
 import { Subscription } from 'rxjs';
-import {User} from '../../../shared/models/User';
-import {ApiService} from 'src/app/services/api.service';
-
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-reproducer',
@@ -25,6 +24,7 @@ export class ReproducerComponent implements OnInit {
     @Input() isAudio = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
+    isLiked:boolean;
     editActive: boolean = false;
     deleteActive: boolean = false;
 
@@ -34,13 +34,16 @@ export class ReproducerComponent implements OnInit {
 
     constructor(protected context: ContextService,
                 protected dialog: MatDialog, protected api: ApiService) {
+
                     this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
                         this.user = user;
                     }));
-        if(this.isAudio===true){
-            const audio = this.record as Audio;
-            this.isReported = audio.reported;
-        }
+                
+                    if(this.isAudio===true){
+                        const audio = this.record as Audio;
+                        this.isLiked = audio.liked;
+                        this.isReported = audio.reported;
+                    }
     }
 
     ngOnInit() {
@@ -100,6 +103,15 @@ export class ReproducerComponent implements OnInit {
                 this.editActive = false;
             });
         }
+    }
+    
+    like() {
+        this.isLiked=true;
+        const audio = this.record as Audio;
+        audio.liked = true;
+        audio.numberLikes = audio.numberLikes+1;
+        this.record = audio;
+        this.api.likeAudio(audio);
     }
 
     report() {

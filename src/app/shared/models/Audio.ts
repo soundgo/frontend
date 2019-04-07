@@ -18,6 +18,8 @@ export class Audio extends Record {
     tags?: string[];
     actor?: number | {};
     language?: number | string[];
+    liked?: boolean;
+    numberLikes?:number;
     reported?: boolean;
     numberReports?:number;
 
@@ -41,6 +43,8 @@ export class Audio extends Record {
         }
         this.actor = data.actor || null;
         this.language = data.language || null;
+        this.liked = data.liked || null;
+        this.numberLikes = data.numberLikes || null;
         this.numberReports = data.numberReports || null;
         this.reported = data.reported || null;
     }
