@@ -19,7 +19,7 @@ import {AdReproducerPanelComponent} from '../ad-reproducer-panel/ad-reproducer-p
 import {Ad} from '../../../shared/models/Ad';
 
 import * as turf from '@turf/turf';
-import { database } from 'firebase';
+import {database} from 'firebase';
 
 @Component({
     selector: 'app-map-box',
@@ -67,16 +67,25 @@ export class MapBoxComponent implements OnInit {
         });
         // Filter by tags
         this.context.getTagsSelected().subscribe(tagsSelected => {
-            // Hacer aqui el filtro
-            
-            // this.audioSource.setData(new FeatureCollection(data));
+            if (tagsSelected !== null) {
+                const arTagsSelected = tagsSelected.split(',');
+                this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
+                    data = data.filter(({properties}: any) => {
+                        return properties.tags.length === 0 || properties.tags.some(tag => {
+                            return arTagsSelected.indexOf(tag) !== -1;
+                        });
+                    });
+                    this.audioSource.setData(new FeatureCollection(data));
+                });
+
+            }
         });
         // Show site marker in map
         this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
             if (isMarkerSiteVisible) {
                 this.userPosition = this.context.getPosition().getValue();
                 this.showPlaceMarkerForm = true;
-                this.showMarkerPlaceSite()
+                this.showMarkerPlaceSite();
             } else {
                 this.showPlaceMarkerForm = false;
             }
@@ -89,10 +98,10 @@ export class MapBoxComponent implements OnInit {
     }
 
     filterCategories(categoriesSelected) {
-        const res:any[] = ['any']
-        
+        const res: any[] = ['any'];
+
         const arrayCategoriesSelected = categoriesSelected.split(',');
-        for (let cat of arrayCategoriesSelected) 
+        for (let cat of arrayCategoriesSelected)
             res.push(['==', 'type', cat]);
 
         return res;
@@ -181,8 +190,8 @@ export class MapBoxComponent implements OnInit {
             const tagsSelected = this.context.getTagsSelected().getValue();
             for (let t1 of audio.tags) {
                 for (let t2 of tagsSelected) {
-                    if (t1===t2) return true;
-                }     
+                    if (t1 === t2) return true;
+                }
             }
             return false;
         } else {
@@ -191,11 +200,11 @@ export class MapBoxComponent implements OnInit {
     }
 
     showMarkerPlaceSite() {
-        
+
         const center = this.map.getCenter();
         this.siteMarker = new mapboxgl.Marker({
             draggable: true
-            })
+        })
             .setLngLat([center.lng, center.lat])
             .addTo(this.map);
     }
@@ -203,7 +212,7 @@ export class MapBoxComponent implements OnInit {
     saveSiteForm() {
         this.siteEntity = this.context.getSiteEntity().getValue();
 
-        const { lng, lat } = this.siteMarker.getLngLat();
+        const {lng, lat} = this.siteMarker.getLngLat();
         this.siteEntity.longitude = lng;
         this.siteEntity.latitude = lat;
 
@@ -323,7 +332,7 @@ export class MapBoxComponent implements OnInit {
     }
 
     openSiteSheet(properties): void {
-        console.log('Categorias q entran', this.categoriesSelected)
+        console.log('Categorias q entran', this.categoriesSelected);
         if (this.categoriesSelected.length == 0) {
             this.api.getSiteById(properties.id).then(values => {
                 this.bottomSheet.open(SitePanelSheetComponent, {
@@ -333,7 +342,7 @@ export class MapBoxComponent implements OnInit {
                         audios: []
                     }
                 });
-            })
+            });
         } else {
             Promise.all([
                 this.api.getSiteAudios(properties.id),
@@ -348,6 +357,6 @@ export class MapBoxComponent implements OnInit {
                 });
             });
         }
-        
+
     }
 }

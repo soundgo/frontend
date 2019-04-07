@@ -15,8 +15,7 @@ export class AudioReproducerPanelComponent implements OnInit {
 
     constructor(private api: ApiService,
                 private context: ContextService,
-                @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-                public dialogRef: MatBottomSheetRef<AudioReproducerPanelComponent>) {
+                @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.audio = data.audio;
         this.actorId = data.actorId;
     }

@@ -15,10 +15,10 @@
                                    [activeIcon]="'/assets/images/delete.png'"
                                    [icon]="'/assets/images/delete-active.png'" [color]="'#AF2237'"
                                    (click)="deleteRecord(record)"></app-reproducer-button>
-            <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/like.PNG'"
+            <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable" [icon]="'/assets/images/like.PNG'"
                                    [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
                                    [isActive]="isLiked" (click)="like()"></app-reproducer-button>
-            <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/report.png'"
+            <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable" [icon]="'/assets/images/report.png'"
                                    [activeIcon]="'/assets/images/report-active.png'" [color]="'red'"
                                    [isActive]="isReported" (click)="report()"></app-reproducer-button>
         </div>
