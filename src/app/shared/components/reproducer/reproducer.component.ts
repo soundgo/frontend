@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
-import { ContextService } from 'src/app/services/context.service';
-import { MatDialog } from '@angular/material';
-import { NumberReproductionsAdvertisementsComponent } from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
-import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import {ContextService} from 'src/app/services/context.service';
+import {MatDialog} from '@angular/material';
+import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
+import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
+import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
 
 @Component({
     selector: 'app-reproducer',
@@ -35,7 +36,7 @@ export class ReproducerComponent implements OnInit {
     }
 
     onFinish(params) {
-        const { timeToListenAnAdvertisement } = this.context.getConfig().getValue();
+        const {timeToListenAnAdvertisement} = this.context.getConfig().getValue();
         this.record.numberReproductions = this.record.numberReproductions + 1;
         const duration = (params.currentTarget.children[1].duration * timeToListenAnAdvertisement);
         if (this.finishAction) {
@@ -43,7 +44,7 @@ export class ReproducerComponent implements OnInit {
         }
     }
 
-    deleteRecord(record){
+    deleteRecord(record) {
         this.dialog
             .open(DeleteModalComponent, {
                 width: '350px',
@@ -51,9 +52,9 @@ export class ReproducerComponent implements OnInit {
                     entity: this.record,
                     entityType: record instanceof Audio ? 'audio' : 'ad'
                 }
-        });
+            });
     }
-    
+
     editRecord() {
         if (this.record instanceof Ad) {
             this.dialog
@@ -65,7 +66,14 @@ export class ReproducerComponent implements OnInit {
                     }
                 });
         } else {
-
+            this.dialog.open(EditAudioComponent, {
+                width: '350px',
+                data: {
+                    audio: this.record
+                }
+            }).afterClosed().subscribe(res => {
+                this.record = res;
+            });
         }
     }
 
