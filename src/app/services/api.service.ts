@@ -229,7 +229,27 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => {
+            this.http.post<any>(url, header).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+    /** POST: report an audio */
+    reportAudio(audio: Audio) {
+        const url = `${this.apiUrl}/records/audio/report/${audio.id}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
