@@ -4,7 +4,7 @@ import {Ad} from '../../../../shared/models/Ad';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {Validators, FormControl, FormGroup} from '@angular/forms';
-import { ApiService } from 'src/app/services/api.service';
+import {ApiService} from 'src/app/services/api.service';
 
 
 @Component({
@@ -46,7 +46,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
          * The formula to calculate the price is:
          *  C x r x s x (d/10000)
          */
-        
+
         this.duration = 30;
         this.maxNumberOfReproductions = Math.round(number / (this.duration * (this.adEntity.radius / 10000)));
     }
@@ -59,14 +59,13 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
             this.context.setSendRecord('ad');
 
             this.dialogRef.close();
-        }
-        else if (this.adPriceForm.valid && this.data) {
+        } else if (this.adPriceForm.valid && this.data) {
             const ad = new Ad(this.data.ad);
             ad.maxPriceToPay = adPriceForm.price;
             ad.isDelete = false;
             this.api.updateAd(ad);
-            this.dialogRef.close();
-          }
+            this.dialogRef.close(ad);
+        }
     }
 
 }

@@ -36,11 +36,9 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
 
-    isLiked: boolean;
     editActive = false;
     deleteActive = false;
 
-    isReported: boolean;
     user: User;
     subscription: Subscription = new Subscription();
 
@@ -98,34 +96,37 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         });
     }
 
-    editRecord() {
+    editAudio() {
         this.editActive = true;
-        if (this.record instanceof Ad) {
-            this.dialog.open(NumberReproductionsAdvertisementsComponent, {
-                width: '350px',
-                data: {
-                    ad: this.record,
-                    properties: this.properties
-                }
-            }).afterClosed().subscribe(() => {
-                this.editActive = false;
-                if (!this.cdr['destroyed']) {
-                    this.cdr.detectChanges();
-                }
-            });
-        } else {
-            this.dialog.open(EditAudioComponent, {
-                width: '350px',
-                data: {
-                    audio: this.record
-                }
-            }).afterClosed().subscribe(() => {
-                this.editActive = false;
-                if (!this.cdr['destroyed']) {
-                    this.cdr.detectChanges();
-                }
-            });
-        }
+        this.dialog.open(EditAudioComponent, {
+            width: '350px',
+            data: {
+                audio: this.record
+            }
+        }).afterClosed().subscribe(audio => {
+            this.editActive = false;
+            this.record = new Audio(audio);
+            if (!this.cdr['destroyed']) {
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
+    editAd() {
+        this.editActive = true;
+        this.dialog.open(NumberReproductionsAdvertisementsComponent, {
+            width: '350px',
+            data: {
+                ad: this.record,
+                properties: this.properties
+            }
+        }).afterClosed().subscribe(ad => {
+            this.editActive = false;
+            this.record = new Ad(ad);
+            if (!this.cdr['destroyed']) {
+                this.cdr.detectChanges();
+            }
+        });
     }
 
     isEditActive() {
@@ -133,7 +134,7 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     }
 
     like() {
-        if (!(this.record as Audio).liked || !this.isLiked) {
+        if (!(this.record as Audio).liked) {
             const audio = this.record as Audio;
             audio.liked = true;
             audio.numberLikes += 1;
@@ -143,7 +144,7 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     }
 
     report() {
-        if (!(this.record as Audio).reported || !this.isReported) {
+        if (!(this.record as Audio).reported) {
             const audio = this.record as Audio;
             audio.reported = true;
             audio.numberReports = audio.numberReports + 1;
