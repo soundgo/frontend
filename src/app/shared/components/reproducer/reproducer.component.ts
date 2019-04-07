@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
 import {ContextService} from 'src/app/services/context.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
@@ -20,6 +20,8 @@ export class ReproducerComponent implements OnInit {
     @Input() isEditable = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
+    editActive: boolean = false;
+    deleteActive: boolean = false;
 
     constructor(protected context: ContextService,
                 protected dialog: MatDialog) {
@@ -43,18 +45,24 @@ export class ReproducerComponent implements OnInit {
         }
     }
 
+
+    
     deleteRecord(record) {
+        this.deleteActive = true;
         this.dialog
             .open(DeleteModalComponent, {
                 width: '350px',
                 data: {
-                    entity: this.record,
+                    entity: record,
                     entityType: record instanceof Audio ? 'audio' : 'ad'
                 }
+            }).afterClosed().subscribe(() => {
+                this.deleteActive = false;
             });
     }
 
     editRecord() {
+        this.editActive = true;
         if (this.record instanceof Ad) {
             this.dialog
                 .open(NumberReproductionsAdvertisementsComponent, {
@@ -63,15 +71,17 @@ export class ReproducerComponent implements OnInit {
                         ad: this.record,
                         properties: this.properties
                     }
-                });
+                }).afterClosed().subscribe(() => {
+                    this.editActive = false;
+                });;
         } else {
             this.dialog.open(EditAudioComponent, {
                 width: '350px',
                 data: {
                     audio: this.record
                 }
-            }).afterClosed().subscribe(res => {
-                this.record = res;
+            }).afterClosed().subscribe(() => {
+                this.editActive = false;
             });
         }
     }
