@@ -18,6 +18,7 @@ export class SitePanelSheetComponent {
                 private bottomSheetRef: MatBottomSheetRef<SitePanelSheetComponent>,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
         this.canRecord = this.context.getAuth().getValue() !== null;
+        console.log(data)
     }
 
     closeSitePanel() {
@@ -41,7 +42,10 @@ export class SitePanelSheetComponent {
         this.dialog
                 .open(DeleteModalComponent, {
                     width: '350px',
-                    data: this.data 
+                    data: {
+                        entity: this.data.site,
+                        entityType: 'site'
+                    }
                 });
     }
 

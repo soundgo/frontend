@@ -39,9 +39,8 @@ export class DeleteModalComponent implements OnInit {
       ad.isDelete = true;
       this.api.updateAd(ad);
       this.onClose();
-    } else if (this.data && this.data.site instanceof Site){
-      console.log(this.data.site);
-      this.api.deleteSite(this.data.site);
+    } else if (this.data && this.data.entityType === 'site'){
+      this.api.deleteSite(this.data.entity);
       this.onClose();
     }
   }
