@@ -25,7 +25,6 @@ export class SiteRecordComponent implements OnInit {
 
     startReproduction() {
         this.context.setSiteId(this.siteId);
-
         if (this.context.getAuth().getValue() === 'user') {
             this.context.setIsRecordingAudio(true);
         } else {

@@ -1,5 +1,5 @@
 <div *ngIf="user === null" class="avatar" (click)="onSelect()"></div>
-<img *ngIf="user !== null" class="photo_profile" alt="avatar" [src]="user.photo" (click)="onSelect()"/>
+<img *ngIf="user !== null" class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'" (click)="onSelect()"/>
 
 <div class="loginPanel" [class.opened]="isSelected">
 

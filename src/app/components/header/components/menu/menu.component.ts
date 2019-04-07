@@ -53,7 +53,8 @@ export class MenuComponent implements OnInit {
                 site: {
                     name: '',
                     description: ''
-                }
+                },
+                editable: false,
             }
         });
     }
