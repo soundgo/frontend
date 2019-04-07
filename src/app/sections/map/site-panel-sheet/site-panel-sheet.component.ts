@@ -71,10 +71,12 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
         this.isEditing = true;
         this.dialog.open(CreateSiteComponent, {
             width: '350px',
-            data: this.data
+            data: {
+                site: this.site
+            }
         }).afterClosed().subscribe(result => {
             if (result) {
-                this.data.site = result;
+                this.site = result;
                 this.isEditing = false;
                 this.cdr.detectChanges();
             }
@@ -86,7 +88,7 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
         this.dialog.open(DeleteModalComponent, {
             width: '350px',
             data: {
-                entity: this.data.site,
+                entity: this.site,
                 entityType: 'site'
             }
         }).afterClosed().subscribe(() => {
@@ -106,7 +108,7 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
 
     deleteAudio(audioId: number, index: number) {
         this.api.deleteAudio(audioId);
-        this.data.audios.splice(index, 1);
+        this.audios.splice(index, 1);
     }
 
 }
