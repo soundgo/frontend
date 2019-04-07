@@ -7,6 +7,12 @@
     h1 {
       display: inline;
     }
+
+    .buttons-wrapper {
+      & > * {
+        margin: 0 5px;
+      }
+    }
   }
 
   mat-spinner {

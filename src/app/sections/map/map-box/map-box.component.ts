@@ -185,20 +185,6 @@ export class MapBoxComponent implements OnInit {
         }
     }
 
-    filterAudioByTags(audio) {
-        if (audio.tags) {
-            const tagsSelected = this.context.getTagsSelected().getValue();
-            for (let t1 of audio.tags) {
-                for (let t2 of tagsSelected) {
-                    if (t1 === t2) return true;
-                }
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     showMarkerPlaceSite() {
 
         const center = this.map.getCenter();
@@ -271,10 +257,13 @@ export class MapBoxComponent implements OnInit {
                 this.context.setPosition({latitude, longitude});
 
                 this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
-                    data = data.filter(ad => {
-                        return this.isUserInsideAdvertArea(ad, {latitude, longitude});
-                    });
-                    this.adSource.setData(new FeatureCollection(data));
+                    if (!data.some(ads => JSON.stringify(ads) === JSON.stringify({}))) {
+                        data = data.filter(ad => {
+                            return this.context.getUser().getValue().id === (ad as any).properties.actorId ||
+                                this.isUserInsideAdvertArea(ad, {latitude, longitude});
+                        });
+                        this.adSource.setData(new FeatureCollection(data));
+                    }
                 });
             });
 
