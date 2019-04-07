@@ -1,4 +1,5 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import {DomSanitizer, SafeStyle} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-showcase',
@@ -12,10 +13,7 @@ export class ShowcaseComponent implements OnInit {
     @Input() icon: string;
     @Input() label: any;
 
-    @HostBinding('style.border-color')
-    width: string = this.bg;
-
-    constructor() {
+    constructor(private sanitizer: DomSanitizer) {
     }
 
     ngOnInit() {

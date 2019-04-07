@@ -1,11 +1,13 @@
 <div>
     <div class="header">
-        <app-showcase [bg]="'dodgerblue'" [icon]="'/assets/images/ear.png'"
-                      [label]="record.numberReproductions"></app-showcase>
-        <app-showcase [bg]="'pink'" [icon]="'/assets/images/like.PNG'"
-                      [label]="record.numberLikes"></app-showcase>
+        <div class="showcases-wrapper">
+            <app-showcase [bg]="'dodgerblue'" [icon]="'/assets/images/ear.png'"
+                          [label]="record.numberReproductions"></app-showcase>
+            <app-showcase [bg]="'purple'" [icon]="'/assets/images/like.PNG'"
+                          [label]="record.numberLikes || 0"></app-showcase>
+        </div>
         <div class="buttons-wrapper">
-            <app-reproducer-button *ngIf="isEditable" [isActive]="editActive"
+            <app-reproducer-button *ngIf="isEditable" [isActive]="isEditActive()"
                                    [activeIcon]="'/assets/images/edit.png'"
                                    [icon]="'/assets/images/edit-active.png'" [color]="'#FF9300'"
                                    (click)="editRecord()"></app-reproducer-button>
@@ -16,8 +18,8 @@
             <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/like.PNG'"
                                    [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
                                    [isActive]="isLiked" (click)="like()"></app-reproducer-button>
-            <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/report.PNG'"
-                                   [activeIcon]="'/assets/images/report-active.PNG'" [color]="'#ffffff'"
+            <app-reproducer-button *ngIf="user !== null && isAudio" [icon]="'/assets/images/report.png'"
+                                   [activeIcon]="'/assets/images/report-active.png'" [color]="'red'"
                                    [isActive]="isReported" (click)="report()"></app-reproducer-button>
         </div>
     </div>

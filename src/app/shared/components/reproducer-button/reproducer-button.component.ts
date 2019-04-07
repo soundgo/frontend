@@ -1,21 +1,22 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 
 @Component({
-  selector: 'app-reproducer-button',
-  templateUrl: './reproducer-button.component.html',
-  styleUrls: ['./reproducer-button.component.scss']
+    selector: 'app-reproducer-button',
+    templateUrl: './reproducer-button.component.html',
+    styleUrls: ['./reproducer-button.component.scss']
 })
 export class ReproducerButtonComponent implements OnInit {
 
-  @Input() icon;
-  @Input() activeIcon;
-  @Input() color = '#0000000';
-  @Input() size = '40';
-  @Input() isActive = false;
+    @Input() icon;
+    @Input() activeIcon;
+    @Input() color = '#0000000';
+    @Input() size = '40';
+    @Input() isActive = false;
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

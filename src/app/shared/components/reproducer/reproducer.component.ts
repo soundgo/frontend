@@ -1,8 +1,18 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    NgZone,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChanges
+} from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
 import {ContextService} from 'src/app/services/context.service';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatBottomSheetRef, MatDialog, MatDialogRef} from '@angular/material';
 import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component';
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
@@ -24,29 +34,33 @@ export class ReproducerComponent implements OnInit {
     @Input() isAudio = false;
     @Output() finishAction = new EventEmitter<any>();
     @Output() startAction = new EventEmitter<any>();
+
     isLiked: boolean;
-    editActive: boolean = false;
-    deleteActive: boolean = false;
+    editActive = false;
+    deleteActive = false;
 
     isReported: boolean;
     user: User;
     subscription: Subscription = new Subscription();
 
     constructor(protected context: ContextService,
-                protected dialog: MatDialog, protected api: ApiService) {
+                protected dialog: MatDialog,
+                protected api: ApiService,
+                private cdr: ChangeDetectorRef,
+                private dialogRef: MatBottomSheetRef<ReproducerComponent>) {
 
         this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
             this.user = user;
         }));
 
+    }
+
+    ngOnInit() {
         if (this.isAudio === true) {
             const audio = this.record as Audio;
             this.isLiked = audio.liked;
             this.isReported = audio.reported;
         }
-    }
-
-    ngOnInit() {
     }
 
     onStart() {
@@ -67,30 +81,33 @@ export class ReproducerComponent implements OnInit {
 
     deleteRecord(record) {
         this.deleteActive = true;
-        this.dialog
-            .open(DeleteModalComponent, {
-                width: '350px',
-                data: {
-                    entity: record,
-                    entityType: record instanceof Audio ? 'audio' : 'ad'
-                }
-            }).afterClosed().subscribe(() => {
+        this.dialog.open(DeleteModalComponent, {
+            width: '350px',
+            data: {
+                entity: record,
+                entityType: record instanceof Audio ? 'audio' : 'ad'
+            }
+        }).afterClosed().subscribe(isDeleted => {
             this.deleteActive = false;
+            this.cdr.detectChanges();
+            if (isDeleted) {
+                this.dialogRef.dismiss();
+            }
         });
     }
 
     editRecord() {
         this.editActive = true;
         if (this.record instanceof Ad) {
-            this.dialog
-                .open(NumberReproductionsAdvertisementsComponent, {
-                    width: '350px',
-                    data: {
-                        ad: this.record,
-                        properties: this.properties
-                    }
-                }).afterClosed().subscribe(() => {
+            this.dialog.open(NumberReproductionsAdvertisementsComponent, {
+                width: '350px',
+                data: {
+                    ad: this.record,
+                    properties: this.properties
+                }
+            }).afterClosed().subscribe(() => {
                 this.editActive = false;
+                this.cdr.detectChanges();
             });
         } else {
             this.dialog.open(EditAudioComponent, {
@@ -100,12 +117,17 @@ export class ReproducerComponent implements OnInit {
                 }
             }).afterClosed().subscribe(() => {
                 this.editActive = false;
+                this.cdr.detectChanges();
             });
         }
     }
 
+    isEditActive() {
+        return this.editActive;
+    }
+
     like() {
-        if (!(this.record as Audio).liked || this.isLiked) {
+        if (!(this.record as Audio).liked || !this.isLiked) {
             this.isLiked = true;
             const audio = this.record as Audio;
             audio.liked = true;
@@ -116,7 +138,7 @@ export class ReproducerComponent implements OnInit {
     }
 
     report() {
-        if (!(this.record as Audio).reported || this.isReported) {
+        if (!(this.record as Audio).reported || !this.isReported) {
             this.isReported = true;
             const audio = this.record as Audio;
             audio.reported = true;

@@ -42,11 +42,20 @@
     height: 40px;
     margin: 0 15px;
 
-    app-showcase {
+    .showcases-wrapper {
       flex: 0 1 auto;
+      display: flex;
+      align-items: center;
+
+      app-showcase:nth-child(2) {
+        margin-left: 10px;
+        border: 2px solid purple;
+      }
     }
 
     .buttons-wrapper {
+      display: flex;
+
       app-reproducer-button {
         margin: 0 10px;
       }

@@ -25,7 +25,7 @@ export class AdReproducerPanelComponent implements OnInit {
 
     onFinish(params) {
         const user = this.context.getUser().getValue();
-        if (params.username !== user.name) {
+        if (params.username !== user.nickname) {
             this.api.adReproduced(this.ad.id);
             user.minutes += params.duration;
             this.context.setUser(user);
