@@ -29,18 +29,6 @@ export class ApiService {
         }
     }
 
-    getTags() {
-        const url = `${this.apiUrl}/tags/`;
-        return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
-        });
-    }
-
     login(user: any) {
         const url = `${this.apiUrl}/api-token-auth/`;
 
@@ -342,6 +330,23 @@ export class ApiService {
                 }
                 resolve(response);
             }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    ////////////////////////////// TAG /////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+    /** GET: Get all tags */
+    getTags() {
+        const url = `${this.apiUrl}/tags/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, catchError);
         });
     }
 
