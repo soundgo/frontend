@@ -1,3 +1,10 @@
-<p>
-  tag-panel-sheet works!
-</p>
+<div *ngIf="isLoading">
+  <p>Loading tags...</p>
+</div>
+<div *ngIf="!isLoading">
+  <button *ngFor="let tag of tags" mat-flat-button [class.buttonDisabled]="!isActive(tag)"
+  [class.button]="isActive(tag)" (click)="selectTag(tag)">
+    #{{tag}}
+  </button>
+</div>
+

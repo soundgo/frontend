@@ -5,23 +5,15 @@
 
     <ng-template [ngIf]="auth === 'user'">
         <!-- <div class="profile"></div> -->
-        <a>
-            <div class="search"></div>
-        </a>
-        <a>
-            <div class="log_out" (click)="logout()"></div>
-        </a>
+        <a><div class="search" (click)="searchByTags()"></div></a>
+        <a><div class="log_out" (click)="logout()"></div></a>
     </ng-template>
 
     <ng-template [ngIf]="auth === 'advertiser'">
         <!-- <div class="profile"></div> -->
-        <a>
-            <div class="search"></div>
-        </a>
+        <a><div class="search" (click)="searchByTags()"></div></a>
         <div class="site" (click)="createSite()"></div>
-        <a>
-            <div class="log_out" (click)="logout()"></div>
-        </a>
+        <a><div class="log_out" (click)="logout()"></div></a>
     </ng-template>
 
 </div>
