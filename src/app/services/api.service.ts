@@ -140,7 +140,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, audio.toJSON(), header).subscribe(response => {
+            this.http.put<any>(url, audio.toJSON ? audio.toJSON() : audio, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -422,12 +422,8 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.delete<any>(url, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.delete<any>(url, header).subscribe(response => resolve(response),
+                err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
 

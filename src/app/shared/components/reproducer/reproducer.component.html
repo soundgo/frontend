@@ -7,14 +7,20 @@
             <div class="showcases-wrapper">
                 <app-showcase [bg]="'dodgerblue'" [icon]="'/assets/images/ear.png'"
                               [label]="record.numberReproductions"></app-showcase>
-                <app-showcase [bg]="'purple'" [icon]="'/assets/images/like.PNG'"
+                <app-showcase *ngIf="isAudio" [bg]="'purple'" [icon]="'/assets/images/like.PNG'"
                               [label]="record.numberLikes || 0"></app-showcase>
             </div>
             <div class="buttons-wrapper">
-                <app-reproducer-button *ngIf="isEditable" [isActive]="isEditActive()"
+                <app-reproducer-button *ngIf="isEditable && isAudio" [isActive]="isEditActive()"
                                        [activeIcon]="'/assets/images/edit.png'"
                                        [icon]="'/assets/images/edit-active.png'" [color]="'#FF9300'"
-                                       (click)="editRecord()"></app-reproducer-button>
+                                       (click)="editAudio()"></app-reproducer-button>
+
+                <app-reproducer-button *ngIf="isEditable && !isAudio" [isActive]="isEditActive()"
+                                       [activeIcon]="'/assets/images/edit-site-active.png'"
+                                       [icon]="'/assets/images/edit-site.png'" [color]="'dodgerblue'"
+                                       (click)="editAd()"></app-reproducer-button>
+
                 <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive"
                                        [activeIcon]="'/assets/images/delete.png'"
                                        [icon]="'/assets/images/delete-active.png'" [color]="'#AF2237'"

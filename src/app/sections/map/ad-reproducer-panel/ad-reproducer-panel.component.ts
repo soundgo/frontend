@@ -28,7 +28,7 @@ export class AdReproducerPanelComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isLoading = true;
         this.api.getAdById(this.data.properties.id).then((ad: Ad) => {
-            this.ad = ad;
+            this.ad = new Ad(ad);
             this.isLoading = false;
             this.cdr.detectChanges();
         });
