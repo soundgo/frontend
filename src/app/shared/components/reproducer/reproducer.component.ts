@@ -105,7 +105,9 @@ export class ReproducerComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(audio => {
             this.editActive = false;
-            this.record = new Audio(audio);
+            if (audio) {
+                this.record = new Audio(audio);
+            }
             if (!this.cdr['destroyed']) {
                 this.cdr.detectChanges();
             }
@@ -122,7 +124,9 @@ export class ReproducerComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(ad => {
             this.editActive = false;
-            this.record = new Ad(ad);
+            if (ad) {
+                this.record = new Ad(ad);
+            }
             if (!this.cdr['destroyed']) {
                 this.cdr.detectChanges();
             }
