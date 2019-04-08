@@ -8,6 +8,7 @@ import {User} from '../../../../shared/models/User';
 import {LoginComponent} from '../../../../sections/account/components/login/login.component';
 import {CookieService} from 'ngx-cookie-service';
 import { TagPanelSheetComponent } from 'src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component';
+import { ProfileComponent } from 'src/app/sections/account/components/profile/profile.component';
 
 @Component({
     selector: 'app-menu',
@@ -62,6 +63,12 @@ export class MenuComponent implements OnInit {
     searchByTags() {
         this.bottomSheet.open(TagPanelSheetComponent, {
             // nodata
+        });
+    }
+
+    showProfile() {
+        this.matDialog.open(ProfileComponent, {
+            width: '330px'
         });
     }
 

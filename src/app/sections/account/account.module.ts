@@ -8,9 +8,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const components = [
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
 ];
 
 @NgModule({

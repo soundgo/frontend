@@ -1,0 +1,39 @@
+@import '../../../../../css/theme.scss';
+
+:host {
+    mat-dialog-content {
+        overflow: hidden;
+    }
+    mat-dialog-actions {
+        justify-content: space-between;
+        padding: 0px 0px 15px;
+    }
+    mat-dialog-actions button {
+        align-self: flex-start;
+    }
+    .photo_profile {
+        cursor: pointer;
+        border-radius: 100%;
+        box-shadow: 0 1px 3px #0000009e;
+        width: 90px;
+        height: 90px;
+        margin-bottom: 10px;
+    }
+    .profile {
+        text-align: center;
+    }
+    .profile p {
+        margin: 10px;
+    }
+    .become-advertiser {
+        cursor: pointer;
+        margin-top: 25px;
+        font-size: 19px;
+        text-align: center;
+    }
+    .become-advertiser span {
+        color: $yellow;
+        font-weight: 600;
+    }
+    
+}

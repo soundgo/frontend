@@ -4,13 +4,13 @@
 <div class="loginPanel" [class.opened]="isSelected">
 
     <ng-template [ngIf]="auth === 'user'">
-        <!-- <div class="profile"></div> -->
+        <div class="profile" (click)="showProfile()"></div>
         <a><div class="search" (click)="searchByTags()"></div></a>
         <a><div class="log_out" (click)="logout()"></div></a>
     </ng-template>
 
     <ng-template [ngIf]="auth === 'advertiser'">
-        <!-- <div class="profile"></div> -->
+        <div class="profile" (click)="showProfile()"></div>
         <a><div class="search" (click)="searchByTags()"></div></a>
         <div class="site" (click)="createSite()"></div>
         <a><div class="log_out" (click)="logout()"></div></a>
