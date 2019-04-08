@@ -1,4 +1,4 @@
 <ng-template [ngIf]="maxTimeUserProgressBar">
-    <mat-icon color="primary" aria-hidden="false" aria-label="time">watch_later</mat-icon>
+    <mat-icon color="primary" aria-hidden="false" aria-label="time" (click)="showTimeLeftModal()">watch_later</mat-icon>
     <mat-progress-bar mode="determinate" value={{this.valueBar}} (click)="showTimeLeftModal()"></mat-progress-bar>
 </ng-template>
