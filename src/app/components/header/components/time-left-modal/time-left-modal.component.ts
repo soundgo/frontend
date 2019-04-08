@@ -13,7 +13,7 @@ export class TimeLeftModalComponent {
     constructor(
         public dialogRef: MatDialogRef<TimeLeftModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-          this.timeLeft = data;
+          this.timeLeft = Math.round(data*100)/100;
         }
 
     onClose() {
