@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { AccountModule } from './sections/account/account.module';
 import { CookieService } from 'ngx-cookie-service';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TimeLeftModalComponent } from './components/header/components/time-left-modal/time-left-modal.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -36,8 +37,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimeLeftComponent,
     MenuComponent,
     CategoryPickerComponent,
+    TimeLeftModalComponent,
   ],
-  entryComponents: [],
+  entryComponents: [TimeLeftModalComponent],
   providers: [CookieService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

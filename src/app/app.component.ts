@@ -1,28 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChildren, AfterViewInit, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AudioRecordService} from './services/audio-record.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ContextService} from './services/context.service';
 import {User} from './shared/models/User';
 import {Subscription} from 'rxjs';
-import {Router, Event, NavigationStart} from '@angular/router';
 import {ApiService} from './services/api.service';
 import {Config} from './shared/models/Config';
 import {CookieService} from 'ngx-cookie-service';
 import {MatDialog} from '@angular/material';
-import {ChooseAudioCategoryComponent} from './sections/record/components/choose-audio-category/choose-audio-category.component';
-import {EditAudioComponent} from './sections/record/components/edit-audio/edit-audio.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
 
+    @ViewChildren('adblock') adblock: any;
     subscription: Subscription;
     auth: string;
     isLocationEnabled = false;
+    isAdBlockEnabled: boolean = true;
+
 
     isMicrophoneEnabled = false;
 
@@ -32,7 +32,8 @@ export class AppComponent implements OnInit {
                 private api: ApiService,
                 private context: ContextService,
                 private cookieService: CookieService,
-                protected dialog: MatDialog) {
+                protected dialog: MatDialog,
+                private cdr: ChangeDetectorRef) {
 
         translate.setDefaultLang('en');
 
@@ -68,8 +69,18 @@ export class AppComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-
+    ngOnDestroy() {
+        this.cdr.detach();
+    }
+    
+    ngAfterViewInit() {
+        const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
+        if (heightAdblock !== 0) {
+            this.isAdBlockEnabled = false;
+        }
+        if (!this.cdr['destroyed']) {
+            this.cdr.detectChanges();
+        }
     }
 
     switchLanguage(language: string) {

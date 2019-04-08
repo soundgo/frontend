@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs';
     templateUrl: './audio-record.component.html',
     styleUrls: ['./audio-record.component.scss'],
 })
-export class AudioRecordComponent extends RecorderComponent implements AfterViewInit {
+export class AudioRecordComponent extends RecorderComponent {
 
     @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
@@ -21,12 +21,10 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
     }
 
     @ViewChildren('siri') el: any;
-    @ViewChildren('adblock') adblock: any;
 
     siriWave: any;
     audioEntity: Audio;
     subscription: Subscription = new Subscription();
-    isAdBlockActivated: boolean = false;
     pressToStop: boolean = false;
     showUserCantRecord: boolean = false;
 
@@ -54,14 +52,6 @@ export class AudioRecordComponent extends RecorderComponent implements AfterView
             if (user)
                 this.showUserCantRecord = user.minutes <= 0 ? true : false;    
         });
-    }
-
-    ngAfterViewInit() {
-        const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
-        if (heightAdblock <= 0) {
-            this.isAdBlockActivated = true;
-            this.isRecorded = true;
-        }
     }
 
     startRecord() {

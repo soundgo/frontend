@@ -18,6 +18,11 @@
     animation: appear;
     animation-duration: 1s;
   }
+  .adBanner {
+    background-color: transparent;
+    height: 1px;
+    width: 1px;
+  }
 
   @keyframes appear {
     0% {opacity: 0;}
