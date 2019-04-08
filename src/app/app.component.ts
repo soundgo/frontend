@@ -75,8 +75,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     
     ngAfterViewInit() {
         const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
-        this.isAdBlockEnabled = heightAdblock === 0 ?  true : false;
-        console.log(this.isAdBlockEnabled, 'hola')
+        if (heightAdblock !== 0) {
+            this.isAdBlockEnabled = false;
+        }
         if (!this.cdr['destroyed']) {
             this.cdr.detectChanges();
         }
