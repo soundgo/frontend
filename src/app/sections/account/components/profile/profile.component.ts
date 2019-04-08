@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/User';
 import { ContextService } from 'src/app/services/context.service';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-profile',
@@ -10,17 +11,22 @@ import { ContextService } from 'src/app/services/context.service';
 export class ProfileComponent implements OnInit {
 
   user: User;
-  auth: string;
+  isAdvertiser: boolean;
 
-  constructor(private context: ContextService) {
+  constructor(private context: ContextService,
+    public dialogRef: MatDialogRef<ProfileComponent>,) {
     this.user = this.context.getUser().getValue();
-    this.auth = this.context.getAuth().getValue();
+    this.isAdvertiser = this.context.getAuth().getValue() === 'advertiser' ? true : false;
     console.log(this.user)
-    console.log(this.auth)
+    console.log(this.isAdvertiser)
     
   }
 
   ngOnInit() {
+  }
+
+  onClose() {
+    this.dialogRef.close();
   }
 
 }

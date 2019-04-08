@@ -8,7 +8,7 @@
       <p>{{user.nickname}}</p>
       <p>{{user.email}}</p>
   </div>
-  <div class="become-advertiser">
+  <div class="become-advertiser" *ngIf="!isAdvertiser">
     <hr>
     <p>Become an <span>Advertiser</span></p>
   </div>
