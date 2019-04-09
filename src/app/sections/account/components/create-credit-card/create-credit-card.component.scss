@@ -1,0 +1,25 @@
+@import '../../../../../css/theme.scss';
+:host {
+  .saveButton {
+    color: $purple;
+  }
+  .mat-dialog-actions {
+    justify-content: center;
+  }
+  .mat-dialog-content {
+    overflow: hidden;
+  }
+  .group1 {
+    text-align: center;
+  }
+  .group1 mat-form-field {
+    width: 85%;
+  }
+  .group2 {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .group2 mat-form-field {
+    width: 40%;
+  }
+}

@@ -10,6 +10,7 @@ import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
 import {Error} from '../shared/models/Error';
 import {ContextService} from './context.service';
+import { CreditCard } from '../shared/models/CreditCard';
 
 @Injectable({
     providedIn: 'root'
@@ -267,6 +268,62 @@ export class ApiService {
         const url = `${this.apiUrl}/records/advertisement/${id}/`;
         return new Promise(resolve => {
             this.http.get<any>(url).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+    getCreditCardById(id: number) {
+        const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
+        return new Promise(resolve => {
+            this.http.get<any>(url).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+     /** POST: post an Credit carad */
+     createCreditCard(creditCard: CreditCard) {
+        const url = `${this.apiUrl}/accounts/creditcard/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, creditCard, header).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
+
+    /** PUT: Update an creditcard and it is “deleted” */
+    updateCreditCard(id: number, isDeleted: boolean) {
+        const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+        const data = {
+            isDeleted: isDeleted
+        }
+        return new Promise(resolve => {
+            this.http.put<any>(url, data, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }

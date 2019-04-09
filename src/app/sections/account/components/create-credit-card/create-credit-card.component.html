@@ -1,3 +1,40 @@
-<p>
-  create-credit-card works!
-</p>
+<h1 mat-dialog-title>Become Advertiser</h1>
+<form [formGroup]="creditCardForm" (ngSubmit)="saveCreditCard(creditCardForm.value)">
+  <mat-dialog-content>
+    <p>An advertiser can publish a golden audio to publish an ad.
+      You must choose a location for the ad and a radois to appear
+      to the user. You can record ads when you finish this form.</p>
+    <div class="group1">
+      <mat-form-field>
+        <div mat-label>Card name</div>
+        <input matInput formControlName="name">
+        <mat-error *ngIf="hasError('name', 'required')">Card name is required</mat-error>
+        <mat-error *ngIf="hasError('name', 'minlength')">Card name must be 2 characters or more</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <div mat-label>Card number</div>
+        <input matInput formControlName="number">
+        <mat-error *ngIf="hasError('number', 'required')">Card number is required</mat-error>
+        <mat-error *ngIf="hasError('number', 'error')">Card number is invalid</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="group2">
+      <mat-form-field>
+        <mat-label>Month/Year Expiry</mat-label>
+        <textarea matInput formControlName="expiry"></textarea>
+        <mat-error *ngIf="hasError('expiry', 'required')">Month/Year is required</mat-error>
+        <mat-error *ngIf="hasError('expiry', 'error')">Month/Year is invalid</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>CVC</mat-label>
+        <textarea matInput formControlName="cvc"></textarea>
+        <mat-error *ngIf="hasError('cvc', 'required')">CVC is required</mat-error>
+        <mat-error *ngIf="hasError('cvc', 'error')">CVC is invalid</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button color="warn" (click)="onClose()">Close</button>
+    <button mat-button class="saveButton" [disabled]="!creditCardForm.valid">Let's do it</button>
+  </mat-dialog-actions>
+</form>

@@ -8,8 +8,8 @@
       <p>{{user.nickname}}</p>
       <p>{{user.email}}</p>
   </div>
-  <div class="become-advertiser" *ngIf="!isAdvertiser">
+  <div class="become-advertiser" *ngIf="auth === 'user'">
     <hr>
-    <p (onclick)="becomeAdvertiser()">Become an <span>Advertiser</span></p>
+    <p (click)="becomeAdvertiser()">Become an <span>Advertiser</span></p>
   </div>
 </mat-dialog-content>
