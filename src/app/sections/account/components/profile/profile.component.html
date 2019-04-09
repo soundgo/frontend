@@ -6,7 +6,7 @@
   <div class="profile">
       <img class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'"/>
       <p>{{user.nickname}}</p>
-      <p style="margin-left: 71px;">{{user.email}}
+      <p>{{user.email}}
         <span><button mat-button color="primary" (click)="editProfile()">Edit</button></span>
       </p> 
   </div>
