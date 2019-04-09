@@ -9,6 +9,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
 
 const components = [
     LoginComponent,
@@ -16,8 +17,8 @@ const components = [
 ];
 
 @NgModule({
-    declarations: [...components],
-    entryComponents: [...components],
+    declarations: [...components, EditProfileComponent],
+    entryComponents: [...components, EditProfileComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,

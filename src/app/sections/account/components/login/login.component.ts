@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
                 }
             });
         }
+        console.log(userForm);
     }
 
 }
