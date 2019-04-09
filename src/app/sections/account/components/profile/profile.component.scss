@@ -17,7 +17,6 @@
         box-shadow: 0 1px 3px #0000009e;
         width: 90px;
         height: 90px;
-        margin-bottom: 10px;
     }
     .profile {
         text-align: center;
@@ -35,5 +34,15 @@
         color: $yellow;
         font-weight: 600;
     }
+    .image-label {
+        margin-bottom: 25px !important;
+        font-size: 12px;
+    }
+    .image-upload > input {
+        visibility:hidden;
+        width:0;
+        height:0
+    }
+
     
 }
