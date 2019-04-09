@@ -4,7 +4,6 @@ import { ContextService } from 'src/app/services/context.service';
 import { MatDialogRef, MatDialog, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { EditProfileComponent } from 'src/app/sections/account/components/profile/edit-profile/edit-profile.component';
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -43,6 +42,5 @@ export class ProfileComponent implements OnInit {
       }
   });
 }
-
 
 }

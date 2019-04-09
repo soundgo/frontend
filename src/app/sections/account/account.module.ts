@@ -17,8 +17,8 @@ const components = [
 ];
 
 @NgModule({
-    declarations: [...components, EditProfileComponent],
-    entryComponents: [...components, EditProfileComponent],
+    declarations: [...components, EditProfileComponent, ],
+    entryComponents: [...components, EditProfileComponent, ],
     imports: [
         CommonModule,
         ReactiveFormsModule,

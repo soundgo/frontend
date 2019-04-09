@@ -8,9 +8,15 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Email</mat-label>
-    <input matInput formControlName="email" type="email">
+    <input matInput formControlName="email" type="email" >
     <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
     <mat-error *ngIf="hasError('email', 'email')">Must be a valid email address</mat-error>
+    <mat-error *ngIf="hasError('email', 'pattern')">Must be a valid email address</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" type="password">
+    <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
