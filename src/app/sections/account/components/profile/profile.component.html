@@ -10,6 +10,6 @@
   </div>
   <div class="become-advertiser" *ngIf="!isAdvertiser">
     <hr>
-    <p>Become an <span>Advertiser</span></p>
+    <p (onclick)="becomeAdvertiser()">Become an <span>Advertiser</span></p>
   </div>
 </mat-dialog-content>

@@ -17,12 +17,13 @@ export class ProfileComponent implements OnInit {
     public dialogRef: MatDialogRef<ProfileComponent>,) {
     this.user = this.context.getUser().getValue();
     this.isAdvertiser = this.context.getAuth().getValue() === 'advertiser' ? true : false;
-    console.log(this.user)
-    console.log(this.isAdvertiser)
-    
   }
 
   ngOnInit() {
+  }
+
+  becomeAdvertiser() {
+
   }
 
   onClose() {

@@ -9,10 +9,12 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreateCreditCardComponent } from './components/create-credit-card/create-credit-card.component';
 
 const components = [
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreateCreditCardComponent
 ];
 
 @NgModule({
