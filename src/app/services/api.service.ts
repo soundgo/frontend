@@ -59,6 +59,26 @@ export class ApiService {
             }));
         });
     }
+    
+    /** POST: Create an user */
+    createUser(user: any) {
+        const url = `${this.apiUrl}/accounts/actor/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, user.toJSON(), header).subscribe(response => {
+                if (response.error) {
+                    this.handleError(response);
+                }
+                resolve(response);
+            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+        });
+    }
 
     ////////////////////////////////////////////////////////////////////////
     ///////////////////////////////// AUDIO ///////////////////////////////

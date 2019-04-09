@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ContextService} from '../../../../services/context.service';
 import {ApiService} from '../../../../services/api.service';
 import {CookieService} from 'ngx-cookie-service';
+import { SignUpComponent } from '../sign-up/sign-up.component';
 
 @Component({
     selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<LoginComponent>,
                 private context: ContextService,
+                private matDialog: MatDialog,
                 private api: ApiService,
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
@@ -67,4 +69,10 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    signUp() {
+        this.onClose();
+        this.matDialog.open(SignUpComponent, {
+            width: '350px'
+        });
+    }
 }

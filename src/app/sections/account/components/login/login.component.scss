@@ -2,3 +2,17 @@ mat-form-field {
   width: 100%;
   font-size: 17.5px;
 }
+
+:host{
+
+  .divider-sign-up{
+    margin-top:5px;
+    border-top-color: purple;
+  }
+
+  .sign-up-button{
+    margin-left: 35%;
+  }
+
+
+}
