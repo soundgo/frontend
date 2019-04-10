@@ -17,10 +17,11 @@ export class ProfileComponent implements OnInit {
 
   constructor(private context: ContextService,
     private api: ApiService,
-    public dialogRef: MatDialogRef<ProfileComponent>,) {
+    public dialogRef: MatDialogRef<ProfileComponent>, ) {
     this.user = this.context.getUser().getValue();
+    console.log(this.user);
     this.isAdvertiser = this.context.getAuth().getValue() === 'advertiser' ? true : false;
-    }
+  }
 
   ngOnInit() {
   }
@@ -32,15 +33,15 @@ export class ProfileComponent implements OnInit {
       const user = new User();
       user.base64 = '' + reader.result;
 
-      this.api.updateUser(this.user.nickname, user);
-      
-      //Set user context && template variable
-      const userContext = new User(this.user);
-      this.user.base64 = user.base64;
-      userContext.base64 = user.base64;
-      this.context.setUser(userContext);
+      this.api.updateUser(this.user.nickname, user).then(() => {
+        //Set user context && template variable
+        const userContext = new User(this.user);
+        this.user.base64 = user.base64;
+        userContext.base64 = user.base64;
+        this.context.setUser(userContext);
+      });
     }
-    
+
   }
   onClose() {
     this.dialogRef.close();
