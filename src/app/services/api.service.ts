@@ -70,12 +70,10 @@ export class ApiService {
             })
         };
         return new Promise(resolve => {
-            this.http.put<any>(url, user, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, catchError);
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError({
+                error: 'There\'s been an unusual error',
+                details: ''
+            }));
         });
     }
 

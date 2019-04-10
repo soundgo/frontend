@@ -3,20 +3,20 @@
   <h1 mat-dialog-title> Create site </h1>
 </ng-template>
 <form [formGroup]="siteForm" (ngSubmit)="saveSite(siteForm.value)">
-<mat-dialog-content>
-  <mat-form-field>
-    <div mat-label>Name</div>
-    <input matInput formControlName="name">
-    <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-    <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
-  </mat-form-field>
-</mat-dialog-content>
+  <mat-dialog-content>
+    <mat-form-field>
+      <div mat-label>Name</div>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+</form>
 <mat-dialog-actions>
-  <button mat-button color="warn" (click)="onClose()">Close</button>
+  <!-- <button mat-button color="warn" (click)="onClose()">Close</button> -->
   <button mat-button class="saveButton" [disabled]="!siteForm.valid">Save</button>
 </mat-dialog-actions>
-</form>
