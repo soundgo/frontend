@@ -1,18 +1,19 @@
 <h1 mat-dialog-title>Become Advertiser</h1>
 <form [formGroup]="creditCardForm" (ngSubmit)="saveCreditCard(creditCardForm.value)">
+    <p>An advertiser can publish ads.
+        You must choose a location for the ad and a radius to appear
+        to the user. You can record ads when you finish this process.</p>
+    <br>
     <mat-dialog-content>
-        <p>An advertiser can publish ads.
-            You must choose a location for the ad and a radius to appear
-            to the user. You can record ads when you finish this process.</p>
         <div class="group1">
             <mat-form-field>
-                <div mat-label>Card name</div>
+                <mat-label>Holder name</mat-label>
                 <input matInput formControlName="name">
                 <mat-error *ngIf="hasError('name', 'required')">Card name is required</mat-error>
                 <mat-error *ngIf="hasError('name', 'minlength')">Card name must be 2 characters or more</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <div mat-label>Card number</div>
+                <mat-label>Card number</mat-label>
                 <input matInput formControlName="number">
                 <mat-error *ngIf="hasError('number', 'required')">Card number is required</mat-error>
                 <mat-error *ngIf="hasError('number', 'error')">Card number is invalid</mat-error>
@@ -34,7 +35,9 @@
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-button *ngIf="auth !== 'user'" color="warn" (click)="deleteCreditCard(creditCardForm.value)">Delete credit card</button>
+        <button mat-button *ngIf="auth !== 'user'" color="warn" (click)="deleteCreditCard(creditCardForm.value)">Delete
+            credit card
+        </button>
         <button mat-button class="saveButton" [disabled]="!creditCardForm.valid">Save</button>
     </mat-dialog-actions>
 </form>
