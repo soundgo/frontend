@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/User';
 import { ContextService } from 'src/app/services/context.service';
 import { MatDialogRef } from '@angular/material';
-import { resolve } from 'dns';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -36,8 +35,8 @@ export class ProfileComponent implements OnInit {
       this.api.updateUser(this.user.nickname, user).then(() => {
         //Set user context && template variable
         const userContext = new User(this.user);
-        this.user.base64 = user.base64;
-        userContext.base64 = user.base64;
+        this.user.photo = user.base64;
+        userContext.photo = user.base64;
         this.context.setUser(userContext);
       });
     }
