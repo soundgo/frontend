@@ -7,6 +7,7 @@ import { ContextService } from 'src/app/services/context.service';
 import { CreditCardValidator } from 'ngx-credit-cards';
 import { CreditCard } from 'src/app/shared/models/CreditCard';
 import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-create-credit-card',
@@ -23,6 +24,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     private api: ApiService,
     protected dialog: MatDialog,
     public dialogRef: MatDialogRef<CreateCreditCardComponent>,
+    private cookieService: CookieService,
     private context: ContextService,
     private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -76,6 +78,10 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
       this.api.createCreditCard(creditcard).then(() => {
         console.log('Credit card created', creditcard);
         this.context.setAuth('advertiser');
+        this.cookieService.set('user', JSON.stringify({
+          user: this.context.getUser().getValue(),
+          auth: 'advertiser'
+        }));
         // setear propiedades de user con creditcard
         this.onClose();
       });
@@ -106,6 +112,10 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
       this.api.updateCreditCard(this.data.creditcard.id, creditcard).then(() => {
         console.log('Credit card edited', creditcard);
         this.context.setAuth('advertiser');
+        this.cookieService.set('user', JSON.stringify({
+          user: this.context.getUser().getValue(),
+          auth: 'advertiser'
+        }));
         this.onClose();
       });
     }
