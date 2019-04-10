@@ -1,16 +1,13 @@
 import {Injectable} from '@angular/core';
 
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Audio} from '../shared/models/Audio';
 import {Ad} from '../shared/models/Ad';
 import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
-import {Error} from '../shared/models/Error';
 import {ContextService} from './context.service';
-import { User } from '../shared/models/User';
+import {User} from '../shared/models/User';
 
 @Injectable({
     providedIn: 'root'
@@ -22,24 +19,11 @@ export class ApiService {
     constructor(private http: HttpClient, private context: ContextService) {
     }
 
-    catchError(response) {
-        if (response.error) {
-            this.handleError(response.error);
-        } else {
-            this.handleError({error: 'There\'s been an unusual error', details: ''});
-        }
-    }
-
     login(user: any) {
         const url = `${this.apiUrl}/api-token-auth/`;
 
         return new Promise(resolve => {
-            this.http.post<any>(url, user.toJSON()).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, user.toJSON()).subscribe(response => resolve(response), err => resolve(err.error));
         });
     }
 
@@ -54,10 +38,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError({
-                error: 'There\'s been an unusual error',
-                details: ''
-            }));
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -73,10 +54,35 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError({
-                error: 'There\'s been an unusual error',
-                details: ''
-            }));
+            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+    updateProfile(user: User, nickname: string) {
+        const url = `${this.apiUrl}/accounts/actor/${nickname}/`;
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+        return new Promise(resolve => {
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+    /** POST: Create an user */
+    createUser(user: any) {
+        const url = `${this.apiUrl}/accounts/actor/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, user.toJSON(), header).subscribe(response => resolve(response), (err) => this.handleError(err));
         });
     }
 
@@ -165,7 +171,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, catchError);
+            }, (err) => this.handleError(err));
         });
     }
 
@@ -184,7 +190,7 @@ export class ApiService {
         return new Promise(resolve => {
             this.http.delete<any>(url, header).subscribe(response => {
                 resolve(response);
-            }, catchError);
+            }, (err) => this.handleError(err));
         });
     }
 
@@ -366,7 +372,7 @@ export class ApiService {
                     this.handleError(response);
                 }
                 resolve(response);
-            }, catchError);
+            }, (err) => this.handleError(err));
         });
     }
 
@@ -479,15 +485,13 @@ export class ApiService {
         });
     }
 
-    /**
-     * Handle Http operation that failed.
-     * Let the app continue.
-     * @param response - api response
-     * @param result - optional value to return as the observable result
-     */
-    private handleError<T>(response: any, result?: T) {
-        this.context.setError(response);
+    handleError(response: any = {}) {
+        this.context.setError(null);
+        if (response.error) {
+            this.context.setError(response.error);
+        } else {
+            this.context.setError({error: 'There\'s been an unusual error', details: ''});
+        }
     }
-
 
 }

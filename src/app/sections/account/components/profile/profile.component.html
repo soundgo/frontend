@@ -14,7 +14,9 @@
       </form>
       <p class="image-label">Press in avatar image to change it</p>
       <p>{{user.nickname}}</p>
-      <p>{{user.email}}</p>
+      <p>{{user.email}} 
+        <span><button mat-button color="primary" (click)="editProfile()">Edit</button></span>
+      </p>
   </div>
   <div class="become-advertiser" *ngIf="!isAdvertiser">
     <hr>
