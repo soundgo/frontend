@@ -58,7 +58,7 @@
 (window as any).global = window;
 import 'zone.js/dist/zone'; // Included with Angular CLI.
 import 'hammerjs'; //Add gestures
-
+(window as any).global = window;
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

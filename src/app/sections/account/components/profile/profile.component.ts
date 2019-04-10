@@ -1,8 +1,9 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from 'src/app/shared/models/User';
 import {ContextService} from 'src/app/services/context.service';
-import {MatDialogRef, MatDialog, MAT_BOTTOM_SHEET_DATA} from '@angular/material';
-import {EditProfileComponent} from 'src/app/sections/account/components/edit-profile/edit-profile.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ApiService} from 'src/app/services/api.service';
+import {EditProfileComponent} from '../edit-profile/edit-profile.component';
 
 @Component({
     selector: 'app-profile',
@@ -13,15 +14,37 @@ export class ProfileComponent implements OnInit {
 
     user: User;
     isAdvertiser: boolean;
+    isLoading: boolean = false;
 
     constructor(private context: ContextService,
                 public dialogRef: MatDialogRef<ProfileComponent>,
-                protected dialog: MatDialog) {
+                protected dialog: MatDialog,
+                private api: ApiService) {
         this.user = this.context.getUser().getValue();
         this.isAdvertiser = this.context.getAuth().getValue() === 'advertiser';
     }
 
     ngOnInit() {
+    }
+
+    submitAvatar(event) {
+        this.isLoading = true;
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onloadend = () => {
+            const user = new User();
+            user.base64 = '' + reader.result;
+
+            this.api.updateUser(this.user.nickname, user).then(() => {
+                // Set user context && template variable
+                const userContext = new User(this.user);
+                this.user.photo = user.base64;
+                userContext.photo = user.base64;
+                this.context.setUser(userContext);
+                this.isLoading = false;
+            });
+        };
+
     }
 
     onClose() {
@@ -41,5 +64,4 @@ export class ProfileComponent implements OnInit {
             }
         });
     }
-
 }

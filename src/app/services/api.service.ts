@@ -27,6 +27,22 @@ export class ApiService {
         });
     }
 
+    updateUser(nickname: string, user: User) {
+        const url = `${this.apiUrl}/accounts/actor/${nickname}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: this.context.getUser().getValue() ? `Bearer ${this.context.getUser().getValue().token}` : ''
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+
     adReproduced(id: number) {
         const url = `${this.apiUrl}/records/advertisement/listen/${id}/`;
 
