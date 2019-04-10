@@ -1,4 +1,5 @@
 {
+  
   "TOKEN_NOT_FOUND": "There's was a problem with your session. Please log out and log in again.",
   "TOKEN_NOT_VALID": "There's was a problem with your session. Please log out and log in again.",
   "ACTOR_NOT_ALLOWED": "This user cannot make this action.",
@@ -55,4 +56,5 @@
   "DELETE_SITE": "There was a problem during the request to delete the site.",
   "SITE_NOT_BELONG": "The site does not belong to the logged user.",
   "GET_TAGS": "You must specify the tags."
+
 }
