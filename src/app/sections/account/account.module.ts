@@ -10,15 +10,18 @@ import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 const components = [
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    SignUpComponent,
+    EditProfileComponent
 ];
 
 @NgModule({
-    declarations: [...components, EditProfileComponent, ],
-    entryComponents: [...components, EditProfileComponent, ],
+    declarations: [...components ],
+    entryComponents: [...components ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
