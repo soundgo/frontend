@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
 
     user: User;
     isAdvertiser: boolean;
+    isLoading: boolean = false;
 
     constructor(private context: ContextService,
                 public dialogRef: MatDialogRef<ProfileComponent>,
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit {
     }
 
     submitAvatar(event) {
+        this.isLoading = true;
         const reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]);
         reader.onloadend = () => {
@@ -39,6 +41,7 @@ export class ProfileComponent implements OnInit {
                 this.user.photo = user.base64;
                 userContext.photo = user.base64;
                 this.context.setUser(userContext);
+                this.isLoading = false;
             });
         };
 
