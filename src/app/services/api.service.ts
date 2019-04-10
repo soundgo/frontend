@@ -1,14 +1,11 @@
 import {Injectable} from '@angular/core';
 
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput, of} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Audio} from '../shared/models/Audio';
 import {Ad} from '../shared/models/Ad';
 import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
-import {Error} from '../shared/models/Error';
 import {ContextService} from './context.service';
 import {User} from '../shared/models/User';
 
