@@ -1,18 +1,19 @@
-mat-form-field {
-  width: 100%;
-  font-size: 17.5px;
-}
+@import '../../../../../css/theme.scss';
 
-:host{
+:host {
 
-  .divider-sign-up{
-    margin-top:5px;
-    border-top-color: purple;
+  mat-form-field {
+    width: 100%;
+    font-size: 17.5px;
   }
 
-  .sign-up-button{
+  .divider-sign-up {
+    margin: 20px;
+    border-top-color: $colorPrimary;
+  }
+
+  .sign-up-button {
     margin-left: 35%;
   }
-
 
 }

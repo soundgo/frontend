@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
                 } else {
                     this.api.getActorByName(this.userEntity.nickname, response.token).then(user => {
                         const userToSave = new User(user);
+                        userToSave.id = response.actorId;
                         userToSave.token = response.token;
                         this.context.setUser(userToSave);
                         this.context.setAuth(response.role);
