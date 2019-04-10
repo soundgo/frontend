@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Log in</h1>
+<h1 mat-dialog-title>Sign up</h1>
 <form [formGroup]="userForm" (ngSubmit)="saveUser(userForm.value)">
 
   <div mat-dialog-content>
@@ -10,24 +10,25 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+      <mat-error *ngIf="hasError('email', 'email') && !hasError('email','required')">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" />
       <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
     </mat-form-field>
 
-    <mat-error *ngIf="showBadCredentials">The credentials are not correct</mat-error>
-
   </div>
 
   <div mat-dialog-actions>
     <button mat-button color="warn" (click)="onClose()">Close</button>
-    <button mat-button class="saveButton" [disabled]="!userForm.valid">Save</button>
+    <button mat-button class="saveButton" [disabled]="!userForm.valid">Sign up</button>
   </div>
 
 </form>
-
-<mat-divider class="divider-sign-up"></mat-divider>
-
-<div class="sign-up">
-  <button mat-button class="sign-up-button" color="primary" (click)="signUp()">Sign up</button>
-</div>

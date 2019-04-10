@@ -10,11 +10,13 @@ import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CreateCreditCardComponent } from './components/create-credit-card/create-credit-card.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 const components = [
     LoginComponent,
     ProfileComponent,
     CreateCreditCardComponent
+    SignUpComponent
 ];
 
 @NgModule({
