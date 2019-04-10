@@ -8,7 +8,6 @@ export class CreditCard {
     expirationYear: number;
     cvvCode: number;
     isDelete?: boolean;
-    name?: string;
 
     constructor(data: any = {}) {
         this.id = data.id || null;
@@ -18,6 +17,7 @@ export class CreditCard {
         this.expirationMonth = data.expirationMonth || null;
         this.expirationYear = data.expirationYear || null;
         this.cvvCode = data.cvvCode || null;
+        this.isDelete = data.isDelete || false;
     }
 
     toJSON() {
@@ -29,6 +29,10 @@ export class CreditCard {
             expirationYear: this.expirationYear,
             cvvCode: this.cvvCode,
         };
+        
+        if (this.isDelete) {
+            res['isDelete'] = this.isDelete;
+        }
 
         return res;
     }

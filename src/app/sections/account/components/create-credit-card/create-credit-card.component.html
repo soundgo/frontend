@@ -34,7 +34,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="warn" (click)="onClose()">Close</button>
-    <button mat-button class="saveButton" [disabled]="!creditCardForm.valid">Let's do it</button>
+    <button mat-button color="warn" (click)="deleteCreditCard(creditCardForm.value)">Delete credit card</button>
+    <button mat-button class="saveButton" [disabled]="!creditCardForm.valid">Save</button>
   </mat-dialog-actions>
 </form>

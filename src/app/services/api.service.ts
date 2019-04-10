@@ -278,8 +278,16 @@ export class ApiService {
 
     getCreditCardById(id: number) {
         const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
+            this.http.get<any>(url, header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -300,7 +308,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, creditCard, header).subscribe(response => {
+            this.http.post<any>(url, creditCard.toJSON(), header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }
@@ -310,7 +318,7 @@ export class ApiService {
     }
 
     /** PUT: Update an creditcard and it is “deleted” */
-    updateCreditCard(id: number, isDeleted: boolean) {
+    updateCreditCard(id: number, creditCard: CreditCard) {
         const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
 
         const header = {
@@ -319,11 +327,8 @@ export class ApiService {
                 Authorization: `Bearer ${this.context.getUser().getValue().token}`
             })
         };
-        const data = {
-            isDeleted: isDeleted
-        }
         return new Promise(resolve => {
-            this.http.put<any>(url, data, header).subscribe(response => {
+            this.http.put<any>(url, creditCard.toJSON(), header).subscribe(response => {
                 if (response.error) {
                     this.handleError(response);
                 }

@@ -4,12 +4,17 @@
 </mat-dialog-actions>
 <mat-dialog-content>
   <div class="profile">
-      <img class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'"/>
-      <p>{{user.nickname}}</p>
-      <p>{{user.email}}</p>
+    <img class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'" />
+    <p>{{user.nickname}}</p>
+    <p>{{user.email}}</p>
   </div>
   <div class="become-advertiser" *ngIf="auth === 'user'">
     <hr>
     <p (click)="becomeAdvertiser()">Become an <span>Advertiser</span></p>
   </div>
+  <div class="become-advertiser" *ngIf="auth === 'advertiser'">
+    <hr>
+    <p (click)="becomeAdvertiser()">Edit your payment method</p>
+  </div>
+
 </mat-dialog-content>
