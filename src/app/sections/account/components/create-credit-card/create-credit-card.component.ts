@@ -17,18 +17,18 @@ import { CookieService } from 'ngx-cookie-service';
 export class CreateCreditCardComponent implements OnInit, OnDestroy {
 
   creditCardForm: FormGroup;
-  isDeleted: boolean = false;
+  isDeleted = false;
   auth: string;
 
   constructor(
     private api: ApiService,
     protected dialog: MatDialog,
     public dialogRef: MatDialogRef<CreateCreditCardComponent>,
-    private cookieService: CookieService,
     private context: ContextService,
+    private cookieService: CookieService,
     private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.auth = this.context.getAuth().getValue();  
+    this.auth = this.context.getAuth().getValue();
     if (data.creditcard.isDelete) {
       // If is deleted put empty form
       this.data.creditcard.holderName = '';
@@ -63,20 +63,21 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
 
   saveCreditCard(creditCardForm) {
 
-    const creditcard = new CreditCard();
-    creditcard.holderName = creditCardForm.name;
-    const number = creditCardForm.number.toString().replace(' ', '');
-    creditcard.number = number;
-    creditcard.brandName = this.detectBrandName(number);
+    const creditCard = new CreditCard();
+    const creditCardNumber = creditCardForm.number.toString().replace(' ', '');
     const expiry = creditCardForm.expiry.trim().split('/');
-    creditcard.expirationMonth = expiry[0];
-    creditcard.expirationYear = expiry[1];
-    creditcard.cvvCode = creditCardForm.cvc;
+
+    creditCard.holderName = creditCardForm.name;
+    creditCard.number = creditCardNumber;
+    creditCard.brandName = this.detectBrandName(creditCardNumber);
+    creditCard.expirationMonth = expiry[0];
+    creditCard.expirationYear = expiry[1];
+    creditCard.cvvCode = creditCardForm.cvc;
 
     if (this.creditCardForm.valid && !this.data.creditcard.id) {
       // Create
-      this.api.createCreditCard(creditcard).then(() => {
-        console.log('Credit card created', creditcard);
+      this.api.createCreditCard(creditCard).then(() => {
+        // console.log('Credit card created', creditCard);
         this.context.setAuth('advertiser');
         this.cookieService.set('user', JSON.stringify({
           user: this.context.getUser().getValue(),
@@ -87,13 +88,13 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
       });
     } else if (this.creditCardForm.valid && this.isDeleted) {
       // Delete
-      creditcard.isDelete = true;
-      creditcard.id = this.data.creditcard.id;
+      creditCard.isDelete = true;
+      creditCard.id = this.data.creditcard.id;
 
       this.dialog.open(DeleteModalComponent, {
         width: '350px',
         data: {
-          entity: creditcard,
+          entity: creditCard,
           entityType: 'creditcard'
         }
       }).afterClosed().subscribe(isDeleted => {
@@ -108,9 +109,9 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
 
     } else if (this.creditCardForm.valid && this.data.creditcard.id) {
       // Edit
-      creditcard.isDelete = false;
-      this.api.updateCreditCard(this.data.creditcard.id, creditcard).then(() => {
-        console.log('Credit card edited', creditcard);
+      creditCard.isDelete = false;
+      this.api.updateCreditCard(this.data.creditcard.id, creditCard).then(() => {
+        // console.log('Credit card edited', creditCard);
         this.context.setAuth('advertiser');
         this.cookieService.set('user', JSON.stringify({
           user: this.context.getUser().getValue(),
@@ -121,12 +122,12 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteCreditCard(creditCardForm) {
+  deleteCreditCard() {
     this.isDeleted = true;
-    this.saveCreditCard(creditCardForm)
+    this.saveCreditCard(this.creditCardForm.value);
   }
 
-  detectBrandName(number: string) {
+  detectBrandName(creditCardNumber: string) {
     let res = '';
     const cardTypes = {
       amex: [
@@ -155,22 +156,22 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     Object.keys(cardTypes).forEach(type => {
       cardTypes[type].map(prefix => {
         const length = prefix[0].toString().length;
-        const numberSlicedString = number.slice(0, length);
+        const numberSlicedString = creditCardNumber.slice(0, length);
         const numberSlicedInt = Number(numberSlicedString);
 
         if (prefix.length === 1 && prefix[0] === numberSlicedInt) {
-          //Caso 1 elemento array
+          // Caso 1 elemento array
           res = type;
         } else if (prefix.length > 1 && numberSlicedInt >= prefix[0] && numberSlicedInt <= prefix[1]) {
           // Caso 2 elementos array
           res = type;
         }
-      })
-    })
+      });
+    });
     if (res) {
       return res;
     } else {
-      return 'uknown';
+      return 'unknown';
     }
   }
 
