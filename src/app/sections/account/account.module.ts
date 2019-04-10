@@ -9,7 +9,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpLoaderFactory} from '../../app.module';
 import {CookieService} from 'ngx-cookie-service';
 import { ProfileComponent } from './components/profile/profile.component';
-import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 const components = [
     LoginComponent,

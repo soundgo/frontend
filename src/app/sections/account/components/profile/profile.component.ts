@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { User } from 'src/app/shared/models/User';
 import { ContextService } from 'src/app/services/context.service';
 import { MatDialogRef, MatDialog, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
-import { EditProfileComponent } from 'src/app/sections/account/components/profile/edit-profile/edit-profile.component';
+import { EditProfileComponent } from 'src/app/sections/account/components/edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
 
   editProfile() {
     this.dialog.open(EditProfileComponent, {
-        width: '350px',
+        width: '320px',
         data: {
             user: this.context.getUser().getValue(),
         }

@@ -1,0 +1,19 @@
+@import 'src/css/theme.scss';
+
+:host{
+    .saveButton {
+        color: $purple;
+    }
+    
+    mat-dialog-content {
+        display: flex;
+        flex-direction: column;
+    }
+    mat-dialog-actions {
+        justify-content: space-evenly;
+    }
+    .confirm-profile {
+        margin:10px 0px;
+        font-size: 12px;
+    }
+}

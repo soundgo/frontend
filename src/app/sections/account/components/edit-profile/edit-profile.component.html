@@ -13,6 +13,7 @@
     <mat-error *ngIf="hasError('email', 'email')">Must be a valid email address</mat-error>
     <mat-error *ngIf="hasError('email', 'pattern')">Must be a valid email address</mat-error>
   </mat-form-field>
+  <p class="confirm-profile">Confirm your changes introducing your password</p>
   <mat-form-field>
     <mat-label>Password</mat-label>
     <input matInput formControlName="password" type="password">

@@ -31,8 +31,8 @@ export class EditProfileComponent implements OnInit {
     return this.profileForm.controls[controlName].hasError(errorName);
   }
 
-  onClose() {
-      this.dialogRef.close();
+  onClose(user:User) {
+      this.dialogRef.close(user);
   }
 
   saveProfile(profileForm) {
