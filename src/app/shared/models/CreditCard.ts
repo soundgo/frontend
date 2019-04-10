@@ -28,12 +28,9 @@ export class CreditCard {
             expirationMonth: this.expirationMonth,
             expirationYear: this.expirationYear,
             cvvCode: this.cvvCode,
+            isDelete: this.isDelete
         };
         
-        if (this.isDelete) {
-            res['isDelete'] = this.isDelete;
-        }
-
         return res;
     }
 

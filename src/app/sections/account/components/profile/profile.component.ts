@@ -38,13 +38,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   async becomeAdvertiser() {
-    const userCreditcardId = this.context.getUser().getValue().credit_card;
+    const user = this.context.getUser().getValue();
+    let userCreditcardId = null;
     let userCreditcard = null;
 
+    //Get if user has credit card at real time
+    await this.api.getActorByName(user.nickname, user.token).then(response => {
+      userCreditcardId = new User(response).credit_card;
+    });
     if (userCreditcardId) {
       // Edit & Delete
       await this.api.getCreditCardById(userCreditcardId).then(response => {
         userCreditcard = new CreditCard(response);
+        console.log(userCreditcard)
       })
     } else {
       // Create

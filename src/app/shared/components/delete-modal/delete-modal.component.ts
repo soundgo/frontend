@@ -6,6 +6,7 @@ import { ContextService } from 'src/app/services/context.service';
 import { Ad } from '../../models/Ad';
 import { AudioReproducerPanelComponent } from 'src/app/sections/map/audio-reproducer-panel/audio-reproducer-panel.component';
 import { Site } from '../../models/Site';
+import { CreateCreditCardComponent } from 'src/app/sections/account/components/create-credit-card/create-credit-card.component';
 
 @Component({
     selector: 'app-delete-modal',
@@ -19,6 +20,7 @@ export class DeleteModalComponent implements OnInit {
     constructor(
         private api: ApiService,
         public dialogRef: MatDialogRef<CreateSiteComponent>,
+        public dialogDeleteRef: MatDialogRef<DeleteModalComponent>,
         public dialogBottomSheetRef: MatDialogRef<AudioReproducerPanelComponent>,
         private context: ContextService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -47,6 +49,7 @@ export class DeleteModalComponent implements OnInit {
         } else if (this.data && this.data.entityType === 'creditcard') {
             this.api.updateCreditCard(this.data.entity.id, this.data.entity).then(() => {
                 console.log('Credit card deleted', this.data.entity);
+                this.dialogDeleteRef.close()
                 this.context.setAuth('user');
                 this.onClose(true);
             });

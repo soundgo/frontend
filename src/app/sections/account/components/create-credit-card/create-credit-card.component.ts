@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
@@ -13,17 +13,20 @@ import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/del
   templateUrl: './create-credit-card.component.html',
   styleUrls: ['./create-credit-card.component.scss']
 })
-export class CreateCreditCardComponent implements OnInit {
+export class CreateCreditCardComponent implements OnInit, OnDestroy {
 
   creditCardForm: FormGroup;
   isDeleted: boolean = false;
+  auth: string;
 
   constructor(
     private api: ApiService,
     protected dialog: MatDialog,
-    public dialogRef: MatDialogRef<CreateSiteComponent>,
+    public dialogRef: MatDialogRef<CreateCreditCardComponent>,
     private context: ContextService,
+    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.auth = this.context.getAuth().getValue();  
     if (data.creditcard.isDelete) {
       // If is deleted put empty form
       this.data.creditcard.holderName = '';
@@ -42,6 +45,11 @@ export class CreateCreditCardComponent implements OnInit {
       cvc: new FormControl(this.data.creditcard.cvvCode, [Validators.required, CreditCardValidator.validateCardCvc])
     });
   }
+
+  ngOnDestroy() {
+    this.cdr.detach();
+  }
+
 
   hasError(controlName: string, errorName: string) {
     return this.creditCardForm.controls[controlName].hasError(errorName);
@@ -82,12 +90,22 @@ export class CreateCreditCardComponent implements OnInit {
           entity: creditcard,
           entityType: 'creditcard'
         }
-      })
+      }).afterClosed().subscribe(isDeleted => {
+        this.isDeleted = false;
+        if (!this.cdr['destroyed']) {
+          this.cdr.detectChanges();
+        }
+        if (isDeleted) {
+          this.dialogRef.close();
+        }
+      });
 
     } else if (this.creditCardForm.valid && this.data.creditcard.id) {
       // Edit
+      creditcard.isDelete = false;
       this.api.updateCreditCard(this.data.creditcard.id, creditcard).then(() => {
         console.log('Credit card edited', creditcard);
+        this.context.setAuth('advertiser');
         this.onClose();
       });
     }
