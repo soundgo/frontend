@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, ObservableInput, of} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Audio} from '../shared/models/Audio';
 import {Ad} from '../shared/models/Ad';
 import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
-import {Error} from '../shared/models/Error';
 import {ContextService} from './context.service';
+import {User} from '../shared/models/User';
 
 @Injectable({
     providedIn: 'root'
@@ -40,10 +38,20 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError({
-                error: 'There\'s been an unusual error',
-                details: ''
-            }));
+            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+    updateProfile(user: User, nickname: string) {
+        const url = `${this.apiUrl}/accounts/actor/${nickname}/`;
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+        return new Promise(resolve => {
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 

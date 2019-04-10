@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Edit profile</h1>
+<form [formGroup]="profileForm" (ngSubmit)="saveProfile(profileForm.value)">
+    <ng-template [ngIf]="!isPasswordCorrect">
+        <mat-dialog-content>
+            <p class="confirm-profile">First, you must introduce your password due to security reasons.</p>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password"
+                       (keyup)="checkPasswordCorrect(profileForm.value)">
+                <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
+            </mat-form-field>
+        </mat-dialog-content>
+    </ng-template>
+    <ng-template [ngIf]="isPasswordCorrect">
+        <mat-dialog-content>
+            <mat-form-field>
+                <mat-label>Nickname</mat-label>
+                <input matInput formControlName="nickname">
+                <mat-error *ngIf="hasError('nickname', 'required')">Nickname is required</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+                <mat-error *ngIf="hasError('email', 'email')">Must be a valid email address</mat-error>
+                <mat-error *ngIf="hasError('email', 'pattern')">Must be a valid email address</mat-error>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <button mat-button color="warn" (click)="onClose()">Close</button>
+            <button mat-button class="saveButton" [disabled]="!profileForm.valid">Save</button>
+        </mat-dialog-actions>
+    </ng-template>
+</form>
