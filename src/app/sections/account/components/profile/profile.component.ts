@@ -34,7 +34,9 @@ export class ProfileComponent implements OnInit {
 
       this.api.updateUser(this.user.nickname, user);
       
+      //Set user context && template variable
       const userContext = new User(this.user);
+      this.user.base64 = user.base64;
       userContext.base64 = user.base64;
       this.context.setUser(userContext);
     }
