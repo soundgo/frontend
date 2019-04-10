@@ -10,6 +10,7 @@ import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
 import {Error} from '../shared/models/Error';
 import {ContextService} from './context.service';
+import { User } from '../shared/models/User';
 
 @Injectable({
     providedIn: 'root'
@@ -41,6 +42,25 @@ export class ApiService {
             }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
         });
     }
+
+    updateUser(nickname: string, user: User) {
+        const url = `${this.apiUrl}/accounts/actor/${nickname}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: this.context.getUser().getValue() ? `Bearer ${this.context.getUser().getValue().token}` : ''
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.put<any>(url, user, header).subscribe(response => resolve(response), err => this.handleError({
+                error: 'There\'s been an unusual error',
+                details: ''
+            }));
+        });
+    }
+
 
     adReproduced(id: number) {
         const url = `${this.apiUrl}/records/advertisement/listen/${id}/`;
