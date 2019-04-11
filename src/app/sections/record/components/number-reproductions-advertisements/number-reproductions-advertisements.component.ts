@@ -39,7 +39,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     ngOnInit() {
         this.adPriceForm = new FormGroup({
-            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required]),
+            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1)]),
         });
     }
 
@@ -53,13 +53,13 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
          *  C x r x s x (d/10000)
          */
 
-        this.duration = 30;
-        this.maxNumberOfReproductions = Math.round(number / (this.duration * (this.adEntity.radius / 10000)));
+        this.duration = this.adEntity.duration;
+        this.maxNumberOfReproductions = Math.round(Math.abs(number) / (this.duration * (this.adEntity.radius / 10000)));
     }
 
     submit(adPriceForm) {
         if (this.adPriceForm.valid && !this.data) {
-            this.adEntity.maxPriceToPay = adPriceForm.price;
+            this.adEntity.maxPriceToPay = Math.abs(adPriceForm.price);
             this.context.setAdEntity(this.adEntity);
             // Send ad
             this.context.setSendRecord('ad');
@@ -67,7 +67,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
             this.dialogRef.close();
         } else if (this.adPriceForm.valid && this.data) {
             const ad = new Ad(this.data.ad);
-            ad.maxPriceToPay = adPriceForm.price;
+            ad.maxPriceToPay = Math.abs(adPriceForm.price);
             ad.isDelete = false;
             this.api.updateAd(ad);
             this.dialogRef.close(ad);
