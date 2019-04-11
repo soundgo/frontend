@@ -62,7 +62,8 @@ export class MenuComponent implements OnInit {
 
     searchByTags() {
         this.bottomSheet.open(TagPanelSheetComponent, {
-            // nodata
+            disableClose: true,
+            hasBackdrop: false
         });
     }
 
