@@ -7,6 +7,7 @@ import {User} from '../shared/models/User';
 import {Actor} from '../shared/models/Actor';
 import {Config} from '../shared/models/Config';
 import {Site} from '../shared/models/Site';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
     providedIn: 'root',
@@ -37,7 +38,7 @@ export class ContextService {
 
     isLocationEnabled = new BehaviorSubject<boolean>(false);
 
-    constructor() {
+    constructor(private cookieService: CookieService) {
     }
 
     getIsLocationEnabled() {
@@ -61,6 +62,10 @@ export class ContextService {
     }
 
     setUser(user: User) {
+        this.cookieService.set('user', JSON.stringify({
+            user,
+            auth: this.getAuth().getValue()
+        }));
         this.user.next(user);
     }
 

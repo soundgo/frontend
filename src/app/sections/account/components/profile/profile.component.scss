@@ -28,6 +28,20 @@
           font-size: 25px;
         }
       }
+
+    }
+
+    .spinner {
+      justify-content: center;
+    }
+
+    .profile {
+      text-align: center;
+    }
+
+    .image-upload {
+      display: flex;
+      justify-content: center;
     }
 
     .become-advertiser {
@@ -50,4 +64,17 @@
   mat-dialog-actions button {
     align-self: flex-start;
   }
+
+  .image-label {
+    margin-bottom: 25px !important;
+    font-size: 12px;
+  }
+
+  .image-upload > input {
+    visibility: hidden;
+    width: 0;
+    height: 0
+  }
+
+
 }
