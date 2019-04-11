@@ -1,10 +1,10 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ContextService} from '../../../services/context.service';
-import {Site} from 'src/app/shared/models/Site';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ContextService } from '../../../services/context.service';
+import { Site } from 'src/app/shared/models/Site';
 
-import {FormGroup, Validators, FormControl} from '@angular/forms';
-import {ApiService} from 'src/app/services/api.service';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-create-site',
@@ -13,7 +13,6 @@ import {ApiService} from 'src/app/services/api.service';
 })
 export class CreateSiteComponent implements OnInit {
 
-    dialog: MatDialog;
     siteEntity: Site;
     siteForm: FormGroup;
 
