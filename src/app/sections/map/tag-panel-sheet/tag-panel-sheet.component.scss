@@ -1,15 +1,20 @@
 @import '../../../../css/theme.scss';
 
 :host {
-  margin: 20px;
 
   .tag-search {
     width: 90%;
-    margin: 10px auto;
+    margin: 5px 5%;
     display: block;
-    font-size: 40px;
+    font-size: 30px;
     border: 0;
-    border-bottom: 3px solid $colorPrimary;
+    border-bottom: 3px solid #7D46CE;
+  }
+
+  .tag-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   .tag-wrapper > p {
@@ -22,6 +27,10 @@
     flex-flow: row;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+
+  .mat-dialog-actions {
+    float: right;
   }
 
   .tag {
@@ -58,6 +67,12 @@
 
     .close {
       background: #80808038;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .tag-wrapper {
+      width: 95%;
     }
   }
 }

@@ -48,6 +48,7 @@ export class MenuComponent implements OnInit {
     }
 
     createSite() {
+        this.isSelected = false;
         this.matDialog.open(CreateSiteComponent, {
             width: '350px',
             data: {
@@ -61,6 +62,7 @@ export class MenuComponent implements OnInit {
     }
 
     searchByTags() {
+        this.isSelected = false;
         this.bottomSheet.open(TagPanelSheetComponent, {
             disableClose: true,
             hasBackdrop: false
@@ -68,6 +70,7 @@ export class MenuComponent implements OnInit {
     }
 
     showProfile() {
+        this.isSelected = false;
         this.matDialog.open(ProfileComponent, {
             width: '330px'
         });
