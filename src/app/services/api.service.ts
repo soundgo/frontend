@@ -7,6 +7,7 @@ import {Ad} from '../shared/models/Ad';
 import {Category} from '../shared/models/Category';
 import {Site} from '../shared/models/Site';
 import {ContextService} from './context.service';
+import {CreditCard} from '../shared/models/CreditCard';
 import {User} from '../shared/models/User';
 
 @Injectable({
@@ -301,6 +302,52 @@ export class ApiService {
         });
     }
 
+    getCreditCardById(id: number) {
+        const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.get<any>(url, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+    /** POST: post an Credit carad */
+    createCreditCard(creditCard: CreditCard) {
+        const url = `${this.apiUrl}/accounts/creditcard/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.post<any>(url, creditCard.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
+    /** PUT: Update an creditcard and it is “deleted” */
+    updateCreditCard(id: number, creditCard: CreditCard) {
+        const url = `${this.apiUrl}/accounts/creditcard/${id}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+        return new Promise(resolve => {
+            this.http.put<any>(url, creditCard.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
     /** POST: Create an advertisement in the map */
     createAd(ad: Ad) {
         const url = `${this.apiUrl}/records/advertisement/`;
@@ -464,12 +511,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.get<any>(url, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 

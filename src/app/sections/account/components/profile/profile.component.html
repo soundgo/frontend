@@ -1,26 +1,35 @@
 <mat-dialog-actions>
-  <h1 mat-dialog-title>Profile</h1>
-  <button mat-button color="warn" (click)="onClose()">Close</button>
+    <h1 mat-dialog-title>Profile</h1>
+    <button mat-button color="warn" (click)="onClose()">Close</button>
 </mat-dialog-actions>
 <mat-dialog-content>
-  <div class="profile">
-    <form>
-      <div class="image-upload">
-        <label for="file-input">
-          <img *ngIf="!isLoading" class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'" />
-          <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
-        </label>
-        <input id="file-input" type="file" name="image" (change)="submitAvatar($event)" />
-      </div>
-    </form>
-    <p class="image-label">Press in avatar image to change it</p>
-    <p>{{user.nickname}}</p>
-    <p>{{user.email}}
-      <span><button mat-button color="primary" (click)="editProfile()">Edit</button></span>
-    </p>
-  </div>
-  <div class="become-advertiser" *ngIf="!isAdvertiser">
-    <hr>
-    <p>Become an <span>Advertiser</span></p>
-  </div>
+    <div class="profile">
+        <form>
+            <div class="image-upload">
+                <label for="file-input">
+                    <img *ngIf="!isLoading" class="photo_profile" alt="avatar"
+                         [src]="user.photo || '/assets/images/anonymous.png'"/>
+                    <mat-spinner class="spinner" *ngIf="isLoading"></mat-spinner>
+                </label>
+                <input id="file-input" type="file" name="image" (change)="submitAvatar($event)"/>
+            </div>
+        </form>
+        <p class="image-label">Press in avatar image to change it</p>
+        <p class="nickname">{{user.nickname}}</p>
+        <p class="email">{{user.email}}
+            <span><button mat-button color="primary" (click)="editProfile()">Edit</button></span>
+        </p>
+    </div>
+    <ng-template [ngIf]="auth === 'user'">
+        <hr>
+        <div class="become-advertiser">
+            <p (click)="becomeAdvertiser()">Become an <span>Advertiser</span></p>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="auth === 'advertiser'">
+        <hr>
+        <div class="become-advertiser">
+            <p (click)="becomeAdvertiser()">Edit your payment method</p>
+        </div>
+    </ng-template>
 </mat-dialog-content>

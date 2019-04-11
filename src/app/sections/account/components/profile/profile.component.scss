@@ -1,55 +1,80 @@
 @import '../../../../../css/theme.scss';
 
 :host {
-    mat-dialog-content {
-        overflow: hidden;
+  mat-dialog-content {
+    overflow: hidden;
+
+    hr {
+      margin: 20px 0;
     }
-    mat-dialog-actions {
-        justify-content: space-between;
-        padding: 0px 0px 15px;
-    }
-    mat-dialog-actions button {
-        align-self: flex-start;
-    }
-    .photo_profile {
+
+
+    .profile {
+      text-align: center;
+
+      .photo_profile {
         cursor: pointer;
         border-radius: 100%;
         box-shadow: 0 1px 3px #0000009e;
         width: 90px;
         height: 90px;
-    }
-    .spinner {
-        justify-content: center;
-    }
-    .profile {
-        text-align: center;
-    }
-    .image-upload {
-        display: flex;
-        justify-content: center;
-    }
-    .profile p {
+        margin-bottom: 10px;
+      }
+
+      p {
         margin: 10px;
-    }
-    .become-advertiser {
-        cursor: pointer;
-        margin-top: 25px;
-        font-size: 19px;
-        text-align: center;
-    }
-    .become-advertiser span {
-        color: $yellow;
-        font-weight: 600;
-    }
-    .image-label {
-        margin-bottom: 25px !important;
-        font-size: 12px;
-    }
-    .image-upload > input {
-        visibility:hidden;
-        width:0;
-        height:0
+
+        &.nickname {
+          font-size: 25px;
+        }
+      }
+
     }
 
-    
+    .spinner {
+      justify-content: center;
+    }
+
+    .profile {
+      text-align: center;
+    }
+
+    .image-upload {
+      display: flex;
+      justify-content: center;
+    }
+
+    .become-advertiser {
+      cursor: pointer;
+      font-size: 19px;
+      text-align: center;
+
+      span {
+        color: #dcc51b;
+        font-weight: 600;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    justify-content: space-between;
+    padding: 0px 0px 15px;
+  }
+
+  mat-dialog-actions button {
+    align-self: flex-start;
+  }
+
+  .image-label {
+    margin-bottom: 25px !important;
+    font-size: 12px;
+  }
+
+  .image-upload > input {
+    visibility: hidden;
+    width: 0;
+    height: 0
+  }
+
+
 }
