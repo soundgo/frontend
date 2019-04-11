@@ -445,6 +445,10 @@ export class ApiService {
     handleError(response: any = {}) {
         this.context.setError(null);
         this.context.setLoading(false);
+        this.context.setSiteId(null);
+        this.context.setAdEntity(null);
+        this.context.setAudioEntity(null);
+        this.context.setSiteEntity(null);
         if (response.error) {
             this.context.setError(response.error);
         } else {
