@@ -102,10 +102,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError({
-                error: 'There\'s been an unusual error',
-                details: ''
-            }));
+            this.http.put<any>(url, {}, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -125,12 +122,7 @@ export class ApiService {
                 };
             }
 
-            this.http.get<any>(url, header).subscribe((response: any) => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url, header).subscribe((response: any) => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -146,12 +138,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -167,12 +154,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, audio.toJSON ? audio.toJSON() : audio, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, (err) => this.handleError(err));
+            this.http.put<any>(url, audio.toJSON ? audio.toJSON() : audio, header).subscribe(response => resolve(response), (err) => this.handleError(err));
         });
     }
 
@@ -189,9 +171,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.delete<any>(url, header).subscribe(response => {
-                resolve(response);
-            }, (err) => this.handleError(err));
+            this.http.delete<any>(url, header).subscribe(response => resolve(response), (err) => this.handleError(err));
         });
     }
 
@@ -200,12 +180,7 @@ export class ApiService {
         const url = `${this.apiUrl}/records/audio/site/categories/${id}/?categories=${this.context.getCategoriesSelected().getValue()}`;
 
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -221,12 +196,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, audio.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -234,12 +204,7 @@ export class ApiService {
     getReportedAudios(id: number) {
         const url = `${this.apiUrl}/records/audios/reported/`;
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -255,12 +220,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, null, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, null, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -276,12 +236,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, null, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, null, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -293,12 +248,7 @@ export class ApiService {
     getAdById(id: number) {
         const url = `${this.apiUrl}/records/advertisement/${id}/`;
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -360,12 +310,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, ad.toJSON(), header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, ad.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -380,12 +325,7 @@ export class ApiService {
             })
         };
         return new Promise(resolve => {
-            this.http.put<any>(url, ad, header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.put<any>(url, ad, header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -397,12 +337,7 @@ export class ApiService {
     updateCategory(cat: Category) {
         const url = `${this.apiUrl}/category/${cat.id}/`;
         return new Promise(resolve => {
-            this.http.put<any>(url, cat.toJSON()).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.put<any>(url, cat.toJSON()).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -431,12 +366,7 @@ export class ApiService {
     getSiteById(id: number) {
         const url = `${this.apiUrl}/sites/site/${id}/`;
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -452,12 +382,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.post<any>(url, site.toJSON(), header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.post<any>(url, site.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -473,12 +398,7 @@ export class ApiService {
         };
 
         return new Promise(resolve => {
-            this.http.put<any>(url, site.toJSON(), header).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.put<any>(url, site.toJSON(), header).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
@@ -496,7 +416,7 @@ export class ApiService {
 
         return new Promise(resolve => {
             this.http.delete<any>(url, header).subscribe(response => resolve(response),
-                err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+                err => this.handleError(err));
         });
     }
 
@@ -518,17 +438,17 @@ export class ApiService {
     getConfiguration() {
         const url = `${this.apiUrl}/configuration/`;
         return new Promise(resolve => {
-            this.http.get<any>(url).subscribe(response => {
-                if (response.error) {
-                    this.handleError(response);
-                }
-                resolve(response);
-            }, err => this.handleError({error: 'There\'s been an unusual error', details: ''}));
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
         });
     }
 
     handleError(response: any = {}) {
         this.context.setError(null);
+        this.context.setLoading(false);
+        this.context.setSiteId(null);
+        this.context.setAdEntity(null);
+        this.context.setAudioEntity(null);
+        this.context.setSiteEntity(null);
         if (response.error) {
             this.context.setError(response.error);
         } else {

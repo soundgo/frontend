@@ -38,7 +38,17 @@ export class ContextService {
 
     isLocationEnabled = new BehaviorSubject<boolean>(false);
 
+    loading = new BehaviorSubject<boolean>(false);
+
     constructor(private cookieService: CookieService) {
+    }
+
+    setLoading(loading: boolean) {
+        this.loading.next(loading);
+    }
+
+    getLoading() {
+        return this.loading;
     }
 
     getIsLocationEnabled() {

@@ -13,17 +13,20 @@ import {ApiService} from 'src/app/services/api.service';
     styleUrls: ['./number-reproductions-advertisements.component.scss']
 })
 export class NumberReproductionsAdvertisementsComponent implements OnInit {
-    @HostListener('keydown', ['$event'])
-    onKeyDown(e: KeyboardEvent) {
-    if (e.key === '-') {
-        e.preventDefault();
-    }
-    }
+
     duration: number;
     adEntity: Ad;
     adPriceForm: FormGroup;
 
     maxNumberOfReproductions: number;
+
+    @HostListener('keydown', ['$event'])
+    onKeyDown(e: KeyboardEvent) {
+        if (e.key === '-') {
+            e.preventDefault();
+        }
+    }
+
 
     constructor(private api: ApiService,
                 private context: ContextService,
@@ -73,6 +76,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
             this.dialogRef.close(ad);
         }
     }
+
     absolute(value) {
         return Math.abs(value);
     }

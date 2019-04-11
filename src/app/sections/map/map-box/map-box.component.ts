@@ -1,25 +1,20 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {
     MatBottomSheet,
-    MatBottomSheetRef,
-    MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material';
 import {MapService} from '../../../services/map.service';
 import {ContextService} from '../../../services/context.service';
 import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {FeatureCollection, GeoJson} from '../../../shared/models/Map';
 import {Site} from '../../../shared/models/Site';
 import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
-import {Audio} from '../../../shared/models/Audio';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ApiService} from '../../../services/api.service';
 import {AdReproducerPanelComponent} from '../ad-reproducer-panel/ad-reproducer-panel.component';
-import {Ad} from '../../../shared/models/Ad';
 
 import * as turf from '@turf/turf';
-import {database} from 'firebase';
 
 @Component({
     selector: 'app-map-box',
@@ -31,7 +26,6 @@ export class MapBoxComponent implements OnInit {
     map: mapboxgl.Map;
     style = 'mapbox://styles/soundgo/cjtheyu3i008g1gmp23th92b9';
     container = 'map';
-    subscription: Subscription;
     source: any;
 
     audios: Observable<any[]>;
@@ -46,18 +40,12 @@ export class MapBoxComponent implements OnInit {
     siteEntity: Site;
     siteMarker: any;
     categoriesSelected = 'Tourism,Experience,Leisure';
-    tagsSelected: string;
 
     constructor(private bottomSheet: MatBottomSheet,
                 private mapService: MapService,
                 private context: ContextService,
                 private db: AngularFirestore,
                 private api: ApiService) {
-
-        // Observable in database
-        this.audios = db.collection('audios').valueChanges();
-        this.ads = db.collection('ads').valueChanges();
-        this.sites = db.collection('sites').valueChanges();
 
         // Filter audio category
         this.context.getCategoriesSelected().subscribe(categoriesSelected => {
@@ -97,7 +85,6 @@ export class MapBoxComponent implements OnInit {
                 this.showPlaceMarkerForm = false;
             }
         });
-
     }
 
     ngOnInit() {
@@ -107,9 +94,9 @@ export class MapBoxComponent implements OnInit {
     filterCategories(categoriesSelected) {
         const res: any[] = ['any'];
 
-        const arrayCategoriesSelected = categoriesSelected.split(',');
-        for (let cat of arrayCategoriesSelected)
+        categoriesSelected.split(',').forEach(cat => {
             res.push(['==', 'type', cat]);
+        });
 
         return res;
     }
@@ -119,13 +106,9 @@ export class MapBoxComponent implements OnInit {
         this.adSource = this.map.getSource('ads');
         this.siteSource = this.map.getSource('sites');
 
-        this.audios.subscribe(data => {
-            this.audioSource.setData(new FeatureCollection(data));
-        });
-        this.ads.subscribe(data => {
-            this.adSource.setData(new FeatureCollection(data));
-        });
-        this.sites.subscribe(data => {
+        this.showAudios();
+
+        this.db.collection('sites').valueChanges().subscribe((data: GeoJson[]) => {
             this.siteSource.setData(new FeatureCollection(data));
         });
     }
@@ -181,49 +164,29 @@ export class MapBoxComponent implements OnInit {
         });
     }
 
-    isUserInsideAdvertArea(ad, position = this.context.getPosition().getValue()) {
-        if (position) {
-            const {latitude, longitude} = position;
-            const userPosition = turf.point([longitude, latitude]);
-            const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
-            const radius = ad.properties.radius / 1000;
-            const adCircle = turf.circle(center, radius);
-            return turf.booleanPointInPolygon(userPosition, adCircle);
-        }
-    }
-
-    showMarkerPlaceSite() {
-
-        const center = this.map.getCenter();
-        this.siteMarker = new mapboxgl.Marker({
-            draggable: true
-        })
-            .setLngLat([center.lng, center.lat])
-            .addTo(this.map);
-    }
-
-    saveSiteForm() {
-        this.siteEntity = this.context.getSiteEntity().getValue();
-
-        const {lng, lat} = this.siteMarker.getLngLat();
-        this.siteEntity.longitude = lng;
-        this.siteEntity.latitude = lat;
-
-        this.context.setSiteEntity(this.siteEntity);
-        this.api.createSite(this.siteEntity).then(response => {
-            console.log('Site created response', response);
+    showAudios() {
+        this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
+            const isBadFormattedData = data.some(ad => this.isEmtpy(ad));
+            if (!isBadFormattedData) {
+                const user = this.context.getUser().getValue();
+                const filteredAudios = this.filterAudios(data, user);
+                this.audioSource.setData(new FeatureCollection(filteredAudios));
+            }
         });
-        this.context.setIsMarkerSiteVisible(false);
-        this.siteMarker.remove();
     }
 
-    closeSiteForm() {
-        this.context.setIsMarkerSiteVisible(false);
-        this.siteMarker.remove();
+    showAds(position) {
+        this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
+            const isBadFormattedData = data.some(ad => this.isEmtpy(ad));
+            if (!isBadFormattedData) {
+                const user = this.context.getUser().getValue();
+                const filteredAds = this.filterAds(data, user, position);
+                this.adSource.setData(new FeatureCollection(filteredAds));
+            }
+        });
     }
 
     buildMap() {
-        // Create map site
         Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken')
             .set('pk.eyJ1Ijoic291bmRnbyIsImEiOiJjanRlYmM5dXcxY2tqNGFwYzNrOGkwcngzIn0.aBKY-GfqDJRHrxP0e2Yc0Q');
 
@@ -246,50 +209,28 @@ export class MapBoxComponent implements OnInit {
         });
         this.map.addControl(geolocation);
 
-        // Add button to know your position
         this.map.addControl(new mapboxgl.NavigationControl());
 
         this.map.on('load', () => {
-            this.initSourceLayers();
-            this.initDataListeners();
+            geolocation.trigger();
 
-            this.context.getAuth().subscribe(_ => {
-                const position = this.context.getPosition().getValue();
-                if (position) {
-                    const {latitude, longitude} = position;
-                    this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
-                        const user = this.context.getUser().getValue();
-                        if (!data.some(ads => JSON.stringify(ads) === JSON.stringify({}))) {
-                            data = data.filter(ad => {
-                                return (user && user.id === (ad as any).properties.actorId) ||
-                                    this.isUserInsideAdvertArea(ad, {latitude, longitude});
-                            });
-                            this.adSource.setData(new FeatureCollection(data));
+            geolocation.on('geolocate', () => {
+                if (this.context.getPosition().getValue() === null) {
+                    this.initSourceLayers();
+                    this.initDataListeners();
+
+                    this.context.getAuth().subscribe(_ => {
+                        const position = this.context.getPosition().getValue();
+                        if (position) {
+                            this.showAds(position);
                         }
                     });
                 }
-            });
 
-            geolocation.trigger();
-            geolocation.on('geolocate', () => {
-
-                const userlocation = (geolocation as any)._lastKnownPosition;
-
-                const latitude = userlocation.coords.latitude;
-                const longitude = userlocation.coords.longitude;
-
+                const userLocation = (geolocation as any)._lastKnownPosition;
+                const {latitude, longitude} = userLocation.coords;
                 this.context.setPosition({latitude, longitude});
-
-                this.db.collection('ads').valueChanges().subscribe((data: GeoJson[]) => {
-                    const user = this.context.getUser().getValue();
-                    if (!data.some(ads => JSON.stringify(ads) === JSON.stringify({}))) {
-                        data = data.filter(ad => {
-                            return (user && user.id === (ad as any).properties.actorId) ||
-                                this.isUserInsideAdvertArea(ad, {latitude, longitude});
-                        });
-                        this.adSource.setData(new FeatureCollection(data));
-                    }
-                });
+                this.showAds({latitude, longitude});
             });
 
             this.isDataLoaded = true;
@@ -346,4 +287,81 @@ export class MapBoxComponent implements OnInit {
             }
         });
     }
+
+    showMarkerPlaceSite() {
+
+        const center = this.map.getCenter();
+        this.siteMarker = new mapboxgl.Marker({
+            draggable: true
+        })
+            .setLngLat([center.lng, center.lat])
+            .addTo(this.map);
+    }
+
+    saveSiteForm() {
+        this.context.setLoading(true);
+        this.siteEntity = this.context.getSiteEntity().getValue();
+
+        const {lng, lat} = this.siteMarker.getLngLat();
+        this.siteEntity.longitude = lng;
+        this.siteEntity.latitude = lat;
+
+        this.context.setSiteEntity(this.siteEntity);
+        this.api.createSite(this.siteEntity).then(response => {
+            console.log('Site created response', response);
+            this.context.setLoading(false);
+        });
+        this.context.setIsMarkerSiteVisible(false);
+        this.siteMarker.remove();
+    }
+
+    closeSiteForm() {
+        this.context.setIsMarkerSiteVisible(false);
+        this.siteMarker.remove();
+    }
+
+    isUserInsideAdvertArea(ad, position = this.context.getPosition().getValue()) {
+        if (position) {
+            const {latitude, longitude} = position;
+            const userPosition = turf.point([longitude, latitude]);
+            const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
+            const radius = ad.properties.radius / 1000;
+            const adCircle = turf.circle(center, radius);
+            return turf.booleanPointInPolygon(userPosition, adCircle);
+        }
+    }
+
+    isEmtpy(item) {
+        return JSON.stringify(item) === JSON.stringify({});
+    }
+
+    notFilterRecordIfUserIsOwner(record, user) {
+        return user && user.id === (record as any).properties.actorId;
+    }
+
+    filterAudioTimePass(audio) {
+        return audio.properties.timestampFinish.seconds >= (Date.now() / 1000);
+    }
+
+    filterAds(data, user, position) {
+        return data.filter(ad => {
+            return this.notFilterRecordIfUserIsOwner(ad, user) ||
+                this.isUserInsideAdvertArea(ad, {
+                    latitude: position.latitude,
+                    longitude: position.longitude
+                }) &&
+                ad.properties.isActive &&
+                !ad.properties.isDelete;
+        });
+    }
+
+    filterAudios(data, user) {
+        return data.filter(audio => {
+            return this.notFilterRecordIfUserIsOwner(audio, user) ||
+                this.filterAudioTimePass(audio) &&
+                !audio.properties.isInappropriate &&
+                !audio.properties.site;
+        });
+    }
+
 }

@@ -41,6 +41,7 @@ export class RecordComponent implements OnInit {
     }
 
     createAd(adEntity) {
+        this.context.setLoading(true);
         this.api
             .createAd(adEntity)
             .then(response => {
@@ -49,14 +50,13 @@ export class RecordComponent implements OnInit {
                 const user = this.context.getUser().getValue();
                 user.minutes -= adEntity.duration;
                 this.context.setUser(user);
-                // this.router.navigate(['/ad']);
-
+                this.context.setLoading(false);
             });
     }
 
     createAudioSite(audioEntity) {
-        this.api
-            .createSiteAudio(audioEntity, this.context.getSiteId().getValue())
+        this.context.setLoading(true);
+        this.api.createSiteAudio(audioEntity, this.context.getSiteId().getValue())
             .then(response => {
                 console.log('createAudio:', response);
                 this.context.setSiteId(null);
@@ -64,16 +64,19 @@ export class RecordComponent implements OnInit {
                 const user = this.context.getUser().getValue();
                 user.minutes -= audioEntity.duration;
                 this.context.setUser(user);
+                this.context.setLoading(false);
             });
     }
 
     createAudio(audioEntity) {
+        this.context.setLoading(true);
         this.api.createAudio(audioEntity).then(response => {
             console.log('createAudio:', response);
             // Reduce minutes of user
             const user = this.context.getUser().getValue();
             user.minutes -= audioEntity.duration;
             this.context.setUser(user);
+            this.context.setLoading(false);
         });
     }
 

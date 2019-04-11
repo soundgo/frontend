@@ -68,11 +68,26 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     }
 
     onFinish(params) {
-        const {timeToListenAnAdvertisement} = this.context.getConfig().getValue();
-        this.record.numberReproductions = this.record.numberReproductions + 1;
-        const duration = (params.currentTarget.children[1].duration * timeToListenAnAdvertisement);
-        if (this.finishAction) {
-            this.finishAction.emit({duration});
+        const user = this.context.getUser().getValue();
+        if (user) {
+            const auth = this.context.getAuth().getValue();
+            if (auth !== 'advertiser' && !(this.record instanceof Ad) && this.record.name !== user.nickname) {
+                this.record.numberReproductions = this.record.numberReproductions + 1;
+                if (this.finishAction) {
+                    this.finishAction.emit({
+                        nickname: this.record.name,
+                        duration: params.currentTarget.children[1].duration
+                    });
+                }
+            }
+        } else {
+            this.record.numberReproductions = this.record.numberReproductions + 1;
+            if (this.finishAction) {
+                this.finishAction.emit({
+                    nickname: this.record.name,
+                    duration: params.currentTarget.children[1].duration
+                });
+            }
         }
     }
 
