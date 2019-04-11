@@ -11,11 +11,12 @@ import {HttpLoaderFactory} from '../app.module';
 import {MatSnackBar, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material';
 import {PlyrModule} from 'ngx-plyr';
 import {MaterialModule} from '../material.module';
-import { ShowcaseComponent } from './components/showcase/showcase.component';
+import {ShowcaseComponent} from './components/showcase/showcase.component';
 import {CreateSiteComponent} from '../sections/map/create-site/create-site.component';
-import { ReproducerButtonComponent } from './components/reproducer-button/reproducer-button.component';
-import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
+import {ReproducerButtonComponent} from './components/reproducer-button/reproducer-button.component';
+import {NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {DeleteModalComponent} from './components/delete-modal/delete-modal.component';
+import {LoadingComponent} from './components/loading/loading.component';
 
 const components = [
     ButtonComponent,
@@ -24,17 +25,19 @@ const components = [
     ErrorsManagementComponent,
     ReproducerComponent,
     ShowcaseComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    ReproducerButtonComponent,
+    LoadingComponent
 ];
 
 @NgModule({
-    declarations: [...components, ReproducerButtonComponent],
+    declarations: [...components],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
     entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent, DeleteModalComponent],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
         NO_ERRORS_SCHEMA
-      ],
+    ],
     imports: [
         CommonModule,
         MaterialModule,
@@ -50,8 +53,7 @@ const components = [
         })
     ],
     exports: [
-        ...components,
-        ReproducerButtonComponent
+        ...components
     ]
 })
 export class SharedModule {
