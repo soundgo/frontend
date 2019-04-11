@@ -5,8 +5,9 @@
         We will show how many reproductions can have your ad.
     </p>
     <mat-form-field>
-        <input matInput type="number" min="0" formControlName="price" (input)="calculatePrice(adPriceForm.value.price)" digitOnly/>
+        <input matInput type="number" min="1" formControlName="price" (input)="calculatePrice(adPriceForm.value.price)" digitOnly/>
         <mat-error *ngIf="hasError('price', 'required')">Price is required</mat-error>
+        <mat-error *ngIf="hasError('price', 'min')">Min value is 1€</mat-error>
     </mat-form-field>
 </mat-dialog-content>
 <div class="numReproductions" *ngIf="maxNumberOfReproductions">
