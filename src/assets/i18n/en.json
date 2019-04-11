@@ -44,7 +44,7 @@
   "ACTOR_NOT_ALLOW": "This user cannot make this action.",
   "UPDATE_AUDIO": "There's been an error in the update.",
   "LISTEN_AUDIO": "There's an error to listen audio.",
-  "LISTEN_ADVERTISEMENT": "There's an error to listen advertisement.",
+  "LISTEN_ADVERTISEMENT": "There has been an error in ad reproduction.",
   "SAVE_LIKE": "There's a problem during the request to save the like.",
   "ALREADY_LIKED": "This audio is already liked.",
   "SAVE_REPORT": "There's a problem during the request to save the report.",
@@ -56,5 +56,4 @@
   "DELETE_SITE": "There was a problem during the request to delete the site.",
   "SITE_NOT_BELONG": "The site does not belong to the logged user.",
   "GET_TAGS": "You must specify the tags."
-
 }
