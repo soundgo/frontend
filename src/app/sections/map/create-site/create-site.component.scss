@@ -1,18 +1,15 @@
 @import '../../../../css/theme.scss';
-
-.saveButton {
+:host {
+  .saveButton {
     color: $purple;
-}
-.mat-dialog-actions {
-  justify-content: center;
-}
-.mat-dialog-content {
-  text-align: center;
-}
-.mat-form-field {
-  width: 80%;
-}
-.prueba {
-  position: absolute;
-  top:0px;
+  }
+  .mat-dialog-actions {
+    justify-content: center;
+  }
+  .mat-dialog-content {
+    text-align: center;
+  }
+  .mat-form-field {
+    width: 80%;
+  }
 }

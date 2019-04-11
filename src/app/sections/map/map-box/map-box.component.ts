@@ -69,12 +69,17 @@ export class MapBoxComponent implements OnInit {
 
         // Filter by tags
         this.context.getTagsSelected().subscribe(tagsSelected => {
-            if (tagsSelected !== null) {
-                const arTagsSelected = tagsSelected.split(',');
+            if (tagsSelected && tagsSelected[0] === 'active-tag-panel-sheet') {
+                this.audioSource.setData(new FeatureCollection([]));
+            } else if (tagsSelected && tagsSelected[0] === 'inactive-tag-panel-sheet') {
+                this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
+                    this.audioSource.setData(new FeatureCollection(data));
+                });
+            } else if (tagsSelected !== null) {
                 this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
                     data = data.filter(({properties}: any) => {
-                        return properties.tags.length === 0 || properties.tags.some(tag => {
-                            return arTagsSelected.indexOf(tag) !== -1;
+                        return properties.tags.length !== 0 && properties.tags.some(tag => {
+                            return tagsSelected.indexOf(tag) !== -1;
                         });
                     });
                     this.audioSource.setData(new FeatureCollection(data));

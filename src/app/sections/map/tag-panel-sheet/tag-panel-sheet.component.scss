@@ -1,13 +1,63 @@
+@import '../../../../css/theme.scss';
+
 :host {
-  button {
-    margin: 5px 5px;
+  margin: 20px;
+
+  .tag-search {
+    width: 90%;
+    margin: 10px auto;
+    display: block;
+    font-size: 40px;
+    border: 0;
+    border-bottom: 3px solid $colorPrimary;
   }
-  .buttonDisabled {
-    background: #b1bfbb;
-    color: #dbdbdb;
+
+  .tag-wrapper > p {
+    margin: 10px 20px;
+    font-size: 22.5px;
   }
-  .button {
-    background: #04b289;
-    color: #fff;
+
+  .mat-dialog-content {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    display: flex;
+    align-items: center;
+    background: #80808026;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 4px 5px;
+    flex: 1 0 auto;
+    cursor: pointer;
+
+    p {
+      flex: 1 0 auto;
+    }
+
+    .add, .close {
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-right: -5px;
+      color: white;
+      margin-left: 10px;
+      font-size: 14px;
+      float: right;
+    }
+
+    .add {
+      background: forestgreen;
+    }
+
+    .close {
+      background: #80808038;
+    }
   }
 }

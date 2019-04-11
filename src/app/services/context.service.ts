@@ -29,7 +29,7 @@ export class ContextService {
     categoriesSelected = new BehaviorSubject<string>(
         'Tourism,Experience,Leisure'
     );
-    tagsSelected = new BehaviorSubject<string>(null);
+    tagsSelected = new BehaviorSubject<string[]>(null);
     siteId = new BehaviorSubject<number>(null);
     user = new BehaviorSubject<User>(null);
     config = new BehaviorSubject<Config>(new Config());
@@ -89,7 +89,7 @@ export class ContextService {
         return this.tagsSelected;
     }
 
-    setTagsSelected(tagsSelected: string) {
+    setTagsSelected(tagsSelected: string[]) {
         this.tagsSelected.next(tagsSelected);
     }
 
