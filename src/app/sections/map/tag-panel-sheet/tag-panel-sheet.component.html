@@ -7,6 +7,9 @@
     </ng-template>
 
     <ng-template [ngIf]="tags && tags.length !== 0">
+        <mat-dialog-actions>
+            <button mat-button color="warn" (click)="onClose()">Close</button>
+        </mat-dialog-actions>
         <div class="tag-wrapper" *ngIf="isTagsSelectedAvailable()">
             <p>Tags selected</p>
             <div mat-dialog-content>

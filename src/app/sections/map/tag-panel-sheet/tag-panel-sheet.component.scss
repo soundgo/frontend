@@ -12,6 +12,13 @@
     border-bottom: 3px solid $colorPrimary;
   }
 
+  .tag-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 150px;
+  }
+
   .tag-wrapper > p {
     margin: 10px 20px;
     font-size: 22.5px;
@@ -22,6 +29,13 @@
     flex-flow: row;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+
+  .mat-dialog-actions {
+    display: flex;
+    padding: 0px;
+    min-height: 0px;
+    justify-content: flex-end;
   }
 
   .tag {
@@ -58,6 +72,11 @@
 
     .close {
       background: #80808038;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .tag-wrapper {
+      width: 95%;
     }
   }
 }

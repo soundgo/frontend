@@ -47,6 +47,10 @@ export class TagPanelSheetComponent implements OnInit, OnDestroy {
         return this.tagsSelected.indexOf(tag) !== -1;
     }
 
+    onClose() {
+        this.bottomSheetRef.dismiss();
+    }
+
     toggleTag(tag) {
         if (this.isTagActive(tag)) {
             this.tagsSelected.splice(this.tagsSelected.indexOf(tag), 1);
