@@ -54,10 +54,8 @@ export class TagPanelSheetComponent implements OnInit, OnDestroy {
     toggleTag(tag) {
         if (this.isTagActive(tag)) {
             this.tagsSelected.splice(this.tagsSelected.indexOf(tag), 1);
-            this.searchTags(this.term);
         } else {
             this.tagsSelected.push(tag);
-            this.tagsFound.splice(this.tagsFound.indexOf(tag), 1);
         }
         this.context.setTagsSelected(this.tagsSelected);
     }
@@ -66,7 +64,7 @@ export class TagPanelSheetComponent implements OnInit, OnDestroy {
         this.term = $event.target ? $event.target.value : this.term;
         this.tagsFound = this.tags.filter((tag: any) => {
             return this.tagsSelected.indexOf(this.term) === -1 && tag.toLowerCase().includes(this.term.toLowerCase());
-        });
+        }).slice(0, 10);
     }
 
     isTagsFoundAvailable() {

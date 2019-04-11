@@ -1,6 +1,4 @@
-<div *ngIf="!isLoading else loading">
-
-    <!-- <p (click)="closeTagPanel()">Close</p> -->
+<div *ngIf="!isLoading; else loading">
 
     <ng-template [ngIf]="tags && tags.length === 0">
         <p>There's no tags</p>
@@ -10,16 +8,6 @@
         <mat-dialog-actions>
             <button mat-button color="warn" (click)="onClose()">Close</button>
         </mat-dialog-actions>
-        <div class="tag-wrapper" *ngIf="isTagsSelectedAvailable()">
-            <p>Tags selected</p>
-            <div mat-dialog-content>
-                <div class="tag" (click)="toggleTag(tag)" *ngFor="let tag of tagsSelected">
-                    <p>{{tag}}</p>
-                    <div class="close">X</div>
-                </div>
-            </div>
-        </div>
-        <br>
 
         <input class="tag-search" type="text" (keyup)="searchTags($event)" placeholder="Search tags...">
 
@@ -29,7 +17,8 @@
             <div mat-dialog-content>
                 <div class="tag" (click)="toggleTag(tag)" *ngFor="let tag of tagsFound">
                     <p>{{tag}}</p>
-                    <div class="add">+</div>
+                    <div class="add" *ngIf="!isTagActive(tag)">+</div>
+                    <div class="close" *ngIf="isTagActive(tag)">X</div>
                 </div>
             </div>
         </div>
@@ -38,14 +27,3 @@
 <ng-template #loading>
     <p>Loading search by tags...</p>
 </ng-template>
-
-
-<!--<div *ngIf="isLoading">
-  <p>Loading tags...</p>
-</div>
-<div *ngIf="!isLoading">
-  <button *ngFor="let tag of tags" mat-flat-button [class.buttonDisabled]="!isActive(tag)"
-  [class.button]="isActive(tag)" (click)="selectTag(tag)">
-    #{{tag}}
-  </button>
-</div>-->
