@@ -1,11 +1,6 @@
-<ng-template [ngIf]="isLoading">
+<div *ngIf="!isLoading else loading">
 
-
-</ng-template>
-
-<ng-template [ngIf]="!isLoading">
-
-    <p (click)="closeTagPanel()">Close</p>
+    <!-- <p (click)="closeTagPanel()">Close</p> -->
 
     <ng-template [ngIf]="tags && tags.length === 0">
         <p>There's no tags</p>
@@ -36,7 +31,11 @@
             </div>
         </div>
     </ng-template>
+</div>
+<ng-template #loading>
+    <p>Loading search by tags...</p>
 </ng-template>
+
 
 <!--<div *ngIf="isLoading">
   <p>Loading tags...</p>
