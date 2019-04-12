@@ -3,7 +3,7 @@
 :host {
 
   .tag-search {
-    width: 90%;
+    width: 80%;
     margin: 5px 5%;
     display: block;
     font-size: 30px;
@@ -30,7 +30,8 @@
   }
 
   .mat-dialog-actions {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .tag {
