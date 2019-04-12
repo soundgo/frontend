@@ -13,11 +13,11 @@
     flex-flow: column;
     align-items: center;
     width: 100%;
-    padding: 5px 0;
 
     &.opened {
       max-height: 500px;
       opacity: 1;
+      padding: 5px 0;
     }
   }
 
