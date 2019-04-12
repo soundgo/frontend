@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit, ViewChildren, AfterViewInit} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewChildren, AfterViewInit, OnDestroy} from '@angular/core';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {ContextService} from '../../../../services/context.service';
@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs';
     templateUrl: './audio-record.component.html',
     styleUrls: ['./audio-record.component.scss'],
 })
-export class AudioRecordComponent extends RecorderComponent {
+export class AudioRecordComponent extends RecorderComponent implements OnDestroy {
 
     @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
@@ -28,33 +28,43 @@ export class AudioRecordComponent extends RecorderComponent {
     pressToStop = false;
     showUserCantRecord = false;
 
+    isAlreadyStopped = false;
+
     constructor(
         protected audioRecord: AudioRecordService,
         protected context: ContextService,
         protected dialog: MatDialog,
     ) {
         super(audioRecord, context);
-        this.subscription = this.context.getIsRecordingAudio().subscribe(isRecordingAudio => {
-            if (isRecordingAudio) {
+        this.subscription.add(this.context.getIsRecordingAudio().subscribe(isRecordingAudio => {
+            if (isRecordingAudio && this.context.getSiteId().getValue()) {
                 this.startRecord();
             }
-        });
-        this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+        }));
+        this.subscription.add(this.context.getIsRecorded().subscribe(isRecorded => {
             if (isRecorded) {
                 this.isRecorded = false;
             }
-        });
-        this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+        }));
+        this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
-            if (duration > 56 && auth === 'user') {
-                this.stopRecord();
+            const user = this.context.getUser().getValue();
+            if (duration !== 0 && (duration > 56 && auth === 'user' || duration >= user.minutes)) {
+                if (!this.isAlreadyStopped) {
+                    this.stopRecord();
+                    this.isAlreadyStopped = true;
+                }
             }
-        });
-        this.context.getUser().subscribe(user => {
+        }));
+        this.subscription.add(this.context.getUser().subscribe(user => {
             if (user) {
                 this.showUserCantRecord = user.minutes <= 0;
             }
-        });
+        }));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     startRecord() {
@@ -77,28 +87,35 @@ export class AudioRecordComponent extends RecorderComponent {
     }
 
     async stopRecord(): Promise<void> {
-        this.audioEntity.duration = this.audioRecord.getRecordedTime().getValue();
-        if (this.audioEntity.duration !== 0) {
-            this.siriWave.setAmplitude(0);
-            this.audioEntity.base64 = await super.stopRecording();
+        if (this.siriWave) {
+            if (!this.audioEntity) {
+                this.audioEntity = new Audio();
+            }
+            this.audioEntity.duration = this.audioRecord.getRecordedTime().getValue();
+            if (this.audioEntity.duration !== 0) {
+                this.siriWave.setAmplitude(0);
+                this.audioEntity.base64 = await super.stopRecording();
 
-            const {latitude, longitude} = this.context.getPosition().getValue();
-            this.audioEntity.latitude = latitude;
-            this.audioEntity.longitude = longitude;
+                const {latitude, longitude} = this.context.getPosition().getValue();
+                this.audioEntity.latitude = latitude;
+                this.audioEntity.longitude = longitude;
 
-            this.context.setAudioEntity(this.audioEntity);
-            this.context.setRecordType('audio');
-            this.context.setIsRecordingAudio(false);
+                this.context.setAudioEntity(this.audioEntity);
+                this.context.setRecordType('audio');
+                this.context.setIsRecordingAudio(false);
 
-            this.siriWave.stop();
+                this.siriWave.stop();
 
-            this.dialog.open(ChooseAudioCategoryComponent, {
-                width: '350px',
-            });
+                this.dialog.open(ChooseAudioCategoryComponent, {
+                    width: '350px',
+                });
 
-            this.isRecorded = true;
-            this.isRecording = false;
-            this.pressToStop = false;
+                this.isRecorded = true;
+                this.isRecording = false;
+                this.pressToStop = false;
+                this.audioRecord.setRecordTime(0);
+                this.isAlreadyStopped = false;
+            }
         }
     }
 
