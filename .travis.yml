@@ -13,7 +13,7 @@
 #############################################################
 
 dist: trusty
-sudo: True
+sudo: false
 
 language: node_js
 node_js:
@@ -27,11 +27,7 @@ cache:
     - ./node_modules
 
 install:
-  - npm update
   - npm install --ignore-scripts
-  - ln -s /usr/bin/nodejs /usr/bin/node
-  - nodejs node_modules/node-sass/scripts/install.js
-  - npm rebuild node-sass
 
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
