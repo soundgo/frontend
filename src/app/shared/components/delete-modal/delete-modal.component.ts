@@ -59,6 +59,14 @@ export class DeleteModalComponent implements OnInit {
                   }));
                 this.onClose(true);
             });
+        } else if (this.data && this.data.entityType === 'user') {
+            this.api.deleteProfile(this.data.entity.nickname).then(() => {
+                this.context.setAuth(null);
+                this.context.setUser(null);
+                this.cookieService.deleteAll();
+                this.dialogRef.close();
+                this.onClose(true);
+            });
         }
     }
 }
