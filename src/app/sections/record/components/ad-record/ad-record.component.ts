@@ -37,7 +37,7 @@ export class AdRecordComponent extends RecorderComponent {
     ) {
         super(audioRecord, context);
         this.subscription = this.context.getIsRecordingAd().subscribe(isRecording => {
-            if (isRecording) {
+            if (isRecording && this.context.getSiteId().getValue()) {
                 this.startRecord();
             }
         });
@@ -108,6 +108,7 @@ export class AdRecordComponent extends RecorderComponent {
             this.isRecorded = true;
             this.isRecording = false;
             this.pressToStop = false;
+            this.audioRecord.setRecordTime(0);
         }
     }
 }
