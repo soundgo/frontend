@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-time-left-modal',
   templateUrl: './time-left-modal.component.html',
   styleUrls: ['./time-left-modal.component.scss'],
-  providers: [MatDialogRef]
 })
 export class TimeLeftModalComponent {
 
