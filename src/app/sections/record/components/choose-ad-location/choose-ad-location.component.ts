@@ -80,6 +80,7 @@ export class ChooseAdLocationComponent implements OnInit {
     this.ad.radius = this.radius;
     console.log('centro del marker', this.ad)
 
+    this.draw.deleteAll();
     this.map.removeControl(this.draw);
 
     this.context.setAdEntity(this.ad);
@@ -93,6 +94,7 @@ export class ChooseAdLocationComponent implements OnInit {
   close() {
     this.radius = 0;
     this.showAdvertisementMarkerMenu = false;
+    this.draw.deleteAll();
     this.map.removeControl(this.draw);
     this.context.setIsRecorded(true);
     this.context.setIsMarkerAdVisible(false);

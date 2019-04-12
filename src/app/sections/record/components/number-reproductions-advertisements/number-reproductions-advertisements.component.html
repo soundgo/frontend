@@ -9,14 +9,14 @@
                    (keyup)="calculatePrice(adPriceForm.value.price)" digitOnly/>
             <mat-error *ngIf="hasError('price', 'required')">Price is required</mat-error>
             <mat-error *ngIf="hasError('price', 'min')">Min value is 1€</mat-error>
-            <mat-error *ngIf="maxNumberOfReproductions === 0">You must introduce a price to have at least one reproduction.</mat-error>
+            <mat-error *ngIf="'error'">You must introduce a price to have at least one reproduction.</mat-error>
         </mat-form-field>
     </mat-dialog-content>
     <div class="numReproductions" *ngIf="maxNumberOfReproductions && maxNumberOfReproductions !== 0">
         <h1>{{maxNumberOfReproductions}} reproductions</h1>
     </div>
     <mat-dialog-actions>
-        <button mat-button class="saveButton" [disabled]="!adPriceForm.valid || maxNumberOfReproductions === 0">
+        <button mat-button class="saveButton" [class.max-number-reproductions]="maxNumberOfReproductions === 0" [disabled]="!adPriceForm.valid || maxNumberOfReproductions === 0">
             Create ad
         </button>
     </mat-dialog-actions>
