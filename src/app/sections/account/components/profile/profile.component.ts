@@ -6,6 +6,7 @@ import {User} from 'src/app/shared/models/User';
 import {ContextService} from 'src/app/services/context.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {EditProfileComponent} from '../edit-profile/edit-profile.component';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-profile',
@@ -18,11 +19,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     auth: string;
     isLoading = false;
 
+    loadingDeleteInfo = false;
+    canDelete = false;
+
     constructor(private context: ContextService,
                 private api: ApiService,
                 public dialogRef: MatDialogRef<ProfileComponent>,
                 protected dialog: MatDialog,
-                private cdr: ChangeDetectorRef) {
+                private cdr: ChangeDetectorRef,
+                private cookieService: CookieService) {
         this.user = this.context.getUser().getValue();
         this.auth = this.context.getAuth().getValue();
         this.context.getAuth().subscribe(value => {
@@ -33,10 +38,44 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.checkDelete();
     }
 
     ngOnDestroy() {
         this.cdr.detach();
+    }
+
+    checkDelete() {
+        this.loadingDeleteInfo = true;
+        const auth = this.context.getAuth().getValue();
+        if (auth === 'advertiser') {
+            const user = this.context.getUser().getValue();
+            this.api.checkDelete(user.nickname).then((response: any) => {
+                this.loadingDeleteInfo = false;
+                if (typeof response === 'string') {
+                    this.canDelete = false;
+                } else {
+                    if (!response.error) {
+                        this.canDelete = true;
+                    }
+                }
+            });
+        } else {
+            this.loadingDeleteInfo = false;
+            this.canDelete = true;
+        }
+    }
+
+    deleteProfile() {
+        const user = this.context.getUser().getValue();
+        if (user) {
+            this.api.deleteProfile(user.nickname).then(() => {
+                this.context.setAuth(null);
+                this.context.setUser(null);
+                this.cookieService.deleteAll();
+                this.dialogRef.close();
+            });
+        }
     }
 
     async becomeAdvertiser() {

@@ -51,7 +51,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         }
 
         this.subscription = this.context.getAuth().subscribe(auth => {
+            if (auth) {
             this.auth = auth;
+            } else {
+                this.cookieService.deleteAll();
+            }
         });
 
         (navigator as any).permissions.query({name: 'microphone'}).then(permission => {
