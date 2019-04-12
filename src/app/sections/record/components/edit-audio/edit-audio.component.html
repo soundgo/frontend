@@ -7,13 +7,15 @@
         </div>
     </div>
     <mat-form-field>
-        <input type="text" matInput (keyup)="search($event)" (keyup.enter)="addTag($event)"
+        <input type="text" #tagInput matInput (keyup)="search($event)" (change)="changeTerm($event)"
+               (keyup.enter)="addTag($event)"
                [matAutocomplete]="auto" placeholder="Choose your tags!">
     </mat-form-field>
 
     <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+        <mat-option *ngFor="let option of options" [value]="option" (click)="addTag(option)">{{option}}</mat-option>
     </mat-autocomplete>
+    <p *ngIf="term">Press Enter key to add tags</p>
 </div>
 <br/>
 <div>
@@ -27,8 +29,7 @@
                 [class.experienceButton]="isSelected('Experience')" (click)="selectCategory('Experience')">
             Experience
         </button>
-        <button mat-flat-button [class.leisureButtonDisabled]="!isSelected('Leisure')"
-                [class.leisureButton]="isSelected('Leisure')" (click)="selectCategory('Leisure')">
+        <button class="leisureButton" mat-flat-button [class.leisureButtonDisabled]="!isSelected('Leisure')" (click)="selectCategory('Leisure')">
             Leisure
         </button>
     </div>

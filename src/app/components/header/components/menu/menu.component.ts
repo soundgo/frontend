@@ -7,8 +7,8 @@ import {CreateSiteComponent} from 'src/app/sections/map/create-site/create-site.
 import {User} from '../../../../shared/models/User';
 import {LoginComponent} from '../../../../sections/account/components/login/login.component';
 import {CookieService} from 'ngx-cookie-service';
-import { TagPanelSheetComponent } from 'src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component';
-import { ProfileComponent } from 'src/app/sections/account/components/profile/profile.component';
+import {TagPanelSheetComponent} from 'src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component';
+import {ProfileComponent} from 'src/app/sections/account/components/profile/profile.component';
 
 @Component({
     selector: 'app-menu',
@@ -26,8 +26,12 @@ export class MenuComponent implements OnInit {
                 private matDialog: MatDialog,
                 private cookieService: CookieService,
                 private bottomSheet: MatBottomSheet) {
-        this.subscription.add(this.context.getAuth().asObservable().subscribe(auth => {
-            this.auth = auth;
+        this.subscription.add(this.context.getAuth().subscribe(auth => {
+            if (auth) {
+                this.auth = auth;
+            } else {
+                this.cookieService.deleteAll();
+            }
         }));
         this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
             this.user = user;
@@ -78,9 +82,9 @@ export class MenuComponent implements OnInit {
 
     logout() {
         this.isSelected = false;
-        this.cookieService.delete('user');
         this.context.setUser(null);
         this.context.setAuth(null);
+        this.cookieService.deleteAll();
     }
 
 }
