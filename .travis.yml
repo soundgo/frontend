@@ -29,6 +29,7 @@ cache:
 install:
   - npm update
   - npm install --ignore-scripts
+  - ln -s /usr/bin/nodejs /usr/bin/node
   - nodejs node_modules/node-sass/scripts/install.js
   - npm rebuild node-sass
 
