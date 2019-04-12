@@ -16,9 +16,22 @@
         </form>
         <p class="image-label">Press in avatar image to change it</p>
         <p class="nickname">{{user.nickname}}</p>
-        <p class="email">{{user.email}}
-            <span><button mat-button color="primary" (click)="editProfile()">Edit</button></span>
-        </p>
+        <p class="email">{{user.email}}</p>
+        <br>
+        <button mat-button color="primary" (click)="editProfile()">Edit</button>
+        <div class="lds-ring" *ngIf="loadingDeleteInfo">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <button
+            *ngIf="!loadingDeleteInfo && canDelete"
+            mat-button
+            color="warn"
+            (click)="deleteProfile()"
+        >Delete account</button>
+        <p *ngIf="!loadingDeleteInfo && !canDelete">At the end of the month, when the payment for the reproductions of your ads has been done, you will be able to delete your account. To avoid to wait another month, delete your ads.</p>
     </div>
     <ng-template [ngIf]="auth === 'user'">
         <hr>

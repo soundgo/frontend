@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Audio} from '../../../../shared/models/Audio';
 import {ApiService} from '../../../../services/api.service';
@@ -14,6 +14,9 @@ export class EditAudioComponent implements OnInit {
     @Input() audio;
     tags: any;
     options: any;
+    term = '';
+
+    @ViewChild('tagInput') tagInput;
 
     constructor(private api: ApiService,
                 private dialogRef: MatDialogRef<EditAudioComponent>,
@@ -28,10 +31,15 @@ export class EditAudioComponent implements OnInit {
     }
 
     addTag($event) {
-        const term = $event.target.value;
-        if (term !== '' && this.audio.tags.indexOf(term) === -1) {
-            this.audio.tags.push(term);
-            $event.target.value = '';
+        if (typeof $event === 'string') {
+            this.audio.tags.push($event);
+            this.tagInput.nativeElement.value = '';
+        } else {
+            const term = $event.target.value;
+            if (term !== '' && this.audio.tags.indexOf(term) === -1) {
+                this.audio.tags.push(term);
+                $event.target.value = '';
+            }
         }
     }
 
@@ -42,10 +50,14 @@ export class EditAudioComponent implements OnInit {
         }
     }
 
+    changeTerm($event) {
+        this.term = $event.target.value;
+    }
+
     search($event) {
-        const term = $event.target.value;
+        this.term = $event.target.value;
         this.options = this.tags.filter((tag: any) => {
-            return this.audio.tags.indexOf(term) === -1 && tag.name.toLowerCase().includes(term.toLowerCase());
+            return this.audio.tags.indexOf(this.term) === -1 && tag.name.toLowerCase().includes(this.term.toLowerCase());
         }).map((item: Tag) => item.name);
     }
 

@@ -20,6 +20,36 @@ export class ApiService {
     constructor(private http: HttpClient, private context: ContextService) {
     }
 
+    checkDelete(nickname) {
+        const url = `${this.apiUrl}/accounts/actor/deleteable/${nickname}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.get<any>(url, header).subscribe(response => resolve(response), err => resolve(err.error));
+        });
+    }
+
+    deleteProfile(nickname) {
+        const url = `${this.apiUrl}/accounts/actor/${nickname}/`;
+
+        const header = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.context.getUser().getValue().token}`
+            })
+        };
+
+        return new Promise(resolve => {
+            this.http.delete<any>(url, header).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
     login(user: any) {
         const url = `${this.apiUrl}/api-token-auth/`;
 
