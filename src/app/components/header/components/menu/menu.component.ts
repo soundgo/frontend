@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {Actor} from 'src/app/shared/models/Actor';
 import {BehaviorSubject, Subscription} from 'rxjs';
@@ -15,7 +15,7 @@ import {ProfileComponent} from 'src/app/sections/account/components/profile/prof
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
 
     isSelected: boolean;
     auth: string;
@@ -30,7 +30,10 @@ export class MenuComponent implements OnInit {
             if (auth) {
                 this.auth = auth;
             } else {
-                this.cookieService.deleteAll();
+                if (this.auth) {
+                    this.auth = auth;
+                    this.cookieService.delete('user');
+                }
             }
         }));
         this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
@@ -39,6 +42,10 @@ export class MenuComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     onSelect(): void {
@@ -84,7 +91,7 @@ export class MenuComponent implements OnInit {
         this.isSelected = false;
         this.context.setUser(null);
         this.context.setAuth(null);
-        this.cookieService.deleteAll();
+        this.cookieService.delete('user');
     }
 
 }
