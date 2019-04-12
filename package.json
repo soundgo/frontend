@@ -30,6 +30,7 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@mapbox/mapbox-gl-draw": "^1.1.1",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@turf/turf": "^5.1.6",
@@ -40,6 +41,7 @@
     "heroku-ssl-redirect": "0.0.4",
     "mapbox-gl": "^0.52.0",
     "mapbox-gl-circle": "^1.6.5",
+    "mapbox-gl-draw-circle": "^1.0.1",
     "moment": "^2.24.0",
     "ngx-cookie-service": "^2.1.0",
     "ngx-credit-cards": "^1.0.9",
@@ -82,5 +84,8 @@
   "engines": {
     "node": "10.15.3",
     "npm": "6.4.1"
+  },
+  "browser": {
+    "fs":false
   }
 }

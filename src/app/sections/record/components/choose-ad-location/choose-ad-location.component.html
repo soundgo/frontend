@@ -1,6 +1,9 @@
 <div id="map-container" *ngIf="showAdvertisementMarkerMenu">
   <div id="basic-container">
-    <p>
+    <p *ngIf="radius === 0">
+      Press somewhere to add an Ad. If you want to move it, press double.
+    </p>
+    <p *ngIf="radius !== 0">
       Radio of the advert: <em>{{ radius }}m</em>
     </p>
     <button mat-raised-button color="warn" (click)="close()">Close</button>
