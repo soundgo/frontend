@@ -13,7 +13,7 @@
 #############################################################
 
 dist: trusty
-sudo: false
+sudo: True
 
 language: node_js
 node_js:
