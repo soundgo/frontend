@@ -6,6 +6,8 @@ import * as MapboxCircle from 'mapbox-gl-circle/lib/main.js';
 import { ContextService } from '../../../../services/context.service';
 import { Ad } from 'src/app/shared/models/Ad';
 import { NumberReproductionsAdvertisementsComponent } from '../number-reproductions-advertisements/number-reproductions-advertisements.component';
+import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
+import { CircleMode, DirectMode, SimpleSelectMode } from 'mapbox-gl-draw-circle';
 
 @Component({
   selector: 'app-choose-ad-location',
@@ -13,9 +15,11 @@ import { NumberReproductionsAdvertisementsComponent } from '../number-reproducti
   styleUrls: ['./choose-ad-location.component.scss'],
 })
 export class ChooseAdLocationComponent implements OnInit {
-  radius = 500;
+  radius: any = 0;
+  center: any;
   showAdvertisementMarkerMenu = false;
   editableMarkerSite: MapboxCircle;
+  draw: any;
   map: mapboxgl.Map;
   ad: Ad;
 
@@ -30,36 +34,36 @@ export class ChooseAdLocationComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  // Function to create announcement and place it
   showAdLocationPicker() {
     // Show menu
     this.showAdvertisementMarkerMenu = true;
 
     this.map = this.context.getMap().getValue();
-    const center = this.map.getCenter();
-    const config = this.context.getConfig().getValue();
     // Add marker announce to the map
-    this.editableMarkerSite = new MapboxCircle(
-      { lat: center.lat, lng: center.lng },
-      this.radius,
-      {
-        editable: true,
-        minRadius: config.minimumRadio,
-        maxRadius: config.maximumRadio,
-        strokeWeight: 2,
-        strokeOpacity: 0.85,
-        fillColor: '#29AB87',
-        refineStroke: true,
+     this.draw = new MapboxDraw({
+      defaultMode: "draw_circle",
+      userProperties: true,
+      displayControlsDefault: false,
+      modes: {
+        ...MapboxDraw.modes,
+        draw_circle: CircleMode,
+        direct_select: DirectMode,
+        simple_select: SimpleSelectMode
       }
-    );
-    this.editableMarkerSite.addTo(this.map);
-
-    // If radius changes, set property to template
-    this.editableMarkerSite.on('radiuschanged', circleObj => {
-      this.radius = circleObj.getRadius();
     });
+    this.map.addControl(this.draw);
+    this.draw.changeMode('draw_circle');
+    this.map.on('draw.create', e => {
+      this.center = e.features[0].properties.center;
+      this.radius = Math.round(e.features[0].properties.radiusInKm * 1000);
+    });
+    this.map.on('draw.update', e => {
+      this.center = e.features[0].properties.center;
+      this.radius = Math.round(e.features[0].properties.radiusInKm * 1000);
+    });
+
   }
   // Function to save data from announcement
   saveAdvertisementMarker() {
@@ -69,13 +73,12 @@ export class ChooseAdLocationComponent implements OnInit {
 
     this.ad = this.context.getAdEntity().getValue();
 
-    const { lat, lng } = this.editableMarkerSite.getCenter();
-    console.log('centro del marker', lat, lng)
-    this.ad.latitude = lat;
-    this.ad.longitude = lng;
-    this.ad.radius = this.editableMarkerSite.getRadius();
+    this.ad.longitude = this.center[0];
+    this.ad.latitude = this.center[1];
+    this.ad.radius = this.radius;
+    console.log('centro del marker', this.ad)
 
-    this.editableMarkerSite.remove();
+    this.map.removeControl(this.draw);
 
     this.context.setAdEntity(this.ad);
 
@@ -86,7 +89,7 @@ export class ChooseAdLocationComponent implements OnInit {
   }
   close() {
     this.showAdvertisementMarkerMenu = false;
-    this.editableMarkerSite.remove();
+    this.map.removeControl(this.draw);
     this.context.setIsRecorded(true);
     this.context.setIsMarkerAdVisible(false);
   }
