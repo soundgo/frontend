@@ -54,7 +54,7 @@ export class ChooseAdLocationComponent implements OnInit {
       }
     });
     this.map.addControl(this.draw);
-    this.draw.changeMode('draw_circle');
+    this.draw.changeMode('draw_circle', { initialRadiusInKm: 0.1 });
     this.map.on('draw.create', e => {
       this.center = e.features[0].properties.center;
       this.radius = Math.round(e.features[0].properties.radiusInKm * 1000);
