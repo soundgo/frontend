@@ -152,7 +152,7 @@ export class ContextService {
     }
 
     getIsMarkerAdVisible(): Observable<boolean> {
-        return this.isMarkerAdVisible.asObservable();
+        return this.isMarkerAdVisible;
     }
 
     setIsMarkerAdVisible(value: boolean) {
