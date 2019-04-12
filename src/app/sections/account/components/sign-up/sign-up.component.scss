@@ -1,10 +1,13 @@
-mat-form-field {
-  width: 85%;
-  margin-bottom: 10px;
-}
-.mat-dialog-content {
-  text-align: center;
-}
-.mat-dialog-actions {
-  justify-content: space-evenly;
+:host {
+  mat-form-field {
+    width: 85%;
+    margin-bottom: 10px;
+  }
+  .mat-dialog-content {
+    text-align: center;
+    overflow: hidden;
+  }
+  .mat-dialog-actions {
+    justify-content: space-evenly;
+  }
 }

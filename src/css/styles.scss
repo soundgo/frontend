@@ -41,6 +41,18 @@ html {
 
   .mapboxgl-user-location-dot {
     opacity: 0.7;
-}
-  
+  }
+  // Workaround css style sign up form
+  .mat-checkbox-layout {
+    width: 90%;
+    text-align: left;
+    white-space: pre-wrap;
+  }
+
+  .mat-checkbox-layout .mat-checkbox-label {
+    margin-top: 24px;
+  }
+  .mat-checkbox-layout .mat-checkbox-label a {
+    color: rebeccapurple;
+  }
 }
