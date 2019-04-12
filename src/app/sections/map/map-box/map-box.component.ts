@@ -207,9 +207,9 @@ export class MapBoxComponent implements OnInit {
             },
             trackUserLocation: true
         });
-        this.map.addControl(geolocation);
+        this.map.addControl(geolocation, 'top-left');
 
-        this.map.addControl(new mapboxgl.NavigationControl());
+        this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
         this.map.on('load', () => {
             geolocation.trigger();
