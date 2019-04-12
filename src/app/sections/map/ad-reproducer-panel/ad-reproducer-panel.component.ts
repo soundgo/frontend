@@ -37,7 +37,7 @@ export class AdReproducerPanelComponent implements OnInit, OnDestroy {
     onFinish(params) {
         this.api.adReproduced(this.ad.id).then((response: any) => {
             const user = this.context.getUser().getValue();
-            if (!response) {
+            if (!response.listened) {
                 const {timeToListenAnAdvertisement} = this.context.getConfig().getValue();
                 const duration = params.duration * timeToListenAnAdvertisement;
                 user.minutes += duration;
