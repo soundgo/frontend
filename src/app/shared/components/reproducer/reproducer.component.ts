@@ -128,7 +128,7 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         this.dialog.open(NumberReproductionsAdvertisementsComponent, {
             width: '350px',
             data: {
-                ad: this.record,
+                ad: new Ad(this.record),
                 properties: this.properties
             }
         }).afterClosed().subscribe(ad => {
