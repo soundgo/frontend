@@ -63,7 +63,7 @@ export class DeleteModalComponent implements OnInit {
             this.api.deleteProfile(this.data.entity.nickname).then(() => {
                 this.context.setAuth(null);
                 this.context.setUser(null);
-                this.cookieService.deleteAll();
+                this.cookieService.delete('user');
                 this.dialogRef.close();
                 this.onClose(true);
             });
