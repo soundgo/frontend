@@ -11,7 +11,6 @@ import {ContextService} from 'src/app/services/context.service';
 export class AudioReproducerPanelComponent implements OnInit, OnDestroy {
 
     audio: Audio;
-    actorId: any;
 
     isLoading = false;
 
@@ -19,7 +18,6 @@ export class AudioReproducerPanelComponent implements OnInit, OnDestroy {
                 private context: ContextService,
                 private cdr: ChangeDetectorRef,
                 @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
-        this.actorId = data.properties.actorId;
     }
 
     ngOnDestroy() {
@@ -43,7 +41,7 @@ export class AudioReproducerPanelComponent implements OnInit, OnDestroy {
 
     isEditable() {
         const user = this.context.getUser().getValue();
-        return user && user.id === this.actorId;
+        return user && user.id === this.data.properties.actorId;
     }
 
 }
