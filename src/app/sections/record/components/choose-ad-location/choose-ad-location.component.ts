@@ -16,6 +16,7 @@ import { CircleMode, DirectMode, SimpleSelectMode } from 'mapbox-gl-draw-circle'
 })
 export class ChooseAdLocationComponent implements OnInit {
   radius: any = 0;
+  maxRadius: any = 5000;
   center: any;
   showAdvertisementMarkerMenu = false;
   editableMarkerSite: MapboxCircle;
@@ -32,6 +33,7 @@ export class ChooseAdLocationComponent implements OnInit {
         this.showAdLocationPicker();
       }
     });
+    this.maxRadius = this.context.getConfig().getValue().maximumRadio;
   }
 
   ngOnInit() { }
