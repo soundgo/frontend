@@ -15,7 +15,8 @@
         <div class="icon"></div>
         <p>{{ 'Tap to stop' }}</p>
     </div>
-    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && !showUserCantRecord">
+    <ng-template [ngIf]="auth === 'advertiser' && !(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop
+    || !(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && !showUserCantRecord">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd" (click)="startRecord()">
                 <div class="icon"></div>
@@ -23,7 +24,8 @@
             </div>
         </div>
     </ng-template>
-    <ng-template [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && showUserCantRecord">
+    <ng-template
+            [ngIf]="!(isRecordingAudio || isRecordingAd) && !isRecorded && !pressToStop && showUserCantRecord && auth !== 'advertiser'">
         <div class="container" [class.ad]="isAd">
             <div class="recorder-container" [class.ad]="isAd">
                 <div class="icon"></div>
