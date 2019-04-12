@@ -26,6 +26,8 @@ export class RecorderComponent implements OnInit {
 
     duration: number;
 
+    auth: string;
+
     constructor(protected audioRecord: AudioRecordService,
                 protected context: ContextService) {
         this.isAd = false;
@@ -37,6 +39,8 @@ export class RecorderComponent implements OnInit {
         this.subscriptionLocalization.add(this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
             this.duration = duration;
         }));
+
+        this.auth = this.context.getAuth().getValue();
 
     }
 
