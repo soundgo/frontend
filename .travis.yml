@@ -17,6 +17,7 @@ cache:
     - ./node_modules
 
 install:
+  - npm rebuild node-sass
   - npm install --ignore-scripts
 
 script:
