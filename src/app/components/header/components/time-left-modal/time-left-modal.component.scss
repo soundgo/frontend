@@ -1,20 +1,20 @@
 :host {
-    mat-dialog-actions {
+    .mat-dialog-actions {
         justify-content: center;
     }
-    mat-dialog-content {
+    .mat-dialog-content {
         overflow: hidden;
         text-align: center;
     }
 
-    mat-dialog-content p {
+    .mat-dialog-content p {
         font-size: 22px;
     }
 
-    mat-dialog-content b {
+    .mat-dialog-content b {
         font-weight: 600;
     }
-    mat-dialog-content .description {
+    .mat-dialog-content .description {
         margin-top: 35px;
         font-size: 16px;
     }

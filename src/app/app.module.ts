@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
