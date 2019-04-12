@@ -52,9 +52,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
         this.subscription = this.context.getAuth().subscribe(auth => {
             if (auth) {
-            this.auth = auth;
+                this.auth = auth;
             } else {
-                this.cookieService.deleteAll();
+                if (this.auth) {
+                    this.auth = auth;
+                    this.cookieService.delete('user');
+                }
             }
         });
 
@@ -76,7 +79,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     ngOnDestroy() {
         this.cdr.detach();
     }
-    
+
     ngAfterViewInit() {
         const heightAdblock = this.adblock.first.nativeElement.offsetHeight;
         if (heightAdblock !== 0) {
