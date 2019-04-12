@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
             nickname: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email,]),
+            email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}')]),
             password: new FormControl('', [Validators.required]),
             rgpd: new FormControl('', [Validators.requiredTrue]),
         });
