@@ -47,7 +47,8 @@ export class AdRecordComponent extends RecorderComponent {
             }
         });
         this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
-            if (duration > 56) {
+            const auth = this.context.getAuth().getValue();
+            if (duration > 56 && auth !== 'user') {
                 this.stopRecord();
             }
         });
