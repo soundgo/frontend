@@ -7,7 +7,7 @@ import {ContextService} from 'src/app/services/context.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {EditProfileComponent} from '../edit-profile/edit-profile.component';
 import {CookieService} from 'ngx-cookie-service';
-import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
+import {DeleteModalComponent} from 'src/app/shared/components/delete-modal/delete-modal.component';
 
 @Component({
     selector: 'app-profile',
@@ -52,14 +52,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (auth === 'advertiser') {
             const user = this.context.getUser().getValue();
             this.api.checkDelete(user.nickname).then((response: any) => {
-                this.loadingDeleteInfo = false;
-                if (typeof response === 'string') {
+                if (!response) {
+                    this.canDelete = true;
+                } else if (typeof response === 'string') {
                     this.canDelete = false;
-                } else {
-                    if (!response.error) {
-                        this.canDelete = true;
-                    }
                 }
+                this.loadingDeleteInfo = false;
             });
         } else {
             this.loadingDeleteInfo = false;

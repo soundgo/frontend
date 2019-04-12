@@ -10,7 +10,7 @@ import {ContextService} from '../../../services/context.service';
     templateUrl: './recorder.component.html',
     styleUrls: ['./recorder.component.scss']
 })
-export class RecorderComponent implements OnInit {
+export class RecorderComponent implements OnInit, OnDestroy {
 
     base64: string;
 
@@ -45,6 +45,10 @@ export class RecorderComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy() {
+        this.subscriptionLocalization.unsubscribe();
     }
 
     startRecording() {
