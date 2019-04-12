@@ -11,8 +11,6 @@ import {ContextService} from 'src/app/services/context.service';
 })
 export class ChooseAudioAdvertisementComponent implements OnInit {
 
-    initChooseAdLocation = false;
-
     constructor(
         public dialogRef: MatDialogRef<ChooseAudioAdvertisementComponent>,
         protected dialog: MatDialog,
@@ -38,6 +36,20 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
     clickAdvert() {
         this.dialogRef.close();
         this.context.setIsMarkerAdVisible(true);
+    }
+
+    canPublishAsAudio() {
+        let res = true;
+        const user = this.context.getUser().getValue();
+        if (user && user.minutes !== 0) {
+            const record = this.context.getAdEntity().getValue();
+            if (record.duration > user.minutes) {
+                res = false;
+            }
+        } else {
+            res = false;
+        }
+        return res;
     }
 
     ngOnInit() {
