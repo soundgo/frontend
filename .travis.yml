@@ -27,8 +27,10 @@ cache:
     - ./node_modules
 
 install:
-  - npm rebuild node-sass
+  - npm update
   - npm install --ignore-scripts
+  - nodejs node_modules/node-sass/scripts/install.js
+  - npm rebuild node-sass
 
 script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
