@@ -25,8 +25,8 @@ export class AudioRecordComponent extends RecorderComponent {
     siriWave: any;
     audioEntity: Audio;
     subscription: Subscription = new Subscription();
-    pressToStop: boolean = false;
-    showUserCantRecord: boolean = false;
+    pressToStop = false;
+    showUserCantRecord = false;
 
     constructor(
         protected audioRecord: AudioRecordService,
@@ -45,13 +45,15 @@ export class AudioRecordComponent extends RecorderComponent {
             }
         });
         this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
-            const auth = this.context.getAuth(). getValue();
-            if (duration > 56 && auth === 'user')
+            const auth = this.context.getAuth().getValue();
+            if (duration > 56 && auth === 'user') {
                 this.stopRecord();
+            }
         });
         this.context.getUser().subscribe(user => {
-            if (user)
-                this.showUserCantRecord = user.minutes <= 0 ? true : false;    
+            if (user) {
+                this.showUserCantRecord = user.minutes <= 0;
+            }
         });
     }
 
@@ -75,27 +77,29 @@ export class AudioRecordComponent extends RecorderComponent {
     }
 
     async stopRecord(): Promise<void> {
-        this.siriWave.setAmplitude(0);
-        this.audioEntity.base64 = await super.stopRecording();
-
-        const {latitude, longitude} = this.context.getPosition().getValue();
-        this.audioEntity.latitude = latitude;
-        this.audioEntity.longitude = longitude;
         this.audioEntity.duration = this.audioRecord.getRecordedTime().getValue();
+        if (this.audioEntity.duration !== 0) {
+            this.siriWave.setAmplitude(0);
+            this.audioEntity.base64 = await super.stopRecording();
 
-        this.context.setAudioEntity(this.audioEntity);
-        this.context.setRecordType('audio');
-        this.context.setIsRecordingAudio(false);
+            const {latitude, longitude} = this.context.getPosition().getValue();
+            this.audioEntity.latitude = latitude;
+            this.audioEntity.longitude = longitude;
 
-        this.siriWave.stop();
+            this.context.setAudioEntity(this.audioEntity);
+            this.context.setRecordType('audio');
+            this.context.setIsRecordingAudio(false);
 
-        this.dialog.open(ChooseAudioCategoryComponent, {
-            width: '350px',
-        });
+            this.siriWave.stop();
 
-        this.isRecorded = true;
-        this.isRecording = false;
-        this.pressToStop = false;
+            this.dialog.open(ChooseAudioCategoryComponent, {
+                width: '350px',
+            });
+
+            this.isRecorded = true;
+            this.isRecording = false;
+            this.pressToStop = false;
+        }
     }
 
 }
