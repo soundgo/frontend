@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Inject, HostListener, ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, Input, Inject, HostListener} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {Ad} from '../../../../shared/models/Ad';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -12,7 +12,7 @@ import {ApiService} from 'src/app/services/api.service';
     templateUrl: './number-reproductions-advertisements.component.html',
     styleUrls: ['./number-reproductions-advertisements.component.scss']
 })
-export class NumberReproductionsAdvertisementsComponent implements OnInit, OnDestroy {
+export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     duration: number;
     adEntity: Ad;
@@ -30,10 +30,9 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit, OnDes
 
     constructor(private api: ApiService,
                 private context: ContextService,
-                private cdr: ChangeDetectorRef,
+                private audioRecord: AudioRecordService,
                 public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
-
         this.adEntity = this.data ? this.data.ad : this.context.getAdEntity().getValue();
         dialogRef.backdropClick().subscribe(bool => {
             this.context.setIsRecorded(true);
@@ -46,10 +45,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit, OnDes
         });
     }
 
-    ngOnDestroy() {
-        this.cdr.detach();
-    }
-
     hasError(controlName: string, errorName: string) {
         return this.adPriceForm.controls[controlName].hasError(errorName);
     }
@@ -59,9 +54,9 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit, OnDes
          * The formula to calculate the price is:
          *  C x r x s x (d/10000)
          */
-        this.duration = this.adEntity.duration;
+
+        this.duration = this.adEntity.duration || this.data.properties.duration;
         this.maxNumberOfReproductions = Math.round(Math.abs(number) / (this.duration * (this.adEntity.radius / 10000)));
-        this.cdr.detectChanges();
     }
 
     submit(adPriceForm) {

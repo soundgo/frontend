@@ -44,7 +44,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
         this.creditCardForm = new FormGroup({
             name: new FormControl(this.data.creditCard.holderName, [Validators.required, Validators.minLength(2)]),
             number: new FormControl(this.data.creditCard.number, [Validators.required, CreditCardValidator.validateCardNumber]),
-            expiry: new FormControl(expiry, [Validators.required, CreditCardValidator.validateCardExpiry]),
+            expiry: new FormControl(expiry, [Validators.required, CreditCardValidator.validateCardExpiry, Validators.maxLength(5)]),
             cvc: new FormControl(this.data.creditCard.cvvCode, [Validators.required, CreditCardValidator.validateCardCvc])
         });
     }
