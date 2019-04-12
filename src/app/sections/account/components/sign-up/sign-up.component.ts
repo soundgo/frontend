@@ -57,6 +57,7 @@ export class SignUpComponent implements OnInit {
                     this.userEntity.photo = response.photo;
                     this.userEntity.minutes = response.minutes;
                     this.userEntity.token = responseLogin.token;
+                    this.userEntity.id = responseLogin.actorId;
                     this.context.setUser(this.userEntity);
                     this.context.setAuth(responseLogin.role);
                     this.cookieService.set('user', JSON.stringify({

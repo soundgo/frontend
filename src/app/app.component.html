@@ -20,6 +20,6 @@
     <app-audio-record *ngIf="auth === 'user'"></app-audio-record>
     <app-ad-record *ngIf="auth === 'advertiser'"></app-ad-record>
     <app-map-box></app-map-box>
-    <app-record></app-record>
-    <app-choose-ad-location></app-choose-ad-location>
+    <app-record *ngIf="auth !== null"></app-record>
+    <app-choose-ad-location *ngIf="auth !== null"></app-choose-ad-location>
 </ng-template>

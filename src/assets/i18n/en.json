@@ -14,7 +14,7 @@
   "PASSWORD_NOT_VALID": "The password was not valid.",
   "NICKNAME_USED": "The nickname is already used.",
   "NICKNAME_NOT_VALID": "The nickname was not valid.",
-  "SAVE_ACTOR": "There's a problem during the request to save actor.",
+  "SAVE_ACTOR": "There is an user with that nickname.",
   "SAVE_CREDITCARD": "There was a problem during the request to save the credit card.",
   "CREDITCARD_NOT_FOUND": "The credit card was not found.",
   "CREDITCARD_NOT_SEE": "That credit card cannot be seen by you.",
