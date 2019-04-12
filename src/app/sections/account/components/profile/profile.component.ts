@@ -7,6 +7,7 @@ import {ContextService} from 'src/app/services/context.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {EditProfileComponent} from '../edit-profile/edit-profile.component';
 import {CookieService} from 'ngx-cookie-service';
+import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
 
 @Component({
     selector: 'app-profile',
@@ -69,11 +70,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
     deleteProfile() {
         const user = this.context.getUser().getValue();
         if (user) {
-            this.api.deleteProfile(user.nickname).then(() => {
-                this.context.setAuth(null);
-                this.context.setUser(null);
-                this.cookieService.deleteAll();
-                this.dialogRef.close();
+            this.dialog.open(DeleteModalComponent, {
+                width: '350px',
+                data: {
+                    entity: user,
+                    entityType: 'user'
+                }
+            }).afterClosed().subscribe(isDeleted => {
+                if (!this.cdr['destroyed']) {
+                    this.cdr.detectChanges();
+                }
+                if (isDeleted) {
+                    this.dialogRef.close();
+                }
             });
         }
     }

@@ -42,7 +42,7 @@ export class ChooseAdLocationComponent implements OnInit {
 
     this.map = this.context.getMap().getValue();
     // Add marker announce to the map
-     this.draw = new MapboxDraw({
+    this.draw = new MapboxDraw({
       defaultMode: "draw_circle",
       userProperties: true,
       displayControlsDefault: false,
@@ -86,8 +86,10 @@ export class ChooseAdLocationComponent implements OnInit {
       .open(NumberReproductionsAdvertisementsComponent, {
         width: '350px',
       });
+    this.radius = 0;
   }
   close() {
+    this.radius = 0;
     this.showAdvertisementMarkerMenu = false;
     this.map.removeControl(this.draw);
     this.context.setIsRecorded(true);

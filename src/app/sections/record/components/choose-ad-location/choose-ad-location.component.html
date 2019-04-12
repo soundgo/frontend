@@ -1,12 +1,13 @@
 <div id="map-container" *ngIf="showAdvertisementMarkerMenu">
   <div id="basic-container">
     <p *ngIf="radius === 0">
-      Press somewhere to add an Ad. If you want to move it, press double.
+      Press somewhere to add an Ad
     </p>
     <p *ngIf="radius !== 0">
-      Radio of the advert: <em>{{ radius }}m</em>
+      <span>Radius of the advert: <em>{{ radius }}m</em></span>
+      <span class="instructions">To move the circle press double</span>
     </p>
     <button mat-raised-button color="warn" (click)="close()">Close</button>
-    <button mat-raised-button class="save" (click)="saveAdvertisementMarker()">Save</button>
+    <button mat-raised-button *ngIf="radius !== 0" class="save" (click)="saveAdvertisementMarker()">Save</button>
   </div>
 </div>
