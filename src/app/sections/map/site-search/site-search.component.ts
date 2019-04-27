@@ -12,13 +12,7 @@ import {Site} from '../../../shared/models/Site';
 export class SiteSearchComponent implements OnInit, OnDestroy {
 
     private isLoading = false;
-    private sites: any[] = [{
-        id: 1,
-        latitude: 34.5,
-        longitude: 34.5,
-        name: 'Site example 1',
-        description: 'Site description 1'
-    }];
+    private sites: any[] = [];
     private sitesFound: any[] = [];
     private term: string;
 
@@ -31,14 +25,14 @@ export class SiteSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        /*this.isLoading = true;
+        this.isLoading = true;
         this.api.getSites().then((response: Site[]) => {
             this.sites = response;
             this.isLoading = false;
             if (!this.cdr['destroyed']) {
                 this.cdr.detectChanges();
             }
-        });*/
+        });
     }
 
     ngOnDestroy() {
@@ -58,8 +52,8 @@ export class SiteSearchComponent implements OnInit, OnDestroy {
         this.bottomSheetRef.dismiss();
     }
 
-    flyTo(idx) {
-        const {latitude, longitude} = this.sitesFound[idx];
+    flyTo(site) {
+        const {latitude, longitude} = site;
         this.context.getMap().getValue().flyTo({
             center: [longitude, latitude]
         });

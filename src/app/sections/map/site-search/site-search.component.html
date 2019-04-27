@@ -4,22 +4,22 @@
         <p>There's no tags</p>
     </ng-template>
 
-    <div class="site-wrapper" *ngIf="sites && sites.length !== 0 && isSiteFoundAvailable() && term">
-        <div mat-dialog-content>
-            <div class="site" *ngFor="let site of sitesFound" (click)="flyTo(site)">
-                <div>
-                    <p>{{site.name}}</p>
-                    <p>{{site.description}}</p>
-                </div>
-                <p>Fly to</p>
-            </div>
-        </div>
-    </div>
-
     <ng-template [ngIf]="sites && sites.length !== 0">
         <mat-dialog-actions>
             <button mat-button color="warn" (click)="onClose()">Close</button>
         </mat-dialog-actions>
+
+        <div class="site-wrapper" *ngIf="isSiteFoundAvailable() && term">
+            <div mat-dialog-content>
+                <div class="site" *ngFor="let site of sitesFound" (click)="flyTo(site)">
+                    <div>
+                        <p class="site-title">{{site.name}}</p>
+                        <p>{{site.description}}</p>
+                    </div>
+                    <p class="fly-to">Fly to</p>
+                </div>
+            </div>
+        </div>
 
         <input class="site-search" type="text" (keyup)="searchSites($event)" placeholder="Search sites...">
 
