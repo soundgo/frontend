@@ -21,6 +21,7 @@ import { MapBoxComponent } from './map-box/map-box.component';
 import { AdReproducerPanelComponent } from './ad-reproducer-panel/ad-reproducer-panel.component';
 import { AccountModule } from '../account/account.module';
 import { TagPanelSheetComponent } from './tag-panel-sheet/tag-panel-sheet.component';
+import { SiteSearchComponent } from './site-search/site-search.component';
 
 const components = [
   MapBoxComponent,
@@ -29,6 +30,7 @@ const components = [
   AudioReproducerPanelComponent,
   AdReproducerPanelComponent,
   TagPanelSheetComponent,
+  SiteSearchComponent
 ];
 
 @NgModule({
@@ -39,6 +41,7 @@ const components = [
     AudioReproducerPanelComponent,
     AdReproducerPanelComponent,
     CreateSiteComponent,
+    SiteSearchComponent
   ], // inside we put the modalComponent
   imports: [
     CommonModule,
