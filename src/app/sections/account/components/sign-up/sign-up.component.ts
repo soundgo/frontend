@@ -54,25 +54,23 @@ export class SignUpComponent implements OnInit {
             this.userEntity.password = userForm.password;
 
             this.api.createUser(this.userEntity).then((response: any) => {
-                this.api.login(this.userEntity).then((responseLogin: any) => {
-                    /* this.userEntity.photo = response.photo;
-                    this.userEntity.minutes = response.minutes;
-                    this.userEntity.token = responseLogin.token;
-                    this.userEntity.id = responseLogin.actorId;
-                    this.context.setUser(this.userEntity);
-                    this.context.setAuth(responseLogin.role);
-                    this.cookieService.set('user', JSON.stringify({
-                        user: this.userEntity,
-                        auth: responseLogin.role
-                    })); */
-                    this.dialogRef.close();
-                    this.dialog.open(AlertComponent, {
-                        width: '350px',
-                        data: {
-                            title: 'Check your mail box!',
-                            content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
-                        }
-                    });
+                /* this.userEntity.photo = response.photo;
+                this.userEntity.minutes = response.minutes;
+                this.userEntity.token = responseLogin.token;
+                this.userEntity.id = responseLogin.actorId;
+                this.context.setUser(this.userEntity);
+                this.context.setAuth(responseLogin.role);
+                this.cookieService.set('user', JSON.stringify({
+                    user: this.userEntity,
+                    auth: responseLogin.role
+                })); */
+                this.dialogRef.close();
+                this.dialog.open(AlertComponent, {
+                    width: '350px',
+                    data: {
+                        title: 'Check your mail box!',
+                        content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
+                    }
                 });
             });
 

@@ -9,6 +9,7 @@ import {LoginComponent} from '../../../../sections/account/components/login/logi
 import {CookieService} from 'ngx-cookie-service';
 import {TagPanelSheetComponent} from 'src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component';
 import {ProfileComponent} from 'src/app/sections/account/components/profile/profile.component';
+import {SiteSearchComponent} from '../../../../sections/map/site-search/site-search.component';
 
 @Component({
     selector: 'app-menu',
@@ -75,6 +76,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     searchByTags() {
         this.isSelected = false;
         this.bottomSheet.open(TagPanelSheetComponent, {
+            disableClose: true,
+            hasBackdrop: false
+        });
+    }
+
+    searchBySites() {
+        this.isSelected = false;
+        this.bottomSheet.open(SiteSearchComponent, {
             disableClose: true,
             hasBackdrop: false
         });
