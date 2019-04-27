@@ -45,11 +45,6 @@ export class RecordComponent implements OnInit {
         this.api
             .createAd(adEntity)
             .then(response => {
-                console.log('createAd:', response);
-                // Reduce minutes of user
-                const user = this.context.getUser().getValue();
-                user.minutes -= adEntity.duration;
-                this.context.setUser(user);
                 this.context.setLoading(false);
             });
     }
@@ -58,9 +53,7 @@ export class RecordComponent implements OnInit {
         this.context.setLoading(true);
         this.api.createSiteAudio(audioEntity, this.context.getSiteId().getValue())
             .then(response => {
-                console.log('createAudio:', response);
                 this.context.setSiteId(null);
-                // Reduce minutes of user
                 const user = this.context.getUser().getValue();
                 user.minutes -= audioEntity.duration;
                 this.context.setUser(user);

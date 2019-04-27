@@ -37,7 +37,7 @@ export class AdRecordComponent extends RecorderComponent {
     ) {
         super(audioRecord, context);
         this.subscription = this.context.getIsRecordingAd().subscribe(isRecording => {
-            if (isRecording) {
+            if (isRecording && this.context.getSiteId().getValue()) {
                 this.startRecord();
             }
         });
@@ -76,35 +76,39 @@ export class AdRecordComponent extends RecorderComponent {
     }
 
     async stopRecord(): Promise<void> {
-        this.siriWave.setAmplitude(0);
-
-        this.adEntity.base64 = await super.stopRecording();
-
-        const {latitude, longitude} = this.context.getPosition().getValue();
-        this.adEntity.latitude = latitude;
-        this.adEntity.longitude = longitude;
         this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
+        if (this.adEntity.duration !== 0) {
+            this.siriWave.setAmplitude(0);
 
-        this.context.setAdEntity(this.adEntity);
-        this.context.setRecordType('ad');
-        this.context.setIsRecordingAd(false);
+            this.adEntity.base64 = await super.stopRecording();
 
-        this.siriWave.stop();
+            const {latitude, longitude} = this.context.getPosition().getValue();
+            this.adEntity.latitude = latitude;
+            this.adEntity.longitude = longitude;
+            this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
 
-        const isRecordedInSite = this.context.getSiteId().getValue();
+            this.context.setAdEntity(this.adEntity);
+            this.context.setRecordType('ad');
+            this.context.setIsRecordingAd(false);
 
-        if (isRecordedInSite) {
-            this.dialog.open(ChooseAudioCategoryComponent, {
-                width: '350px',
-            });
-        } else {
-            this.dialog.open(ChooseAudioAdvertisementComponent, {
-                width: '350px',
-            });
+            this.siriWave.stop();
+
+            const isRecordedInSite = this.context.getSiteId().getValue();
+
+            if (isRecordedInSite) {
+                this.dialog.open(ChooseAudioCategoryComponent, {
+                    width: '350px',
+                });
+            } else {
+                this.dialog.open(ChooseAudioAdvertisementComponent, {
+                    width: '350px',
+                });
+            }
+
+            this.isRecorded = true;
+            this.isRecording = false;
+            this.pressToStop = false;
+            this.audioRecord.setRecordTime(0);
         }
-
-        this.isRecorded = true;
-        this.isRecording = false;
-        this.pressToStop = false;
     }
 }

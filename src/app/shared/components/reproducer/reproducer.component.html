@@ -20,16 +20,16 @@
                                        [activeIcon]="'/assets/images/edit-site-active.png'"
                                        [icon]="'/assets/images/edit-site.png'" [color]="'dodgerblue'"
                                        (click)="editAd()"></app-reproducer-button>
-
                 <app-reproducer-button *ngIf="isEditable" [isActive]="deleteActive"
                                        [activeIcon]="'/assets/images/delete.png'"
                                        [icon]="'/assets/images/delete-active.png'" [color]="'#AF2237'"
                                        (click)="deleteRecord(record)"></app-reproducer-button>
-                <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable"
+
+                <app-reproducer-button *ngIf="canShowLikeReport()"
                                        [icon]="'/assets/images/like.PNG'"
                                        [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
                                        [isActive]="record.liked" (click)="like()"></app-reproducer-button>
-                <app-reproducer-button *ngIf="user !== null && isAudio && !isEditable"
+                <app-reproducer-button *ngIf="canShowLikeReport()"
                                        [icon]="'/assets/images/report.png'"
                                        [activeIcon]="'/assets/images/report-active.png'" [color]="'red'"
                                        [isActive]="record.reported" (click)="report()"></app-reproducer-button>

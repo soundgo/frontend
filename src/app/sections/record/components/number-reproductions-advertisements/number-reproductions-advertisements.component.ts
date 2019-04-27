@@ -33,7 +33,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
                 private audioRecord: AudioRecordService,
                 public dialogRef: MatDialogRef<NumberReproductionsAdvertisementsComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
-
         this.adEntity = this.data ? this.data.ad : this.context.getAdEntity().getValue();
         dialogRef.backdropClick().subscribe(bool => {
             this.context.setIsRecorded(true);
@@ -56,7 +55,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
          *  C x r x s x (d/10000)
          */
 
-        this.duration = this.adEntity.duration;
+        this.duration = this.adEntity.duration || this.data.properties.duration;
         this.maxNumberOfReproductions = Math.round(Math.abs(number) / (this.duration * (this.adEntity.radius / 10000)));
     }
 

@@ -40,18 +40,12 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     deleteActive = false;
 
     user: User;
-    subscription: Subscription = new Subscription();
 
     constructor(protected context: ContextService,
                 protected dialog: MatDialog,
                 protected api: ApiService,
                 private cdr: ChangeDetectorRef,
                 private dialogRef: MatBottomSheetRef<ReproducerComponent>) {
-
-        this.subscription.add(this.context.getUser().asObservable().subscribe(user => {
-            this.user = user;
-        }));
-
     }
 
     ngOnInit() {
@@ -67,30 +61,30 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         }
     }
 
-    onFinish(params) {
-        const user = this.context.getUser().getValue();
-        if (user) {
-            const auth = this.context.getAuth().getValue();
-            if (auth !== 'advertiser' && !(this.record instanceof Ad) && this.record.name !== user.nickname) {
-                this.record.numberReproductions = this.record.numberReproductions + 1;
-                if (this.finishAction) {
-                    this.finishAction.emit({
-                        nickname: this.record.name,
-                        duration: params.currentTarget.children[1].duration
-                    });
-                }
-            }
-        } else {
-            this.record.numberReproductions = this.record.numberReproductions + 1;
-            if (this.finishAction) {
-                this.finishAction.emit({
-                    nickname: this.record.name,
-                    duration: params.currentTarget.children[1].duration
-                });
-            }
+    onFinishAction(params) {
+        this.record.numberReproductions = this.record.numberReproductions + 1;
+        if (this.finishAction) {
+            this.finishAction.emit({
+                nickname: this.record.name,
+                duration: params.currentTarget.children[1].duration
+            });
         }
     }
 
+    onFinish(params) {
+        this.record.numberReproductions = this.record.numberReproductions + 1;
+        if (this.finishAction) {
+            this.finishAction.emit({
+                nickname: this.record.name,
+                duration: params.currentTarget.children[1].duration
+            });
+        }
+    }
+
+    canShowLikeReport() {
+        const user = this.context.getUser().getValue();
+        return user !== null && this.isAudio && !this.isEditable;
+    }
 
     deleteRecord(record) {
         this.deleteActive = true;
@@ -134,7 +128,7 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         this.dialog.open(NumberReproductionsAdvertisementsComponent, {
             width: '350px',
             data: {
-                ad: this.record,
+                ad: new Ad(this.record),
                 properties: this.properties
             }
         }).afterClosed().subscribe(ad => {

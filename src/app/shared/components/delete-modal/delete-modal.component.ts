@@ -64,8 +64,7 @@ export class DeleteModalComponent implements OnInit {
                 this.context.setAuth(null);
                 this.context.setUser(null);
                 this.cookieService.delete('user');
-                this.dialogRef.close();
-                this.onClose(true);
+                this.dialogDeleteRef.close(true);
             });
         }
     }

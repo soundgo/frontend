@@ -23,6 +23,10 @@ export class AudioRecordService {
         return this.recorded.asObservable();
     }
 
+    setRecordTime(time: number) {
+        this.recordingTime.next(time);
+    }
+
     getRecordedTime() {
         return this.recordingTime;
     }
