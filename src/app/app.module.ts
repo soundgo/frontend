@@ -67,12 +67,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       accessToken: `${environment.mapbox.accessToken}`,
     }),
     AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyCV4BLaYb1IRNXuIDgRXfShJUJmlA-RZMk',
-      authDomain: 'soundgo-aec9e.firebaseapp.com',
-      databaseURL: 'https://soundgo-aec9e.firebaseio.com',
-      projectId: 'soundgo-aec9e',
-      storageBucket: 'soundgo-aec9e.appspot.com',
-      messagingSenderId: '782732124872',
+      apiKey: "AIzaSyB8gV_uBNgfAH3GNZdaUq_Ji8Jhz-D5uJo",
+      authDomain: "soundgo-94882.firebaseapp.com",
+      databaseURL: "https://soundgo-94882.firebaseio.com",
+      projectId: "soundgo-94882",
+      storageBucket: "soundgo-94882.appspot.com",
+      messagingSenderId: "317072381464"
     }),
   ],
   bootstrap: [AppComponent],
