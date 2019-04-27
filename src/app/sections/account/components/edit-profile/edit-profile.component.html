@@ -18,13 +18,6 @@
                 <input matInput formControlName="nickname">
                 <mat-error *ngIf="hasError('nickname', 'required')">Nickname is required</mat-error>
             </mat-form-field>
-            <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="email">
-                <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
-                <mat-error *ngIf="hasError('email', 'email')">Must be a valid email address</mat-error>
-                <mat-error *ngIf="hasError('email', 'pattern')">Must be a valid email address</mat-error>
-            </mat-form-field>
         </mat-dialog-content>
         <mat-dialog-actions>
             <a mat-button color="warn" (click)="onClose()">Close</a>

@@ -15,7 +15,7 @@ import {User} from '../shared/models/User';
 })
 export class ApiService {
 
-    private apiUrl = 'https://soundgo-api-v2.herokuapp.com';
+    private apiUrl = 'https://soundgo-api-v3.herokuapp.com';
 
     constructor(private http: HttpClient, private context: ContextService) {
     }

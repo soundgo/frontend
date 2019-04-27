@@ -29,7 +29,6 @@ export class EditProfileComponent implements OnInit {
     ngOnInit() {
         this.profileForm = new FormGroup({
             nickname: new FormControl(this.data.user.nickname || '', [Validators.required]),
-            email: new FormControl(this.data.user.email || '', [Validators.required, Validators.email, Validators.pattern('(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)')]),
             password: new FormControl('', [Validators.required]),
         });
         console.log(this.data.user);
@@ -49,7 +48,6 @@ export class EditProfileComponent implements OnInit {
 
             const user = new User(this.data.user);
             user.nickname = profileForm.nickname;
-            user.email = profileForm.email;
             user.password = profileForm.password;
 
             this.userEntity = new User();

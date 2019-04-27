@@ -111,6 +111,9 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
     close() {
         this.radius = 0;
         this.showAdvertisementMarkerMenu = false;
+        if (this.draw) {
+            this.map.removeControl(this.draw);
+        }
         this.context.setIsRecorded(true);
         this.context.setIsMarkerAdVisible(false);
     }
