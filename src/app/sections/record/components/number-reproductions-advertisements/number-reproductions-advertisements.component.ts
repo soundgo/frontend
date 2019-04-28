@@ -48,7 +48,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
 
     hasError(controlName: string, errorName: string) {
-        console.log(this.adEditForm.controls[controlName].hasError(errorName))
         return this.adEditForm.controls[controlName].hasError(errorName);
     }
 
