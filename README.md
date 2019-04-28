@@ -1,4 +1,4 @@
-## Welcome to the SoundGo frontend repository!
+## Welcome to the SoundGo frontend repository! [![Build Status](https://travis-ci.org/soundgo/frontend.svg?branch=master)](https://travis-ci.org/soundgo/frontend) [![Coverage Status](https://coveralls.io/repos/github/soundgo/frontend/badge.svg?branch=master)](https://coveralls.io/github/soundgo/frontend?branch=master)
 
 This repository contains the code of the SoundGo frontend.
 
