@@ -39,10 +39,16 @@
              [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
              [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
         </div>
-        <div class="author">
-            <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
-            <p>{{record.name}}</p>
-            <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
+        <div>
+            <div class="author">
+                <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
+                <p>{{record.name}}</p>
+                <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
+            </div>
+            <br>
+            <p *ngIf="record.description != null" class="description">
+                {{record.description}}
+            </p>
         </div>
     </ng-template>
 </div>
