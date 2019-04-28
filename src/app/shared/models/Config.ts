@@ -7,7 +7,7 @@ export class Config {
     maxTimeUserProgressBar: number;
 
     constructor(data: any = {}) {
-        this.maximumRadio = data.maximum_radius || 5000;
+        this.maximumRadio = data.maximum_radius || 10000;
         this.minimumRadio = data.minimum_radius || 100;
         this.timeToListenAnAdvertisement = data.time_listen_advertisement || 3;
         this.minimumReportsToBan = data.minimum_reports_ban || 15;
