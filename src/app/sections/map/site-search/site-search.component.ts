@@ -11,10 +11,10 @@ import {Site} from '../../../shared/models/Site';
 })
 export class SiteSearchComponent implements OnInit, OnDestroy {
 
-    private isLoading = false;
-    private sites: any[] = [];
-    private sitesFound: any[] = [];
-    private term: string;
+    isLoading = false;
+    sites: any[] = [];
+    sitesFound: any[] = [];
+    term: string;
 
     constructor(
         private api: ApiService,
