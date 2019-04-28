@@ -5,7 +5,7 @@
     </p>
     <p *ngIf="radius !== 0">
       <span>Radius of the advertisement: <em>{{ radius }}m</em></span>
-      <span class="instructions">To move the circle: double click. The radius must be less than 5km</span>
+      <span class="instructions">To move the circle: double click. The radius must be less than {{maxRadius}}m</span>
     </p>
     <button mat-raised-button color="warn" (click)="close()">Close</button>
     <button mat-raised-button *ngIf="radius !== 0 && (radius <= maxRadius)" class="save" (click)="saveAdvertisementMarker()">Save</button>
