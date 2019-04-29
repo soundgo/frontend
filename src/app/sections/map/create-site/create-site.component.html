@@ -11,7 +11,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+      <textarea matInput matTextareaAutosize formControlName="description"></textarea>
       <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
     </mat-form-field>
   </mat-dialog-content>

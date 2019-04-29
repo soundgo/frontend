@@ -15,10 +15,9 @@
     <div class="numReproductions" *ngIf="maxNumberOfReproductions && maxNumberOfReproductions !== 0">
         <h1>{{maxNumberOfReproductions}} reproductions</h1>
     </div>
-    
+    <h1 mat-dialog-title class="description-title">Description</h1>
     <mat-form-field>
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description" type="text" maxlength="200">
+            <textarea matInput matTextareaAutosize formControlName="description" type="textArea" maxlength="200"></textarea>
             <mat-error *ngIf="hasError('description', 'maxLength')">Description must have less than 200 characters.</mat-error>
     </mat-form-field>
     <mat-dialog-actions>
