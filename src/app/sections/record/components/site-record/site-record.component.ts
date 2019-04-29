@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {Subscription} from 'rxjs';
 
@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
     templateUrl: './site-record.component.html',
     styleUrls: ['./site-record.component.scss']
 })
-export class SiteRecordComponent implements OnInit {
+export class SiteRecordComponent implements OnDestroy {
 
     @Input() siteId: number;
     isRecording = false;
@@ -20,7 +20,10 @@ export class SiteRecordComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     startReproduction() {
