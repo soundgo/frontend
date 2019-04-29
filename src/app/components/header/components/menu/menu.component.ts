@@ -100,6 +100,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.isSelected = false;
         this.context.setUser(null);
         this.context.setAuth(null);
+        this.context.setAudioEntity(null);
+        this.context.setAdEntity(null);
+        this.context.setSiteEntity(null);
         this.cookieService.delete('user');
     }
 
