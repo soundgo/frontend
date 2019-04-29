@@ -1,28 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {MatDialog} from '@angular/material';
 import {ApiService} from 'src/app/services/api.service';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-record',
     template: '',
 })
-export class RecordComponent implements OnInit {
+export class RecordComponent implements OnDestroy {
+
+    subscription: Subscription;
 
     constructor(
         protected context: ContextService,
         protected dialog: MatDialog,
         protected api: ApiService
     ) {
-        this.context.getSendRecord().subscribe(value => {
+        this.subscription = this.context.getSendRecord().subscribe(value => {
             if (value) {
                 this.sendRecord(value);
             }
         });
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     sendRecord(sendRecord: string) {
