@@ -64,6 +64,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     submit(adEditForm) {
         if (this.adEditForm.valid && !this.data) {
             this.adEntity.maxPriceToPay = Math.abs(adEditForm.price);
+            this.adEntity.description = adEditForm.description;
             this.context.setAdEntity(this.adEntity);
             // Send ad
             this.context.setSendRecord('ad');
