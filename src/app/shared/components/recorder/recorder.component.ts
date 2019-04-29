@@ -53,7 +53,9 @@ export class RecorderComponent implements OnInit, OnDestroy {
 
     startRecording() {
         this.isRecording = true;
-        this.audioRecord.startRecording();
+        setTimeout(() => {
+            this.audioRecord.startRecording();
+        }, 1250);
     }
 
     stopRecording(): Promise<string> {
