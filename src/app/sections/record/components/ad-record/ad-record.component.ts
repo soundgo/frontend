@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
@@ -13,7 +13,7 @@ import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audi
     templateUrl: '../audio-record/audio-record.component.html',
     styleUrls: ['../audio-record/audio-record.component.scss'],
 })
-export class AdRecordComponent extends RecorderComponent {
+export class AdRecordComponent extends RecorderComponent implements OnDestroy {
     @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
         return !this.isRecorded && this.isRecording;
@@ -48,7 +48,7 @@ export class AdRecordComponent extends RecorderComponent {
         });
         this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
-            if (duration > 56 && auth !== 'user') {
+            if (duration >= 60 && auth !== 'user') {
                 this.stopRecord();
             }
         });
@@ -57,6 +57,11 @@ export class AdRecordComponent extends RecorderComponent {
                 this.showUserCantRecord = user.minutes <= 0;
             }
         });
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.subscription.unsubscribe();
     }
 
     startRecord() {
