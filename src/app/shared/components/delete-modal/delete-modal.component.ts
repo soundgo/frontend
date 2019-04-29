@@ -36,22 +36,30 @@ export class DeleteModalComponent implements OnInit {
     }
 
     deleteEntity() {
+        this.context.setLoading(true);
         if (this.data && this.data.entityType === 'audio') {
             this.dialogBottomSheetRef.close();
-            this.api.deleteAudio(this.data.entity);
+            this.api.deleteAudio(this.data.entity).then(() => {
+                this.context.setLoading(false);
+            });
             this.onClose(true);
         } else if (this.data && this.data.entityType === 'ad') {
             const ad = new Ad(this.data.entity);
             ad.isDelete = true;
-            this.api.updateAd(ad);
+            this.api.updateAd(ad).then(() => {
+                this.context.setLoading(false);
+            });
             this.onClose(true);
         } else if (this.data && this.data.entityType === 'site') {
-            this.api.deleteSite(this.data.entity);
+            this.api.deleteSite(this.data.entity).then(() => {
+                this.context.setLoading(false);
+            });
             this.onClose(true);
         } else if (this.data && this.data.entityType === 'creditcard') {
             this.api.updateCreditCard(this.data.entity.id, this.data.entity).then(() => {
                 console.log('Credit card deleted', this.data.entity);
-                this.dialogDeleteRef.close()
+                this.context.setLoading(false);
+                this.dialogDeleteRef.close();
                 this.context.setAuth('user');
                 this.cookieService.set('user', JSON.stringify({
                     user: this.context.getUser().getValue(),
