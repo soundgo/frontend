@@ -35,6 +35,7 @@
                                        [isActive]="record.reported" (click)="report()"></app-reproducer-button>
             </div>
         </div>
+        <mat-card-subtitle *ngIf="record.description != null" class="description">{{record.description}}</mat-card-subtitle>
         <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
              [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
              [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
@@ -46,9 +47,6 @@
                 <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
             </div>
             <br>
-            <p *ngIf="record.description != null" class="description">
-                {{record.description}}
-            </p>
         </div>
     </ng-template>
 </div>

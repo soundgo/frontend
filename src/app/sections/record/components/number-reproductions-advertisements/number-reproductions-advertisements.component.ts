@@ -42,7 +42,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     ngOnInit() {
         this.adEditForm = new FormGroup({
             price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1)]),
-            description: new FormControl(this.adEntity.description, Validators.maxLength(200)),
+            description: new FormControl(this.adEntity.description || '', [Validators.maxLength(200)]),
         });
     }
 
@@ -64,6 +64,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     submit(adEditForm) {
         if (this.adEditForm.valid && !this.data) {
             this.adEntity.maxPriceToPay = Math.abs(adEditForm.price);
+            this.adEntity.description = adEditForm.description;
             this.context.setAdEntity(this.adEntity);
             // Send ad
             this.context.setSendRecord('ad');

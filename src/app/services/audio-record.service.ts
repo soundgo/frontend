@@ -60,7 +60,7 @@ export class AudioRecordService {
             () => {
                 const currentTime = moment();
                 const diffTime = moment.duration(currentTime.diff(this.startTime));
-                this.recordingTime.next(diffTime.seconds());
+                this.recordingTime.next(Math.round(diffTime.asSeconds()));
             },
             1000
         );

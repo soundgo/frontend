@@ -46,7 +46,7 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
                 this.isRecorded = false;
             }
         });
-        this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+        this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
             if (duration >= 60 && auth !== 'user') {
                 this.stopRecord();
@@ -67,8 +67,6 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
     startRecord() {
         this.adEntity = new Ad();
 
-        super.startRecording();
-
         // @ts-ignore
         this.siriWave = new SiriWave({
             container: this.el.first.nativeElement,
@@ -77,10 +75,16 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
             height: 150,
             autostart: true,
         });
+
+        super.startRecording();
+
         this.pressToStop = true;
     }
 
     async stopRecord(): Promise<void> {
+        if (!this.adEntity) {
+            this.adEntity = new Ad();
+        }
         this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
         if (this.adEntity.duration !== 0) {
             this.siriWave.setAmplitude(0);
