@@ -9,6 +9,8 @@ import {NumberReproductionsAdvertisementsComponent} from '../number-reproduction
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import {CircleMode, DirectMode, SimpleSelectMode} from 'mapbox-gl-draw-circle';
 import {Subscription} from 'rxjs';
+import { Config } from 'src/app/shared/models/Config';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-choose-ad-location',
@@ -29,6 +31,7 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
     constructor(
         private context: ContextService,
         protected dialog: MatDialog,
+        private api: ApiService
     ) {
         this.subscription = this.context.getIsMarkerAdVisible().subscribe(bool => {
             if (bool) {
@@ -39,7 +42,9 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
                 }
             }
         });
-        this.maxRadius = this.context.getConfig().getValue().maximumRadio;
+        this.api.getConfiguration().then((config: Config) => {
+            this.maxRadius = new Config(config).maximumRadio;
+        });
     }
 
     ngOnInit() {
