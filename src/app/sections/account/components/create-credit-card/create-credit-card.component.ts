@@ -29,7 +29,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
                 private cdr: ChangeDetectorRef,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
         this.auth = this.context.getAuth().getValue();
-        if (data.creditCard.isDelete) {
+        if (data.creditCard && data.creditCard.isDelete) {
             // If is deleted put empty form
             this.data.creditCard.holderName = '';
             this.data.creditCard.number = '';

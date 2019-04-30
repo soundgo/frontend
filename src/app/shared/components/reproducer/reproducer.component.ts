@@ -2,12 +2,9 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
-    NgZone,
-    OnChanges, OnDestroy,
+    Input, OnDestroy,
     OnInit,
-    Output,
-    SimpleChanges
+    Output
 } from '@angular/core';
 import {Audio} from '../../models/Audio';
 import {Ad} from '../../models/Ad';
@@ -17,7 +14,6 @@ import {NumberReproductionsAdvertisementsComponent} from 'src/app/sections/recor
 import {DeleteModalComponent} from '../delete-modal/delete-modal.component';
 import {EditAudioComponent} from '../../../sections/record/components/edit-audio/edit-audio.component';
 import {User} from '../../models/User';
-import {Subscription} from 'rxjs';
 import {ApiService} from 'src/app/services/api.service';
 
 @Component({
@@ -49,6 +45,10 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // For testing
+        if (!this.record) {
+            this.record = new Audio();
+        }
     }
 
     ngOnDestroy() {
