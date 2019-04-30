@@ -25,8 +25,9 @@ export class LoginComponent implements OnInit {
                 private api: ApiService,
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
-            nickname: new FormControl('', [Validators.required]),
-            password: new FormControl('', [Validators.required]),
+            nickname: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+            password: new FormControl('', [Validators.required, Validators.maxLength(255), Validators.minLength(8),]),
+            // Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s)')
         });
     }
 

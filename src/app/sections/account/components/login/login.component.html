@@ -5,14 +5,18 @@
 
         <mat-form-field>
             <mat-label>Nickname</mat-label>
-            <input matInput formControlName="nickname"/>
+            <input matInput formControlName="nickname" maxlength="256"/>
             <mat-error *ngIf="hasError('nickname', 'required')">Nickname is required</mat-error>
+            <mat-error *ngIf="hasError('nickname', 'maxlength')">Nickname must have less than 255 characters</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password"/>
+            <input matInput type="password" formControlName="password" maxlength="256"/>
             <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
+            <mat-error *ngIf="hasError('password', 'maxlength')">Password must have less than 255 characters</mat-error>
+            <mat-error *ngIf="hasError('password', 'minlength')">Password must be 8 characters or more</mat-error>
+            <mat-error *ngIf="hasError('password', 'pattern')">At least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.</mat-error>
         </mat-form-field>
 
         <mat-error *ngIf="showBadCredentials">The credentials are not correct</mat-error>

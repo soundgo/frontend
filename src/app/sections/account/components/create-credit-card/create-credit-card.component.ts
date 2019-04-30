@@ -42,7 +42,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
         const expiry = !this.data.creditCard.expirationMonth ? '' :
             this.data.creditCard.expirationMonth + '/' + this.data.creditCard.expirationYear;
         this.creditCardForm = new FormGroup({
-            name: new FormControl(this.data.creditCard.holderName, [Validators.required, Validators.minLength(2)]),
+            name: new FormControl(this.data.creditCard.holderName, [Validators.required, Validators.minLength(2), Validators.maxLength(255)]),
             number: new FormControl(this.data.creditCard.number, [Validators.required, CreditCardValidator.validateCardNumber]),
             expiry: new FormControl(expiry, [Validators.required, CreditCardValidator.validateCardExpiry, Validators.maxLength(5)]),
             cvc: new FormControl(this.data.creditCard.cvvCode, [Validators.required, CreditCardValidator.validateCardCvc])

@@ -5,9 +5,11 @@
             <p class="confirm-profile">First, you must introduce your password due to security reasons.</p>
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password"
+                <input matInput formControlName="password" type="password" maxlength="256"
                        (keyup)="checkPasswordCorrect(profileForm.value)">
                 <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
+                <mat-error *ngIf="hasError('password', 'maxlength')">Password must have less than 255 characters</mat-error>
+                <mat-error *ngIf="hasError('password', 'pattern')">At least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.</mat-error>
             </mat-form-field>
         </mat-dialog-content>
     </ng-template>
@@ -15,8 +17,9 @@
         <mat-dialog-content>
             <mat-form-field>
                 <mat-label>Nickname</mat-label>
-                <input matInput formControlName="nickname">
+                <input matInput formControlName="nickname" maxlength="256">
                 <mat-error *ngIf="hasError('nickname', 'required')">Nickname is required</mat-error>
+                <mat-error *ngIf="hasError('nickname', 'maxlength')">Nickname must have less than 255 characters</mat-error>
             </mat-form-field>
         </mat-dialog-content>
         <mat-dialog-actions>
