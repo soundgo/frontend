@@ -31,8 +31,11 @@ install:
   - npm rebuild node-sass
 
 script:
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - ng test --code-coverage
   - if [[ $TRAVIS_BRANCH == $BRANCH_TRAVIS ]] && [[ $RELEASE_TRAVIS == "1" ]]; then git archive --format zip --output ./$ZIP_TRAVIS.zip $BRANCH_TRAVIS; echo "Source code generated properly."; fi
+
+after_success:
+  - grunt coveralls:coverage
 
 before_deploy:
   - git config --local user.name $USER_TRAVIS

@@ -69,6 +69,10 @@
     "@types/mapbox-gl": "^0.51.4",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
+    "grunt": "^1.0.4",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-coveralls": "^2.0.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.0.1",
@@ -86,6 +90,6 @@
     "npm": "6.4.1"
   },
   "browser": {
-    "fs":false
+    "fs": false
   }
 }
