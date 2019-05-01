@@ -39,6 +39,7 @@ export class ReproducerComponent implements OnInit, OnDestroy {
 
     user: User;
 
+
     constructor(protected context: ContextService,
                 protected dialog: MatDialog,
                 protected api: ApiService,

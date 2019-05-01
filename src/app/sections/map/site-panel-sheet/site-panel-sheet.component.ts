@@ -75,9 +75,9 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
                 site: this.site
             }
         }).afterClosed().subscribe(result => {
+            this.isEditing = false;
             if (result) {
                 this.site = result;
-                this.isEditing = false;
                 this.cdr.detectChanges();
             }
         });
