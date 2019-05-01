@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 protected dialog: MatDialog,
                 private cdr: ChangeDetectorRef,
                 private cookieService: CookieService) {
-        this.user = this.context.getUser().getValue();
+        this.user = this.context.getUser().getValue() || new User();
         this.auth = this.context.getAuth().getValue();
         this.context.getAuth().subscribe(value => {
             if (value) {

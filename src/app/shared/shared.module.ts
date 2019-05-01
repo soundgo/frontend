@@ -46,15 +46,9 @@ const components = [
         HttpClientModule,
         PlyrModule,
         MatSnackBarModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        })
     ],
     exports: [
+        TranslateModule,
         ...components
     ]
 })

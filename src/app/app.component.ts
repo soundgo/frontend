@@ -26,9 +26,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     isMicrophoneEnabled = false;
 
-    constructor(private sanitizer: DomSanitizer,
-                private audioRecord: AudioRecordService,
-                private translate: TranslateService,
+    constructor(public translate: TranslateService,
                 private api: ApiService,
                 private context: ContextService,
                 private cookieService: CookieService,
@@ -36,6 +34,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
                 private cdr: ChangeDetectorRef) {
 
         translate.setDefaultLang('en');
+        translate.use('en');
 
         this.api.getConfiguration().then((config: Config) => {
             this.context.setConfig(new Config(config));

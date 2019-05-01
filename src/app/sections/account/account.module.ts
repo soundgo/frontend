@@ -29,16 +29,11 @@ const components = [
         MaterialModule,
         HttpClientModule,
         FormsModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-        })
     ],
     providers: [CookieService],
-    exports: [...components],
+    exports: [
+        TranslateModule,
+        ...components],
 })
 export class AccountModule {
 }
