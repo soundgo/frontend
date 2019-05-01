@@ -52,13 +52,6 @@ const components = [
     FormsModule,
     RecordModule,
     PlyrModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyB8gV_uBNgfAH3GNZdaUq_Ji8Jhz-D5uJo",
       authDomain: "soundgo-94882.firebaseapp.com",
@@ -69,6 +62,8 @@ const components = [
     }),
     AngularFirestoreModule,
   ],
-  exports: [...components],
+  exports: [
+    TranslateModule,
+    ...components],
 })
 export class MapModule {}

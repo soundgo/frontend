@@ -5,7 +5,7 @@
 <form [formGroup]="siteForm" (ngSubmit)="saveSite(siteForm.value)">
   <mat-dialog-content>
     <mat-form-field>
-      <div mat-label>Name</div>
+      <mat-label>Name</mat-label>
       <input matInput formControlName="name" maxlength="201">
       <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
       <mat-error *ngIf="hasError('name', 'maxlength')">Name must have less than 200 characters</mat-error>
