@@ -21,6 +21,7 @@ import { MapBoxComponent } from './map-box/map-box.component';
 import { AdReproducerPanelComponent } from './ad-reproducer-panel/ad-reproducer-panel.component';
 import { AccountModule } from '../account/account.module';
 import { TagPanelSheetComponent } from './tag-panel-sheet/tag-panel-sheet.component';
+import { SiteSearchComponent } from './site-search/site-search.component';
 
 const components = [
   MapBoxComponent,
@@ -29,6 +30,7 @@ const components = [
   AudioReproducerPanelComponent,
   AdReproducerPanelComponent,
   TagPanelSheetComponent,
+  SiteSearchComponent
 ];
 
 @NgModule({
@@ -39,6 +41,7 @@ const components = [
     AudioReproducerPanelComponent,
     AdReproducerPanelComponent,
     CreateSiteComponent,
+    SiteSearchComponent
   ], // inside we put the modalComponent
   imports: [
     CommonModule,
@@ -49,13 +52,6 @@ const components = [
     FormsModule,
     RecordModule,
     PlyrModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyCWP0GCy7NY5EQ3h6AmegW8MfB0Xc96f3Y",
       authDomain: "soundgo-a0f55.firebaseapp.com",
@@ -66,6 +62,8 @@ const components = [
     }),
     AngularFirestoreModule,
   ],
-  exports: [...components],
+  exports: [
+    TranslateModule,
+    ...components],
 })
 export class MapModule {}

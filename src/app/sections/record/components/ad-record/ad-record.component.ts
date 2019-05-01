@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog} from '@angular/material';
@@ -13,7 +13,7 @@ import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audi
     templateUrl: '../audio-record/audio-record.component.html',
     styleUrls: ['../audio-record/audio-record.component.scss'],
 })
-export class AdRecordComponent extends RecorderComponent {
+export class AdRecordComponent extends RecorderComponent implements OnDestroy {
     @HostBinding('class.isRecordingCSS')
     get isRecordingCSS() {
         return !this.isRecorded && this.isRecording;
@@ -46,9 +46,9 @@ export class AdRecordComponent extends RecorderComponent {
                 this.isRecorded = false;
             }
         });
-        this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
+        this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
-            if (duration > 56 && auth !== 'user') {
+            if (duration >= 60 && auth !== 'user') {
                 this.stopRecord();
             }
         });
@@ -59,10 +59,13 @@ export class AdRecordComponent extends RecorderComponent {
         });
     }
 
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.subscription.unsubscribe();
+    }
+
     startRecord() {
         this.adEntity = new Ad();
-
-        super.startRecording();
 
         // @ts-ignore
         this.siriWave = new SiriWave({
@@ -72,10 +75,16 @@ export class AdRecordComponent extends RecorderComponent {
             height: 150,
             autostart: true,
         });
+
+        super.startRecording();
+
         this.pressToStop = true;
     }
 
     async stopRecord(): Promise<void> {
+        if (!this.adEntity) {
+            this.adEntity = new Ad();
+        }
         this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
         if (this.adEntity.duration !== 0) {
             this.siriWave.setAmplitude(0);

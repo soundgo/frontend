@@ -25,8 +25,8 @@ export class CreateSiteComponent implements OnInit {
 
     ngOnInit() {
         this.siteForm = new FormGroup({
-            name: new FormControl(this.data.site.name || '', [Validators.required]),
-            description: new FormControl(this.data.site.description || '', [Validators.required]),
+            name: new FormControl(this.data.site.name || '', [Validators.required, Validators.maxLength(200)]),
+            description: new FormControl(this.data.site.description || '', [Validators.required, Validators.maxLength(200)]),
         });
     }
 

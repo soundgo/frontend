@@ -49,7 +49,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
         this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
             const user = this.context.getUser().getValue();
-            if (duration !== 0 && (duration > 56 && auth === 'user' || duration >= user.minutes)) {
+            if (duration !== 0 && (duration >= 60 && auth === 'user' || duration >= user.minutes)) {
                 if (!this.isAlreadyStopped) {
                     this.stopRecord();
                     this.isAlreadyStopped = true;
@@ -58,18 +58,19 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
         }));
         this.subscription.add(this.context.getUser().subscribe(user => {
             if (user) {
-                this.showUserCantRecord = user.minutes <= 0;
+                this.showUserCantRecord = user.minutes <= 3;
             }
         }));
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.subscription.unsubscribe();
     }
 
     startRecord() {
         const minutes = this.context.getUser().getValue().minutes;
-        if (minutes && minutes > 0) {
+        if (minutes && minutes > 3) {
             this.audioEntity = new Audio();
 
             super.startRecording();

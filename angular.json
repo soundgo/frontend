@@ -97,6 +97,36 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+            ],
+            "codeCoverageExclude": [
+              "src/app/components/header/components/category-picker/category-picker.component.ts",
+              "src/app/components/header/components/menu/menu.component.ts",
+              "src/app/components/header/components/time-left/time-left.component.ts",
+              "src/app/sections/account/components/create-credit-card/create-credit-card.component.ts",
+              "src/app/sections/account/components/edit-profile/edit-profile.component.ts",
+              "src/app/sections/account/components/sign-up/sign-up.component.ts",
+              "src/app/sections/account/components/login/login.component.ts",
+              "src/app/sections/account/components/profile/profile.component.ts",
+              "src/app/sections/map/map-box/map-box.component.ts",
+              "src/app/sections/map/create-site/create-site.component.ts",
+              "src/app/sections/map/site-search/site-search.component.ts",
+              "src/app/sections/map/site-panel-sheet/site-panel-sheet.component.ts",
+              "src/app/sections/map/tag-panel-sheet/tag-panel-sheet.component.ts",
+              "src/app/sections/record/components/ad-record/ad-record.component.ts",
+              "src/app/sections/record/components/audio-record/audio-record.component.ts",
+              "src/app/sections/record/components/choose-ad-location/choose-ad-location.component.ts",
+              "src/app/sections/record/components/choose-audio-category/choose-audio-category.component.ts",
+              "src/app/sections/record/components/edit-audio/edit-audio.component.ts",
+              "src/app/sections/record/components/number-reproductions-advertisements/number-reproductions-advertisements.component.ts",
+              "src/app/sections/record/components/record/record.component.ts",
+              "src/app/services/api.service.ts",
+              "src/app/services/audio-record.service.ts",
+              "src/app/shared/components/delete-modal/delete-modal.component.ts",
+              "src/app/shared/components/reproducer/reproducer.component.ts",
+              "src/app/shared/components/loading/loading.component.ts",
+              "src/app/shared/components/like-modal/like-modal.component.ts",
+              "src/app/shared/components/report-modal/report-modal.component.ts",
+              "src/app/shared/components/recorder/recorder.component.ts"
             ]
           }
         },

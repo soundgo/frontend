@@ -13,20 +13,31 @@
     margin: 15px 0;
   }
 
+  .report {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+
   .author {
     margin-left: 30px;
     display: flex;
     align-items: center;
 
-    img {
-      width: 35px;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       border-radius: 100%;
-      box-shadow: 1px 0px 2.5px #00000087;
+      box-shadow: 0 1px 2.5px #060606;
     }
 
     p {
       display: inline;
-      font-size: 20px;
+      font-size: 23.5px;
       font-weight: 500;
       margin-left: 15px;
 
@@ -40,6 +51,15 @@
         font-size: 15px;
       }
     }
+  }
+
+  .description {
+    display: flex;
+    width: 80%;
+    overflow: unset;
+    margin: 15px 15px 15px 30px;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
   .header {

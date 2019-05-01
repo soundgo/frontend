@@ -5,14 +5,16 @@
 <form [formGroup]="siteForm" (ngSubmit)="saveSite(siteForm.value)">
   <mat-dialog-content>
     <mat-form-field>
-      <div mat-label>Name</div>
-      <input matInput formControlName="name">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" maxlength="201">
       <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+      <mat-error *ngIf="hasError('name', 'maxlength')">Name must have less than 200 characters</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
+      <textarea matInput matTextareaAutosize formControlName="description" maxlength="201"></textarea>
       <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
+      <mat-error *ngIf="hasError('description', 'maxlength')">Description must have less than 200 characters</mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>

@@ -38,6 +38,11 @@
     filter: drop-shadow(1px 0px 2.5px #00000055);
     transition: filter 0.15s ease-in-out;
     cursor: pointer;
+    background-color: #7030A0;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    margin-bottom: 5px;
 
     &:hover {
       -webkit-filter: drop-shadow(1px 0px 2.5px #00000055);
@@ -50,6 +55,14 @@
       height: 58px;
       margin-top: 1px;
     }
+  }
+
+  .search_sites {
+    background-image: url('/assets/images/sites_search.png');
+  }
+
+  .search_tags {
+    background-image: url('/assets/images/search_tag.png');
   }
 
   .avatar {
@@ -83,15 +96,15 @@
   }
 
   .log_out {
-    background-image: url('/assets/images/exit.PNG');
+    background-image: url('/assets/images/exit.png');
   }
 
   .site {
-    background-image: url('/assets/images/marker.PNG');
+    background-image: url('/assets/images/add_site.png');
   }
 
   .profile {
-    background-image: url('/assets/images/perfil.PNG');
+    background-image: url('/assets/images/profile.png');
   }
 
 }

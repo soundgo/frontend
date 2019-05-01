@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimeLeftModalComponent } from './time-left-modal.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 describe('TimeLeftModalComponent', () => {
   let component: TimeLeftModalComponent;
@@ -8,7 +9,11 @@ describe('TimeLeftModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeLeftModalComponent ]
+      declarations: [ TimeLeftModalComponent ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: [] },
+      ]
     })
     .compileComponents();
   }));

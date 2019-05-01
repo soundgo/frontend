@@ -1,11 +1,13 @@
 <div id="map-container" *ngIf="showAdvertisementMarkerMenu">
   <div id="basic-container">
-    <p *ngIf="radius === 0">
+    <p class="text-add" *ngIf="radius === 0">
       Press somewhere to add your Ad
     </p>
     <p *ngIf="radius !== 0">
       <span>Radius of the advertisement: <em>{{ radius }}m</em></span>
-      <span class="instructions">To move the circle: double click. The radius must be less than 5km</span>
+      <span class="instructions-1">The radius must be less than {{maxRadius/1000}}km</span>
+      <span class="instructions-2">You can only move the circle when its colour is <em>orange</em>. If the circle is not <em>orange</em>, click inside.<br>
+      Double-click circle area and maintain second click to move the circle through the screen.</span>
     </p>
     <button mat-raised-button color="warn" (click)="close()">Close</button>
     <button mat-raised-button *ngIf="radius !== 0 && (radius <= maxRadius)" class="save" (click)="saveAdvertisementMarker()">Save</button>

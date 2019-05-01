@@ -15,6 +15,10 @@
   }
 }
 
+.error {
+  color: red;
+}
+
 .tag {
   display: flex;
   align-items: center;
@@ -26,6 +30,8 @@
 
   p {
     flex: 1 0 auto;
+    word-wrap: break-word;
+    max-width: 247px;
   }
 
   .close {

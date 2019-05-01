@@ -15,6 +15,8 @@
     <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of options" [value]="option" (click)="addTag(option)">{{option}}</mat-option>
     </mat-autocomplete>
+    <p *ngIf="showTermMaxLengthError" class="error">Term has a maximum length of 200 characters</p>
+    <br *ngIf="showTermMaxLengthError">
     <p *ngIf="term">Press Enter key to add tags</p>
 </div>
 <br/>

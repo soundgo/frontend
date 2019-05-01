@@ -1,0 +1,30 @@
+<div *ngIf="!isLoading; else loading">
+
+    <ng-template [ngIf]="sites && sites.length === 0">
+        <p>There's no sites</p>
+    </ng-template>
+
+    <ng-template [ngIf]="sites && sites.length !== 0">
+        <mat-dialog-actions>
+            <button mat-button color="warn" (click)="onClose()">Close</button>
+        </mat-dialog-actions>
+
+        <div class="site-wrapper" *ngIf="isSiteFoundAvailable() && term">
+            <div mat-dialog-content>
+                <div class="site" *ngFor="let site of sitesFound" (click)="flyTo(site)">
+                    <div>
+                        <p class="site-title">{{site.name}}</p>
+                        <p>{{site.description}}</p>
+                    </div>
+                    <p class="fly-to">Fly to</p>
+                </div>
+            </div>
+        </div>
+
+        <input class="site-search" type="text" (keyup)="searchSites($event)" placeholder="Search sites...">
+
+    </ng-template>
+</div>
+<ng-template #loading>
+    <p>Loading search...</p>
+</ng-template>

@@ -16,7 +16,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     duration: number;
     adEntity: Ad;
-    adPriceForm: FormGroup;
+    adEditForm: FormGroup;
 
     maxNumberOfReproductions: number;
 
@@ -40,13 +40,15 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.adPriceForm = new FormGroup({
-            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1)]),
+        this.adEditForm = new FormGroup({
+            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1), Validators.max(1000000)]),
+            description: new FormControl(this.adEntity.description || '', [Validators.maxLength(200)]),
         });
     }
 
+
     hasError(controlName: string, errorName: string) {
-        return this.adPriceForm.controls[controlName].hasError(errorName);
+        return this.adEditForm.controls[controlName].hasError(errorName);
     }
 
     calculatePrice(number) {
@@ -59,17 +61,19 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
         this.maxNumberOfReproductions = Math.round(Math.abs(number) / (this.duration * (this.adEntity.radius / 10000)));
     }
 
-    submit(adPriceForm) {
-        if (this.adPriceForm.valid && !this.data) {
-            this.adEntity.maxPriceToPay = Math.abs(adPriceForm.price);
+    submit(adEditForm) {
+        if (this.adEditForm.valid && !this.data) {
+            this.adEntity.maxPriceToPay = Math.abs(adEditForm.price);
+            this.adEntity.description = adEditForm.description;
             this.context.setAdEntity(this.adEntity);
             // Send ad
             this.context.setSendRecord('ad');
 
             this.dialogRef.close();
-        } else if (this.adPriceForm.valid && this.data) {
+        } else if (this.adEditForm.valid && this.data) {
             const ad = new Ad(this.data.ad);
-            ad.maxPriceToPay = Math.abs(adPriceForm.price);
+            ad.description = adEditForm.description;
+            ad.maxPriceToPay = Math.abs(adEditForm.price);
             ad.isDelete = false;
             this.api.updateAd(ad);
             this.dialogRef.close(ad);

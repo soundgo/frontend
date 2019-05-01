@@ -25,24 +25,29 @@
                                        [icon]="'/assets/images/delete-active.png'" [color]="'#AF2237'"
                                        (click)="deleteRecord(record)"></app-reproducer-button>
 
-                <app-reproducer-button *ngIf="canShowLikeReport()"
+                <app-reproducer-button *ngIf="canShowLike()"
                                        [icon]="'/assets/images/like.PNG'"
                                        [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
                                        [isActive]="record.liked" (click)="like()"></app-reproducer-button>
-                <app-reproducer-button *ngIf="canShowLikeReport()"
-                                       [icon]="'/assets/images/report.png'"
-                                       [activeIcon]="'/assets/images/report-active.png'" [color]="'red'"
-                                       [isActive]="record.reported" (click)="report()"></app-reproducer-button>
+                <img *ngIf="canShowReport()"
+                     [src]="record.reported ? '/assets/images/report-active.png' : '/assets/images/report.png'"
+                     class="report" (click)="reportRecord()">
             </div>
         </div>
+        <mat-card-subtitle *ngIf="record.description != null"
+                           class="description">{{record.description}}</mat-card-subtitle>
         <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
              [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
              [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
         </div>
-        <div class="author">
-            <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
-            <p>{{record.name}}</p>
-            <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
+        <div>
+            <div class="author">
+                <div class="avatar"
+                     [ngStyle]="{'background-image': 'url('+(record.photo ? record.photo : '../../../../assets/images/anonymous.png')+')'}"></div>
+                <p>{{record.name}}</p>
+                <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
+            </div>
+            <br>
         </div>
     </ng-template>
 </div>

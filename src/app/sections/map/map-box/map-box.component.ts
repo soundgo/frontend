@@ -3,7 +3,6 @@ import * as mapboxgl from 'mapbox-gl';
 import {
     MatBottomSheet,
 } from '@angular/material';
-import {MapService} from '../../../services/map.service';
 import {ContextService} from '../../../services/context.service';
 import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
 import {Observable} from 'rxjs';
@@ -20,7 +19,6 @@ import * as turf from '@turf/turf';
     selector: 'app-map-box',
     templateUrl: './map-box.component.html',
     styleUrls: ['./map-box.component.scss'],
-    providers: [MapService],
 })
 export class MapBoxComponent implements OnInit {
     map: mapboxgl.Map;
@@ -42,7 +40,6 @@ export class MapBoxComponent implements OnInit {
     categoriesSelected = 'Tourism,Experience,Leisure';
 
     constructor(private bottomSheet: MatBottomSheet,
-                private mapService: MapService,
                 private context: ContextService,
                 private db: AngularFirestore,
                 private api: ApiService) {
@@ -339,26 +336,23 @@ export class MapBoxComponent implements OnInit {
         return user && user.id === (record as any).properties.actorId;
     }
 
-    filterAudioTimePass(audio) {
-        return audio.properties.timestampFinish.seconds >= (Date.now() / 1000);
-    }
 
     filterAds(data, user, position) {
         return data.filter(ad => {
-            return this.notFilterRecordIfUserIsOwner(ad, user) ||
-                this.isUserInsideAdvertArea(ad, {
-                    latitude: position.latitude,
-                    longitude: position.longitude
-                }) &&
-                ad.properties.isActive &&
-                !ad.properties.isDelete;
+            return (this.notFilterRecordIfUserIsOwner(ad, user) || this.isUserInsideAdvertArea(ad, {
+                latitude: position.latitude,
+                longitude: position.longitude
+            })) && ad.properties.isActive && !ad.properties.isDelete;
         });
+    }
+
+    isAudioTimedOut(audio) {
+        return audio.properties.timestampFinish.seconds <= (Date.now() / 1000);
     }
 
     filterAudios(data, user) {
         return data.filter(audio => {
-            return this.notFilterRecordIfUserIsOwner(audio, user) ||
-                this.filterAudioTimePass(audio) &&
+            return !this.isAudioTimedOut(audio) &&
                 !audio.properties.isInappropriate &&
                 !audio.properties.site;
         });

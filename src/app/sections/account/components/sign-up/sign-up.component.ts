@@ -24,9 +24,9 @@ export class SignUpComponent implements OnInit {
                 protected dialog: MatDialog,
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
-            nickname: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}')]),
-            password: new FormControl('', [Validators.required]),
+            nickname: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+            email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}'), Validators.maxLength(255)]),
+            password: new FormControl('', [Validators.required, Validators.pattern('(?=^.{8,255}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*()_+}{:;\'?/&.&,])(?!.*\\s).*$'), Validators.maxLength(255), Validators.minLength(8)]),
             rgpd: new FormControl('', [Validators.requiredTrue]),
         });
     }
@@ -54,25 +54,23 @@ export class SignUpComponent implements OnInit {
             this.userEntity.password = userForm.password;
 
             this.api.createUser(this.userEntity).then((response: any) => {
-                this.api.login(this.userEntity).then((responseLogin: any) => {
-                    /* this.userEntity.photo = response.photo;
-                    this.userEntity.minutes = response.minutes;
-                    this.userEntity.token = responseLogin.token;
-                    this.userEntity.id = responseLogin.actorId;
-                    this.context.setUser(this.userEntity);
-                    this.context.setAuth(responseLogin.role);
-                    this.cookieService.set('user', JSON.stringify({
-                        user: this.userEntity,
-                        auth: responseLogin.role
-                    })); */
-                    this.dialogRef.close();
-                    this.dialog.open(AlertComponent, {
-                        width: '350px',
-                        data: {
-                            title: 'Check your mail box!',
-                            content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
-                        }
-                    });
+                /* this.userEntity.photo = response.photo;
+                this.userEntity.minutes = response.minutes;
+                this.userEntity.token = responseLogin.token;
+                this.userEntity.id = responseLogin.actorId;
+                this.context.setUser(this.userEntity);
+                this.context.setAuth(responseLogin.role);
+                this.cookieService.set('user', JSON.stringify({
+                    user: this.userEntity,
+                    auth: responseLogin.role
+                })); */
+                this.dialogRef.close();
+                this.dialog.open(AlertComponent, {
+                    width: '350px',
+                    data: {
+                        title: 'Check your mail box!',
+                        content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
+                    }
                 });
             });
 

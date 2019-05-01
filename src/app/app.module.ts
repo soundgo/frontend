@@ -24,6 +24,7 @@ import { AccountModule } from './sections/account/account.module';
 import { CookieService } from 'ngx-cookie-service';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TimeLeftModalComponent } from './components/header/components/time-left-modal/time-left-modal.component';
+import { CommonModule } from '@angular/common';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -46,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NO_ERRORS_SCHEMA
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     SharedModule,
     ReactiveFormsModule,

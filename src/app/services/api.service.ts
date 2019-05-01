@@ -392,6 +392,13 @@ export class ApiService {
     /////////////////////////// SITE ////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    getSites() {
+        const url = `${this.apiUrl}/sites`;
+        return new Promise(resolve => {
+            this.http.get<any>(url).subscribe(response => resolve(response), err => this.handleError(err));
+        });
+    }
+
     /** GET: Get a site */
     getSiteById(id: number) {
         const url = `${this.apiUrl}/sites/site/${id}/`;
