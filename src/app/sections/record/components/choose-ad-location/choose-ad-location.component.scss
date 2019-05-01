@@ -1,38 +1,55 @@
 @import '../../../../../css/theme.scss';
+:host {
+  #map-container {
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    text-align: center;
+  }
 
-#map-container {
-  position: absolute;
-  bottom: 100px;
-  right: 0;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.3);
-  height: 150px;
-  width: 100%;
-  text-align: center;
-}
-#map-container p {
-  margin-top: 17px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: $purple;
-}
-#map-container .instructions {
-  color: black;
-  font-size: 18px;
-  display: block;
-  margin-top: 10px;
-}
+  p {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $purple;
 
-#map-container p em {
-  font-weight: 600;
-  color: rgb(54, 4, 38);
-}
-#basic-container button {
-  margin: 5px;
-  margin-top: 30px;
-  font-size: 1.2rem;
-}
-#basic-container .save {
-  background: $blue;
-  color: #fff;
+    em {
+      font-weight: 600;
+      color: rgb(54, 4, 38);
+    }
+  }
+  .instructions-1 {
+    color: red;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  .instructions-2 {
+    color: black;
+    font-size: 18px;
+    display: block;
+    margin-top: 15px;
+
+    em {
+      color: orange;
+    }
+  }
+
+  .text-add {
+    margin-top: 20px;
+  }
+
+  #basic-container button {
+    margin: 5px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+  }
+  #basic-container .save {
+    background: $blue;
+    color: #fff;
+  }
 }
