@@ -58,7 +58,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
         }));
         this.subscription.add(this.context.getUser().subscribe(user => {
             if (user) {
-                this.showUserCantRecord = user.minutes <= 0;
+                this.showUserCantRecord = user.minutes <= 3;
             }
         }));
     }
@@ -70,7 +70,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
 
     startRecord() {
         const minutes = this.context.getUser().getValue().minutes;
-        if (minutes && minutes > 0) {
+        if (minutes && minutes > 3) {
             this.audioEntity = new Audio();
 
             super.startRecording();
