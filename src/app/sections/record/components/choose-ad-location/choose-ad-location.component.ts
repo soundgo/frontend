@@ -42,9 +42,6 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
                 }
             }
         });
-        this.api.getConfiguration().then((config: Config) => {
-            this.maxRadius = new Config(config).maximumRadio;
-        });
     }
 
     ngOnInit() {
@@ -56,6 +53,7 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
 
     showAdLocationPicker() {
         // Show menu
+        this.maxRadius = this.context.getConfig().getValue().maximumRadio;
         this.showAdvertisementMarkerMenu = true;
 
         this.map = this.context.getMap().getValue();
