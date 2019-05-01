@@ -130,12 +130,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         reader.onloadend = () => {
             const user = new User();
             user.base64 = '' + reader.result;
-            this.api.updateUser(this.user.nickname, user).then(() => {
-                // Set user context && template variable
-                const userContext = new User(this.user);
-                this.user.photo = user.base64;
-                userContext.photo = user.base64;
-                this.context.setUser(userContext);
+            this.api.updateUser(this.user.nickname, user).then((savedUser: User) => {
+                this.user = savedUser;
+                this.context.setUser(savedUser);
                 this.isLoading = false;
             });
         };

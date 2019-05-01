@@ -29,17 +29,21 @@
                                        [icon]="'/assets/images/like.PNG'"
                                        [activeIcon]="'/assets/images/like-active.PNG'" [color]="'#5717df'"
                                        [isActive]="record.liked" (click)="like()"></app-reproducer-button>
-                <img *ngIf="canShowReport()" [src]="record.reported ? '/assets/images/report-active.png' : '/assets/images/report.png'" class="report" (click)="reportRecord()">
+                <img *ngIf="canShowReport()"
+                     [src]="record.reported ? '/assets/images/report-active.png' : '/assets/images/report.png'"
+                     class="report" (click)="reportRecord()">
             </div>
         </div>
-        <mat-card-subtitle *ngIf="record.description != null" class="description">{{record.description}}</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="record.description != null"
+                           class="description">{{record.description}}</mat-card-subtitle>
         <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
              [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
              [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
         </div>
         <div>
             <div class="author">
-                <img [src]="record.photo ? record.photo : '../../../../assets/images/anonymous.png'"/>
+                <div class="avatar"
+                     [ngStyle]="{'background-image': 'url('+(record.photo ? record.photo : '../../../../assets/images/anonymous.png')+')'}"></div>
                 <p>{{record.name}}</p>
                 <p class="advertiser" *ngIf="isAdvertiser">Advertiser</p>
             </div>
