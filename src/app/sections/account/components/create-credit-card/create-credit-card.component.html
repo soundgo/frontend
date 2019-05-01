@@ -8,9 +8,10 @@
         <div class="group1">
             <mat-form-field>
                 <mat-label>Holder name</mat-label>
-                <input matInput formControlName="name">
+                <input matInput formControlName="name" maxlength="256">
                 <mat-error *ngIf="hasError('name', 'required')">Card name is required</mat-error>
                 <mat-error *ngIf="hasError('name', 'minlength')">Card name must be 2 characters or more</mat-error>
+                <mat-error *ngIf="hasError('name', 'maxlength')">Card name must have less than 255 characters</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Card number</mat-label>

@@ -8,7 +8,7 @@
     </div>
     <mat-form-field>
         <input type="text" #tagInput matInput (keyup)="search($event)" (change)="changeTerm($event)"
-               (keyup.enter)="addTag($event)"
+               (keyup.enter)="addTag($event)" maxlength="201"
                [matAutocomplete]="auto" placeholder="Choose your tags!">
     </mat-form-field>
 

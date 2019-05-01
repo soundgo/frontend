@@ -41,7 +41,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
 
     ngOnInit() {
         this.adEditForm = new FormGroup({
-            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1)]),
+            price: new FormControl(this.adEntity.maxPriceToPay, [Validators.required, Validators.min(1), Validators.max(1000000)]),
             description: new FormControl(this.adEntity.description || '', [Validators.maxLength(200)]),
         });
     }
