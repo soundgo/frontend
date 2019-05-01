@@ -18,6 +18,7 @@ import {NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {DeleteModalComponent} from './components/delete-modal/delete-modal.component';
 import {LoadingComponent} from './components/loading/loading.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ReportModalComponent } from './components/report-modal/report-modal.component';
 
 const components = [
     ButtonComponent,
@@ -29,13 +30,14 @@ const components = [
     DeleteModalComponent,
     ReproducerButtonComponent,
     LoadingComponent,
-    AlertComponent
+    AlertComponent,
+    ReportModalComponent
 ];
 
 @NgModule({
     declarations: [...components],
     providers: [{provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 7000}}], // duration in seconds of the snackbar
-    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent, DeleteModalComponent, AlertComponent],
+    entryComponents: [RecorderComponent, ErrorsManagementComponent, ReproducerComponent, CreateSiteComponent, DeleteModalComponent, AlertComponent, ReportModalComponent],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
         NO_ERRORS_SCHEMA

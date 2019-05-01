@@ -19,6 +19,7 @@ import {EditAudioComponent} from '../../../sections/record/components/edit-audio
 import {User} from '../../models/User';
 import {Subscription} from 'rxjs';
 import {ApiService} from 'src/app/services/api.service';
+import {ReportModalComponent} from '../report-modal/report-modal.component';
 
 @Component({
     selector: 'app-reproducer',
@@ -81,9 +82,35 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         }
     }
 
-    canShowLikeReport() {
+    canShowLike() {
+        const user = this.context.getUser().getValue();
+        return user !== null && this.isAudio && !this.isEditable && !this.record.reported;
+    }
+
+    canShowReport() {
         const user = this.context.getUser().getValue();
         return user !== null && this.isAudio && !this.isEditable;
+    }
+
+    reportRecord() {
+        if (!(this.record as Audio).reported) {
+            this.dialog.open(ReportModalComponent, {
+                width: '350px',
+                data: {
+                    audio: this.record
+                }
+            }).afterClosed().subscribe(isReported => {
+                if (isReported) {
+                    const audio = this.record as Audio;
+                    audio.reported = true;
+                    audio.numberReports = audio.numberReports + 1;
+                    this.record = audio;
+                    if (!this.cdr['destroyed']) {
+                        this.cdr.detectChanges();
+                    }
+                }
+            });
+        }
     }
 
     deleteRecord(record) {
@@ -157,13 +184,6 @@ export class ReproducerComponent implements OnInit, OnDestroy {
     }
 
     report() {
-        if (!(this.record as Audio).reported) {
-            const audio = this.record as Audio;
-            audio.reported = true;
-            audio.numberReports = audio.numberReports + 1;
-            this.record = audio;
-            this.api.reportAudio(audio);
-        }
     }
 
 }
