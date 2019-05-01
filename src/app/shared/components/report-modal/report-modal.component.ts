@@ -13,7 +13,6 @@ export class ReportModalComponent implements OnInit {
     constructor(
         private api: ApiService,
         public dialogRef: MatDialogRef<ReportModalComponent>,
-        private context: ContextService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 

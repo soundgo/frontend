@@ -20,6 +20,7 @@ import {User} from '../../models/User';
 import {Subscription} from 'rxjs';
 import {ApiService} from 'src/app/services/api.service';
 import {ReportModalComponent} from '../report-modal/report-modal.component';
+import {LikeModalComponent} from '../like-modal/like-modal.component';
 
 @Component({
     selector: 'app-reproducer',
@@ -175,15 +176,23 @@ export class ReproducerComponent implements OnInit, OnDestroy {
 
     like() {
         if (!(this.record as Audio).liked) {
-            const audio = this.record as Audio;
-            audio.liked = true;
-            audio.numberLikes += 1;
-            this.record = audio;
-            this.api.likeAudio(audio);
+            this.dialog.open(LikeModalComponent, {
+                width: '350px',
+                data: {
+                    audio: this.record
+                }
+            }).afterClosed().subscribe(isLiked => {
+                if (isLiked) {
+                    const audio = this.record as Audio;
+                    audio.liked = true;
+                    audio.numberLikes += 1;
+                    this.record = audio;
+                    if (!this.cdr['destroyed']) {
+                        this.cdr.detectChanges();
+                    }
+                }
+            });
         }
-    }
-
-    report() {
     }
 
 }

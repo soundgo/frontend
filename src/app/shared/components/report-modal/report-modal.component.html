@@ -1,6 +1,11 @@
 <h1 mat-dialog-title>Report audio</h1>
-<p mat-dialog-content>You're going to report an audio. An audio can only be reported if the content inside has copyright, adult content, insults, etc. Are you sure you want to report this record?</p>
+<div mat-dialog-content>
+    <p>You're going to report an audio. An audio can only be reported if the content inside has copyright, adult
+        content, insults, etc. Are you sure you want to report this record?</p>
+    <br>
+    <small>This action cannot be undone</small>
+</div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onClose()">Close</button>
-  <button mat-button color="warn" (click)="reportAudio()">Report</button>
+    <button mat-button (click)="onClose()">Close</button>
+    <button mat-button color="warn" (click)="reportAudio()">Report</button>
 </div>
