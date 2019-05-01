@@ -20,6 +20,10 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .mat-bottom-sheet-container, mat-bottom-sheet-container {
+    overflow: hidden;
+  }
+
   .mapboxgl-canvas {
     position: unset !important;
   }
@@ -42,6 +46,7 @@ html {
   .mapboxgl-user-location-dot {
     opacity: 0.7;
   }
+
   // Workaround css style sign up form
   .mat-checkbox-layout {
     width: 90%;
@@ -52,6 +57,7 @@ html {
   .mat-checkbox-layout .mat-checkbox-label {
     margin-top: 24px;
   }
+
   .mat-checkbox-layout .mat-checkbox-label a {
     color: rebeccapurple;
   }

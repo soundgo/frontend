@@ -1,5 +1,4 @@
 {
-  
   "TOKEN_NOT_FOUND": "There's was a problem with your session. Please log out and log in again.",
   "TOKEN_NOT_VALID": "There's was a problem with your session. Please log out and log in again.",
   "ACTOR_NOT_ALLOWED": "This user cannot make this action.",
@@ -14,7 +13,7 @@
   "PASSWORD_NOT_VALID": "The password was not valid.",
   "NICKNAME_USED": "The nickname is already used.",
   "NICKNAME_NOT_VALID": "The nickname was not valid.",
-  "SAVE_ACTOR": "There is an user with that nickname.",
+  "SAVE_ACTOR": "There is an user with that nickname or email.",
   "SAVE_CREDITCARD": "There was a problem during the request to save the credit card.",
   "CREDITCARD_NOT_FOUND": "The credit card was not found.",
   "CREDITCARD_NOT_SEE": "That credit card cannot be seen by you.",

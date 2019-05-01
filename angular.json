@@ -124,6 +124,8 @@
               "src/app/shared/components/delete-modal/delete-modal.component.ts",
               "src/app/shared/components/reproducer/reproducer.component.ts",
               "src/app/shared/components/loading/loading.component.ts",
+              "src/app/shared/components/like-modal/like-modal.component.ts",
+              "src/app/shared/components/report-modal/report-modal.component.ts",
               "src/app/shared/components/recorder/recorder.component.ts"
             ]
           }

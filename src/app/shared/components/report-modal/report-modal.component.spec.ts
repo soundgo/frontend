@@ -1,19 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlertComponent } from './alert.component';
+import { ReportModalComponent } from './report-modal.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-describe('AlertComponent', () => {
-  let component: AlertComponent;
-  let fixture: ComponentFixture<AlertComponent>;
+
+describe('ReportModalComponent', () => {
+  let component: ReportModalComponent;
+  let fixture: ComponentFixture<ReportModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertComponent ],
+      declarations: [ReportModalComponent],
       imports: [
         CommonModule,
         MaterialModule,
@@ -29,7 +30,7 @@ describe('AlertComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AlertComponent);
+    fixture = TestBed.createComponent(ReportModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
