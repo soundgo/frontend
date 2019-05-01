@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 describe('AlertComponent', () => {
   let component: AlertComponent;
