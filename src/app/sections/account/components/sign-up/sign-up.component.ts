@@ -24,9 +24,9 @@ export class SignUpComponent implements OnInit {
                 protected dialog: MatDialog,
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
-            nickname: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}')]),
-            password: new FormControl('', [Validators.required]),
+            nickname: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+            email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}'), Validators.maxLength(255)]),
+            password: new FormControl('', [Validators.required, Validators.pattern('(?=^.{8,10}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*()_+}{:;\'?/&.&,])(?!.*\\s).*$'), Validators.maxLength(255), Validators.minLength(8)]),
             rgpd: new FormControl('', [Validators.requiredTrue]),
         });
     }
