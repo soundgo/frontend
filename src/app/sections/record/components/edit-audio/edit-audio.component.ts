@@ -12,7 +12,7 @@ import {Tag} from '../../../../shared/models/Tag';
 export class EditAudioComponent implements OnInit {
 
     @Input() audio;
-    tags: any;
+    tags: any[] = [];
     options: any;
     term = '';
 

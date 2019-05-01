@@ -49,16 +49,11 @@ const components = [
         ReactiveFormsModule,
         FormsModule,
         MaterialModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-        }),
         SharedModule,
     ],
-    exports: [...components],
+    exports: [
+        TranslateModule,
+        ...components],
 })
 export class RecordModule {
 }
