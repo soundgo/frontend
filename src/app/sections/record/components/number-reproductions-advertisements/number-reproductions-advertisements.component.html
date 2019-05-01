@@ -5,10 +5,11 @@
             We will show how many reproductions can have your ad.
         </p>
         <mat-form-field>
-            <input matInput type="number" min="1" formControlName="price"
+            <input matInput type="number" min="1" max="1000001" maxlength="8" formControlName="price"
                    (keyup)="calculatePrice(adEditForm.value.price)" digitOnly/>
             <mat-error *ngIf="hasError('price', 'required')">Price is required</mat-error>
             <mat-error *ngIf="hasError('price', 'min')">Min value is 1€</mat-error>
+            <mat-error *ngIf="hasError('price', 'max')">Max value is 1000000€</mat-error>
             <mat-error *ngIf="'error'">You must introduce a price to have at least one reproduction.</mat-error>
         </mat-form-field>
     </mat-dialog-content>
@@ -17,9 +18,9 @@
     </div>
     <h1 mat-dialog-title class="description-title">Description</h1>
     <mat-form-field>
-            <textarea matInput matTextareaAutosize formControlName="description" type="textArea"></textarea>
+            <textarea matInput matTextareaAutosize formControlName="description" maxlength="201" type="textArea"></textarea>
             <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
-            <mat-error *ngIf="hasError('description', 'maxlength')">Description must have less than 200 characters.</mat-error>
+            <mat-error *ngIf="hasError('description', 'maxlength')">Description must have less than 200 characters</mat-error>
     </mat-form-field>
     <mat-dialog-actions>
         <button mat-button class="saveButton" [class.max-number-reproductions]="maxNumberOfReproductions === 0" [disabled]="!adEditForm.valid || maxNumberOfReproductions === 0">
