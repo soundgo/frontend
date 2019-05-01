@@ -44,10 +44,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         let loggedUser: any = this.cookieService.get('user');
         if (loggedUser) {
             loggedUser = JSON.parse(loggedUser);
-            this.context.setAuth(loggedUser.auth);
-            this.auth = loggedUser.auth;
-            const user = new User(loggedUser.user);
-            this.context.setUser(user);
+            if (loggedUser.user && loggedUser.auth) {
+                this.context.setAuth(loggedUser.auth);
+                this.auth = loggedUser.auth;
+                const user = new User(loggedUser.user);
+                this.context.setUser(user);
+            } else {
+                this.cookieService.delete('user');
+            }
         }
 
         this.subscription = this.context.getAuth().subscribe(auth => {
