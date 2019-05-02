@@ -5,14 +5,12 @@
     align-items: center;
 
     h1 {
-      // display: inline;
-      max-width: 75%;
+      flex: 1 0;
       word-break: break-all;
       margin-bottom: 15px;
     }
 
     .buttons-wrapper {
-      max-width: 22%;
       & > * {
         margin: 0 5px;
       }
@@ -28,10 +26,12 @@
     text-align: center;
     margin: 20px auto;
   }
+
   mat-nav-list {
     overflow-y: auto;
     max-height: 100%;
   }
+
   mat-list-item /deep/ .mat-list-item-content {
     padding: 0;
   }

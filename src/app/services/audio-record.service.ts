@@ -13,7 +13,7 @@ export class AudioRecordService {
     private interval;
     private startTime;
     private recorded = new Subject<any>();
-    private recordingTime = new BehaviorSubject<number>(0);
+    private recordedTime = new BehaviorSubject<number>(0);
     private recordingFailedVal = new Subject<string>();
 
     constructor() {
@@ -23,12 +23,8 @@ export class AudioRecordService {
         return this.recorded.asObservable();
     }
 
-    setRecordTime(time: number) {
-        this.recordingTime.next(time);
-    }
-
     getRecordedTime() {
-        return this.recordingTime;
+        return this.recordedTime;
     }
 
     recordingFailed(): Observable<string> {
@@ -42,7 +38,6 @@ export class AudioRecordService {
             return;
         }
 
-        this.recordingTime.next(0);
         navigator.mediaDevices.getUserMedia({audio: true}).then(s => {
             this.stream = s;
             this.record();
@@ -56,14 +51,17 @@ export class AudioRecordService {
         this.recorder = new Recorder({encoderPath: 'assets/encoderWorker.min.js'});
         this.recorder.start();
         this.startTime = moment();
-        this.interval = setInterval(
-            () => {
-                const currentTime = moment();
-                const diffTime = moment.duration(currentTime.diff(this.startTime));
-                this.recordingTime.next(Math.round(diffTime.asSeconds()));
-            },
-            1000
-        );
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+        this.recorder.onstart = () => {
+            this.interval = setInterval(
+                () => {
+                    this.recordedTime.next(this.recordedTime.getValue() + 1);
+                },
+                1000
+            );
+        };
     }
 
     private toString(value) {
@@ -95,6 +93,7 @@ export class AudioRecordService {
             this.recorder = null;
             clearInterval(this.interval);
             this.startTime = null;
+            this.recordedTime.next(0);
             if (this.stream) {
                 this.stream.getAudioTracks().forEach(track => track.stop());
                 this.stream = null;

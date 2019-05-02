@@ -169,7 +169,7 @@ export class ApiService {
 
         return new Promise(resolve => {
             this.http.post<any>(url, audio.toJSON(), header).subscribe(response => resolve(response), err => {
-                if (err.details && err.details.includes('503')) {
+                if (err && err.error && err.error.details && err.error.details.includes('503')) {
                     this.http.post<any>(url, audio.toJSON(), header).subscribe(response => resolve(response),
                         err2 => this.handleError(err2));
                 } else {
@@ -348,7 +348,7 @@ export class ApiService {
 
         return new Promise(resolve => {
             this.http.post<any>(url, ad.toJSON(), header).subscribe(response => resolve(response), err => {
-                if (err.details && err.details.includes('503')) {
+                if (err && err.error && err.error.details && err.error.details.includes('503')) {
                     this.http.post<any>(url, ad.toJSON(), header).subscribe(response => resolve(response),
                         err2 => this.handleError(err2));
                 } else {
@@ -434,7 +434,7 @@ export class ApiService {
 
         return new Promise(resolve => {
             this.http.post<any>(url, site.toJSON(), header).subscribe(response => resolve(response), err => {
-                if (err.details && err.details.includes('503')) {
+                if (err && err.error && err.error.details && err.error.details.includes('503')) {
                     this.http.post<any>(url, site.toJSON(), header).subscribe(response => resolve(response),
                         err2 => this.handleError(err2));
                 } else {

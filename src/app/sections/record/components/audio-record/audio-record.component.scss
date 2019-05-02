@@ -1,5 +1,10 @@
 @import '../../../../../css/common.scss';
 
+::ng-deep .blue-snackbar {
+  background: dodgerblue;
+  color: white;
+}
+
 :host {
   width: 100%;
   position: absolute;
