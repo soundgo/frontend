@@ -30,6 +30,7 @@
   }
   mat-nav-list {
     overflow-y: auto;
+    max-height: 100%;
   }
   mat-list-item /deep/ .mat-list-item-content {
     padding: 0;
