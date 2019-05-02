@@ -32,30 +32,25 @@ export class RecorderComponent implements OnInit, OnDestroy {
                 protected context: ContextService) {
         this.isAd = false;
 
-        this.subscriptionLocalization.add(this.context.getPosition().asObservable().subscribe(position => {
+        this.subscriptionLocalization.add(this.context.getPosition().subscribe(position => {
             this.isUserLocalized = position !== null;
         }));
 
-        this.subscriptionLocalization.add(this.audioRecord.getRecordedTime().asObservable().subscribe(duration => {
-            this.duration = duration;
-        }));
-
         this.auth = this.context.getAuth().getValue();
-
     }
 
     ngOnInit() {
     }
 
     ngOnDestroy() {
-        this.subscriptionLocalization.unsubscribe();
+        if (this.subscriptionLocalization) {
+            this.subscriptionLocalization.unsubscribe();
+        }
     }
 
     startRecording() {
         this.isRecording = true;
-        setTimeout(() => {
-            this.audioRecord.startRecording();
-        }, 1250);
+        this.audioRecord.startRecording();
     }
 
     stopRecording(): Promise<string> {

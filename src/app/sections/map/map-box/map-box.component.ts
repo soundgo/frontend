@@ -39,7 +39,7 @@ export class MapBoxComponent implements OnInit {
     siteMarker: any;
     categoriesSelected = 'Tourism,Experience,Leisure';
     interval: any;
-    audiosRaw: any;
+    audiosRaw: any = [];
 
     constructor(private bottomSheet: MatBottomSheet,
                 private context: ContextService,
@@ -319,7 +319,6 @@ export class MapBoxComponent implements OnInit {
 
         this.context.setSiteEntity(this.siteEntity);
         this.api.createSite(this.siteEntity).then(response => {
-            console.log('Site created response', response);
             this.context.setLoading(false);
         });
         this.context.setIsMarkerSiteVisible(false);

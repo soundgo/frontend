@@ -1,45 +1,53 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import { MatDialog } from '@angular/material';
 import { TimeLeftModalComponent } from '../time-left-modal/time-left-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-time-left',
     templateUrl: './time-left.component.html',
     styleUrls: ['./time-left.component.scss']
 })
-export class TimeLeftComponent implements OnInit {
+export class TimeLeftComponent implements OnDestroy {
 
+    userTimeSeconds: number = 0;
     valueBar = 0;
-    maxTimeUserProgressBar: number;
+    maxTimeProgressBar: number;
+    subscription: Subscription = new Subscription();
 
     constructor(private context: ContextService,
         protected dialog: MatDialog) {
 
-        this.maxTimeUserProgressBar = this.context.getConfig().getValue().maxTimeUserProgressBar;
+        // Max time is in minutes in config
+        this.maxTimeProgressBar = this.context.getConfig().getValue().maxTimeUserProgressBar * 60;
 
-        this.context.getUser().subscribe(user => {
-            if (user && this.valueBar !== Math.round(user.minutes / 60)) {
-                this.calculatePercentBar(user.minutes);
+        this.subscription = this.context.getUser().subscribe(user => {
+            if (user && user.minutes) {
+                this.userTimeSeconds = user.minutes;
+                this.calculatePercentBar(this.userTimeSeconds);
             } else {
                 this.valueBar = 0;
             }
         });
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
-    calculatePercentBar(userMinutes) {
-        this.valueBar = Math.round(((userMinutes / 60) / this.maxTimeUserProgressBar) * 100);
+    calculatePercentBar(userTimeSeconds) {
+        this.valueBar = Math.round((userTimeSeconds / this.maxTimeProgressBar) * 100);
     }
 
     showTimeLeftModal() {
-        const userMinutes = this.maxTimeUserProgressBar * (this.valueBar / 100);
-        console.log(userMinutes)
+        this.userTimeSeconds = this.context.getUser().getValue().minutes;
+        
         this.dialog.open(TimeLeftModalComponent, {
             width: '350px',
-            data: userMinutes
+            data: this.userTimeSeconds
         })
     }
 

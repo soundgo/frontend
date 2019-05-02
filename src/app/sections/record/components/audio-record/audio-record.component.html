@@ -1,6 +1,6 @@
 <ng-template [ngIf]="isUserLocalized">
     <div class="time-duration" *ngIf="pressToStop">
-        <p *ngIf="duration">{{duration - 1 < 0 ? 0 : duration - 1}}s</p>
+        <p *ngIf="duration">{{duration || 0}}s</p>
         <p *ngIf="!duration" class="wait">Wait a moment...</p>
     </div>
     <div

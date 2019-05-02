@@ -4,6 +4,7 @@ import {ContextService} from '../../../services/context.service';
 import {CreateSiteComponent} from '../create-site/create-site.component';
 import {DeleteModalComponent} from 'src/app/shared/components/delete-modal/delete-modal.component';
 import {ApiService} from '../../../services/api.service';
+import {User} from '../../../shared/models/User';
 
 @Component({
     selector: 'app-site-panel-sheet',
@@ -20,6 +21,7 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
     audios: any;
 
     isLoading = true;
+    minutesToRecord = 0;
 
 
     constructor(private context: ContextService,
@@ -29,6 +31,10 @@ export class SitePanelSheetComponent implements OnInit, OnDestroy {
                 private cdr: ChangeDetectorRef,
                 private api: ApiService) {
         this.canRecord = this.context.getAuth().getValue() !== null;
+        const user: User = this.context.getUser().getValue();
+        if (user) {
+            this.minutesToRecord = user ? user.minutes : 0;
+        }
     }
 
     ngOnDestroy() {

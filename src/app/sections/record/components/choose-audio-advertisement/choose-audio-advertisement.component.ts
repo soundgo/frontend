@@ -43,7 +43,7 @@ export class ChooseAudioAdvertisementComponent implements OnInit {
         const user = this.context.getUser().getValue();
         if (user && user.minutes !== 0) {
             const record = this.context.getAdEntity().getValue();
-            if (record.duration >= user.minutes) {
+            if (record.duration > user.minutes) {
                 res = false;
             }
         } else {
