@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import {ApiService} from 'src/app/services/api.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {Audio} from '../../../../shared/models/Audio';
 
 @Component({
     selector: 'app-record',
@@ -56,10 +57,10 @@ export class RecordComponent implements OnDestroy {
     createAudioSite(audioEntity) {
         this.context.setLoading(true);
         this.api.createSiteAudio(audioEntity, this.context.getSiteId().getValue())
-            .then(response => {
+            .then((response: Audio) => {
                 this.context.setSiteId(null);
                 const user = this.context.getUser().getValue();
-                user.minutes -= audioEntity.duration;
+                user.minutes -= response.duration;
                 this.context.setUser(user);
                 this.context.setLoading(false);
             });
@@ -67,11 +68,9 @@ export class RecordComponent implements OnDestroy {
 
     createAudio(audioEntity) {
         this.context.setLoading(true);
-        this.api.createAudio(audioEntity).then(response => {
-            console.log('createAudio:', response);
-            // Reduce minutes of user
+        this.api.createAudio(audioEntity).then((response: Audio) => {
             const user = this.context.getUser().getValue();
-            user.minutes -= audioEntity.duration;
+            user.minutes -= response.duration;
             this.context.setUser(user);
             this.context.setLoading(false);
         });

@@ -1,6 +1,5 @@
 <div *ngIf="user === null" class="avatar" (click)="onSelect()"></div>
-<img *ngIf="user !== null" class="photo_profile" alt="avatar" [src]="user.photo || '/assets/images/anonymous.png'" (click)="onSelect()"/>
-
+<div *ngIf="user !== null" class="photo_profile" [ngStyle]="{'background-image': 'url('+(user.photo ? user.photo : '../../../../assets/images/anonymous.png')+')'}" (click)="onSelect()"></div>
 <div class="loginPanel" [class.opened]="isSelected">
 
     <ng-template [ngIf]="auth === 'user'">

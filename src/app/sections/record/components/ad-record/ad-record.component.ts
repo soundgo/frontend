@@ -48,13 +48,13 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
         });
         this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
-            if (duration >= 60 && auth !== 'user') {
+            if (duration > 60 && auth !== 'user') {
                 this.stopRecord();
             }
         });
         this.context.getUser().subscribe(user => {
             if (user) {
-                this.showUserCantRecord = user.minutes <= 0;
+                this.showUserCantRecord = user.minutes <= 1;
             }
         });
     }
@@ -90,6 +90,8 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
             this.siriWave.setAmplitude(0);
 
             this.adEntity.base64 = await super.stopRecording();
+
+            this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
 
             const {latitude, longitude} = this.context.getPosition().getValue();
             this.adEntity.latitude = latitude;
