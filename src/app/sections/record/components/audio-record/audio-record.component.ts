@@ -65,7 +65,9 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     startRecord() {

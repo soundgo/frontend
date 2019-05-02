@@ -36,32 +36,34 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
         protected dialog: MatDialog,
     ) {
         super(audioRecord, context);
-        this.subscription = this.context.getIsRecordingAd().subscribe(isRecording => {
+        this.subscription.add(this.context.getIsRecordingAd().subscribe(isRecording => {
             if (isRecording && this.context.getSiteId().getValue()) {
                 this.startRecord();
             }
-        });
-        this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+        }));
+        this.subscription.add(this.context.getIsRecorded().subscribe(isRecorded => {
             if (isRecorded) {
                 this.isRecorded = false;
             }
-        });
-        this.audioRecord.getRecordedTime().subscribe(duration => {
+        }));
+        this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
             const auth = this.context.getAuth().getValue();
             if (duration > 60 && auth !== 'user') {
                 this.stopRecord();
             }
-        });
-        this.context.getUser().subscribe(user => {
+        }));
+        this.subscription.add(this.context.getUser().subscribe(user => {
             if (user) {
                 this.showUserCantRecord = user.minutes <= 1;
             }
-        });
+        }));
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     startRecord() {
