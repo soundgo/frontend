@@ -38,6 +38,8 @@ export class MapBoxComponent implements OnInit {
     siteEntity: Site;
     siteMarker: any;
     categoriesSelected = 'Tourism,Experience,Leisure';
+    interval: any;
+    audiosRaw: any;
 
     constructor(private bottomSheet: MatBottomSheet,
                 private context: ContextService,
@@ -165,6 +167,7 @@ export class MapBoxComponent implements OnInit {
         this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
             const isBadFormattedData = data.some(ad => this.isEmtpy(ad));
             if (!isBadFormattedData) {
+                this.audiosRaw = data;
                 const user = this.context.getUser().getValue();
                 const filteredAudios = this.filterAudios(data, user);
                 this.audioSource.setData(new FeatureCollection(filteredAudios));
@@ -211,8 +214,17 @@ export class MapBoxComponent implements OnInit {
         this.map.on('load', () => {
             geolocation.trigger();
 
+
             geolocation.on('geolocate', () => {
                 if (this.context.getPosition().getValue() === null) {
+                    if (!this.interval) {
+                        this.interval = window.setInterval(() => {
+                            const user = this.context.getUser().getValue();
+                            const filteredAudios = this.filterAudios(this.audiosRaw, user);
+                            this.audioSource.setData(new FeatureCollection(filteredAudios));
+                        }, 2000);
+                    }
+
                     this.initSourceLayers();
                     this.initDataListeners();
 
