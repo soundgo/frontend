@@ -16,10 +16,6 @@ export class TimeLeftModalComponent {
         @Inject(MAT_DIALOG_DATA) public data: any) {
           this.minutes = Math.floor(data / 60);
           this.seconds = Math.floor(data - (this.minutes * 60));
-
-          if (this.minutes === 0 && this.seconds === 1) {
-            this.seconds = 0;
-          }
         }
 
     onClose() {

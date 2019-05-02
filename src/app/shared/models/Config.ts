@@ -11,7 +11,7 @@ export class Config {
         this.minimumRadio = data.minimum_radius || 100;
         this.timeToListenAnAdvertisement = data.time_listen_advertisement || 3;
         this.minimumReportsToBan = data.minimum_reports_ban || 15;
-        this.maxTimeUserProgressBar = data.maximum_time_user_progress_bar || 20;
+        this.maxTimeUserProgressBar = data.maximum_time_user_progress_bar || 10;
     }
 
     toJSON() {
