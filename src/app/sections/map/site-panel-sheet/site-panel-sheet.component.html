@@ -25,7 +25,7 @@
                                    [isActive]="isRemoving"
                                    (click)="deleteSite()">
             </app-reproducer-button>
-            <app-site-record *ngIf="canRecord && minutesToRecord > 1" [siteId]="site.id"
+            <app-site-record *ngIf="canRecord && minutesToRecord > 0" [siteId]="site.id"
                              (click)="closeSitePanel()"></app-site-record>
         </div>
     </div>
