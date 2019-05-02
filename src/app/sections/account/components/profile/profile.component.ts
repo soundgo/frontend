@@ -28,7 +28,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         private api: ApiService,
         public dialogRef: MatDialogRef<ProfileComponent>,
         protected dialog: MatDialog,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private cookieService: CookieService) {
         this.user = this.context.getUser().getValue() || new User();
         this.auth = this.context.getAuth().getValue();
         this.context.getAuth().subscribe(value => {
@@ -134,8 +135,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 const user = new User();
                 user.base64 = '' + reader.result;
                 this.api.updateUser(this.user.nickname, user).then((savedUser: User) => {
-                    this.user = savedUser;
-                    this.context.setUser(savedUser);
+                    this.user.photo = savedUser.photo;
+                    this.context.setUser(this.user);
+                    this.cookieService.set('user', JSON.stringify({
+                        user: this.user,
+                        auth: this.auth
+                    }));
                     this.isLoading = false;
                 });
             };

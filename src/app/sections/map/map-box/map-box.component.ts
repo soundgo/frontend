@@ -319,7 +319,6 @@ export class MapBoxComponent implements OnInit {
 
         this.context.setSiteEntity(this.siteEntity);
         this.api.createSite(this.siteEntity).then(response => {
-            console.log('Site created response', response);
             this.context.setLoading(false);
         });
         this.context.setIsMarkerSiteVisible(false);
