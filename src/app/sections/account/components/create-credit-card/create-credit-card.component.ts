@@ -29,6 +29,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
                 private cdr: ChangeDetectorRef,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
         this.auth = this.context.getAuth().getValue();
+        console.log(data.creditCard)
         if (data.creditCard && data.creditCard.isDelete) {
             // If is deleted put empty form
             this.data.creditCard.holderName = '';
@@ -102,9 +103,9 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
         }
     }
 
-    deleteCreditCard(creditCardForm) {
+    deleteCreditCard() {
         this.isDeleted = true;
-        const creditCard = this.prepareCreditCard(creditCardForm);
+        const creditCard = new CreditCard(this.data.creditCard);
         creditCard.isDelete = true;
         this.dialog.open(DeleteModalComponent, {
             width: '350px',
