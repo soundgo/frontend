@@ -39,7 +39,6 @@ export class CategoryPickerComponent implements OnInit {
             categories.push(categorySelected);
         
         this.categoriesSelected = categories.toString();
-        console.log(categories, categories.length)
         this.context.setCategoriesSelected(this.categoriesSelected);
     }
 
