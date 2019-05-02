@@ -54,7 +54,7 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
         });
         this.context.getUser().subscribe(user => {
             if (user) {
-                this.showUserCantRecord = user.minutes <= 0;
+                this.showUserCantRecord = user.minutes <= 1;
             }
         });
     }
