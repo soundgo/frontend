@@ -8,12 +8,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class TimeLeftModalComponent {
 
-  timeLeft: number;
+  minutes: number;
+  seconds: number;
 
     constructor(
         public dialogRef: MatDialogRef<TimeLeftModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-          this.timeLeft = Math.round(data*100)/100;
+          this.minutes = Math.floor(data / 60);
+          this.seconds = Math.floor(data - (this.minutes * 60));
+
+          if (this.minutes === 0 && this.seconds === 1) {
+            this.seconds = 0;
+          }
         }
 
     onClose() {
