@@ -36,7 +36,6 @@ export class TimeLeftComponent implements OnInit {
 
     showTimeLeftModal() {
         const userMinutes = this.maxTimeUserProgressBar * (this.valueBar / 100);
-        console.log(userMinutes)
         this.dialog.open(TimeLeftModalComponent, {
             width: '350px',
             data: userMinutes

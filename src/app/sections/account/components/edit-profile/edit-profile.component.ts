@@ -32,7 +32,6 @@ export class EditProfileComponent implements OnInit {
             password: new FormControl('', [Validators.required, Validators.maxLength(255), ]),
             // Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s)')
         });
-        console.log(this.data.user);
     }
 
     hasError(controlName: string, errorName: string) {
