@@ -81,6 +81,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.cdr.detach();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     ngAfterViewInit() {

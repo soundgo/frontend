@@ -17,13 +17,12 @@ import { ApiService } from 'src/app/services/api.service';
     templateUrl: './choose-ad-location.component.html',
     styleUrls: ['./choose-ad-location.component.scss'],
 })
-export class ChooseAdLocationComponent implements OnInit, OnDestroy {
+export class ChooseAdLocationComponent implements OnDestroy {
     radius: any = 0;
     minRadius: any = 100;
     maxRadius: any = 5000;
     center: any;
     showAdvertisementMarkerMenu = false;
-    editableMarkerSite: MapboxCircle;
     draw: any;
     map: mapboxgl.Map;
     ad: Ad;
@@ -31,8 +30,7 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
 
     constructor(
         private context: ContextService,
-        protected dialog: MatDialog,
-        private api: ApiService
+        protected dialog: MatDialog
     ) {
         this.subscription = this.context.getIsMarkerAdVisible().subscribe(bool => {
             if (bool) {
@@ -45,11 +43,11 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnInit() {
-    }
-
     ngOnDestroy() {
         this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     showAdLocationPicker() {

@@ -39,7 +39,7 @@ export class MapBoxComponent implements OnInit {
     siteMarker: any;
     categoriesSelected = 'Tourism,Experience,Leisure';
     interval: any;
-    audiosRaw: any;
+    audiosRaw: any = [];
 
     constructor(private bottomSheet: MatBottomSheet,
                 private context: ContextService,

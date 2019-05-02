@@ -48,7 +48,9 @@ export class RecorderComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptionLocalization.unsubscribe();
+        if (this.subscriptionLocalization) {
+            this.subscriptionLocalization.unsubscribe();
+        }
     }
 
     startRecording() {
