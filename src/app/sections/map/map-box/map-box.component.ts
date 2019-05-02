@@ -298,7 +298,9 @@ export class MapBoxComponent implements OnInit {
     }
 
     showMarkerPlaceSite() {
-
+        if (this.siteMarker) {
+            this.siteMarker.remove();
+        }
         const center = this.map.getCenter();
         this.siteMarker = new mapboxgl.Marker({
             draggable: true
