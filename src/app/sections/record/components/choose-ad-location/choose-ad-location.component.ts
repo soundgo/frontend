@@ -19,6 +19,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ChooseAdLocationComponent implements OnInit, OnDestroy {
     radius: any = 0;
+    minRadius: any = 100;
     maxRadius: any = 5000;
     center: any;
     showAdvertisementMarkerMenu = false;
@@ -52,8 +53,10 @@ export class ChooseAdLocationComponent implements OnInit, OnDestroy {
     }
 
     showAdLocationPicker() {
-        // Show menu
-        this.maxRadius = this.context.getConfig().getValue().maximumRadio;
+        const config = this.context.getConfig().getValue();
+        this.maxRadius = config.maximumRadio;
+        this.minRadius = config.minimumRadio;
+        
         this.showAdvertisementMarkerMenu = true;
 
         this.map = this.context.getMap().getValue();
