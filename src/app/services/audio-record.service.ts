@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import * as Recorder from 'opus-recorder';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import * as AudioBuffer from 'audiobuffer';
+import * as arrayBufferToAudioBuffer from 'arraybuffer-to-audiobuffer';
 import * as moment from 'moment';
 
 @Injectable({
@@ -11,7 +13,6 @@ export class AudioRecordService {
     private stream;
     private recorder;
     private interval;
-    private startTime;
     private recorded = new Subject<any>();
     private recordedTime = new BehaviorSubject<number>(0);
     private recordingFailedVal = new Subject<string>();
@@ -48,20 +49,35 @@ export class AudioRecordService {
     }
 
     private record() {
-        this.recorder = new Recorder({encoderPath: 'assets/encoderWorker.min.js'});
+        this.recorder = new Recorder({
+            encoderPath: 'assets/encoderWorker.min.js',
+            encoderApplication: 2048,
+            bufferLength: 2048
+        });
+        this.recorder.onstart = () => {
+            setTimeout(() => {
+                const startTime = moment();
+                this.interval = setInterval(
+                    () => {
+                        const currentTime = moment();
+                        const diffTime = moment.duration(currentTime.diff(startTime));
+                        this.recordedTime.next(Math.round(diffTime.asSeconds()));
+                    },
+                    500
+                );
+            }, 1000);
+        };
+        this.recorder.onstop = data => {
+            this.stopMedia();
+        };
+        this.recorder.ondataavailable = (typedArray) => {
+            const blob = new Blob([typedArray], {type: 'audio/webm'});
+            this.recorded.next({blob});
+        };
         this.recorder.start();
-        this.startTime = moment();
         if (this.interval) {
             clearInterval(this.interval);
         }
-        this.recorder.onstart = () => {
-            this.interval = setInterval(
-                () => {
-                    this.recordedTime.next(this.recordedTime.getValue() + 1);
-                },
-                1000
-            );
-        };
     }
 
     private toString(value) {
@@ -77,13 +93,6 @@ export class AudioRecordService {
 
     stopRecording() {
         if (this.recorder) {
-            this.recorder.onstop = data => {
-                this.stopMedia();
-            };
-            this.recorder.ondataavailable = (typedArray) => {
-                const blob = new Blob([typedArray], {type: 'audio/webm'});
-                this.recorded.next({blob});
-            };
             this.recorder.stop();
         }
     }
@@ -92,7 +101,6 @@ export class AudioRecordService {
         if (this.recorder) {
             this.recorder = null;
             clearInterval(this.interval);
-            this.startTime = null;
             this.recordedTime.next(0);
             if (this.stream) {
                 this.stream.getAudioTracks().forEach(track => track.stop());
