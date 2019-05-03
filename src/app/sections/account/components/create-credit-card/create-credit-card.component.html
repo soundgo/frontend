@@ -8,14 +8,14 @@
         <div class="group1">
             <mat-form-field>
                 <mat-label>Holder name</mat-label>
-                <input matInput formControlName="name" maxlength="256">
+                <input matInput formControlName="name" maxlength="256" (keyup)="change($event)">
                 <mat-error *ngIf="hasError('name', 'required')">Card name is required</mat-error>
                 <mat-error *ngIf="hasError('name', 'minlength')">Card name must be 2 characters or more</mat-error>
                 <mat-error *ngIf="hasError('name', 'maxlength')">Card name must have less than 255 characters</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Card number</mat-label>
-                <input matInput formControlName="number">
+                <input matInput formControlName="number" (keyup)="change($event)">
                 <mat-error *ngIf="hasError('number', 'required')">Card number is required</mat-error>
                 <mat-error *ngIf="hasError('number', 'error')">Card number is invalid</mat-error>
             </mat-form-field>
@@ -23,13 +23,13 @@
         <div class="group2">
             <mat-form-field>
                 <mat-label>Month/Year Expiry</mat-label>
-                <input matInput formControlName="expiry">
+                <input matInput formControlName="expiry" (keyup)="change($event)">
                 <mat-error *ngIf="hasError('expiry', 'required')">Month/Year is required</mat-error>
                 <mat-error *ngIf="hasError('expiry', 'error')">Month/Year is invalid</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>CVV</mat-label>
-                <input matInput formControlName="cvc">
+                <input matInput formControlName="cvc" (keyup)="change($event)">
                 <mat-error *ngIf="hasError('cvc', 'required')">CVV is required</mat-error>
                 <mat-error *ngIf="hasError('cvc', 'error')">CVV is invalid</mat-error>
             </mat-form-field>
