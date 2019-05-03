@@ -1,4 +1,9 @@
-small {
-  color: #b3b3b3;
-  font-style: italic;
+:host {
+  .mat-dialog-content {
+    overflow: unset;
+  }
+  small {
+    color: #b3b3b3;
+    font-style: italic;
+  }
 }
