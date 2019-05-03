@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
 import {Subscription} from 'rxjs';
 import {MatSnackBar} from '@angular/material';
+import {User} from '../../../../shared/models/User';
 
 
 @Component({
@@ -31,15 +32,18 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
 
     isAlreadyStopped = false;
 
+    user: User;
+
     constructor(
         protected audioRecord: AudioRecordService,
         protected context: ContextService,
         protected dialog: MatDialog,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private cdr: ChangeDetectorRef
     ) {
         super(audioRecord, context);
         const auth = this.context.getAuth().getValue();
-        const user = this.context.getUser().getValue();
+        this.user = this.context.getUser().getValue();
         this.subscription.add(this.context.getIsRecordingAudio().subscribe(isRecordingAudio => {
             if (isRecordingAudio && this.context.getSiteId().getValue()) {
                 this.startRecord();
@@ -53,10 +57,10 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
         this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
             this.duration = duration;
             if (duration !== 0) {
-                if (duration >= 60 && auth === 'user' || duration >= user.minutes) {
+                this.cdr.detectChanges();
+                if (duration > 60 && auth === 'user' || (duration + 1) > this.user.minutes) {
                     if (!this.isAlreadyStopped) {
                         this.stopRecord();
-
                         this.isAlreadyStopped = true;
                     }
                 }
@@ -71,6 +75,7 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
 
     ngOnDestroy() {
         super.ngOnDestroy();
+        this.cdr.detach();
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -104,6 +109,8 @@ export class AudioRecordComponent extends RecorderComponent implements OnDestroy
             if (this.audioEntity.duration > 0) {
                 this.siriWave.setAmplitude(0);
                 this.audioEntity.base64 = await super.stopRecording();
+
+                this.audioEntity.duration = Math.min(this.audioEntity.duration, 60);
 
                 const {latitude, longitude} = this.context.getPosition().getValue();
                 this.audioEntity.latitude = latitude;
