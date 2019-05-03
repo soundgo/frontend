@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {
     MatBottomSheet,
 } from '@angular/material';
-import {ContextService} from '../../../services/context.service';
-import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
-import {Observable} from 'rxjs';
-import {FeatureCollection, GeoJson} from '../../../shared/models/Map';
-import {Site} from '../../../shared/models/Site';
-import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {ApiService} from '../../../services/api.service';
-import {AdReproducerPanelComponent} from '../ad-reproducer-panel/ad-reproducer-panel.component';
+import { ContextService } from '../../../services/context.service';
+import { SitePanelSheetComponent } from '../site-panel-sheet/site-panel-sheet.component';
+import { Observable, Subscription } from 'rxjs';
+import { FeatureCollection, GeoJson } from '../../../shared/models/Map';
+import { Site } from '../../../shared/models/Site';
+import { AudioReproducerPanelComponent } from '../audio-reproducer-panel/audio-reproducer-panel.component';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { ApiService } from '../../../services/api.service';
+import { AdReproducerPanelComponent } from '../ad-reproducer-panel/ad-reproducer-panel.component';
 
 import * as turf from '@turf/turf';
 
@@ -41,21 +41,23 @@ export class MapBoxComponent implements OnInit {
     interval: any;
     audiosRaw: any = [];
 
+    subscription: Subscription = new Subscription();
+
     constructor(private bottomSheet: MatBottomSheet,
-                private context: ContextService,
-                private db: AngularFirestore,
-                private api: ApiService) {
+        private context: ContextService,
+        private db: AngularFirestore,
+        private api: ApiService) {
 
         // Filter audio category
-        this.context.getCategoriesSelected().subscribe(categoriesSelected => {
+        this.subscription.add(this.context.getCategoriesSelected().subscribe(categoriesSelected => {
             if (this.map) {
                 this.categoriesSelected = categoriesSelected;
                 this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
-        });
+        }));
 
         // Filter by tags
-        this.context.getTagsSelected().subscribe(tagsSelected => {
+        this.subscription.add(this.context.getTagsSelected().subscribe(tagsSelected => {
             if (tagsSelected && tagsSelected[0] === 'active-tag-panel-sheet') {
                 this.audioSource.setData(new FeatureCollection([]));
             } else if (tagsSelected && tagsSelected[0] === 'inactive-tag-panel-sheet') {
@@ -64,7 +66,7 @@ export class MapBoxComponent implements OnInit {
                 });
             } else if (tagsSelected !== null) {
                 this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
-                    data = data.filter(({properties}: any) => {
+                    data = data.filter(({ properties }: any) => {
                         return properties.tags.length !== 0 && properties.tags.some(tag => {
                             return tagsSelected.indexOf(tag) !== -1;
                         });
@@ -72,10 +74,10 @@ export class MapBoxComponent implements OnInit {
                     this.audioSource.setData(new FeatureCollection(data));
                 });
             }
-        });
+        }));
 
         // Show site marker in map
-        this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
+        this.subscription.add(this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
             if (isMarkerSiteVisible) {
                 this.userPosition = this.context.getPosition().getValue();
                 this.showPlaceMarkerForm = true;
@@ -83,7 +85,7 @@ export class MapBoxComponent implements OnInit {
             } else {
                 this.showPlaceMarkerForm = false;
             }
-        });
+        }));
     }
 
     ngOnInit() {
@@ -220,8 +222,11 @@ export class MapBoxComponent implements OnInit {
                     if (!this.interval) {
                         this.interval = window.setInterval(() => {
                             const user = this.context.getUser().getValue();
-                            const filteredAudios = this.filterAudios(this.audiosRaw, user);
-                            this.audioSource.setData(new FeatureCollection(filteredAudios));
+                            const tagsSelected = this.context.getTagsSelected().getValue();
+                            if (!tagsSelected) {
+                                const filteredAudios = this.filterAudios(this.audiosRaw, user);
+                                this.audioSource.setData(new FeatureCollection(filteredAudios));
+                            }
                         }, 2000);
                     }
 
@@ -237,16 +242,16 @@ export class MapBoxComponent implements OnInit {
                 }
 
                 const userLocation = (geolocation as any)._lastKnownPosition;
-                const {latitude, longitude} = userLocation.coords;
-                this.context.setPosition({latitude, longitude});
-                this.showAds({latitude, longitude});
+                const { latitude, longitude } = userLocation.coords;
+                this.context.setPosition({ latitude, longitude });
+                this.showAds({ latitude, longitude });
             });
 
             this.isDataLoaded = true;
             this.context.setMap(this.map);
         });
 
-        this.map.on('click', ({point}) => {
+        this.map.on('click', ({ point }) => {
 
             const site = this.isMarkerType(point, 'sites');
             if (site) {
@@ -313,7 +318,7 @@ export class MapBoxComponent implements OnInit {
         this.context.setLoading(true);
         this.siteEntity = this.context.getSiteEntity().getValue();
 
-        const {lng, lat} = this.siteMarker.getLngLat();
+        const { lng, lat } = this.siteMarker.getLngLat();
         this.siteEntity.longitude = lng;
         this.siteEntity.latitude = lat;
 
@@ -332,7 +337,7 @@ export class MapBoxComponent implements OnInit {
 
     isUserInsideAdvertArea(ad, position = this.context.getPosition().getValue()) {
         if (position) {
-            const {latitude, longitude} = position;
+            const { latitude, longitude } = position;
             const userPosition = turf.point([longitude, latitude]);
             const center = [ad.geometry.coordinates[0], ad.geometry.coordinates[1]];
             const radius = ad.properties.radius / 1000;
