@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {MatDialog, MatSnackBar} from '@angular/material';
@@ -7,6 +7,7 @@ import {RecorderComponent} from '../../../../shared/components/recorder/recorder
 import {Subscription} from 'rxjs';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {User} from '../../../../shared/models/User';
 
 @Component({
     selector: 'app-ad-record',
@@ -32,14 +33,17 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
 
     subscription: Subscription = new Subscription();
 
+    user: User;
+
     constructor(
         protected audioRecord: AudioRecordService,
         protected context: ContextService,
         protected dialog: MatDialog,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private cdr: ChangeDetectorRef
     ) {
         super(audioRecord, context);
-        const user = this.context.getUser().getValue();
+        this.user = this.context.getUser().getValue();
         this.subscription.add(this.context.getIsRecordingAd().subscribe(isRecording => {
             if (isRecording && this.context.getSiteId().getValue()) {
                 this.siteId = this.context.getSiteId().getValue();
@@ -54,20 +58,22 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
         this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
             this.duration = duration;
             if (this.duration !== 0) {
-                if (duration >= 60 || (this.siteId && (duration >= 60 || duration >= user.minutes))) {
+                this.cdr.detectChanges();
+                if (duration > 60 || (this.siteId && (duration > 60 || (duration + 1) > this.user.minutes))) {
                     this.stopRecord();
                 }
             }
         }));
         this.subscription.add(this.context.getUser().subscribe(userCheck => {
             if (userCheck) {
-                this.showUserCantRecord = userCheck.minutes <= 1;
+                this.showUserCantRecord = userCheck.minutes <= 0;
             }
         }));
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
+        this.cdr.detach();
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -97,6 +103,8 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
         if (this.adEntity.duration > 0) {
             this.siriWave.setAmplitude(0);
             this.adEntity.base64 = await super.stopRecording();
+
+            this.adEntity.duration = Math.min(this.adEntity.duration, 60);
 
             const {latitude, longitude} = this.context.getPosition().getValue();
             this.adEntity.latitude = latitude;

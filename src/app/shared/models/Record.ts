@@ -21,7 +21,7 @@ export class Record {
         this.latitude = data.latitude || null;
         this.longitude = data.longitude || null;
         this.numberReproductions = data.numberReproductions || 0;
-
+        this.duration = data.duration || 0;
         this.name = data.name || null;
         this.photo = data.photo || null;
     }
