@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { User } from '../../../../shared/models/User';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ContextService } from '../../../../services/context.service';
-import { ApiService } from '../../../../services/api.service';
-import { LoginComponent } from '../login/login.component';
-import { CookieService } from 'ngx-cookie-service';
-import { AlertComponent } from '../../../../shared/components/alert/alert.component';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {User} from '../../../../shared/models/User';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ContextService} from '../../../../services/context.service';
+import {ApiService} from '../../../../services/api.service';
+import {LoginComponent} from '../login/login.component';
+import {CookieService} from 'ngx-cookie-service';
+import {AlertComponent} from '../../../../shared/components/alert/alert.component';
 
 @Component({
     selector: 'app-sign-up',
@@ -20,10 +20,10 @@ export class SignUpComponent implements OnInit {
     isSubmitting: boolean = false;
 
     constructor(public dialogRef: MatDialogRef<SignUpComponent>,
-        private context: ContextService,
-        private api: ApiService,
-        protected dialog: MatDialog,
-        private cookieService: CookieService) {
+                private context: ContextService,
+                private api: ApiService,
+                protected dialog: MatDialog,
+                private cookieService: CookieService) {
         this.userForm = new FormGroup({
             nickname: new FormControl('', [Validators.required, Validators.maxLength(255)]),
             email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}'), Validators.maxLength(255)]),
@@ -48,8 +48,8 @@ export class SignUpComponent implements OnInit {
 
     validateBlankSpaces() {
         // Validator empty spaces
-        const { nickname, email, password, rgpd } = this.userForm.value;
-        this.userForm.setValue({ nickname: nickname.trim(), email: email.trim(), password: password.trim(), rgpd: rgpd })
+        const {nickname, email, password, rgpd} = this.userForm.value;
+        this.userForm.setValue({nickname: nickname.trim(), email: email.trim(), password: password.trim(), rgpd});
     }
 
     saveUser(userForm) {
@@ -75,7 +75,8 @@ export class SignUpComponent implements OnInit {
                         }
                     });
                 });
-
+            } else {
+                this.isSubmitting = false;
             }
         }
     }

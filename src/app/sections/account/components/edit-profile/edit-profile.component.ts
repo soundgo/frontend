@@ -29,8 +29,8 @@ export class EditProfileComponent implements OnInit {
 
     ngOnInit() {
         this.profileForm = new FormGroup({
-            nickname: new FormControl(this.data.user.nickname || '', [Validators.required,Validators.maxLength(255)]),
-            password: new FormControl('', [Validators.required, Validators.maxLength(255), ]),
+            nickname: new FormControl(this.data.user.nickname || '', [Validators.required, Validators.maxLength(255)]),
+            password: new FormControl('', [Validators.required, Validators.maxLength(255),]),
             // Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s)')
         });
     }
@@ -45,8 +45,8 @@ export class EditProfileComponent implements OnInit {
 
     validateBlankSpaces() {
         // Validator empty spaces
-        const { nickname, password } = this.profileForm.value;
-        this.profileForm.setValue({ nickname: nickname.trim(), password: password })
+        const {nickname, password} = this.profileForm.value;
+        this.profileForm.setValue({nickname: nickname.trim(), password: password});
     }
 
     saveProfile(profileForm) {
@@ -56,15 +56,15 @@ export class EditProfileComponent implements OnInit {
             this.validateBlankSpaces();
 
             if (this.profileForm.valid) {
-    
+
                 const user = new User(this.data.user);
                 user.nickname = profileForm.nickname;
                 user.password = profileForm.password;
-    
+
                 this.userEntity = new User();
                 this.userEntity.nickname = profileForm.nickname;
                 this.userEntity.password = profileForm.password;
-    
+
                 this.api.updateProfile(user, this.data.user.nickname).then(() => {
                     this.api.login(this.userEntity).then((response: any) => {
                         user.token = response.token;
@@ -77,6 +77,8 @@ export class EditProfileComponent implements OnInit {
                         this.isSubmitting = false;
                     });
                 });
+            } else {
+                this.isSubmitting = false;
             }
         }
     }
