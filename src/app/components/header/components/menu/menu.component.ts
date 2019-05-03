@@ -23,6 +23,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     user: User;
     subscription: Subscription = new Subscription();
 
+    tagPanelSheet: any;
+
     constructor(private context: ContextService,
                 private matDialog: MatDialog,
                 private cookieService: CookieService,
@@ -77,10 +79,20 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     searchByTags() {
         this.isSelected = false;
-        this.bottomSheet.open(TagPanelSheetComponent, {
-            disableClose: true,
-            hasBackdrop: false
-        });
+        if (this.tagPanelSheet) {
+            this.tagPanelSheet.dismiss();
+            setTimeout(() => {
+                this.tagPanelSheet = this.bottomSheet.open(TagPanelSheetComponent, {
+                    disableClose: true,
+                    hasBackdrop: false
+                });
+            }, 500);
+        } else {
+            this.tagPanelSheet = this.bottomSheet.open(TagPanelSheetComponent, {
+                disableClose: true,
+                hasBackdrop: false
+            });
+        }
     }
 
     searchBySites() {
