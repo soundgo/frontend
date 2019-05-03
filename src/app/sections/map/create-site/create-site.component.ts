@@ -39,6 +39,10 @@ export class CreateSiteComponent implements OnInit {
     }
 
     saveSite(siteForm) {
+        // Validator empty spaces
+        const {name, description} = this.siteForm.value;
+        this.siteForm.setValue({ name: name.trim(), description: description.trim() })
+
         if (this.siteForm.valid && !this.data.site.name) {
             this.siteEntity = new Site();
 
