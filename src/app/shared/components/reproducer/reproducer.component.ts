@@ -64,22 +64,12 @@ export class ReproducerComponent implements OnInit, OnDestroy {
         }
     }
 
-    onFinishAction(params) {
+    onFinish() {
         this.record.numberReproductions = this.record.numberReproductions + 1;
         if (this.finishAction) {
             this.finishAction.emit({
                 nickname: this.record.name,
-                duration: params.currentTarget.children[1].duration
-            });
-        }
-    }
-
-    onFinish(params) {
-        this.record.numberReproductions = this.record.numberReproductions + 1;
-        if (this.finishAction) {
-            this.finishAction.emit({
-                nickname: this.record.name,
-                duration: params.currentTarget.children[1].duration
+                duration: this.record.duration
             });
         }
     }

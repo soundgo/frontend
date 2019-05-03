@@ -1,12 +1,13 @@
-import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChildren, HostBinding, AfterViewInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ContextService} from '../../../../services/context.service';
 import {AudioRecordService} from '../../../../services/audio-record.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {Ad} from '../../../../shared/models/Ad';
 import {RecorderComponent} from '../../../../shared/components/recorder/recorder.component';
 import {Subscription} from 'rxjs';
 import {ChooseAudioAdvertisementComponent} from '../choose-audio-advertisement/choose-audio-advertisement.component';
 import {ChooseAudioCategoryComponent} from '../choose-audio-category/choose-audio-category.component';
+import {User} from '../../../../shared/models/User';
 
 @Component({
     selector: 'app-ad-record',
@@ -28,44 +29,60 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
     pressToStop = false;
     showUserCantRecord = false;
 
+    siteId: number;
+
     subscription: Subscription = new Subscription();
+
+    user: User;
 
     constructor(
         protected audioRecord: AudioRecordService,
         protected context: ContextService,
         protected dialog: MatDialog,
+        private snackBar: MatSnackBar,
+        private cdr: ChangeDetectorRef
     ) {
         super(audioRecord, context);
-        this.subscription = this.context.getIsRecordingAd().subscribe(isRecording => {
+        this.user = this.context.getUser().getValue();
+        this.subscription.add(this.context.getIsRecordingAd().subscribe(isRecording => {
             if (isRecording && this.context.getSiteId().getValue()) {
+                this.siteId = this.context.getSiteId().getValue();
                 this.startRecord();
             }
-        });
-        this.subscription = this.context.getIsRecorded().subscribe(isRecorded => {
+        }));
+        this.subscription.add(this.context.getIsRecorded().subscribe(isRecorded => {
             if (isRecorded) {
                 this.isRecorded = false;
             }
-        });
-        this.audioRecord.getRecordedTime().subscribe(duration => {
-            const auth = this.context.getAuth().getValue();
-            if (duration >= 60 && auth !== 'user') {
-                this.stopRecord();
+        }));
+        this.subscription.add(this.audioRecord.getRecordedTime().subscribe(duration => {
+            this.duration = duration;
+            if (this.duration !== 0) {
+                this.cdr.detectChanges();
+                if (duration > 60 || (this.siteId && (duration > 60 || (duration + 1) > this.user.minutes))) {
+                    this.stopRecord();
+                }
             }
-        });
-        this.context.getUser().subscribe(user => {
-            if (user) {
-                this.showUserCantRecord = user.minutes <= 0;
+        }));
+        this.subscription.add(this.context.getUser().subscribe(userCheck => {
+            if (userCheck) {
+                this.showUserCantRecord = userCheck.minutes <= 0;
             }
-        });
+        }));
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.subscription.unsubscribe();
+        this.cdr.detach();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     startRecord() {
         this.adEntity = new Ad();
+
+        super.startRecording();
 
         // @ts-ignore
         this.siriWave = new SiriWave({
@@ -75,9 +92,6 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
             height: 150,
             autostart: true,
         });
-
-        super.startRecording();
-
         this.pressToStop = true;
     }
 
@@ -86,15 +100,17 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
             this.adEntity = new Ad();
         }
         this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
-        if (this.adEntity.duration !== 0) {
+        if (this.adEntity.duration > 0) {
             this.siriWave.setAmplitude(0);
-
             this.adEntity.base64 = await super.stopRecording();
+
+            this.adEntity.duration = Math.min(this.adEntity.duration, 60);
 
             const {latitude, longitude} = this.context.getPosition().getValue();
             this.adEntity.latitude = latitude;
             this.adEntity.longitude = longitude;
-            this.adEntity.duration = this.audioRecord.getRecordedTime().getValue();
+
+            console.log(this.adEntity.duration);
 
             this.context.setAdEntity(this.adEntity);
             this.context.setRecordType('ad');
@@ -102,9 +118,7 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
 
             this.siriWave.stop();
 
-            const isRecordedInSite = this.context.getSiteId().getValue();
-
-            if (isRecordedInSite) {
+            if (this.siteId) {
                 this.dialog.open(ChooseAudioCategoryComponent, {
                     width: '350px',
                 });
@@ -114,10 +128,22 @@ export class AdRecordComponent extends RecorderComponent implements OnDestroy {
                 });
             }
 
+            if (this.adEntity.duration === 60) {
+                this.snackBar.open('You\'ve reached the limit time to record of ' + this.adEntity.duration + ' seconds.', '', {
+                    panelClass: ['blue-snackbar']
+                });
+            }
+
+            if (this.siteId && this.adEntity.duration === this.context.getUser().getValue().minutes) {
+                this.snackBar.open('You\'ve spent the ' + this.adEntity.duration + ' second' + (this.adEntity.duration !== 1 ? 's' : '') + ' you have for recording.', '', {
+                    panelClass: ['blue-snackbar']
+                });
+            }
+
+            this.siteId = 0;
             this.isRecorded = true;
             this.isRecording = false;
             this.pressToStop = false;
-            this.audioRecord.setRecordTime(0);
         }
     }
 }

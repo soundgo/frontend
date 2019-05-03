@@ -5,7 +5,7 @@ import {
 } from '@angular/material';
 import {ContextService} from '../../../services/context.service';
 import {SitePanelSheetComponent} from '../site-panel-sheet/site-panel-sheet.component';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {FeatureCollection, GeoJson} from '../../../shared/models/Map';
 import {Site} from '../../../shared/models/Site';
 import {AudioReproducerPanelComponent} from '../audio-reproducer-panel/audio-reproducer-panel.component';
@@ -38,6 +38,10 @@ export class MapBoxComponent implements OnInit {
     siteEntity: Site;
     siteMarker: any;
     categoriesSelected = 'Tourism,Experience,Leisure';
+    interval: any;
+    audiosRaw: any = [];
+
+    subscription: Subscription = new Subscription();
 
     constructor(private bottomSheet: MatBottomSheet,
                 private context: ContextService,
@@ -45,15 +49,15 @@ export class MapBoxComponent implements OnInit {
                 private api: ApiService) {
 
         // Filter audio category
-        this.context.getCategoriesSelected().subscribe(categoriesSelected => {
+        this.subscription.add(this.context.getCategoriesSelected().subscribe(categoriesSelected => {
             if (this.map) {
                 this.categoriesSelected = categoriesSelected;
                 this.map.setFilter('audios', this.filterCategories(categoriesSelected));
             }
-        });
+        }));
 
         // Filter by tags
-        this.context.getTagsSelected().subscribe(tagsSelected => {
+        this.subscription.add(this.context.getTagsSelected().subscribe(tagsSelected => {
             if (tagsSelected && tagsSelected[0] === 'active-tag-panel-sheet') {
                 this.audioSource.setData(new FeatureCollection([]));
             } else if (tagsSelected && tagsSelected[0] === 'inactive-tag-panel-sheet') {
@@ -70,18 +74,21 @@ export class MapBoxComponent implements OnInit {
                     this.audioSource.setData(new FeatureCollection(data));
                 });
             }
-        });
+        }));
 
         // Show site marker in map
-        this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
+        this.subscription.add(this.context.getIsMarkerSiteVisible().subscribe(isMarkerSiteVisible => {
             if (isMarkerSiteVisible) {
                 this.userPosition = this.context.getPosition().getValue();
                 this.showPlaceMarkerForm = true;
                 this.showMarkerPlaceSite();
             } else {
                 this.showPlaceMarkerForm = false;
+                if (this.siteMarker) {
+                    this.siteMarker.remove();
+                }
             }
-        });
+        }));
     }
 
     ngOnInit() {
@@ -165,6 +172,7 @@ export class MapBoxComponent implements OnInit {
         this.db.collection('audios').valueChanges().subscribe((data: GeoJson[]) => {
             const isBadFormattedData = data.some(ad => this.isEmtpy(ad));
             if (!isBadFormattedData) {
+                this.audiosRaw = data;
                 const user = this.context.getUser().getValue();
                 const filteredAudios = this.filterAudios(data, user);
                 this.audioSource.setData(new FeatureCollection(filteredAudios));
@@ -211,8 +219,20 @@ export class MapBoxComponent implements OnInit {
         this.map.on('load', () => {
             geolocation.trigger();
 
+
             geolocation.on('geolocate', () => {
                 if (this.context.getPosition().getValue() === null) {
+                    if (!this.interval) {
+                        this.interval = window.setInterval(() => {
+                            const user = this.context.getUser().getValue();
+                            const tagsSelected = this.context.getTagsSelected().getValue();
+                            if (!tagsSelected) {
+                                const filteredAudios = this.filterAudios(this.audiosRaw, user);
+                                this.audioSource.setData(new FeatureCollection(filteredAudios));
+                            }
+                        }, 2000);
+                    }
+
                     this.initSourceLayers();
                     this.initDataListeners();
 
@@ -286,7 +306,9 @@ export class MapBoxComponent implements OnInit {
     }
 
     showMarkerPlaceSite() {
-
+        if (this.siteMarker) {
+            this.siteMarker.remove();
+        }
         const center = this.map.getCenter();
         this.siteMarker = new mapboxgl.Marker({
             draggable: true
@@ -305,7 +327,6 @@ export class MapBoxComponent implements OnInit {
 
         this.context.setSiteEntity(this.siteEntity);
         this.api.createSite(this.siteEntity).then(response => {
-            console.log('Site created response', response);
             this.context.setLoading(false);
         });
         this.context.setIsMarkerSiteVisible(false);

@@ -17,6 +17,7 @@ export class EditProfileComponent implements OnInit {
     userEntity: User;
 
     isPasswordCorrect = false;
+    isSubmitting: boolean = false;
 
     constructor(private api: ApiService,
                 public dialogRef: MatDialogRef<EditProfileComponent>,
@@ -28,11 +29,10 @@ export class EditProfileComponent implements OnInit {
 
     ngOnInit() {
         this.profileForm = new FormGroup({
-            nickname: new FormControl(this.data.user.nickname || '', [Validators.required,Validators.maxLength(255)]),
-            password: new FormControl('', [Validators.required, Validators.maxLength(255), ]),
+            nickname: new FormControl(this.data.user.nickname || '', [Validators.required, Validators.maxLength(255)]),
+            password: new FormControl('', [Validators.required, Validators.maxLength(255),]),
             // Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s)')
         });
-        console.log(this.data.user);
     }
 
     hasError(controlName: string, errorName: string) {
@@ -43,29 +43,43 @@ export class EditProfileComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    validateBlankSpaces() {
+        // Validator empty spaces
+        const {nickname, password} = this.profileForm.value;
+        this.profileForm.setValue({nickname: nickname.trim(), password: password});
+    }
+
     saveProfile(profileForm) {
         // TODO: Comprobar que el nickname no esta en uso y validación de email mejor
-        if (this.profileForm.valid) {
+        if (!this.isSubmitting) {
+            this.isSubmitting = true;
+            this.validateBlankSpaces();
 
-            const user = new User(this.data.user);
-            user.nickname = profileForm.nickname;
-            user.password = profileForm.password;
+            if (this.profileForm.valid) {
 
-            this.userEntity = new User();
-            this.userEntity.nickname = profileForm.nickname;
-            this.userEntity.password = profileForm.password;
+                const user = new User(this.data.user);
+                user.nickname = profileForm.nickname;
+                user.password = profileForm.password;
 
-            this.api.updateProfile(user, this.data.user.nickname).then(() => {
-                this.api.login(this.userEntity).then((response: any) => {
-                    user.token = response.token;
-                    this.context.setUser(user);
-                    this.cookieService.set('user', JSON.stringify({
-                        user,
-                        auth: this.context.getAuth().getValue()
-                    }));
-                    this.dialogRef.close(user);
+                this.userEntity = new User();
+                this.userEntity.nickname = profileForm.nickname;
+                this.userEntity.password = profileForm.password;
+
+                this.api.updateProfile(user, this.data.user.nickname).then(() => {
+                    this.api.login(this.userEntity).then((response: any) => {
+                        user.token = response.token;
+                        this.context.setUser(user);
+                        this.cookieService.set('user', JSON.stringify({
+                            user,
+                            auth: this.context.getAuth().getValue()
+                        }));
+                        this.dialogRef.close(user);
+                        this.isSubmitting = false;
+                    });
                 });
-            });
+            } else {
+                this.isSubmitting = false;
+            }
         }
     }
 

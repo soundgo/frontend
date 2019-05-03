@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit} from '@angular/core';
+import {Component, HostBinding, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ContextService} from '../../../services/context.service';
 
@@ -7,7 +7,7 @@ import {ContextService} from '../../../services/context.service';
     templateUrl: './loading.component.html',
     styleUrls: ['./loading.component.scss']
 })
-export class LoadingComponent implements OnInit {
+export class LoadingComponent implements OnDestroy {
 
     subscription = new Subscription();
 
@@ -20,7 +20,10 @@ export class LoadingComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
 }

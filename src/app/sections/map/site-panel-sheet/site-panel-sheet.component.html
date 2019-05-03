@@ -1,6 +1,6 @@
 <ng-template [ngIf]="isLoading">
     <div class="header">
-        <h1 mat-dialog-title><b>{{ data.properties.name }}</b></h1>
+        <h1 mat-dialog-title>{{ data.properties.name }}</h1>
     </div>
     <div mat-dialog-content>
         <mat-spinner [diameter]="50"></mat-spinner>
@@ -9,7 +9,7 @@
 
 <ng-template [ngIf]="!isLoading">
     <div class="header">
-        <h1 mat-dialog-title><b>{{ site.name }}</b></h1>
+        <h1 mat-dialog-title>{{ site.name }}</h1>
         <div class="buttons-wrapper">
             <app-reproducer-button *ngIf="isEditable()"
                                    [icon]="'/assets/images/edit-site.png'"
@@ -25,11 +25,11 @@
                                    [isActive]="isRemoving"
                                    (click)="deleteSite()">
             </app-reproducer-button>
-            <app-site-record *ngIf="canRecord" [siteId]="site.id"
+            <app-site-record *ngIf="canRecord && minutesToRecord > 0" [siteId]="site.id"
                              (click)="closeSitePanel()"></app-site-record>
         </div>
     </div>
-    <p>{{ site.description }}</p>
+    <p class="description">{{ site.description }}</p>
     <mat-nav-list *ngIf="audios.length === 0">
         <mat-list-item>
             <span mat-line>{{ 'There\'s no audios to listen' | translate }}</span>

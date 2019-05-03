@@ -12,19 +12,19 @@
             <mat-error *ngIf="hasError('price', 'max')">Max value is 1000000€</mat-error>
             <mat-error *ngIf="'error'">You must introduce a price to have at least one reproduction.</mat-error>
         </mat-form-field>
-    </mat-dialog-content>
-    <div class="numReproductions" *ngIf="maxNumberOfReproductions && maxNumberOfReproductions !== 0">
-        <h1>{{maxNumberOfReproductions}} reproductions</h1>
-    </div>
-    <h1 mat-dialog-title class="description-title">Description</h1>
-    <mat-form-field>
+        <div class="numReproductions" *ngIf="maxNumberOfReproductions && maxNumberOfReproductions !== 0">
+            <h1>{{maxNumberOfReproductions}} reproductions</h1>
+        </div>
+        <p mat-dialog-title class="description-title">Description</p>
+        <mat-form-field>
             <textarea matInput matTextareaAutosize formControlName="description" maxlength="201" type="textArea"></textarea>
             <mat-error *ngIf="hasError('description', 'required')">Description is required</mat-error>
             <mat-error *ngIf="hasError('description', 'maxlength')">Description must have less than 200 characters</mat-error>
-    </mat-form-field>
+        </mat-form-field>
+    </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button class="saveButton" [class.max-number-reproductions]="maxNumberOfReproductions === 0" [disabled]="!adEditForm.valid || maxNumberOfReproductions === 0">
-            Create ad
+            Save ad
         </button>
     </mat-dialog-actions>
 </form>

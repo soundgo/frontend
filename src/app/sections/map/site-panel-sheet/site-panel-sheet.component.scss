@@ -5,7 +5,9 @@
     align-items: center;
 
     h1 {
-      display: inline;
+      flex: 1 0;
+      word-break: break-all;
+      margin-bottom: 15px;
     }
 
     .buttons-wrapper {
@@ -15,10 +17,19 @@
     }
   }
 
+  .description {
+    word-break: break-all;
+  }
+
   mat-spinner {
     display: block;
     text-align: center;
     margin: 20px auto;
+  }
+
+  mat-nav-list {
+    overflow-y: auto;
+    max-height: 85%;
   }
 
   mat-list-item /deep/ .mat-list-item-content {
@@ -28,5 +39,4 @@
   div.reproducer {
     width: 100%;
   }
-
 }

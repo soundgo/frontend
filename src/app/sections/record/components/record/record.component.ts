@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {ApiService} from 'src/app/services/api.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {Audio} from '../../../../shared/models/Audio';
+import {Ad} from '../../../../shared/models/Ad';
 
 @Component({
     selector: 'app-record',
@@ -16,7 +18,8 @@ export class RecordComponent implements OnDestroy {
     constructor(
         protected context: ContextService,
         protected dialog: MatDialog,
-        protected api: ApiService
+        protected api: ApiService,
+        private snackBar: MatSnackBar
     ) {
         this.subscription = this.context.getSendRecord().subscribe(value => {
             if (value) {
@@ -26,7 +29,9 @@ export class RecordComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     sendRecord(sendRecord: string) {
@@ -48,32 +53,45 @@ export class RecordComponent implements OnDestroy {
         this.context.setLoading(true);
         this.api
             .createAd(adEntity)
-            .then(response => {
+            .then((response: Ad) => {
                 this.context.setLoading(false);
+                if (adEntity.duration !== response.duration) {
+                    this.snackBar.open('You\'ve finally recorded ' + response.duration + ' second' + (response.duration !== 1 ? 's' : '') + '.', '', {
+                        panelClass: ['blue-snackbar']
+                    });
+                }
             });
     }
 
     createAudioSite(audioEntity) {
         this.context.setLoading(true);
         this.api.createSiteAudio(audioEntity, this.context.getSiteId().getValue())
-            .then(response => {
+            .then((response: Audio) => {
                 this.context.setSiteId(null);
                 const user = this.context.getUser().getValue();
-                user.minutes -= audioEntity.duration;
+                user.minutes -= response.duration;
                 this.context.setUser(user);
                 this.context.setLoading(false);
+                if (audioEntity.duration !== response.duration) {
+                    this.snackBar.open('You\'ve finally recorded ' + response.duration + ' second' + (response.duration !== 1 ? 's' : '') + '.', '', {
+                        panelClass: ['blue-snackbar']
+                    });
+                }
             });
     }
 
     createAudio(audioEntity) {
         this.context.setLoading(true);
-        this.api.createAudio(audioEntity).then(response => {
-            console.log('createAudio:', response);
-            // Reduce minutes of user
+        this.api.createAudio(audioEntity).then((response: Audio) => {
             const user = this.context.getUser().getValue();
-            user.minutes -= audioEntity.duration;
+            user.minutes -= response.duration;
             this.context.setUser(user);
             this.context.setLoading(false);
+            if (audioEntity.duration !== response.duration) {
+                this.snackBar.open('You\'ve finally recorded ' + response.duration + ' second' + (response.duration !== 1 ? 's' : '') + '.', '', {
+                    panelClass: ['blue-snackbar']
+                });
+            }
         });
     }
 

@@ -1,13 +1,14 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy} from '@angular/core';
-import {CreateCreditCardComponent} from '../create-credit-card/create-credit-card.component';
-import {ApiService} from 'src/app/services/api.service';
-import {CreditCard} from 'src/app/shared/models/CreditCard';
-import {User} from 'src/app/shared/models/User';
-import {ContextService} from 'src/app/services/context.service';
-import {MatDialog, MatDialogRef} from '@angular/material';
-import {EditProfileComponent} from '../edit-profile/edit-profile.component';
-import {CookieService} from 'ngx-cookie-service';
-import {DeleteModalComponent} from 'src/app/shared/components/delete-modal/delete-modal.component';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { CreateCreditCardComponent } from '../create-credit-card/create-credit-card.component';
+import { ApiService } from 'src/app/services/api.service';
+import { CreditCard } from 'src/app/shared/models/CreditCard';
+import { User } from 'src/app/shared/models/User';
+import { ContextService } from 'src/app/services/context.service';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { CookieService } from 'ngx-cookie-service';
+import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
+import { AlertComponent } from 'src/app/shared/components/alert/alert.component';
 
 @Component({
     selector: 'app-profile',
@@ -24,11 +25,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     canDelete = false;
 
     constructor(private context: ContextService,
-                private api: ApiService,
-                public dialogRef: MatDialogRef<ProfileComponent>,
-                protected dialog: MatDialog,
-                private cdr: ChangeDetectorRef,
-                private cookieService: CookieService) {
+        private api: ApiService,
+        public dialogRef: MatDialogRef<ProfileComponent>,
+        protected dialog: MatDialog,
+        private cdr: ChangeDetectorRef,
+        private cookieService: CookieService) {
         this.user = this.context.getUser().getValue() || new User();
         this.auth = this.context.getAuth().getValue();
         this.context.getAuth().subscribe(value => {
@@ -124,18 +125,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     submitAvatar(event) {
-        this.isLoading = true;
-        const reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
-        reader.onloadend = () => {
-            const user = new User();
-            user.base64 = '' + reader.result;
-            this.api.updateUser(this.user.nickname, user).then((savedUser: User) => {
-                this.user = savedUser;
-                this.context.setUser(savedUser);
-                this.isLoading = false;
-            });
-        };
+        const file = event.target.files[0];
+        
+        if (file.type.match('image.*')) {
+            this.isLoading = true;
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                const user = new User();
+                user.base64 = '' + reader.result;
+                this.api.updateUser(this.user.nickname, user).then((savedUser: User) => {
+                    this.user.photo = savedUser.photo;
+                    this.context.setUser(this.user);
+                    this.cookieService.set('user', JSON.stringify({
+                        user: this.user,
+                        auth: this.auth
+                    }));
+                    this.isLoading = false;
+                });
+            };
+        } else {
+            this.dialog.open(AlertComponent, {
+                width: '320px',
+                data: {
+                    title: 'Error uploading new avatar',
+                    content: 'You must upload an image file',
+                }
+            })
+        }
 
     }
 

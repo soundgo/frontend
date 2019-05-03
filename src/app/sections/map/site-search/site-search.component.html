@@ -1,13 +1,14 @@
 <div *ngIf="!isLoading; else loading">
 
+    <mat-dialog-actions>
+        <button mat-button color="warn" (click)="onClose()">Close</button>
+    </mat-dialog-actions>
+
     <ng-template [ngIf]="sites && sites.length === 0">
         <p>There's no sites</p>
     </ng-template>
 
     <ng-template [ngIf]="sites && sites.length !== 0">
-        <mat-dialog-actions>
-            <button mat-button color="warn" (click)="onClose()">Close</button>
-        </mat-dialog-actions>
 
         <div class="site-wrapper" *ngIf="isSiteFoundAvailable() && term">
             <div mat-dialog-content>

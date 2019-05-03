@@ -12,7 +12,7 @@ export class Ad extends Record {
     numberLikes?: number;
     liked?: boolean;
     reported?: boolean;
-    description?:string;
+    description?: string;
 
     constructor(data: any = {}) {
         super(data);

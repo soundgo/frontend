@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
                 private cookieService: CookieService) {
         this.userForm = new FormGroup({
             nickname: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-            password: new FormControl('', [Validators.required, Validators.maxLength(255), Validators.minLength(8)]),
+            password: new FormControl('', [Validators.required, Validators.maxLength(255)]),
         });
     }
 
@@ -68,7 +68,6 @@ export class LoginComponent implements OnInit {
                 }
             });
         }
-        console.log(userForm);
     }
 
     signUp() {

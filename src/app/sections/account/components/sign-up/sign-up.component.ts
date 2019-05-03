@@ -17,6 +17,7 @@ export class SignUpComponent implements OnInit {
 
     userEntity: User;
     userForm: FormGroup;
+    isSubmitting: boolean = false;
 
     constructor(public dialogRef: MatDialogRef<SignUpComponent>,
                 private context: ContextService,
@@ -45,35 +46,38 @@ export class SignUpComponent implements OnInit {
         });
     }
 
+    validateBlankSpaces() {
+        // Validator empty spaces
+        const {nickname, email, password, rgpd} = this.userForm.value;
+        this.userForm.setValue({nickname: nickname.trim(), email: email.trim(), password: password.trim(), rgpd});
+    }
+
     saveUser(userForm) {
-        if (this.userForm.valid) {
-            this.userEntity = new User();
+        if (!this.isSubmitting) {
+            this.isSubmitting = true;
+            this.validateBlankSpaces();
 
-            this.userEntity.nickname = userForm.nickname;
-            this.userEntity.email = userForm.email;
-            this.userEntity.password = userForm.password;
+            if (this.userForm.valid) {
+                this.userEntity = new User();
 
-            this.api.createUser(this.userEntity).then((response: any) => {
-                /* this.userEntity.photo = response.photo;
-                this.userEntity.minutes = response.minutes;
-                this.userEntity.token = responseLogin.token;
-                this.userEntity.id = responseLogin.actorId;
-                this.context.setUser(this.userEntity);
-                this.context.setAuth(responseLogin.role);
-                this.cookieService.set('user', JSON.stringify({
-                    user: this.userEntity,
-                    auth: responseLogin.role
-                })); */
-                this.dialogRef.close();
-                this.dialog.open(AlertComponent, {
-                    width: '350px',
-                    data: {
-                        title: 'Check your mail box!',
-                        content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
-                    }
+                this.userEntity.nickname = userForm.nickname;
+                this.userEntity.email = userForm.email;
+                this.userEntity.password = userForm.password;
+
+                this.api.createUser(this.userEntity).then((response: any) => {
+                    this.dialogRef.close();
+                    this.isSubmitting = false;
+                    this.dialog.open(AlertComponent, {
+                        width: '350px',
+                        data: {
+                            title: 'Check your mail box!',
+                            content: 'We\'ve sent an mail to your email verify your account. Once your account is verified, you\'ll be able to log in and use SoundGo.'
+                        }
+                    });
                 });
-            });
-
+            } else {
+                this.isSubmitting = false;
+            }
         }
     }
 

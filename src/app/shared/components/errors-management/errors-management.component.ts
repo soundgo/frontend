@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ContextService} from 'src/app/services/context.service';
 import {Subscription} from 'rxjs';
 import {MatSnackBar} from '@angular/material/';
@@ -8,12 +8,11 @@ import {TranslateService} from '@ngx-translate/core';
     selector: 'app-errors-management',
     templateUrl: './errors-management.component.html',
 })
-export class ErrorsManagementComponent implements OnInit {
+export class ErrorsManagementComponent implements OnDestroy {
 
     subscription: Subscription;
 
     constructor(private context: ContextService, private snackBar: MatSnackBar, private translateService: TranslateService) {
-
         this.subscription = this.context.getError().subscribe((response) => {
             if (response && response.error) {
                 this.createSnackBar(response.error);
@@ -22,7 +21,10 @@ export class ErrorsManagementComponent implements OnInit {
 
     }
 
-    ngOnInit() {
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     createSnackBar(error: string): void {

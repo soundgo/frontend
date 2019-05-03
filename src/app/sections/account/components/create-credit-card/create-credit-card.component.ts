@@ -20,6 +20,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     creditCardForm: FormGroup;
     isDeleted = false;
     auth: string;
+    isSubmitting: boolean = false;
 
     constructor(private api: ApiService,
                 protected dialog: MatDialog,
@@ -42,7 +43,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
         const expiry = !this.data.creditCard.expirationMonth ? '' :
             this.data.creditCard.expirationMonth + '/' + this.data.creditCard.expirationYear;
         this.creditCardForm = new FormGroup({
-            name: new FormControl(this.data.creditCard.holderName, [Validators.required, Validators.minLength(2), Validators.maxLength(255)]),
+            name: new FormControl(this.data.creditCard.holderName, [Validators.required, Validators.maxLength(255)]),
             number: new FormControl(this.data.creditCard.number, [Validators.required, CreditCardValidator.validateCardNumber]),
             expiry: new FormControl(expiry, [Validators.required, CreditCardValidator.validateCardExpiry, Validators.maxLength(5)]),
             cvc: new FormControl(this.data.creditCard.cvvCode, [Validators.required, CreditCardValidator.validateCardCvc])
@@ -62,6 +63,16 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
         this.dialogRef.close();
     }
 
+    change($event) {
+        const key = $event.target.getAttribute('ng-reflect-name');
+        if (this.creditCardForm.value[key]) {
+            this.creditCardForm.setValue({
+                ...this.creditCardForm.value,
+                [key]: this.creditCardForm.value[key].trim()
+            });
+        }
+    }
+
     prepareCreditCard(creditCardForm): CreditCard {
         const creditCard = new CreditCard();
         const creditCardNumber = creditCardForm.number.toString().replace(' ', '');
@@ -79,32 +90,38 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     }
 
     async saveCreditCard(creditCardForm) {
+        if (!this.isSubmitting) {
+            this.isSubmitting = true;
 
-        const creditCard = this.prepareCreditCard(creditCardForm);
-
-        try {
-            if (this.creditCardForm.valid && !creditCard.id) {
-                // Create
-                await this.api.createCreditCard(creditCard);
-            } else if (this.creditCardForm.valid && creditCard.id) {
-                // Edit
-                creditCard.isDelete = false;
-                await this.api.updateCreditCard(creditCard.id, creditCard);
+            try {
+                if (this.creditCardForm.valid) {
+                    const creditCard = this.prepareCreditCard(creditCardForm);
+                    if (!creditCard.id) {
+                        // Create
+                        await this.api.createCreditCard(creditCard);
+                    } else if (creditCard.id) {
+                        // Edit
+                        creditCard.isDelete = false;
+                        await this.api.updateCreditCard(creditCard.id, creditCard);
+                    }
+                }
+                this.context.setAuth('advertiser');
+                this.cookieService.set('user', JSON.stringify({
+                    user: this.context.getUser().getValue(),
+                    auth: 'advertiser'
+                }));
+                this.onClose();
+                this.isSubmitting = false;
+            } catch (e) {
+                this.isSubmitting = false;
+                console.log(e);
             }
-            this.context.setAuth('advertiser');
-            this.cookieService.set('user', JSON.stringify({
-                user: this.context.getUser().getValue(),
-                auth: 'advertiser'
-            }));
-            this.onClose();
-        } catch (e) {
-            console.log(e);
         }
     }
 
-    deleteCreditCard(creditCardForm) {
+    deleteCreditCard() {
         this.isDeleted = true;
-        const creditCard = this.prepareCreditCard(creditCardForm);
+        const creditCard = new CreditCard(this.data.creditCard);
         creditCard.isDelete = true;
         this.dialog.open(DeleteModalComponent, {
             width: '350px',
