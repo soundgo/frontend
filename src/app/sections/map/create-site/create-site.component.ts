@@ -22,7 +22,7 @@ export class CreateSiteComponent implements OnInit {
         private context: ContextService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
     }
-
+    // , Validators.pattern('/^(\w.+\S+)$/')
     ngOnInit() {
         this.siteForm = new FormGroup({
             name: new FormControl(this.data.site.name || '', [Validators.required, Validators.maxLength(200)]),
