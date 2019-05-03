@@ -1,14 +1,14 @@
-import { Component, OnInit, Inject, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ApiService } from 'src/app/services/api.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { CreateSiteComponent } from 'src/app/sections/map/create-site/create-site.component';
-import { ContextService } from 'src/app/services/context.service';
-import { CreditCardValidator } from 'ngx-credit-cards';
-import { CreditCard } from 'src/app/shared/models/CreditCard';
-import { DeleteModalComponent } from 'src/app/shared/components/delete-modal/delete-modal.component';
-import { CookieService } from 'ngx-cookie-service';
-import { User } from '../../../../shared/models/User';
+import {Component, OnInit, Inject, ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {ApiService} from 'src/app/services/api.service';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import {CreateSiteComponent} from 'src/app/sections/map/create-site/create-site.component';
+import {ContextService} from 'src/app/services/context.service';
+import {CreditCardValidator} from 'ngx-credit-cards';
+import {CreditCard} from 'src/app/shared/models/CreditCard';
+import {DeleteModalComponent} from 'src/app/shared/components/delete-modal/delete-modal.component';
+import {CookieService} from 'ngx-cookie-service';
+import {User} from '../../../../shared/models/User';
 
 @Component({
     selector: 'app-create-credit-card',
@@ -23,12 +23,12 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     isSubmitting: boolean = false;
 
     constructor(private api: ApiService,
-        protected dialog: MatDialog,
-        public dialogRef: MatDialogRef<CreateCreditCardComponent>,
-        private context: ContextService,
-        private cookieService: CookieService,
-        private cdr: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+                protected dialog: MatDialog,
+                public dialogRef: MatDialogRef<CreateCreditCardComponent>,
+                private context: ContextService,
+                private cookieService: CookieService,
+                private cdr: ChangeDetectorRef,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
         this.auth = this.context.getAuth().getValue();
         if (data.creditCard && data.creditCard.isDelete) {
             // If is deleted put empty form
@@ -81,8 +81,8 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
 
     validateBlankSpaces() {
         // Validator empty spaces
-        const { name, number, expiry, cvc } = this.creditCardForm.value;
-        this.creditCardForm.setValue({ name: name.trim(), number: number.trim(), expiry: expiry.trim(), cvc: cvc })
+        const {name, number, expiry, cvc} = this.creditCardForm.value;
+        this.creditCardForm.setValue({name: name.trim(), number: number.trim(), expiry: expiry.trim(), cvc: cvc});
     }
 
     async saveCreditCard(creditCardForm) {
@@ -109,6 +109,7 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
                 this.onClose();
                 this.isSubmitting = false;
             } catch (e) {
+                this.isSubmitting = true;
                 console.log(e);
             }
         }
