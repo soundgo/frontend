@@ -38,6 +38,7 @@ export class ContextService {
     auth = new BehaviorSubject<string>(null);
 
     isLocationEnabled = new BehaviorSubject<boolean>(false);
+    deleteAdLocation = new BehaviorSubject<boolean>(false);
 
     loading = new BehaviorSubject<boolean>(false);
 
@@ -58,6 +59,14 @@ export class ContextService {
 
     setIsLocationEnabled(value: boolean) {
         this.isLocationEnabled.next(value);
+    }
+
+    getDeleteAdLocation() {
+        return this.deleteAdLocation;
+    }
+
+    setDeleteAdLocation(value: boolean) {
+        this.deleteAdLocation.next(value);
     }
 
     getConfig() {
