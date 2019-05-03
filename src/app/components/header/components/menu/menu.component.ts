@@ -104,7 +104,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.context.setAuth(null);
         this.context.setAudioEntity(null);
         this.context.setIsMarkerSiteVisible(false);
-        this.context.setIsMarkerAdVisible(false);
+        this.context.setDeleteAdLocation(true);
         this.context.setAdEntity(null);
         this.context.setSiteEntity(null);
         this.matDialog.closeAll();
