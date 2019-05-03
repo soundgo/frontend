@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as Recorder from 'opus-recorder';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import * as AudioBuffer from 'audiobuffer';
-import * as arrayBufferToAudioBuffer from 'arraybuffer-to-audiobuffer';
 import * as moment from 'moment';
 
 @Injectable({
