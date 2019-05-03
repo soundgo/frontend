@@ -79,6 +79,9 @@ export class CreateCreditCardComponent implements OnInit, OnDestroy {
     }
 
     async saveCreditCard(creditCardForm) {
+        // Validator empty spaces
+        const { name, number, expiry, cvc } = this.creditCardForm.value;
+        this.creditCardForm.setValue({ name: name.trim(), number: number.trim(), expiry: expiry.trim(), cvc: cvc})
 
         const creditCard = this.prepareCreditCard(creditCardForm);
 

@@ -46,6 +46,10 @@ export class SignUpComponent implements OnInit {
     }
 
     saveUser(userForm) {
+        // Validator empty spaces
+        const { nickname, email, password, rgpd} = this.userForm.value;
+        this.userForm.setValue({ nickname: nickname.trim(), email: email.trim(), password: password.trim(), rgpd:rgpd})
+
         if (this.userForm.valid) {
             this.userEntity = new User();
 
