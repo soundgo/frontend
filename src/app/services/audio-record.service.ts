@@ -53,17 +53,15 @@ export class AudioRecordService {
             bufferLength: 2048
         });
         this.recorder.onstart = () => {
-            setTimeout(() => {
                 const startTime = moment();
                 this.interval = setInterval(
                     () => {
                         const currentTime = moment();
                         const diffTime = moment.duration(currentTime.diff(startTime));
-                        this.recordedTime.next(Math.round(diffTime.asSeconds()));
+                        this.recordedTime.next(Math.floor(diffTime.asSeconds()));
                     },
                     500
                 );
-            }, 1000);
         };
         this.recorder.onstop = data => {
             this.stopMedia();

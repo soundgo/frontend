@@ -36,7 +36,7 @@
         </div>
         <mat-card-subtitle *ngIf="record.description != null"
                            class="description">{{record.description}}</mat-card-subtitle>
-        <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish($event)"
+        <div class="reproducer" plyr plyrType="audio" (plyrEnded)="onFinish()"
              [plyrSources]="[{ src: record.path, type: 'audio/ogg' }]"
              [plyrOptions]="{ autoplay: true, controls: ['play', 'progress', 'current-time'] }">
         </div>
