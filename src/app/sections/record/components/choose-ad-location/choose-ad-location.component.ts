@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxCircle from 'mapbox-gl-circle/lib/main.js';
-import {ContextService} from '../../../../services/context.service';
-import {Ad} from 'src/app/shared/models/Ad';
-import {NumberReproductionsAdvertisementsComponent} from '../number-reproductions-advertisements/number-reproductions-advertisements.component';
+import { ContextService } from '../../../../services/context.service';
+import { Ad } from 'src/app/shared/models/Ad';
+import { NumberReproductionsAdvertisementsComponent } from '../number-reproductions-advertisements/number-reproductions-advertisements.component';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
-import {CircleMode, DirectMode, SimpleSelectMode} from 'mapbox-gl-draw-circle';
-import {Subscription} from 'rxjs';
+import { CircleMode, DirectMode, SimpleSelectMode } from 'mapbox-gl-draw-circle';
+import { Subscription } from 'rxjs';
 import { Config } from 'src/app/shared/models/Config';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -32,7 +32,7 @@ export class ChooseAdLocationComponent implements OnDestroy {
         private context: ContextService,
         protected dialog: MatDialog
     ) {
-        this.subscription = this.context.getIsMarkerAdVisible().subscribe(bool => {
+        this.subscription.add(this.context.getIsMarkerAdVisible().subscribe(bool => {
             if (bool) {
                 this.showAdLocationPicker();
             } else {
@@ -40,7 +40,12 @@ export class ChooseAdLocationComponent implements OnDestroy {
                     this.close();
                 }
             }
-        });
+        }));
+        this.subscription.add(this.context.getDeleteAdLocation().subscribe(bool => {
+            if (bool) {
+                this.close();
+            }
+        }));
     }
 
     ngOnDestroy() {
@@ -54,7 +59,7 @@ export class ChooseAdLocationComponent implements OnDestroy {
         const config = this.context.getConfig().getValue();
         this.maxRadius = config.maximumRadio;
         this.minRadius = config.minimumRadio;
-        
+
         this.showAdvertisementMarkerMenu = true;
 
         this.map = this.context.getMap().getValue();
@@ -73,7 +78,7 @@ export class ChooseAdLocationComponent implements OnDestroy {
 
         this.map.addControl(this.draw);
 
-        this.draw.changeMode('draw_circle', {initialRadiusInKm: 0.1});
+        this.draw.changeMode('draw_circle', { initialRadiusInKm: 0.1 });
         this.map.on('draw.create', e => {
             this.center = e.features[0].properties.center;
             this.radius = Math.round(e.features[0].properties.radiusInKm * 1000);

@@ -84,6 +84,9 @@ export class MapBoxComponent implements OnInit {
                 this.showMarkerPlaceSite();
             } else {
                 this.showPlaceMarkerForm = false;
+                if (this.siteMarker) {
+                    this.siteMarker.remove();
+                }
             }
         }));
     }
