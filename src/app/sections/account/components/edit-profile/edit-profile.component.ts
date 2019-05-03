@@ -44,6 +44,10 @@ export class EditProfileComponent implements OnInit {
 
     saveProfile(profileForm) {
         // TODO: Comprobar que el nickname no esta en uso y validación de email mejor
+        // Validator empty spaces
+        const {nickname, password} = this.profileForm.value;
+        this.profileForm.setValue({ nickname: nickname.trim(), password: password})
+
         if (this.profileForm.valid) {
 
             const user = new User(this.data.user);

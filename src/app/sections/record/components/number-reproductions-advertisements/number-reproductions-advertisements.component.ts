@@ -66,6 +66,10 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     }
 
     submit(adEditForm) {
+        // Validator empty spaces
+        const { price, description } = this.adEditForm.value;
+        this.adEditForm.setValue({ price: price, description: description.trim() })
+
         if (this.adEditForm.valid && !this.data) {
             this.adEntity.maxPriceToPay = Math.abs(adEditForm.price);
             this.adEntity.description = adEditForm.description;
