@@ -1,14 +1,14 @@
 <div *ngIf="!isLoading; else loading">
 
+    <mat-dialog-actions>
+        <button mat-button color="warn" (click)="onClose()">Close</button>
+    </mat-dialog-actions>
+
     <ng-template [ngIf]="tags && tags.length === 0">
         <p>There's no tags</p>
     </ng-template>
 
     <ng-template [ngIf]="tags && tags.length !== 0">
-        <mat-dialog-actions>
-            <button mat-button color="warn" (click)="onClose()">Close</button>
-        </mat-dialog-actions>
-
         <input class="tag-search" type="text" (keyup)="searchTags($event)" placeholder="Search tags...">
 
         <br>
