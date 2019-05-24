@@ -5,6 +5,7 @@ import { Site } from 'src/app/shared/models/Site';
 
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-create-site',
@@ -15,6 +16,7 @@ export class CreateSiteComponent implements OnInit {
 
     siteEntity: Site;
     siteForm: FormGroup;
+    saveSite = _.debounce(() => this.saveSiteForm(this.siteForm.value), 1000);
 
     constructor(
         private api: ApiService,
@@ -38,7 +40,7 @@ export class CreateSiteComponent implements OnInit {
         this.dialogRef.close();
     }
 
-    saveSite(siteForm) {
+    saveSiteForm(siteForm) {
         // Validator empty spaces
         const {name, description} = this.siteForm.value;
         this.siteForm.setValue({ name: name.trim(), description: description.trim() })

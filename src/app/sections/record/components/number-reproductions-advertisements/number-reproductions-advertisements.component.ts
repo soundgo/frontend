@@ -5,7 +5,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {AudioRecordService} from '../../../../services/audio-record.service';
 import {Validators, FormControl, FormGroup} from '@angular/forms';
 import {ApiService} from 'src/app/services/api.service';
-
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-number-reproductions-advertisements',
@@ -17,9 +17,8 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
     duration: number;
     adEntity: Ad;
     adEditForm: FormGroup;
-
     maxNumberOfReproductions: number;
-    isSubmitting: boolean = false;
+    submit = _.debounce(() => this.saveAdEdit(this.adEditForm.value), 1000);
 
     @HostListener('keydown', ['$event'])
     onKeyDown(e: KeyboardEvent) {
@@ -72,9 +71,7 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
         this.adEditForm.setValue({price: price, description: description.trim()});
     }
 
-    submit(adEditForm) {
-        if (!this.isSubmitting) {
-            this.isSubmitting = true;
+    saveAdEdit(adEditForm) {
             this.validateBlankSpaces();
 
             if (this.adEditForm.valid && !this.data) {
@@ -85,7 +82,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
                 this.context.setSendRecord('ad');
 
                 this.dialogRef.close();
-                this.isSubmitting = false;
             } else if (this.adEditForm.valid && this.data) {
                 const ad = new Ad(this.data.ad);
                 ad.description = adEditForm.description;
@@ -94,10 +90,6 @@ export class NumberReproductionsAdvertisementsComponent implements OnInit {
                 this.api.updateAd(ad);
 
                 this.dialogRef.close(ad);
-                this.isSubmitting = false;
-            } else {
-                this.isSubmitting = false;
-            }
         }
     }
 

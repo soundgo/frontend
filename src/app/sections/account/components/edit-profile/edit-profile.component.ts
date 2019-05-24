@@ -5,6 +5,7 @@ import {ContextService} from 'src/app/services/context.service';
 import {User} from 'src/app/shared/models/User';
 import {ApiService} from 'src/app/services/api.service';
 import {CookieService} from 'ngx-cookie-service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-edit-profile',
@@ -15,9 +16,8 @@ export class EditProfileComponent implements OnInit {
 
     profileForm: FormGroup;
     userEntity: User;
-
     isPasswordCorrect = false;
-    isSubmitting: boolean = false;
+    saveProfile = _.debounce(() => this.saveProfileForm(this.profileForm.value), 1000);
 
     constructor(private api: ApiService,
                 public dialogRef: MatDialogRef<EditProfileComponent>,
@@ -49,10 +49,8 @@ export class EditProfileComponent implements OnInit {
         this.profileForm.setValue({nickname: nickname.trim(), password: password});
     }
 
-    saveProfile(profileForm) {
+    saveProfileForm(profileForm) {
         // TODO: Comprobar que el nickname no esta en uso y validación de email mejor
-        if (!this.isSubmitting) {
-            this.isSubmitting = true;
             this.validateBlankSpaces();
 
             if (this.profileForm.valid) {
@@ -74,12 +72,8 @@ export class EditProfileComponent implements OnInit {
                             auth: this.context.getAuth().getValue()
                         }));
                         this.dialogRef.close(user);
-                        this.isSubmitting = false;
                     });
                 });
-            } else {
-                this.isSubmitting = false;
-            }
         }
     }
 
